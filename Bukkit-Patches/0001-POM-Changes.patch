@@ -1,14 +1,14 @@
-From 91e2de4eda24b10ffa70b98e426ba0296e1c9bb0 Mon Sep 17 00:00:00 2001
+From f5e33880fda5fda2eb909bf2bc46f5706f0ac5cf Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Jun 2013 10:36:24 +1000
 Subject: [PATCH] POM Changes
 
 
 diff --git a/checkstyle.xml b/checkstyle.xml
-index 4b261543..3e7d0cb3 100644
+index 118f0e3f1..cc2c64e9e 100644
 --- a/checkstyle.xml
 +++ b/checkstyle.xml
-@@ -45,6 +45,10 @@
+@@ -55,6 +55,10 @@
  
          <!-- See http://checkstyle.sourceforge.net/config_filters.html -->
          <module name="SuppressionCommentFilter"/>
@@ -20,7 +20,7 @@ index 4b261543..3e7d0cb3 100644
          <!-- See http://checkstyle.sourceforge.net/config_imports.html -->
          <module name="AvoidStarImport">
 diff --git a/pom.xml b/pom.xml
-index ad7e1905..f829cb9d 100644
+index 8364ea5d8..6a1728bde 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -3,14 +3,14 @@
@@ -43,5 +43,5 @@ index ad7e1905..f829cb9d 100644
      <properties>
          <skipTests>true</skipTests>
 -- 
-2.43.2
+2.45.2
 

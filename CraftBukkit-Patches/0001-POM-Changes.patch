@@ -1,4 +1,4 @@
-From e7c75679f308fb1bbf2b1cbbf1933906d2bb8ef0 Mon Sep 17 00:00:00 2001
+From 514572ad3645b1ad34aa40d59e17f89d4a2cbefe Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 2 Jul 2013 13:07:39 +1000
 Subject: [PATCH] POM Changes
@@ -6,7 +6,7 @@ Subject: [PATCH] POM Changes
 Basic changes to the build system which mark the artifact as Spigot, and the necessary code changes to ensure proper functionality. Also disables the auto updater provided by CraftBukkit as it is useless to us.
 
 diff --git a/checkstyle.xml b/checkstyle.xml
-index ec61ec7570..b3da3373ac 100644
+index 5c7f6a5d5..586390658 100644
 --- a/checkstyle.xml
 +++ b/checkstyle.xml
 @@ -25,6 +25,9 @@
@@ -17,9 +17,9 @@ index ec61ec7570..b3da3373ac 100644
 +        <property name="checks" value="LeftCurly|ParenPad"/>
 +    </module>
  
-     <module name="TreeWalker">
-         <!-- See https://checkstyle.org/config_javadoc.html -->
-@@ -46,6 +49,13 @@
+     <!-- See SPIGOT-7676: Enforce Locale, to prevent issues with turkish 'I' and similar -->
+     <module name="RegexpSingleline">
+@@ -56,6 +59,13 @@
          <module name="SuppressWithNearbyCommentFilter">
              <property name="commentFormat" value="CraftBukkit"/>
          </module>
@@ -34,7 +34,7 @@ index ec61ec7570..b3da3373ac 100644
          <!-- See http://checkstyle.sourceforge.net/config_imports.html -->
          <module name="AvoidStarImport">
 diff --git a/pom.xml b/pom.xml
-index 65840c1fb8..ca5ed64db9 100644
+index 3651ba848..4fabd6c37 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,13 +1,20 @@
@@ -112,7 +112,7 @@ index 65840c1fb8..ca5ed64db9 100644
                              <Specification-Title>Bukkit</Specification-Title>
                              <Specification-Version>${api.version}</Specification-Version>
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index f905d17b6b..93046379d0 100644
+index f905d17b6..93046379d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
@@ -125,5 +125,5 @@ index f905d17b6b..93046379d0 100644
  
          if (stream != null) {
 -- 
-2.43.2
+2.45.2
 
