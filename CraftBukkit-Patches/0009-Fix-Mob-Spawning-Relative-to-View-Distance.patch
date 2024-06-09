@@ -1,5 +1,5 @@
-From c8f8b6b733455939d71329da82c45228cdf40dcf Mon Sep 17 00:00:00 2001
-From: md_5 <md_5@live.com.au>
+From a45e3821aa7a8d8cbc4b40d7679500358915bf5f Mon Sep 17 00:00:00 2001
+From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 17:29:54 +1000
 Subject: [PATCH] Fix Mob Spawning Relative to View Distance
 
@@ -8,10 +8,10 @@ Changes the mob spawning algorithm to properly account for view distance and the
 Needs better documentation.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-index e990a1b178..06cf1b8a59 100644
+index 722bfac22..9ae503080 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-@@ -439,7 +439,7 @@ public class ChunkProviderServer extends IChunkProvider {
+@@ -429,7 +429,7 @@ public class ChunkProviderServer extends IChunkProvider {
  
                      if (this.level.isNaturalSpawningAllowed(chunkcoordintpair) && this.chunkMap.anyPlayerCloseEnoughForSpawning(chunkcoordintpair)) {
                          chunk1.incrementInhabitedTime(j);
@@ -21,10 +21,10 @@ index e990a1b178..06cf1b8a59 100644
                          }
  
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index 6ef7fc63c7..8ab3b23b06 100644
+index 514e21fe3..fdeaf4b8b 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-@@ -1105,6 +1105,17 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
+@@ -1125,6 +1125,17 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.c {
      }
  
      boolean anyPlayerCloseEnoughForSpawning(ChunkCoordIntPair chunkcoordintpair) {
@@ -42,7 +42,7 @@ index 6ef7fc63c7..8ab3b23b06 100644
          if (!this.distanceManager.hasPlayersNearby(chunkcoordintpair.toLong())) {
              return false;
          } else {
-@@ -1118,7 +1129,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
+@@ -1138,7 +1149,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.c {
                  }
  
                  entityplayer = (EntityPlayer) iterator.next();
@@ -51,7 +51,7 @@ index 6ef7fc63c7..8ab3b23b06 100644
  
              return true;
          }
-@@ -1136,7 +1147,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
+@@ -1156,7 +1167,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.c {
              while (iterator.hasNext()) {
                  EntityPlayer entityplayer = (EntityPlayer) iterator.next();
  
@@ -60,7 +60,7 @@ index 6ef7fc63c7..8ab3b23b06 100644
                      builder.add(entityplayer);
                  }
              }
-@@ -1145,13 +1156,13 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
+@@ -1165,13 +1176,13 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.c {
          }
      }
  
@@ -77,7 +77,7 @@ index 6ef7fc63c7..8ab3b23b06 100644
      }
  
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index acaf903011..0c0c29efe5 100644
+index acaf90301..0c0c29efe 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -180,4 +180,11 @@ public class SpigotWorldConfig
@@ -93,5 +93,5 @@ index acaf903011..0c0c29efe5 100644
 +    }
  }
 -- 
-2.43.0
+2.45.2
 

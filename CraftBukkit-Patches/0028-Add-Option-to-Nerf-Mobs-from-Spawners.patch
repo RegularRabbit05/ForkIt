@@ -1,0 +1,42 @@
+From f57726382ea4537c9d92f03c0c971ee2bc5b52e3 Mon Sep 17 00:00:00 2001
+From: md_5 <git@md-5.net>
+Date: Sun, 2 Feb 2014 16:55:46 +0000
+Subject: [PATCH] Add Option to Nerf Mobs from Spawners
+
+
+diff --git a/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java b/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
+index ccbecd23c..a519fc2cb 100644
+--- a/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
++++ b/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
+@@ -162,6 +162,12 @@ public abstract class MobSpawnerAbstract {
+ 
+                             Objects.requireNonNull(entityinsentient);
+                             optional1.ifPresent(entityinsentient::equip);
++                            // Spigot Start
++                            if ( entityinsentient.level().spigotConfig.nerfSpawnerMobs )
++                            {
++                                entityinsentient.aware = false;
++                            }
++                            // Spigot End
+                         }
+ 
+                         // CraftBukkit start
+diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+index 457a8e84b..3e398c4e0 100644
+--- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
++++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+@@ -262,4 +262,11 @@ public class SpigotWorldConfig
+         zombieAggressiveTowardsVillager = getBoolean( "zombie-aggressive-towards-villager", true );
+         log( "Zombie Aggressive Towards Villager: " + zombieAggressiveTowardsVillager );
+     }
++
++    public boolean nerfSpawnerMobs;
++    private void nerfSpawnerMobs()
++    {
++        nerfSpawnerMobs = getBoolean( "nerf-spawner-mobs", false );
++        log( "Nerfing mobs spawned from spawners: " + nerfSpawnerMobs );
++    }
+ }
+-- 
+2.45.2
+

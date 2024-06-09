@@ -1,15 +1,15 @@
-From 72a54311b97c2413ec2dac55b9fe49cbca2dbee6 Mon Sep 17 00:00:00 2001
-From: md_5 <md_5@live.com.au>
+From 2beeb822714730d356bd5761da5f55f690940e31 Mon Sep 17 00:00:00 2001
+From: md_5 <git@md-5.net>
 Date: Thu, 27 Jun 2013 17:26:09 +1000
 Subject: [PATCH] Properly Close Inventories
 
 Properly close inventories when unloading and switching worlds.
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index a1b3b4911e..c2dc160021 100644
+index aee48f84f..d02c81f01 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -1123,6 +1123,15 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+@@ -1129,6 +1129,15 @@ public class WorldServer extends World implements GeneratorAccessSeed {
      }
  
      public void unload(Chunk chunk) {
@@ -25,7 +25,7 @@ index a1b3b4911e..c2dc160021 100644
          chunk.clearAllBlockEntities();
          chunk.unregisterTickContainerFromLevel(this);
      }
-@@ -2039,6 +2048,13 @@ public class WorldServer extends World implements GeneratorAccessSeed {
+@@ -2063,6 +2072,13 @@ public class WorldServer extends World implements GeneratorAccessSeed {
  
          public void onTrackingEnd(Entity entity) {
              org.spigotmc.AsyncCatcher.catchOp("entity unregister"); // Spigot
@@ -37,8 +37,8 @@ index a1b3b4911e..c2dc160021 100644
 +            }
 +            // Spigot End
              WorldServer.this.getChunkSource().removeEntity(entity);
-             if (entity instanceof EntityPlayer) {
-                 EntityPlayer entityplayer = (EntityPlayer) entity;
+             if (entity instanceof EntityPlayer entityplayer) {
+                 WorldServer.this.players.remove(entityplayer);
 -- 
-2.43.0
+2.45.2
 

@@ -1,4 +1,4 @@
-From 18715937fee2497a872d96e6a0f2ca7e9054839d Mon Sep 17 00:00:00 2001
+From 92cd19d3983a3bdc5eb65480e9fc569884a42f92 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Sun, 2 Jun 2013 10:42:57 +1000
 Subject: [PATCH] Spigot Timings
@@ -8,10 +8,10 @@ Adds performance tracking timings all around the Minecraft Server, and improves 
 Plugins can track their own timings with CustomTimingsHandler
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 11e1e9db6..c1284c751 100644
+index fd3bbce69..c35b55707 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -843,6 +843,7 @@ public final class Bukkit {
+@@ -866,6 +866,7 @@ public final class Bukkit {
       */
      public static void reload() {
          server.reload();
@@ -20,10 +20,10 @@ index 11e1e9db6..c1284c751 100644
  
      /**
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 145e18ccc..ed7d40143 100644
+index 475d310b3..159c5b878 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1794,6 +1794,10 @@ public interface Server extends PluginMessageRecipient {
+@@ -1830,6 +1830,10 @@ public interface Server extends PluginMessageRecipient {
      // Spigot start
      public class Spigot {
  
@@ -35,7 +35,7 @@ index 145e18ccc..ed7d40143 100644
  
      @NotNull
 diff --git a/src/main/java/org/bukkit/command/Command.java b/src/main/java/org/bukkit/command/Command.java
-index 0577d80a2..80209bb88 100644
+index d498b16bb..ac89f041d 100644
 --- a/src/main/java/org/bukkit/command/Command.java
 +++ b/src/main/java/org/bukkit/command/Command.java
 @@ -33,6 +33,7 @@ public abstract class Command {
@@ -63,10 +63,10 @@ index 0577d80a2..80209bb88 100644
              return true;
          }
 diff --git a/src/main/java/org/bukkit/command/SimpleCommandMap.java b/src/main/java/org/bukkit/command/SimpleCommandMap.java
-index 73906146e..e195e74c4 100644
+index c399c1497..fd5a7a554 100644
 --- a/src/main/java/org/bukkit/command/SimpleCommandMap.java
 +++ b/src/main/java/org/bukkit/command/SimpleCommandMap.java
-@@ -144,11 +144,15 @@ public class SimpleCommandMap implements CommandMap {
+@@ -145,11 +145,15 @@ public class SimpleCommandMap implements CommandMap {
          }
  
          try {
@@ -245,10 +245,10 @@ index ed4cbce77..516d7fc78 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 1fe7249d3..a69c5d5ca 100644
+index 04dda4d22..839130f71 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -358,6 +358,7 @@ public final class SimplePluginManager implements PluginManager {
+@@ -370,6 +370,7 @@ public final class SimplePluginManager implements PluginManager {
              }
          }
  
@@ -460,5 +460,5 @@ index 000000000..a287faff5
 + */
 +package org.spigotmc;
 -- 
-2.43.0
+2.45.2
 

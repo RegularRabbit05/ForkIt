@@ -1,4 +1,4 @@
-From b40dc25bc9f84f83de9b7890234ef56c5cf8a482 Mon Sep 17 00:00:00 2001
+From 794f419405554d467d3c8504f4c063270b3d6601 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Wed, 20 Feb 2013 11:58:47 -0500
 Subject: [PATCH] Entity Tracking Ranges
@@ -12,10 +12,10 @@ This has multiple benefits:
 4) Less client lag - Not trying to render distant item frames and paintings and entities will reduce entity count on the client, which is major for shop/town worlds which may use tons of item frames.
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index 8ab3b23b06..a415d36c53 100644
+index fdeaf4b8b..d67296445 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-@@ -1312,6 +1312,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.d {
+@@ -1330,6 +1330,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.c {
          if (!(entity instanceof EntityComplexPart)) {
              EntityTypes<?> entitytypes = entity.getType();
              int i = entitytypes.clientTrackingRange() * 16;
@@ -24,7 +24,7 @@ index 8ab3b23b06..a415d36c53 100644
              if (i != 0) {
                  int j = entitytypes.updateInterval();
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 936279b5fb..ab984b2109 100644
+index 936279b5f..ab984b210 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -211,4 +211,21 @@ public class SpigotWorldConfig
@@ -51,7 +51,7 @@ index 936279b5fb..ab984b2109 100644
  }
 diff --git a/src/main/java/org/spigotmc/TrackingRange.java b/src/main/java/org/spigotmc/TrackingRange.java
 new file mode 100644
-index 0000000000..7121ffcd8b
+index 000000000..7121ffcd8
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/TrackingRange.java
 @@ -0,0 +1,59 @@
@@ -115,5 +115,5 @@ index 0000000000..7121ffcd8b
 +    }
 +}
 -- 
-2.43.0
+2.45.2
 

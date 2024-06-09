@@ -1,15 +1,15 @@
-From 56da7c4ec8d6e4272f882670d5f510578a40f660 Mon Sep 17 00:00:00 2001
-From: md_5 <md_5@live.com.au>
+From a390a6069073abb9d5208f8d15be7509c7b5d63d Mon Sep 17 00:00:00 2001
+From: md_5 <git@md-5.net>
 Date: Sat, 23 Mar 2013 09:46:33 +1100
 Subject: [PATCH] Merge tweaks and configuration
 
 This allows the merging of Experience orbs, as well as the configuration of the merge radius of items. Additionally it refactors the merge algorithm to be a better experience for players.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityItem.java b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-index efb64b2fee..595b7d1c0c 100644
+index 88f3044ff..21845bcfa 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-@@ -239,7 +239,10 @@ public class EntityItem extends Entity implements TraceableEntity {
+@@ -246,7 +246,10 @@ public class EntityItem extends Entity implements TraceableEntity {
  
      private void mergeWithNeighbours() {
          if (this.isMergable()) {
@@ -21,7 +21,7 @@ index efb64b2fee..595b7d1c0c 100644
                  return entityitem != this && entityitem.isMergable();
              });
              Iterator iterator = list.iterator();
-@@ -269,7 +272,7 @@ public class EntityItem extends Entity implements TraceableEntity {
+@@ -276,7 +279,7 @@ public class EntityItem extends Entity implements TraceableEntity {
          ItemStack itemstack1 = entityitem.getItem();
  
          if (Objects.equals(this.target, entityitem.target) && areMergable(itemstack, itemstack1)) {
@@ -31,10 +31,10 @@ index efb64b2fee..595b7d1c0c 100644
              } else {
                  merge(entityitem, itemstack1, this, itemstack);
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 18b3e90c3c..21d9b9f5f2 100644
+index d6ec8c9f7..ac480b465 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -710,6 +710,23 @@ public class CraftEventFactory {
+@@ -711,6 +711,23 @@ public class CraftEventFactory {
              return false;
          }
  
@@ -47,7 +47,7 @@ index 18b3e90c3c..21d9b9f5f2 100644
 +                    if (e instanceof EntityExperienceOrb loopItem) {
 +                        if (!loopItem.isRemoved()) {
 +                            xp.value += loopItem.value;
-+                            loopItem.discard();
++                            loopItem.discard(null); // Add Bukkit remove cause
 +                        }
 +                    }
 +                }
@@ -59,7 +59,7 @@ index 18b3e90c3c..21d9b9f5f2 100644
      }
  
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index f42972427b..5ff085b9e6 100644
+index f42972427..5ff085b9e 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -134,4 +134,18 @@ public class SpigotWorldConfig
@@ -82,5 +82,5 @@ index f42972427b..5ff085b9e6 100644
 +    }
  }
 -- 
-2.43.0
+2.45.2
 

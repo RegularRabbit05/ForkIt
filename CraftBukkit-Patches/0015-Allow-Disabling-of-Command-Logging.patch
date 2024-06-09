@@ -1,14 +1,14 @@
-From 3f77902b403aee9fb688acc36b02997dd67c1ef7 Mon Sep 17 00:00:00 2001
-From: md_5 <md_5@live.com.au>
+From 20004a2dc22c2c43f9c5340d5c1e80bb04780427 Mon Sep 17 00:00:00 2001
+From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 18:01:29 +1000
 Subject: [PATCH] Allow Disabling of Command Logging
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index bd76f469a0..f787182eee 100644
+index 948ddd96b..f979e897b 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -1991,6 +1991,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2057,6 +2057,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
  
      private void handleCommand(String s) {
          org.bukkit.craftbukkit.SpigotTimings.playerCommandTimer.startTiming(); // Spigot
@@ -17,7 +17,7 @@ index bd76f469a0..f787182eee 100644
  
          CraftPlayer player = this.getCraftPlayer();
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 7f14cbc63b..bc9fbcc584 100644
+index 7f14cbc63..bc9fbcc58 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -150,4 +150,10 @@ public class SpigotConfig
@@ -32,5 +32,5 @@ index 7f14cbc63b..bc9fbcc584 100644
 +    }
  }
 -- 
-2.43.0
+2.45.2
 

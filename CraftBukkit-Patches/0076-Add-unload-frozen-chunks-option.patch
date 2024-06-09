@@ -1,0 +1,36 @@
+From 3d61872d94569ead964330e5823d5e427a07846b Mon Sep 17 00:00:00 2001
+From: md_5 <git@md-5.net>
+Date: Sat, 18 May 2024 11:39:58 +1000
+Subject: [PATCH] Add unload-frozen-chunks option
+
+
+diff --git a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
+index 9ae503080..9702d288a 100644
+--- a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
++++ b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
+@@ -364,7 +364,7 @@ public class ChunkProviderServer extends IChunkProvider {
+     public void tick(BooleanSupplier booleansupplier, boolean flag) {
+         this.level.getProfiler().push("purge");
+         this.level.timings.doChunkMap.startTiming(); // Spigot
+-        if (this.level.tickRateManager().runsNormally() || !flag) {
++        if (this.level.tickRateManager().runsNormally() || !flag || this.level.spigotConfig.unloadFrozenChunks) { // Spigot
+             this.distanceManager.purgeStaleTickets();
+         }
+ 
+diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+index ebddbf6d0..2891e2537 100644
+--- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
++++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+@@ -393,4 +393,9 @@ public class SpigotWorldConfig
+     private void belowZeroGenerationInExistingChunks() {
+         belowZeroGenerationInExistingChunks = getBoolean("below-zero-generation-in-existing-chunks", true);
+     }
++
++    public boolean unloadFrozenChunks;
++    private void unloadFrozenChunks() {
++        unloadFrozenChunks = getBoolean("unload-frozen-chunks", false);
++    }
+ }
+-- 
+2.45.2
+

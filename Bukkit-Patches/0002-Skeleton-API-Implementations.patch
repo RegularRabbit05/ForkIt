@@ -1,14 +1,14 @@
-From 2607fabd6e2f3a46d71f7d348cf7c378b36fa4a0 Mon Sep 17 00:00:00 2001
+From a3e0cba993a9fae2911e9a3958c177d6b456a83d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 15 May 2017 15:16:15 +1000
 Subject: [PATCH] Skeleton API Implementations
 
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 5e72f7f7b..11e1e9db6 100644
+index 9a040f3a6..fd3bbce69 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2097,4 +2097,9 @@ public final class Bukkit {
+@@ -2141,4 +2141,9 @@ public final class Bukkit {
      public static UnsafeValues getUnsafe() {
          return server.getUnsafe();
      }
@@ -19,10 +19,10 @@ index 5e72f7f7b..11e1e9db6 100644
 +    }
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index dc5daab0a..145e18ccc 100644
+index e7168bcbd..475d310b3 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1790,4 +1790,13 @@ public interface Server extends PluginMessageRecipient {
+@@ -1826,4 +1826,13 @@ public interface Server extends PluginMessageRecipient {
      @Deprecated
      @NotNull
      UnsafeValues getUnsafe();
@@ -37,10 +37,10 @@ index dc5daab0a..145e18ccc 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index b400ef1dc..a35a63246 100644
+index 4a49b177b..eaf97a0b3 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
-@@ -2715,6 +2715,15 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
+@@ -2850,6 +2850,15 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
      @Nullable
      StructureSearchResult locateNearestStructure(@NotNull Location origin, @NotNull Structure structure, int radius, boolean findUnexplored);
  
@@ -75,10 +75,10 @@ index a7a2587b4..4b6b95404 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 8ecb97c51..ee2d52eff 100644
+index dee99ac29..558fe6e23 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -758,4 +758,14 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -766,4 +766,14 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
      @NotNull
      @ApiStatus.Experimental
      Entity copy(@NotNull Location to);
@@ -120,10 +120,10 @@ index 158ac20f8..d913298ea 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 34fe5b50b..497b4bd0f 100644
+index b9360a7d8..ea1026259 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2029,4 +2029,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2272,4 +2272,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @return whether the player allows server listings
       */
      public boolean isAllowingServerListings();
@@ -139,10 +139,10 @@ index 34fe5b50b..497b4bd0f 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/inventory/meta/BookMeta.java b/src/main/java/org/bukkit/inventory/meta/BookMeta.java
-index 12a1e0fd2..111228fd1 100644
+index 9759ad8dc..9c9f2c07e 100644
 --- a/src/main/java/org/bukkit/inventory/meta/BookMeta.java
 +++ b/src/main/java/org/bukkit/inventory/meta/BookMeta.java
-@@ -185,4 +185,13 @@ public interface BookMeta extends ItemMeta {
+@@ -113,4 +113,13 @@ public interface BookMeta extends WritableBookMeta {
      @Override
      @NotNull
      BookMeta clone();
@@ -157,5 +157,5 @@ index 12a1e0fd2..111228fd1 100644
 +    // Spigot end
  }
 -- 
-2.43.0
+2.45.2
 
