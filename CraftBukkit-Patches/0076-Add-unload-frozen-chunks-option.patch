@@ -1,14 +1,14 @@
-From a40380650d8733bf7fd29bece2a61ded1ef4d246 Mon Sep 17 00:00:00 2001
+From 76ac3404b051ebf6a0d1e9e5b57d82b84f4d90ca Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 18 May 2024 11:39:58 +1000
 Subject: [PATCH] Add unload-frozen-chunks option
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-index 9ae503080..9702d288a 100644
+index 8010069257..1529534715 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-@@ -364,7 +364,7 @@ public class ChunkProviderServer extends IChunkProvider {
+@@ -341,7 +341,7 @@ public class ChunkProviderServer extends IChunkProvider {
      public void tick(BooleanSupplier booleansupplier, boolean flag) {
          this.level.getProfiler().push("purge");
          this.level.timings.doChunkMap.startTiming(); // Spigot
@@ -18,7 +18,7 @@ index 9ae503080..9702d288a 100644
          }
  
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index ebddbf6d0..2891e2537 100644
+index ebddbf6d0c..2891e2537b 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -393,4 +393,9 @@ public class SpigotWorldConfig
@@ -32,5 +32,5 @@ index ebddbf6d0..2891e2537 100644
 +    }
  }
 -- 
-2.45.1
+2.45.2
 

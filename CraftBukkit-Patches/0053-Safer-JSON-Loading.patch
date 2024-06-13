@@ -1,4 +1,4 @@
-From 8c7bbb01d41cdceffcfd1fd2596e808f1f136ff5 Mon Sep 17 00:00:00 2001
+From d1bfc8665a256a3d31a3d477713055b048d12556 Mon Sep 17 00:00:00 2001
 From: Suddenly <suddenly@suddenly.coffee>
 Date: Tue, 8 Jul 2014 09:44:18 +1000
 Subject: [PATCH] Safer JSON Loading
@@ -40,5 +40,5 @@ index 0ee2026472..8c998e3077 100644
              UserCache.LOGGER.warn("Failed to load profile cache {}", this.file, ioexception);
          }
 -- 
-2.43.2
+2.45.2
 

@@ -1,4 +1,4 @@
-From 7eae152b8990ace01927678c3e54f89aa633488c Mon Sep 17 00:00:00 2001
+From a85c8d9490bef534c463cddc1a7bf33eac168f15 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 27 Jan 2014 08:39:26 +1100
 Subject: [PATCH] Add Optional Tick Shuffling
@@ -24,7 +24,7 @@ index 66a02280f7..85fb253c16 100644
  
              while (iterator.hasNext()) {
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 06cb5eb3c7..b28d0e91cb 100644
+index 175b389e55..5b7e17ee03 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -278,4 +278,10 @@ public class SpigotConfig
@@ -39,5 +39,5 @@ index 06cb5eb3c7..b28d0e91cb 100644
 +    }
  }
 -- 
-2.43.2
+2.45.2
 

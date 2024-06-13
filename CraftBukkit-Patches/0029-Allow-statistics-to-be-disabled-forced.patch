@@ -1,11 +1,11 @@
-From 564507a49234e546d08bc8c086383de49904b781 Mon Sep 17 00:00:00 2001
+From 3130ae4732acfebc61c8b511b028cca453e23649 Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thethinkofdeath@gmail.com>
 Date: Tue, 7 Jan 2014 15:56:26 +0000
 Subject: [PATCH] Allow statistics to be disabled/forced
 
 
 diff --git a/src/main/java/net/minecraft/stats/ServerStatisticManager.java b/src/main/java/net/minecraft/stats/ServerStatisticManager.java
-index 3be61a86cf..a7ecfad861 100644
+index f9236cd8b9..71766d2e69 100644
 --- a/src/main/java/net/minecraft/stats/ServerStatisticManager.java
 +++ b/src/main/java/net/minecraft/stats/ServerStatisticManager.java
 @@ -48,6 +48,13 @@ public class ServerStatisticManager extends StatisticManager {
@@ -39,7 +39,7 @@ index 3be61a86cf..a7ecfad861 100644
          this.dirty.add(statistic);
      }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 8091770655..c81333c505 100644
+index 8091770655..db04e7418d 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -10,10 +10,13 @@ import java.util.HashMap;
@@ -78,7 +78,7 @@ index 8091770655..c81333c505 100644
 +            {
 +                try
 +                {
-+                    MinecraftKey key = new MinecraftKey( name );
++                    MinecraftKey key = MinecraftKey.parse( name );
 +                    if ( BuiltInRegistries.CUSTOM_STAT.get( key ) == null )
 +                    {
 +                        Bukkit.getLogger().log(Level.WARNING, "Ignoring non existent stats.forced-stats " + name);
@@ -94,5 +94,5 @@ index 8091770655..c81333c505 100644
 +    }
  }
 -- 
-2.43.2
+2.45.2
 

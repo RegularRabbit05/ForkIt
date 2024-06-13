@@ -1,4 +1,4 @@
-From 69ac16749c0c90c96c3ed4f16d9504e3c7ca8372 Mon Sep 17 00:00:00 2001
+From d1487d66aa054a883224bf91edffd1570abde764 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 4 Jul 2014 13:28:45 +1000
 Subject: [PATCH] Further Seed Customisation
@@ -6,10 +6,10 @@ Subject: [PATCH] Further Seed Customisation
 Allow server admins that really want to to customise the seeds used in world generation even further.
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index d67296445b..d86f9bffb0 100644
+index 9c9419be6d..bc89e739c6 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-@@ -203,7 +203,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.c {
+@@ -201,7 +201,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
              this.randomState = RandomState.create(GeneratorSettingBase.dummy(), (HolderGetter) iregistrycustom.lookupOrThrow(Registries.NOISE), j);
          }
  
@@ -19,10 +19,10 @@ index d67296445b..d86f9bffb0 100644
          ThreadedMailbox<Runnable> threadedmailbox = ThreadedMailbox.create(executor, "worldgen");
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java b/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
-index 76341d3d66..6c445ace2e 100644
+index 23ebd0e3b2..446e65207e 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
-@@ -343,7 +343,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
+@@ -351,7 +351,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
                  }
  
                  ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(blockposition);
@@ -32,10 +32,10 @@ index 76341d3d66..6c445ace2e 100644
                  if (randomsource.nextInt(10) == 0 && flag && blockposition.getY() < 40) {
                      return checkMobSpawnRules(entitytypes, generatoraccess, enummobspawn, blockposition, randomsource);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-index 1457de06cd..b1eedb99f3 100644
+index 31a19a4b54..5505aa3984 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-@@ -108,8 +108,8 @@ public abstract class ChunkGenerator {
+@@ -107,8 +107,8 @@ public abstract class ChunkGenerator {
  
      protected abstract MapCodec<? extends ChunkGenerator> codec();
  
@@ -149,10 +149,10 @@ index c196274ed9..f11134ca3d 100644
      private static boolean hasBiomesForStructureSet(StructureSet structureset, WorldChunkManager worldchunkmanager) {
          Stream<Holder<BiomeBase>> stream = structureset.structures().stream().flatMap((structureset_a) -> {
 diff --git a/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java b/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java
-index 6006583657..fd2401e331 100644
+index 5228ddf87e..6b1145b889 100644
 --- a/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java
 +++ b/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java
-@@ -49,14 +49,14 @@ public class ChunkProviderFlat extends ChunkGenerator {
+@@ -48,14 +48,14 @@ public class ChunkProviderFlat extends ChunkGenerator {
      }
  
      @Override
@@ -170,10 +170,10 @@ index 6006583657..fd2401e331 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-index dfe09d8858..185e9dbc76 100644
+index 4271f0a9c8..77ac87c6ae 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-@@ -219,7 +219,7 @@ public class CraftChunk implements Chunk {
+@@ -220,7 +220,7 @@ public class CraftChunk implements Chunk {
      @Override
      public boolean isSlimeChunk() {
          // 987234911L is deterimined in EntitySlime when seeing if a slime can spawn in a chunk
@@ -228,5 +228,5 @@ index 7f5f97defc..7882c95f4c 100644
 +    }
  }
 -- 
-2.43.2
+2.45.2
 

@@ -1,4 +1,4 @@
-From 04067bc306183b44766f77dd329a2e35d409ea4c Mon Sep 17 00:00:00 2001
+From 42d207669314a86db2b9277ef83b364977164fe8 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 17:29:54 +1000
 Subject: [PATCH] Fix Mob Spawning Relative to View Distance
@@ -8,10 +8,10 @@ Changes the mob spawning algorithm to properly account for view distance and the
 Needs better documentation.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-index 722bfac225..9ae5030802 100644
+index a19b62b0ff..8010069257 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-@@ -429,7 +429,7 @@ public class ChunkProviderServer extends IChunkProvider {
+@@ -406,7 +406,7 @@ public class ChunkProviderServer extends IChunkProvider {
  
                      if (this.level.isNaturalSpawningAllowed(chunkcoordintpair) && this.chunkMap.anyPlayerCloseEnoughForSpawning(chunkcoordintpair)) {
                          chunk1.incrementInhabitedTime(j);
@@ -21,10 +21,10 @@ index 722bfac225..9ae5030802 100644
                          }
  
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index 514e21fe35..fdeaf4b8b2 100644
+index 7ca61718b0..78bb919138 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-@@ -1125,6 +1125,17 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.c {
+@@ -1005,6 +1005,17 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
      }
  
      boolean anyPlayerCloseEnoughForSpawning(ChunkCoordIntPair chunkcoordintpair) {
@@ -42,7 +42,7 @@ index 514e21fe35..fdeaf4b8b2 100644
          if (!this.distanceManager.hasPlayersNearby(chunkcoordintpair.toLong())) {
              return false;
          } else {
-@@ -1138,7 +1149,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.c {
+@@ -1018,7 +1029,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
                  }
  
                  entityplayer = (EntityPlayer) iterator.next();
@@ -51,7 +51,7 @@ index 514e21fe35..fdeaf4b8b2 100644
  
              return true;
          }
-@@ -1156,7 +1167,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.c {
+@@ -1036,7 +1047,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
              while (iterator.hasNext()) {
                  EntityPlayer entityplayer = (EntityPlayer) iterator.next();
  
@@ -60,7 +60,7 @@ index 514e21fe35..fdeaf4b8b2 100644
                      builder.add(entityplayer);
                  }
              }
-@@ -1165,13 +1176,13 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.c {
+@@ -1045,13 +1056,13 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
          }
      }
  
@@ -93,5 +93,5 @@ index acaf903011..0c0c29efe5 100644
 +    }
  }
 -- 
-2.43.2
+2.45.2
 

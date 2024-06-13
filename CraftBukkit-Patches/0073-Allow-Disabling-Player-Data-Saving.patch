@@ -1,4 +1,4 @@
-From 3053b876bdc335864b568bf3f3f54776025fd463 Mon Sep 17 00:00:00 2001
+From 499420fcc9b4ecd6f5531c281deddfbd40fecd98 Mon Sep 17 00:00:00 2001
 From: Sander Knauff <sanderknauff@hotmail.com>
 Date: Sat, 7 Nov 2020 18:23:42 +1100
 Subject: [PATCH] Allow Disabling Player Data Saving
@@ -17,7 +17,7 @@ index c79f0fbd91..274fdb3644 100644
              NBTTagCompound nbttagcompound = entityhuman.saveWithoutId(new NBTTagCompound());
              Path path = this.playerDir.toPath();
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index a0e07e59d9..595d80dfd9 100644
+index 9bf3c3c15e..167b6e42c5 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -393,4 +393,9 @@ public class SpigotConfig
@@ -31,5 +31,5 @@ index a0e07e59d9..595d80dfd9 100644
 +    }
  }
 -- 
-2.43.2
+2.45.2
 

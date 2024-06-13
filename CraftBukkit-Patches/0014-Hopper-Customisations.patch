@@ -1,4 +1,4 @@
-From ff1718b7572fb8038c5ce305b2fb910221414fcb Mon Sep 17 00:00:00 2001
+From 7e57f7c217b84e9421446a3740c5f3e93df2cbc2 Mon Sep 17 00:00:00 2001
 From: erocs <github@erocs.org>
 Date: Sun, 8 Sep 2013 12:06:15 -0700
 Subject: [PATCH] Hopper Customisations
@@ -6,7 +6,7 @@ Subject: [PATCH] Hopper Customisations
 Allows editing hopper cooldowns and amount transferred per tick.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java b/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java
-index 4a2646d8a3..5890449c77 100644
+index 5b0ed1546f..7f27bd59b6 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java
 @@ -148,9 +148,14 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
@@ -143,5 +143,5 @@ index ab984b2109..cec948a055 100644
 +    }
  }
 -- 
-2.43.2
+2.45.2
 

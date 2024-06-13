@@ -1,14 +1,14 @@
-From f40a15b9905f871b2483b1b990358f54d99f97f0 Mon Sep 17 00:00:00 2001
+From 5782d1f70e0db061665b6f792b609ba5117204ed Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 5 Aug 2014 17:20:19 +0100
 Subject: [PATCH] Watchdog Thread.
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 0a2ece366..9db5a4019 100644
+index ddbeb5499b..8cb4eeb86f 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1072,6 +1072,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1079,6 +1079,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
                      this.services.profileCache().clearExecutor();
                  }
  
@@ -16,7 +16,7 @@ index 0a2ece366..9db5a4019 100644
                  // CraftBukkit start - Restore terminal to original settings
                  try {
                      reader.getTerminal().restore();
-@@ -1286,6 +1287,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1314,6 +1315,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
          this.smoothedTickTimeMillis = this.smoothedTickTimeMillis * 0.8F + (float) j / (float) TimeRange.NANOSECONDS_PER_MILLISECOND * 0.19999999F;
          this.logTickMethodTime(i);
          this.profiler.pop();
@@ -25,10 +25,10 @@ index 0a2ece366..9db5a4019 100644
          org.spigotmc.CustomTimingsHandler.tick(); // Spigot
      }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index c97dd97db..44b3cdc55 100644
+index 0e21d6a30d..ca98a77537 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -274,7 +274,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -278,7 +278,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
                  this.rconThread = RemoteControlListener.create(this);
              }
  
@@ -38,10 +38,10 @@ index c97dd97db..44b3cdc55 100644
  
                  thread1.setUncaughtExceptionHandler(new ThreadNamedUncaughtExceptionHandler(DedicatedServer.LOGGER));
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index e9e52b3e3..cb777d7c8 100644
+index 2fc7fbbf34..b4912751c1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2124,7 +2124,7 @@ public final class CraftServer implements Server {
+@@ -2127,7 +2127,7 @@ public final class CraftServer implements Server {
  
      @Override
      public boolean isPrimaryThread() {
@@ -50,7 +50,7 @@ index e9e52b3e3..cb777d7c8 100644
      }
  
      @Override
-@@ -2534,6 +2534,11 @@ public final class CraftServer implements Server {
+@@ -2542,6 +2542,11 @@ public final class CraftServer implements Server {
          {
              return org.spigotmc.SpigotConfig.config;
          }
@@ -64,10 +64,10 @@ index e9e52b3e3..cb777d7c8 100644
      public org.bukkit.Server.Spigot spigot()
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
 new file mode 100644
-index 000000000..3f739e80e
+index 0000000000..d7e7198ca2
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
-@@ -0,0 +1,130 @@
+@@ -0,0 +1,131 @@
 +package org.spigotmc;
 +
 +import java.io.File;
@@ -76,6 +76,7 @@ index 000000000..3f739e80e
 +import net.minecraft.server.level.EntityPlayer;
 +import org.bukkit.command.Command;
 +import org.bukkit.command.CommandSender;
++import org.bukkit.craftbukkit.util.CraftChatMessage;
 +
 +public class RestartCommand extends Command
 +{
@@ -126,7 +127,7 @@ index 000000000..3f739e80e
 +                // Kick all players
 +                for ( EntityPlayer p : (List<EntityPlayer>) MinecraftServer.getServer().getPlayerList().players )
 +                {
-+                    p.connection.disconnect(SpigotConfig.restartMessage);
++                    p.connection.disconnect( CraftChatMessage.fromStringOrEmpty( SpigotConfig.restartMessage ) );
 +                }
 +                // Give the socket a chance to send the packets
 +                try
@@ -199,7 +200,7 @@ index 000000000..3f739e80e
 +    }
 +}
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 8ad8b2589..130016282 100644
+index 8ad8b25894..130016282a 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -200,4 +200,18 @@ public class SpigotConfig
@@ -223,7 +224,7 @@ index 8ad8b2589..130016282 100644
  }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
 new file mode 100644
-index 000000000..4734d4ae8
+index 0000000000..4734d4ae83
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -0,0 +1,131 @@

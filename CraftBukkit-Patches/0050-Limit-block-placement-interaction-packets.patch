@@ -1,29 +1,29 @@
-From 5642a38f4e9bf22574659e5e90ce668bb4adfe85 Mon Sep 17 00:00:00 2001
+From d0c11c4a5085132705c93250753abaafef95cd33 Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thinkofdeath@spigotmc.org>
 Date: Sun, 29 Jun 2014 21:10:34 +0100
 Subject: [PATCH] Limit block placement/interaction packets
 
 
 diff --git a/src/main/java/net/minecraft/network/protocol/game/PacketPlayInBlockPlace.java b/src/main/java/net/minecraft/network/protocol/game/PacketPlayInBlockPlace.java
-index 6f092f89f5..32c2913153 100644
+index f1adb85f21..402f4487b1 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/PacketPlayInBlockPlace.java
 +++ b/src/main/java/net/minecraft/network/protocol/game/PacketPlayInBlockPlace.java
-@@ -12,6 +12,7 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn> {
-     public static final StreamCodec<PacketDataSerializer, PacketPlayInBlockPlace> STREAM_CODEC = Packet.codec(PacketPlayInBlockPlace::write, PacketPlayInBlockPlace::new);
-     private final EnumHand hand;
+@@ -14,6 +14,7 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn> {
      private final int sequence;
+     private final float yRot;
+     private final float xRot;
 +    public long timestamp; // Spigot
  
-     public PacketPlayInBlockPlace(EnumHand enumhand, int i) {
+     public PacketPlayInBlockPlace(EnumHand enumhand, int i, float f, float f1) {
          this.hand = enumhand;
-@@ -19,6 +20,7 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn> {
+@@ -23,6 +24,7 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn> {
      }
  
      private PacketPlayInBlockPlace(PacketDataSerializer packetdataserializer) {
 +        this.timestamp = System.currentTimeMillis(); // Spigot
          this.hand = (EnumHand) packetdataserializer.readEnum(EnumHand.class);
          this.sequence = packetdataserializer.readVarInt();
-     }
+         this.yRot = packetdataserializer.readFloat();
 diff --git a/src/main/java/net/minecraft/network/protocol/game/PacketPlayInUseItem.java b/src/main/java/net/minecraft/network/protocol/game/PacketPlayInUseItem.java
 index ad5a18ee99..de5ff1a4dc 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/PacketPlayInUseItem.java
@@ -45,10 +45,10 @@ index ad5a18ee99..de5ff1a4dc 100644
          this.blockHit = packetdataserializer.readBlockHitResult();
          this.sequence = packetdataserializer.readVarInt();
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index c6fe6b9134..152293e29c 100644
+index b22a641bce..04fe133dab 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -1522,10 +1522,30 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1535,10 +1535,30 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          }
      }
  
@@ -79,7 +79,7 @@ index c6fe6b9134..152293e29c 100644
          this.player.connection.ackBlockChangesUpTo(packetplayinuseitem.getSequence());
          WorldServer worldserver = this.player.serverLevel();
          EnumHand enumhand = packetplayinuseitem.getHand();
-@@ -1582,6 +1602,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1595,6 +1615,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
      public void handleUseItem(PacketPlayInBlockPlace packetplayinblockplace) {
          PlayerConnectionUtils.ensureRunningOnSameThread(packetplayinblockplace, this, this.player.serverLevel());
          if (this.player.isImmobile()) return; // CraftBukkit
@@ -88,5 +88,5 @@ index c6fe6b9134..152293e29c 100644
          WorldServer worldserver = this.player.serverLevel();
          EnumHand enumhand = packetplayinblockplace.getHand();
 -- 
-2.43.2
+2.45.2
 

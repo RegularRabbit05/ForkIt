@@ -1,14 +1,14 @@
-From 7ade0a5e31d0b7c22f0dc40157f4289b80ff7f55 Mon Sep 17 00:00:00 2001
+From eba57327b86eef77409fe4f09c19658072775267 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoung@mit.edu>
 Date: Sat, 9 Aug 2014 13:56:51 -0400
 Subject: [PATCH] Configurable Hanging Tick
 
 
-diff --git a/src/main/java/net/minecraft/world/entity/decoration/EntityHanging.java b/src/main/java/net/minecraft/world/entity/decoration/EntityHanging.java
-index 3b740ab79f..804656fec9 100644
---- a/src/main/java/net/minecraft/world/entity/decoration/EntityHanging.java
-+++ b/src/main/java/net/minecraft/world/entity/decoration/EntityHanging.java
-@@ -121,7 +121,7 @@ public abstract class EntityHanging extends Entity {
+diff --git a/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java b/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java
+index cbf72a37de..72515d6901 100644
+--- a/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java
++++ b/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java
+@@ -45,7 +45,7 @@ public abstract class BlockAttachedEntity extends Entity {
      public void tick() {
          if (!this.level().isClientSide) {
              this.checkBelowWorld();
@@ -33,5 +33,5 @@ index 8411f9e573..76aeff3324 100644
 +    }
  }
 -- 
-2.43.2
+2.45.2
 

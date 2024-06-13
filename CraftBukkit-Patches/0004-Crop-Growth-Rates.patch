@@ -1,4 +1,4 @@
-From f3c62a59e5c9ef4bb688120b402d4829e44488e5 Mon Sep 17 00:00:00 2001
+From 20ea6ad0c12b5a6a7f724f0d84503b4abcdeec9d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 7 Mar 2016 22:14:13 +1100
 Subject: [PATCH] Crop Growth Rates
@@ -6,10 +6,10 @@ Subject: [PATCH] Crop Growth Rates
 Allows configuring the growth rates of crops as a percentage of their normal growth rate.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/Block.java b/src/main/java/net/minecraft/world/level/block/Block.java
-index 4e7befb20b..7424180fa7 100644
+index 22bd45e4bf..a06bed2fc4 100644
 --- a/src/main/java/net/minecraft/world/level/block/Block.java
 +++ b/src/main/java/net/minecraft/world/level/block/Block.java
-@@ -525,6 +525,18 @@ public class Block extends BlockBase implements IMaterial {
+@@ -522,6 +522,18 @@ public class Block extends BlockBase implements IMaterial {
      }
      // CraftBukkit end
  
@@ -300,5 +300,5 @@ index 1cce14866a..f42972427b 100644
 +    }
  }
 -- 
-2.43.2
+2.45.2
 

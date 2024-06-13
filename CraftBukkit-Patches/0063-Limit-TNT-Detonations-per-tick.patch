@@ -1,4 +1,4 @@
-From 1310b60d46792bdfa755b27bdf7c355e0420a272 Mon Sep 17 00:00:00 2001
+From d1fbcee33c853a73f41f7e1e9b898c7188b9d4a1 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Wed, 20 Aug 2014 18:12:32 -0400
 Subject: [PATCH] Limit TNT Detonations per tick
@@ -7,22 +7,22 @@ This gives a per-world control on how much TNT will be processed per-tick,
 preventing a massive TNT detonation from lagging out the server.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java b/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
-index a74a717cc2..64d0811b4a 100644
+index 6425a3bb5e..69a6452e96 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
-@@ -76,6 +76,7 @@ public class EntityTNTPrimed extends Entity implements TraceableEntity {
+@@ -95,6 +95,7 @@ public class EntityTNTPrimed extends Entity implements TraceableEntity {
  
      @Override
      public void tick() {
 +        if (this.level().spigotConfig.maxTntTicksPerTick > 0 && ++this.level().spigotConfig.currentPrimedTnt > this.level().spigotConfig.maxTntTicksPerTick) { return; } // Spigot
+         this.handlePortal();
          this.applyGravity();
          this.move(EnumMoveType.SELF, this.getDeltaMovement());
-         this.setDeltaMovement(this.getDeltaMovement().scale(0.98D));
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index 32b990ae45..a48d98f0cb 100644
+index 7ad6f7ccc4..56f1999ef0 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
-@@ -656,6 +656,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -661,6 +661,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
          timings.tileEntityTick.stopTiming(); // Spigot
          this.tickingBlockEntities = false;
          gameprofilerfiller.pop();
@@ -51,5 +51,5 @@ index 1b5d1e2837..8411f9e573 100644
 +    }
  }
 -- 
-2.43.2
+2.45.2
 
