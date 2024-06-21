@@ -1,4 +1,4 @@
-From 2111b85535935fe2c00589b3a49107e0880c6f61 Mon Sep 17 00:00:00 2001
+From 26a34efb94470873d61322b5ade2a85b32a0e70c Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 25 Mar 2014 16:10:01 +1100
 Subject: [PATCH] Async Operation Catching
@@ -78,10 +78,10 @@ index 23a3ae198d..f07e8247e3 100644
              if (entity instanceof EntityPlayer entityplayer) {
                  WorldServer.this.players.remove(entityplayer);
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index de366c90d3..f08c5007dd 100644
+index 9b44f3a324..ac53bea157 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-@@ -1104,6 +1104,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -1105,6 +1105,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
      }
  
      public boolean addEffect(MobEffect mobeffect, @Nullable Entity entity, EntityPotionEffectEvent.Cause cause) {

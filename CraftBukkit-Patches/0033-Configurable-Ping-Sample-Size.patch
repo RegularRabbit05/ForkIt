@@ -1,11 +1,11 @@
-From 4e8c443990b96749cc958b699adeed6761ba5370 Mon Sep 17 00:00:00 2001
+From efa2af69f62ec211066dae6af2266a508d2bcc0f Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 26 Jan 2014 21:48:34 +1100
 Subject: [PATCH] Configurable Ping Sample Size
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PacketStatusListener.java b/src/main/java/net/minecraft/server/network/PacketStatusListener.java
-index 3cfa519c16..cb53ccf440 100644
+index 51ad3590a8..09af460031 100644
 --- a/src/main/java/net/minecraft/server/network/PacketStatusListener.java
 +++ b/src/main/java/net/minecraft/server/network/PacketStatusListener.java
 @@ -134,6 +134,13 @@ public class PacketStatusListener implements PacketStatusInListener {
@@ -19,7 +19,7 @@ index 3cfa519c16..cb53ccf440 100644
 +                profiles = profiles.subList( 0, Math.min( profiles.size(), org.spigotmc.SpigotConfig.playerSample ) ); // Cap the sample to n (or less) displayed players, ie: Vanilla behaviour
 +            }
 +            // Spigot End
-             ServerPing.ServerPingPlayerSample playerSample = new ServerPing.ServerPingPlayerSample(event.getMaxPlayers(), profiles.size(), (server.hidesOnlinePlayers()) ? Collections.emptyList() : profiles);
+             ServerPing.ServerPingPlayerSample playerSample = new ServerPing.ServerPingPlayerSample(event.getMaxPlayers(), event.getNumPlayers(), (server.hidesOnlinePlayers()) ? Collections.emptyList() : profiles);
  
              ServerPing ping = new ServerPing(
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java

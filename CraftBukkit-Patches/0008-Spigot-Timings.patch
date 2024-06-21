@@ -1,4 +1,4 @@
-From d3d0c0de298fa4eb50e38008e44581a2417584fd Mon Sep 17 00:00:00 2001
+From fa0d13150f59fbecff9a3e18873475f256138ad4 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Thu, 10 Jan 2013 00:18:11 -0500
 Subject: [PATCH] Spigot Timings
@@ -147,7 +147,7 @@ index 992efd1217..0e21d6a30d 100644
  
      @Override
 diff --git a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-index 775a6a8595..a19b62b0ff 100644
+index b40b0d7700..93aa25f1d5 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
 @@ -142,11 +142,13 @@ public class ChunkProviderServer extends IChunkProvider {
@@ -279,7 +279,7 @@ index f500d56f8e..f7efe7a788 100644
      }
  
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index c9bdca90d9..c4af6a902e 100644
+index 33ac685d6f..5521ce40aa 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
 @@ -332,6 +332,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
@@ -360,7 +360,7 @@ index ecd5b91309..245afb6a6b 100644
  
      private boolean isStateClimbable(IBlockData iblockdata) {
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index f08c5007dd..1033d2d42e 100644
+index ac53bea157..980f3dce9a 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -158,6 +158,8 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -372,7 +372,7 @@ index f08c5007dd..1033d2d42e 100644
  public abstract class EntityLiving extends Entity implements Attackable {
  
      private static final Logger LOGGER = LogUtils.getLogger();
-@@ -2941,6 +2943,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -2942,6 +2944,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
  
      @Override
      public void tick() {
@@ -380,7 +380,7 @@ index f08c5007dd..1033d2d42e 100644
          super.tick();
          this.updatingUsingItem();
          this.updateSwimAmount();
-@@ -2982,7 +2985,9 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -2983,7 +2986,9 @@ public abstract class EntityLiving extends Entity implements Attackable {
          }
  
          if (!this.isRemoved()) {
@@ -390,7 +390,7 @@ index f08c5007dd..1033d2d42e 100644
          }
  
          double d0 = this.getX() - this.xo;
-@@ -3073,6 +3078,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3074,6 +3079,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
              this.refreshDimensions();
          }
  
@@ -398,7 +398,7 @@ index f08c5007dd..1033d2d42e 100644
      }
  
      public void detectEquipmentUpdatesPublic() { // CraftBukkit
-@@ -3288,6 +3294,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3289,6 +3295,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
  
          this.setDeltaMovement(d0, d1, d2);
          this.level().getProfiler().push("ai");
@@ -406,7 +406,7 @@ index f08c5007dd..1033d2d42e 100644
          if (this.isImmobile()) {
              this.jumping = false;
              this.xxa = 0.0F;
-@@ -3297,6 +3304,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3298,6 +3305,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
              this.serverAiStep();
              this.level().getProfiler().pop();
          }
@@ -414,7 +414,7 @@ index f08c5007dd..1033d2d42e 100644
  
          this.level().getProfiler().pop();
          this.level().getProfiler().push("jump");
-@@ -3336,6 +3344,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3337,6 +3345,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
              this.resetFallDistance();
          }
  
@@ -422,7 +422,7 @@ index f08c5007dd..1033d2d42e 100644
          label104:
          {
              EntityLiving entityliving = this.getControllingPassenger();
-@@ -3349,6 +3358,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3350,6 +3359,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
  
              this.travel(vec3d1);
          }
@@ -430,7 +430,7 @@ index f08c5007dd..1033d2d42e 100644
  
          this.level().getProfiler().pop();
          this.level().getProfiler().push("freezing");
-@@ -3375,7 +3385,9 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3376,7 +3386,9 @@ public abstract class EntityLiving extends Entity implements Attackable {
              this.checkAutoSpinAttack(axisalignedbb, this.getBoundingBox());
          }
  
