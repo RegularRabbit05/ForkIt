@@ -1,4 +1,4 @@
-From 0b9abd4f66fe66a85cee872fd358784d87b5428e Mon Sep 17 00:00:00 2001
+From a1c0430f895035562d026b1c1ed7c5594d1a5a9c Mon Sep 17 00:00:00 2001
 From: Alex Ciuba <alexciuba@gmail.com>
 Date: Tue, 11 Jun 2013 15:23:03 -0400
 Subject: [PATCH] Prevent Ghost Players Caused by Plugins
@@ -6,7 +6,7 @@ Subject: [PATCH] Prevent Ghost Players Caused by Plugins
 Check if the player is still connected after firing event. Fixes BUKKIT-4327
 
 diff --git a/src/main/java/net/minecraft/server/level/EntityPlayer.java b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-index 46ae3b4db9..4b62a39438 100644
+index 7ab3bf7461..f8d5361fa0 100644
 --- a/src/main/java/net/minecraft/server/level/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/EntityPlayer.java
 @@ -1121,6 +1121,11 @@ public class EntityPlayer extends EntityHuman {
@@ -22,10 +22,10 @@ index 46ae3b4db9..4b62a39438 100644
          location = respawnEvent.getRespawnLocation();
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index c4e3dce4cc..6c1492635c 100644
+index 2b4bc82bf2..db58be830a 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -705,6 +705,11 @@ public abstract class PlayerList {
+@@ -706,6 +706,11 @@ public abstract class PlayerList {
          } else {
              dimensiontransition = new DimensionTransition(((CraftWorld) location.getWorld()).getHandle(), CraftLocation.toVec3D(location), Vec3D.ZERO, location.getYaw(), location.getPitch(), DimensionTransition.DO_NOTHING);
          }

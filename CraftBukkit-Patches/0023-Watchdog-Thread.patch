@@ -1,4 +1,4 @@
-From 5782d1f70e0db061665b6f792b609ba5117204ed Mon Sep 17 00:00:00 2001
+From d0a73c9c7aaa940da79664e2f332ef664913457e Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 5 Aug 2014 17:20:19 +0100
 Subject: [PATCH] Watchdog Thread.
@@ -64,7 +64,7 @@ index 2fc7fbbf34..b4912751c1 100644
      public org.bukkit.Server.Spigot spigot()
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
 new file mode 100644
-index 0000000000..d7e7198ca2
+index 0000000000..f78961aa1a
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
 @@ -0,0 +1,131 @@
@@ -127,7 +127,7 @@ index 0000000000..d7e7198ca2
 +                // Kick all players
 +                for ( EntityPlayer p : (List<EntityPlayer>) MinecraftServer.getServer().getPlayerList().players )
 +                {
-+                    p.connection.disconnect( CraftChatMessage.fromStringOrEmpty( SpigotConfig.restartMessage ) );
++                    p.connection.disconnect( CraftChatMessage.fromStringOrEmpty( SpigotConfig.restartMessage, true ) );
 +                }
 +                // Give the socket a chance to send the packets
 +                try

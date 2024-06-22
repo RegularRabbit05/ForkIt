@@ -1,11 +1,11 @@
-From 5a07b250e4301b75043e25e6736182caa8aa0628 Mon Sep 17 00:00:00 2001
+From b5d534f9573f56fca2f2b61abcee286a02b12562 Mon Sep 17 00:00:00 2001
 From: lazertester <austin.techhead@gmail.com>
 Date: Sun, 17 Aug 2014 19:56:17 +1000
 Subject: [PATCH] Add Hunger Config Values
 
 
 diff --git a/src/main/java/net/minecraft/server/level/EntityPlayer.java b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-index 4b62a39438..29bb930521 100644
+index f8d5361fa0..1a09336626 100644
 --- a/src/main/java/net/minecraft/server/level/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/EntityPlayer.java
 @@ -1673,19 +1673,19 @@ public class EntityPlayer extends EntityHuman {
@@ -49,10 +49,10 @@ index 4b62a39438..29bb930521 100644
                  }
              } else if (this.isFallFlying()) {
 diff --git a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
-index 7ef76e9ef3..01a85c5ad4 100644
+index 184c2d634b..8441101722 100644
 --- a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
 +++ b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
-@@ -1427,7 +1427,7 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1428,7 +1428,7 @@ public abstract class EntityHuman extends EntityLiving {
                              }
                          }
  
@@ -61,7 +61,7 @@ index 7ef76e9ef3..01a85c5ad4 100644
                      } else {
                          this.level().playSound((EntityHuman) null, this.getX(), this.getY(), this.getZ(), SoundEffects.PLAYER_ATTACK_NODAMAGE, this.getSoundSource(), 1.0F, 1.0F);
                          // CraftBukkit start - resync on cancelled event
-@@ -1586,9 +1586,9 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1587,9 +1587,9 @@ public abstract class EntityHuman extends EntityLiving {
          super.jumpFromGround();
          this.awardStat(StatisticList.JUMP);
          if (this.isSprinting()) {

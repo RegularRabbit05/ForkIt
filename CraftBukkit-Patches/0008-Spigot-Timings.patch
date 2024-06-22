@@ -1,4 +1,4 @@
-From fa0d13150f59fbecff9a3e18873475f256138ad4 Mon Sep 17 00:00:00 2001
+From 652ba16335ea1b4f172f130e47c2d575c72aae8d Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Thu, 10 Jan 2013 00:18:11 -0500
 Subject: [PATCH] Spigot Timings
@@ -360,7 +360,7 @@ index ecd5b91309..245afb6a6b 100644
  
      private boolean isStateClimbable(IBlockData iblockdata) {
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index ac53bea157..980f3dce9a 100644
+index 92df69c5c2..a307c29f31 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -158,6 +158,8 @@ import org.bukkit.event.entity.EntityTeleportEvent;
@@ -372,7 +372,7 @@ index ac53bea157..980f3dce9a 100644
  public abstract class EntityLiving extends Entity implements Attackable {
  
      private static final Logger LOGGER = LogUtils.getLogger();
-@@ -2942,6 +2944,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -2974,6 +2976,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
  
      @Override
      public void tick() {
@@ -380,7 +380,7 @@ index ac53bea157..980f3dce9a 100644
          super.tick();
          this.updatingUsingItem();
          this.updateSwimAmount();
-@@ -2983,7 +2986,9 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3015,7 +3018,9 @@ public abstract class EntityLiving extends Entity implements Attackable {
          }
  
          if (!this.isRemoved()) {
@@ -390,7 +390,7 @@ index ac53bea157..980f3dce9a 100644
          }
  
          double d0 = this.getX() - this.xo;
-@@ -3074,6 +3079,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3106,6 +3111,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
              this.refreshDimensions();
          }
  
@@ -398,7 +398,7 @@ index ac53bea157..980f3dce9a 100644
      }
  
      public void detectEquipmentUpdatesPublic() { // CraftBukkit
-@@ -3289,6 +3295,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3321,6 +3327,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
  
          this.setDeltaMovement(d0, d1, d2);
          this.level().getProfiler().push("ai");
@@ -406,7 +406,7 @@ index ac53bea157..980f3dce9a 100644
          if (this.isImmobile()) {
              this.jumping = false;
              this.xxa = 0.0F;
-@@ -3298,6 +3305,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3330,6 +3337,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
              this.serverAiStep();
              this.level().getProfiler().pop();
          }
@@ -414,7 +414,7 @@ index ac53bea157..980f3dce9a 100644
  
          this.level().getProfiler().pop();
          this.level().getProfiler().push("jump");
-@@ -3337,6 +3345,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3369,6 +3377,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
              this.resetFallDistance();
          }
  
@@ -422,7 +422,7 @@ index ac53bea157..980f3dce9a 100644
          label104:
          {
              EntityLiving entityliving = this.getControllingPassenger();
-@@ -3350,6 +3359,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3382,6 +3391,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
  
              this.travel(vec3d1);
          }
@@ -430,7 +430,7 @@ index ac53bea157..980f3dce9a 100644
  
          this.level().getProfiler().pop();
          this.level().getProfiler().push("freezing");
-@@ -3376,7 +3386,9 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3408,7 +3418,9 @@ public abstract class EntityLiving extends Entity implements Attackable {
              this.checkAutoSpinAttack(axisalignedbb, this.getBoundingBox());
          }
  
