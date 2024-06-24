@@ -1,4 +1,4 @@
-From 7e57f7c217b84e9421446a3740c5f3e93df2cbc2 Mon Sep 17 00:00:00 2001
+From cba51e793ae9ed6e99200193e2bb801f2b1705f3 Mon Sep 17 00:00:00 2001
 From: erocs <github@erocs.org>
 Date: Sun, 8 Sep 2013 12:06:15 -0700
 Subject: [PATCH] Hopper Customisations
@@ -6,7 +6,7 @@ Subject: [PATCH] Hopper Customisations
 Allows editing hopper cooldowns and amount transferred per tick.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java b/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java
-index 5b0ed1546f..7f27bd59b6 100644
+index ec211057ab..af49ac5da9 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java
 @@ -148,9 +148,14 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
@@ -34,25 +34,25 @@ index 5b0ed1546f..7f27bd59b6 100644
                      setChanged(world, blockposition, iblockdata);
                      return true;
                  }
-@@ -214,7 +219,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
-                     if (!itemstack.isEmpty()) {
+@@ -215,7 +220,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
                          int j = itemstack.getCount();
                          // CraftBukkit start - Call event when pushing items into other inventories
+                         ItemStack original = itemstack.copy();
 -                        CraftItemStack oitemstack = CraftItemStack.asCraftMirror(tileentityhopper.removeItem(i, 1));
 +                        CraftItemStack oitemstack = CraftItemStack.asCraftMirror(tileentityhopper.removeItem(i, world.spigotConfig.hopperAmount)); // Spigot
  
                          Inventory destinationInventory;
                          // Have to special case large chests as they work oddly
-@@ -230,7 +235,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
+@@ -231,7 +236,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
                          world.getCraftServer().getPluginManager().callEvent(event);
                          if (event.isCancelled()) {
-                             tileentityhopper.setItem(i, itemstack);
+                             tileentityhopper.setItem(i, original);
 -                            tileentityhopper.setCooldown(8); // Delay hopper checks
 +                            tileentityhopper.setCooldown(world.spigotConfig.hopperTransfer); // Delay hopper checks // Spigot
                              return false;
                          }
                          ItemStack itemstack1 = addItem(tileentityhopper, iinventory, CraftItemStack.asNMSCopy(event.getItem()), enumdirection);
-@@ -316,7 +321,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
+@@ -317,7 +322,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
              for (int j = 0; j < i; ++j) {
                  int k = aint[j];
  
@@ -61,7 +61,7 @@ index 5b0ed1546f..7f27bd59b6 100644
                      return true;
                  }
              }
-@@ -341,13 +346,13 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
+@@ -342,14 +347,14 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
          }
      }
  
@@ -72,13 +72,14 @@ index 5b0ed1546f..7f27bd59b6 100644
          if (!itemstack.isEmpty() && canTakeItemFromContainer(ihopper, iinventory, itemstack, i, enumdirection)) {
              int j = itemstack.getCount();
              // CraftBukkit start - Call event on collection of items from inventories into the hopper
+             ItemStack original = itemstack.copy();
 -            CraftItemStack oitemstack = CraftItemStack.asCraftMirror(iinventory.removeItem(i, 1));
 +            CraftItemStack oitemstack = CraftItemStack.asCraftMirror(iinventory.removeItem(i, world.spigotConfig.hopperAmount)); // Spigot
  
              Inventory sourceInventory;
              // Have to special case large chests as they work oddly
-@@ -366,7 +371,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
-                 iinventory.setItem(i, itemstack);
+@@ -368,7 +373,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
+                 iinventory.setItem(i, original);
  
                  if (ihopper instanceof TileEntityHopper) {
 -                    ((TileEntityHopper) ihopper).setCooldown(8); // Delay hopper checks
@@ -86,7 +87,7 @@ index 5b0ed1546f..7f27bd59b6 100644
                  }
  
                  return false;
-@@ -483,6 +488,11 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
+@@ -485,6 +490,11 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
              boolean flag1 = iinventory1.isEmpty();
  
              if (itemstack1.isEmpty()) {
@@ -98,7 +99,7 @@ index 5b0ed1546f..7f27bd59b6 100644
                  iinventory1.setItem(i, itemstack);
                  itemstack = ItemStack.EMPTY;
                  flag = true;
-@@ -510,7 +520,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
+@@ -512,7 +522,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
                              }
                          }
  
@@ -107,7 +108,7 @@ index 5b0ed1546f..7f27bd59b6 100644
                      }
                  }
  
-@@ -579,6 +589,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
+@@ -581,6 +591,7 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
  
      @Nullable
      private static IInventory getBlockContainer(World world, BlockPosition blockposition, IBlockData iblockdata) {
