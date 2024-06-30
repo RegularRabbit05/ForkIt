@@ -1,11 +1,11 @@
-From 20da54f88061c1423d0df000092c49ba025bf215 Mon Sep 17 00:00:00 2001
+From 1f47cab94c2432b8a93d592092c04c156ac8dae2 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 03:06:05 +0100
 Subject: [PATCH] BungeeCord Chat API
 
 
 diff --git a/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java b/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java
-index eed54194c..152584969 100644
+index eed54194c5..1525849692 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java
 +++ b/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java
 @@ -13,6 +13,12 @@ public record ClientboundSystemChatPacket(IChatBaseComponent content, boolean ov
@@ -22,10 +22,10 @@ index eed54194c..152584969 100644
      public PacketType<ClientboundSystemChatPacket> type() {
          return GamePacketTypes.CLIENTBOUND_SYSTEM_CHAT;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index af1f8533f..e1bb25ae6 100644
+index 1cae2d38c2..db1c7e6a45 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -266,6 +266,8 @@ import org.yaml.snakeyaml.Yaml;
+@@ -267,6 +267,8 @@ import org.yaml.snakeyaml.Yaml;
  import org.yaml.snakeyaml.constructor.SafeConstructor;
  import org.yaml.snakeyaml.error.MarkedYAMLException;
  
@@ -34,7 +34,7 @@ index af1f8533f..e1bb25ae6 100644
  public final class CraftServer implements Server {
      private final String serverName = "CraftBukkit";
      private final String serverVersion;
-@@ -2557,6 +2559,20 @@ public final class CraftServer implements Server {
+@@ -2565,6 +2567,20 @@ public final class CraftServer implements Server {
          public void restart() {
              org.spigotmc.RestartCommand.restart();
          }
@@ -56,7 +56,7 @@ index af1f8533f..e1bb25ae6 100644
  
      public org.bukkit.Server.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java b/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java
-index 861739d4c..6b3632109 100644
+index 861739d4c4..6b36321091 100644
 --- a/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java
 +++ b/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java
 @@ -99,6 +99,29 @@ public abstract class ServerCommandSender implements CommandSender {
@@ -90,10 +90,10 @@ index 861739d4c..6b3632109 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index eaa0a1355..493365515 100644
+index 8dae9176ca..bef84da086 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-@@ -58,6 +58,8 @@ import org.bukkit.util.BoundingBox;
+@@ -60,6 +60,8 @@ import org.bukkit.util.BoundingBox;
  import org.bukkit.util.NumberConversions;
  import org.bukkit.util.Vector;
  
@@ -102,7 +102,7 @@ index eaa0a1355..493365515 100644
  public abstract class CraftEntity implements org.bukkit.entity.Entity {
      private static PermissibleBase perm;
      private static final CraftPersistentDataTypeRegistry DATA_TYPE_REGISTRY = new CraftPersistentDataTypeRegistry();
-@@ -881,6 +883,26 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+@@ -898,6 +900,26 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
      // Spigot start
      private final org.bukkit.entity.Entity.Spigot spigot = new org.bukkit.entity.Entity.Spigot()
      {
@@ -130,10 +130,10 @@ index eaa0a1355..493365515 100644
  
      public org.bukkit.entity.Entity.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 37006fcdf..af357c9ab 100644
+index 3d9e18e107..5bf1fa4e64 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -194,6 +194,8 @@ import org.bukkit.profile.PlayerProfile;
+@@ -195,6 +195,8 @@ import org.bukkit.profile.PlayerProfile;
  import org.bukkit.scoreboard.Scoreboard;
  import org.jetbrains.annotations.NotNull;
  
@@ -142,7 +142,7 @@ index 37006fcdf..af357c9ab 100644
  @DelegateDeserialization(CraftOfflinePlayer.class)
  public class CraftPlayer extends CraftHumanEntity implements Player {
      private long firstPlayed = 0;
-@@ -2351,6 +2353,48 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2373,6 +2375,48 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
              return java.util.Collections.unmodifiableSet( ret );
          }
@@ -192,7 +192,7 @@ index 37006fcdf..af357c9ab 100644
  
      public Player.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
-index ed599634a..0d0c14997 100644
+index ed599634a1..cbe620fffe 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
 @@ -20,6 +20,14 @@ import org.bukkit.craftbukkit.util.CraftChatMessage;
@@ -210,7 +210,7 @@ index ed599634a..0d0c14997 100644
  @DelegateDeserialization(SerializableMeta.class)
  public class CraftMetaBook extends CraftMetaItem implements BookMeta, WritableBookMeta {
      @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
-@@ -291,6 +299,83 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta, WritableBo
+@@ -291,6 +299,84 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta, WritableBo
      // Spigot start
      private BookMeta.Spigot spigot = new SpigotMeta();
      private class SpigotMeta extends BookMeta.Spigot {
@@ -223,7 +223,8 @@ index ed599634a..0d0c14997 100644
 +
 +        private String componentsToPage(BaseComponent[] components) {
 +            // Convert component to plain String:
-+            return CraftChatMessage.fromJSONComponent(ComponentSerializer.toString(components));
++            IChatBaseComponent component = CraftChatMessage.fromJSONOrNull(ComponentSerializer.toString(components));
++            return CraftChatMessage.fromComponent(component);
 +        }
 +
 +        @Override
@@ -295,10 +296,10 @@ index ed599634a..0d0c14997 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java
-index e1473a70b..2ce65b3c0 100644
+index 67c6bae183..5a791211d7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java
-@@ -20,6 +20,12 @@ import org.bukkit.configuration.serialization.DelegateDeserialization;
+@@ -21,6 +21,12 @@ import org.bukkit.configuration.serialization.DelegateDeserialization;
  import org.bukkit.craftbukkit.util.CraftChatMessage;
  import org.bukkit.inventory.meta.BookMeta;
  
