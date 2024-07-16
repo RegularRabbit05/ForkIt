@@ -1,11 +1,11 @@
-From d90c0dc30b0644a6fe403e41584e9ce2d42d8546 Mon Sep 17 00:00:00 2001
+From 9939cafa836bb96371333f6fd3c2f7117a2688a0 Mon Sep 17 00:00:00 2001
 From: Minecrell <dev@minecrell.net>
 Date: Sun, 17 Aug 2014 12:42:53 +0200
 Subject: [PATCH] Make debug logging togglable.
 
 
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 4cd052ed28..a6ecb32a6c 100644
+index e12a5df12..11a716f91 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -18,6 +18,9 @@ import net.minecraft.resources.MinecraftKey;
@@ -18,7 +18,7 @@ index 4cd052ed28..a6ecb32a6c 100644
  import org.bukkit.Bukkit;
  import org.bukkit.ChatColor;
  import org.bukkit.command.Command;
-@@ -353,4 +356,27 @@ public class SpigotConfig
+@@ -356,4 +359,27 @@ public class SpigotConfig
          attackDamage = getDouble( "settings.attribute.attackDamage.max", attackDamage );
          ( (AttributeRanged) GenericAttributes.ATTACK_DAMAGE.value() ).maxValue = attackDamage;
      }
@@ -47,7 +47,7 @@ index 4cd052ed28..a6ecb32a6c 100644
 +    }
  }
 diff --git a/src/main/resources/log4j2.xml b/src/main/resources/log4j2.xml
-index edbd70b164..0ff3f750fb 100644
+index edbd70b16..0ff3f750f 100644
 --- a/src/main/resources/log4j2.xml
 +++ b/src/main/resources/log4j2.xml
 @@ -24,10 +24,10 @@

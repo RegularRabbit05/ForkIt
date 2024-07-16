@@ -1,11 +1,11 @@
-From 90f53408cfd184107a84b2273f1a9ed1c27700ce Mon Sep 17 00:00:00 2001
+From 2d9de5f70ffe27488919e45624a356efeb4f9e0b Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 18:05:54 +1000
 Subject: [PATCH] Allow Disabling of Command TabComplete
 
 
 diff --git a/src/main/java/net/minecraft/commands/CommandDispatcher.java b/src/main/java/net/minecraft/commands/CommandDispatcher.java
-index 288a40dc35..7d4b183489 100644
+index 288a40dc3..7d4b18348 100644
 --- a/src/main/java/net/minecraft/commands/CommandDispatcher.java
 +++ b/src/main/java/net/minecraft/commands/CommandDispatcher.java
 @@ -433,6 +433,7 @@ public class CommandDispatcher {
@@ -25,10 +25,10 @@ index 288a40dc35..7d4b183489 100644
              if (commandnode2.canUse(commandlistenerwrapper)) {
                  ArgumentBuilder argumentbuilder = commandnode2.createBuilder(); // CraftBukkit - decompile error
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 11b83a4b32..b5886cc207 100644
+index d98a18429..69407ec6e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2170,6 +2170,13 @@ public final class CraftServer implements Server {
+@@ -2178,6 +2178,13 @@ public final class CraftServer implements Server {
      }
  
      public List<String> tabCompleteCommand(Player player, String message, WorldServer world, Vec3D pos) {
@@ -43,7 +43,7 @@ index 11b83a4b32..b5886cc207 100644
          try {
              if (message.startsWith("/")) {
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index bc9fbcc584..fc352ecf10 100644
+index bc9fbcc58..fc352ecf1 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -156,4 +156,23 @@ public class SpigotConfig
