@@ -1,4 +1,4 @@
-From ffcc2babf2898661455ada454c75a4762f8d6337 Mon Sep 17 00:00:00 2001
+From 8a1ed78a7d0812e1c622579950fd98e74dfe11b6 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Thu, 26 Jan 2017 21:50:51 +0000
 Subject: [PATCH] Highly Optimized Tick Loop
@@ -129,5 +129,5 @@ index 0000000000..f5b6dec1cb
 +    }
 +}
 -- 
-2.45.2
+2.46.0
 

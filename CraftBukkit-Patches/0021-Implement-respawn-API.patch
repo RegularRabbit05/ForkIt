@@ -1,4 +1,4 @@
-From 496a726e4be3ffabcf37ecf3fe6ba0731bc1bf0d Mon Sep 17 00:00:00 2001
+From da6e136e2dd07abbdc31fe7837ae5a109ac227ed Mon Sep 17 00:00:00 2001
 From: ninja- <xninja@openmailbox.org>
 Date: Tue, 8 Oct 2013 14:34:49 +0200
 Subject: [PATCH] Implement respawn API.
@@ -25,5 +25,5 @@ index 0f9b9113b3..2790148898 100644
  
      public Player.Spigot spigot()
 -- 
-2.45.2
+2.46.0
 

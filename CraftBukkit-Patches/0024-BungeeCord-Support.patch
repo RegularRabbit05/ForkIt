@@ -1,4 +1,4 @@
-From fc0e42786c9057202cacd2d82337d9a6885c6816 Mon Sep 17 00:00:00 2001
+From 1eeabfdd243e59a81f2cdb057a66c50616da6fdc Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 12 Apr 2014 21:23:58 +1000
 Subject: [PATCH] BungeeCord Support
@@ -7,7 +7,7 @@ Subject: [PATCH] BungeeCord Support
 * Treats Bungee as Online Mode.
 
 diff --git a/src/main/java/net/minecraft/network/NetworkManager.java b/src/main/java/net/minecraft/network/NetworkManager.java
-index 7a8616cdf..1a1b9c32a 100644
+index 7a8616cdf1..1a1b9c32a0 100644
 --- a/src/main/java/net/minecraft/network/NetworkManager.java
 +++ b/src/main/java/net/minecraft/network/NetworkManager.java
 @@ -96,6 +96,10 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
@@ -22,7 +22,7 @@ index 7a8616cdf..1a1b9c32a 100644
      private volatile PacketListener disconnectListener;
      @Nullable
 diff --git a/src/main/java/net/minecraft/network/protocol/handshake/PacketHandshakingInSetProtocol.java b/src/main/java/net/minecraft/network/protocol/handshake/PacketHandshakingInSetProtocol.java
-index fee554758..b8fc8ffba 100644
+index fee5547589..b8fc8ffba7 100644
 --- a/src/main/java/net/minecraft/network/protocol/handshake/PacketHandshakingInSetProtocol.java
 +++ b/src/main/java/net/minecraft/network/protocol/handshake/PacketHandshakingInSetProtocol.java
 @@ -12,7 +12,8 @@ public record PacketHandshakingInSetProtocol(int protocolVersion, String hostNam
@@ -36,7 +36,7 @@ index fee554758..b8fc8ffba 100644
  
      private void write(PacketDataSerializer packetdataserializer) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index ca98a7753..059616a4b 100644
+index ca98a77537..059616a4bb 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -240,7 +240,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -56,7 +56,7 @@ index ca98a7753..059616a4b 100644
          }
  
 diff --git a/src/main/java/net/minecraft/server/network/HandshakeListener.java b/src/main/java/net/minecraft/server/network/HandshakeListener.java
-index 35d8c8543..608de4f36 100644
+index 35d8c8543b..608de4f364 100644
 --- a/src/main/java/net/minecraft/server/network/HandshakeListener.java
 +++ b/src/main/java/net/minecraft/server/network/HandshakeListener.java
 @@ -20,6 +20,11 @@ import java.util.HashMap;
@@ -104,7 +104,7 @@ index 35d8c8543..608de4f36 100644
  
      }
 diff --git a/src/main/java/net/minecraft/server/network/LoginListener.java b/src/main/java/net/minecraft/server/network/LoginListener.java
-index c4fe4ebaa..c71fd99f0 100644
+index c4fe4ebaa3..c71fd99f0c 100644
 --- a/src/main/java/net/minecraft/server/network/LoginListener.java
 +++ b/src/main/java/net/minecraft/server/network/LoginListener.java
 @@ -176,7 +176,7 @@ public class LoginListener implements PacketLoginInListener, TickablePacketListe
@@ -168,7 +168,7 @@ index c4fe4ebaa..c71fd99f0 100644
  
          HELLO, KEY, AUTHENTICATING, NEGOTIATING, VERIFYING, WAITING_FOR_COOKIES, WAITING_FOR_DUPE_DISCONNECT, PROTOCOL_SWITCHING, ACCEPTED; // CraftBukkit
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 0c1d0d6c8..f5e35b2e5 100644
+index 0c1d0d6c85..f5e35b2e5e 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
 @@ -2019,7 +2019,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
@@ -204,7 +204,7 @@ index 0c1d0d6c8..f5e35b2e5 100644
          this.waitingForSwitchToConfig = true;
          this.removePlayerFromWorld();
 diff --git a/src/main/java/net/minecraft/server/players/NameReferencingFileConverter.java b/src/main/java/net/minecraft/server/players/NameReferencingFileConverter.java
-index 3bf6d7d2d..8e9595639 100644
+index 3bf6d7d2d4..8e95956397 100644
 --- a/src/main/java/net/minecraft/server/players/NameReferencingFileConverter.java
 +++ b/src/main/java/net/minecraft/server/players/NameReferencingFileConverter.java
 @@ -68,7 +68,7 @@ public class NameReferencingFileConverter {
@@ -217,7 +217,7 @@ index 3bf6d7d2d..8e9595639 100644
          } else {
              String[] astring1 = astring;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 6c1492635..45ee23bba 100644
+index 6c1492635c..45ee23bbaf 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -576,7 +576,7 @@ public abstract class PlayerList {
@@ -230,7 +230,7 @@ index 6c1492635..45ee23bba 100644
          if (this.bans.isBanned(gameprofile)) {
              GameProfileBanEntry gameprofilebanentry = (GameProfileBanEntry) this.bans.get(gameprofile);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 4cea1b725..45c607ff3 100644
+index bb99b1cf1b..6c9d58ec0f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -801,7 +801,13 @@ public final class CraftServer implements Server {
@@ -258,7 +258,7 @@ index 4cea1b725..45c607ff3 100644
                  profile = console.getProfileCache().get(name).orElse(null);
              }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 279014889..63f0196b7 100644
+index 2790148898..63f0196b79 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -2336,6 +2336,12 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -275,7 +275,7 @@ index 279014889..63f0196b7 100644
          public void respawn()
          {
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 130016282..1e6b13103 100644
+index 130016282a..1e6b13103a 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -214,4 +214,14 @@ public class SpigotConfig
@@ -294,5 +294,5 @@ index 130016282..1e6b13103 100644
 +    }
  }
 -- 
-2.45.2
+2.46.0
 

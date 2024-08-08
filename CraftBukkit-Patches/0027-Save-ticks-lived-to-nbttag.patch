@@ -1,11 +1,11 @@
-From 7fd06e2b0ac91224d5cc605f1526d5541ad51a63 Mon Sep 17 00:00:00 2001
+From 63e2ad81146680b72dea2ad9eb60b5278900c55d Mon Sep 17 00:00:00 2001
 From: DerFlash <bte@freenet.de>
 Date: Tue, 9 Jul 2013 00:11:12 +0200
 Subject: [PATCH] Save ticks lived to nbttag
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 722726f145..eae4fe82ba 100644
+index 60db611fdd..e6a7d4c701 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -2080,6 +2080,7 @@ public abstract class Entity implements SyncedDataHolder, INamableTileEntity, En
@@ -29,5 +29,5 @@ index 722726f145..eae4fe82ba 100644
              this.visibleByDefault = !nbttagcompound.contains("Bukkit.visibleByDefault") || nbttagcompound.getBoolean("Bukkit.visibleByDefault");
              // SPIGOT-6907: re-implement LivingEntity#setMaximumAir()
 -- 
-2.45.2
+2.46.0
 

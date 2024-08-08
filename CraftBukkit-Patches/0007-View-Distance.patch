@@ -1,4 +1,4 @@
-From 578db1229061cf091b45276a53e9a11e58d50680 Mon Sep 17 00:00:00 2001
+From 23c66e4bb1456ea495c0c7a2da5383e59df011dd Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 23 Mar 2013 09:52:41 +1100
 Subject: [PATCH] View Distance
@@ -85,5 +85,5 @@ index 5ff085b9e6..acaf903011 100644
 +    }
  }
 -- 
-2.45.2
+2.46.0
 

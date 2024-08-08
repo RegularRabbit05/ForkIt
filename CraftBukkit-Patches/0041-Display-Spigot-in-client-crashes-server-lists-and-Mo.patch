@@ -1,4 +1,4 @@
-From 04b9e39a029be744891b52308edf30f7d23264b5 Mon Sep 17 00:00:00 2001
+From 957517382637eddeda958e602ec5f6c776e33666 Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thethinkofdeath@gmail.com>
 Date: Fri, 11 Apr 2014 11:16:34 +0100
 Subject: [PATCH] Display 'Spigot' in client crashes, server lists and Mojang
@@ -19,5 +19,5 @@ index 936ae8f352..a4f8852bc5 100644
  
      public SystemReport fillSystemReport(SystemReport systemreport) {
 -- 
-2.45.2
+2.46.0
 

@@ -1,4 +1,4 @@
-From 6dcca14bb9069e5a55567c5c7dbb7b455bf858fb Mon Sep 17 00:00:00 2001
+From 010e177940a1a2d4c99165860d3c281d550be3d9 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Sun, 3 Feb 2013 05:10:21 -0500
 Subject: [PATCH] Entity Activation Range
@@ -35,7 +35,7 @@ index f7efe7a788..a57ead70ae 100644
          entity.setOldPosAndRot();
          GameProfilerFiller gameprofilerfiller = this.getProfiler();
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 245afb6a6b..722726f145 100644
+index 8ef371d9dd..60db611fdd 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -326,6 +326,12 @@ public abstract class Entity implements SyncedDataHolder, INamableTileEntity, En
@@ -125,7 +125,7 @@ index 35593e8348..ec23d7bc84 100644
      public void tick() {
          super.tick();
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index 1033d2d42e..ca5736e2ea 100644
+index 4d021dc7da..4bca128390 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -290,6 +290,13 @@ public abstract class EntityLiving extends Entity implements Attackable {
@@ -198,7 +198,7 @@ index 612667a180..6af4d2312a 100644
      protected void customServerAiStep() {
          this.level().getProfiler().push("villagerBrain");
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java b/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
-index 335fe869ce..152154b076 100644
+index b2ea211365..af7e136a18 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
 @@ -83,6 +83,18 @@ public abstract class EntityArrow extends IProjectile {
@@ -556,5 +556,5 @@ index e3682d28ca..936279b5fb 100644
 +    }
  }
 -- 
-2.45.2
+2.46.0
 

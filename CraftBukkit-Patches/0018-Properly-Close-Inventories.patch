@@ -1,4 +1,4 @@
-From 2f43248cbd20c5d4c43bfd6ce642ac6a6db75c56 Mon Sep 17 00:00:00 2001
+From 27b8a1505aa5b5f09188577460039dea471d767b Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Thu, 27 Jun 2013 17:26:09 +1000
 Subject: [PATCH] Properly Close Inventories
@@ -40,5 +40,5 @@ index a57ead70ae..7af214e337 100644
              if (entity instanceof EntityPlayer entityplayer) {
                  WorldServer.this.players.remove(entityplayer);
 -- 
-2.45.2
+2.46.0
 

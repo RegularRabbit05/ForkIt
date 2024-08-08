@@ -1,11 +1,11 @@
-From 4c162db0f88bd55a572bf81f06495db48661cc55 Mon Sep 17 00:00:00 2001
+From 4ddd2bd02c1465f7be412a8539e48d9005c0090d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 14 Dec 2019 10:26:52 +1100
 Subject: [PATCH] Add log-villager-deaths option
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index 4bca12839..19c100e5b 100644
+index 4bca128390..19c100e5b2 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -1693,7 +1693,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
@@ -18,7 +18,7 @@ index 4bca12839..19c100e5b 100644
  
              this.dead = true;
 diff --git a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-index 6af4d2312..5707c919e 100644
+index 6af4d2312a..5707c919e1 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
 @@ -662,7 +662,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
@@ -31,7 +31,7 @@ index 6af4d2312..5707c919e 100644
  
          if (entity != null) {
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index c17d58142..6502572f5 100644
+index c17d581422..6502572f51 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -389,4 +389,11 @@ public class SpigotConfig
@@ -47,5 +47,5 @@ index c17d58142..6502572f5 100644
 +    }
  }
 -- 
-2.45.2
+2.46.0
 

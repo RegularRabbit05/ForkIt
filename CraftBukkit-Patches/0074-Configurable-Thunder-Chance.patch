@@ -1,4 +1,4 @@
-From 54c497cd79483470702828f3c84fbff2b6a4a427 Mon Sep 17 00:00:00 2001
+From b6b22698bbe3d785c2b0956baa86fef85c7f9548 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 24 Oct 2021 20:29:25 +1100
 Subject: [PATCH] Configurable Thunder Chance
@@ -33,5 +33,5 @@ index 68cf01386e..b6ac09ee9f 100644
 +    }
  }
 -- 
-2.45.2
+2.46.0
 

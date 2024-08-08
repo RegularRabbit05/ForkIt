@@ -1,4 +1,4 @@
-From cf3ebb6e967d0b7c056898a31b91eefe6962f510 Mon Sep 17 00:00:00 2001
+From ceee64134346683984adf772a2a184c70c3686fc Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thinkofdeath@spigotmc.org>
 Date: Sat, 19 Jul 2014 19:54:41 +0100
 Subject: [PATCH] Prevent a crash involving attributes
@@ -26,5 +26,5 @@ index 0f7a3e0113..3d9e18e107 100644
      }
  
 -- 
-2.45.2
+2.46.0
 

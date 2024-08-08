@@ -1,4 +1,4 @@
-From b438de04f68609a4826aa9db776472d6569785e3 Mon Sep 17 00:00:00 2001
+From 671fbf027e792c221963576a3e06b01179d201d9 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Sun, 23 Feb 2014 16:16:59 -0400
 Subject: [PATCH] Implement Silenceable Lightning API
@@ -44,5 +44,5 @@ index 3a68e1cf5c..6c44dfa1cb 100644
  
      @Override
 -- 
-2.45.2
+2.46.0
 

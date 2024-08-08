@@ -1,4 +1,4 @@
-From 06a5cef9773f0c303f52ab8d2b3bc94249d107cf Mon Sep 17 00:00:00 2001
+From 8c286289eb7f99415d59702f2b80a6252e434a04 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 13 Jul 2015 19:05:15 +1000
 Subject: [PATCH] Use Map for getPlayer(String) lookup.
@@ -68,5 +68,5 @@ index c57272380b..1eefc37bd6 100644
  
      public void broadcast(@Nullable EntityHuman entityhuman, double d0, double d1, double d2, double d3, ResourceKey<World> resourcekey, Packet<?> packet) {
 -- 
-2.45.2
+2.46.0
 

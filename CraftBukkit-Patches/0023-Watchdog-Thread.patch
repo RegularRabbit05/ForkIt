@@ -1,11 +1,11 @@
-From cfae587a80030562b6f285ae4ee88c8620a595be Mon Sep 17 00:00:00 2001
+From a3d97c66ed60ea7a78fe75df133d79f6ca738e7e Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 5 Aug 2014 17:20:19 +0100
 Subject: [PATCH] Watchdog Thread.
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index ddbeb5499..8cb4eeb86 100644
+index ddbeb5499b..8cb4eeb86f 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1079,6 +1079,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
@@ -25,7 +25,7 @@ index ddbeb5499..8cb4eeb86 100644
          org.spigotmc.CustomTimingsHandler.tick(); // Spigot
      }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 0e21d6a30..ca98a7753 100644
+index 0e21d6a30d..ca98a77537 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -278,7 +278,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -38,7 +38,7 @@ index 0e21d6a30..ca98a7753 100644
  
                  thread1.setUncaughtExceptionHandler(new ThreadNamedUncaughtExceptionHandler(DedicatedServer.LOGGER));
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3cdf056ac..4cea1b725 100644
+index dc85d35e9a..bb99b1cf1b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2135,7 +2135,7 @@ public final class CraftServer implements Server {
@@ -64,7 +64,7 @@ index 3cdf056ac..4cea1b725 100644
      public org.bukkit.Server.Spigot spigot()
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
 new file mode 100644
-index 000000000..f78961aa1
+index 0000000000..f78961aa1a
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
 @@ -0,0 +1,131 @@
@@ -200,7 +200,7 @@ index 000000000..f78961aa1
 +    }
 +}
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 8ad8b2589..130016282 100644
+index 8ad8b25894..130016282a 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -200,4 +200,18 @@ public class SpigotConfig
@@ -224,7 +224,7 @@ index 8ad8b2589..130016282 100644
  }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
 new file mode 100644
-index 000000000..4734d4ae8
+index 0000000000..4734d4ae83
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -0,0 +1,131 @@
@@ -360,5 +360,5 @@ index 000000000..4734d4ae8
 +    }
 +}
 -- 
-2.45.2
+2.46.0
 

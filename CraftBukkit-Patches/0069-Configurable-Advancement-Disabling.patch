@@ -1,4 +1,4 @@
-From 720a9f0dbdc366c167ce5bf4e5922f61827090cf Mon Sep 17 00:00:00 2001
+From 892eac04a87bcb528cc0074be82226912d941c47 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 9 Jun 2017 16:29:31 +1000
 Subject: [PATCH] Configurable Advancement Disabling
@@ -6,7 +6,7 @@ Subject: [PATCH] Configurable Advancement Disabling
 Allow disabling any (or all) inbuilt advancements with a configuration option.
 
 diff --git a/src/main/java/net/minecraft/server/AdvancementDataPlayer.java b/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
-index 43ad5a104..601ab9a28 100644
+index 43ad5a1044..601ab9a284 100644
 --- a/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
 +++ b/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
 @@ -162,6 +162,7 @@ public class AdvancementDataPlayer {
@@ -18,7 +18,7 @@ index 43ad5a104..601ab9a28 100644
  
          try {
 diff --git a/src/main/java/net/minecraft/server/AdvancementDataWorld.java b/src/main/java/net/minecraft/server/AdvancementDataWorld.java
-index e54832ccd..438cca854 100644
+index e54832ccd6..438cca8540 100644
 --- a/src/main/java/net/minecraft/server/AdvancementDataWorld.java
 +++ b/src/main/java/net/minecraft/server/AdvancementDataWorld.java
 @@ -49,6 +49,12 @@ public class AdvancementDataWorld extends ResourceDataJson {
@@ -35,7 +35,7 @@ index e54832ccd..438cca854 100644
                  Advancement advancement = (Advancement) Advancement.CODEC.parse(registryops, jsonelement).getOrThrow(JsonParseException::new);
  
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 11a716f91..c17d58142 100644
+index 11a716f919..c17d581422 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -382,4 +382,11 @@ public class SpigotConfig
@@ -51,5 +51,5 @@ index 11a716f91..c17d58142 100644
 +    }
  }
 -- 
-2.45.2
+2.46.0
 

@@ -1,4 +1,4 @@
-From ae487f3dfac93a37099323d1eb744816edaca13d Mon Sep 17 00:00:00 2001
+From 22cd58c402e64dac16fb873dbb4b3e64d59ce865 Mon Sep 17 00:00:00 2001
 From: erocs <github@erocs.org>
 Date: Sun, 8 Sep 2013 12:06:15 -0700
 Subject: [PATCH] Hopper Customisations
@@ -6,7 +6,7 @@ Subject: [PATCH] Hopper Customisations
 Allows editing hopper cooldowns and amount transferred per tick.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java b/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java
-index ec211057a..54781f84c 100644
+index ec211057ab..54781f84cb 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/TileEntityHopper.java
 @@ -148,9 +148,14 @@ public class TileEntityHopper extends TileEntityLootable implements IHopper {
@@ -149,7 +149,7 @@ index ec211057a..54781f84c 100644
  
          if (block instanceof IInventoryHolder) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index ab984b210..cec948a05 100644
+index ab984b2109..cec948a055 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -228,4 +228,22 @@ public class SpigotWorldConfig
@@ -176,5 +176,5 @@ index ab984b210..cec948a05 100644
 +    }
  }
 -- 
-2.45.2
+2.46.0
 

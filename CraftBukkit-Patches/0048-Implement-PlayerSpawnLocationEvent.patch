@@ -1,4 +1,4 @@
-From 4fe14a8c54446ae565a0e826ef6cf1cd5d76d59c Mon Sep 17 00:00:00 2001
+From 7a228d5294eefe4df48c964a2ced28f2fac061d3 Mon Sep 17 00:00:00 2001
 From: ninja <xninja@openmailbox.org>
 Date: Tue, 8 Apr 2014 14:05:19 +0200
 Subject: [PATCH] Implement PlayerSpawnLocationEvent.
@@ -29,5 +29,5 @@ index 45ee23bbaf..c57272380b 100644
          // PlayerList.LOGGER.info("{}[{}] logged in with entity id {} at ({}, {}, {})", new Object[]{entityplayer.getName().getString(), s1, entityplayer.getId(), entityplayer.getX(), entityplayer.getY(), entityplayer.getZ()});
          WorldData worlddata = worldserver1.getLevelData();
 -- 
-2.45.2
+2.46.0
 

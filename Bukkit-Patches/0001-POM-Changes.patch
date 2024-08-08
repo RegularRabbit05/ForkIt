@@ -1,4 +1,4 @@
-From f83d156767492161a395b9472b93850b6b5eec36 Mon Sep 17 00:00:00 2001
+From 43a1b56ab9f9ebdb3adfe103b71ea1826f991ed8 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Jun 2013 10:36:24 +1000
 Subject: [PATCH] POM Changes
@@ -20,7 +20,7 @@ index 118f0e3f1..cc2c64e9e 100644
          <!-- See http://checkstyle.sourceforge.net/config_imports.html -->
          <module name="AvoidStarImport">
 diff --git a/pom.xml b/pom.xml
-index d67e2c83a..d037b5dbf 100644
+index bae4d0f15..516571193 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -3,14 +3,14 @@
@@ -31,7 +31,7 @@ index d67e2c83a..d037b5dbf 100644
 -    <artifactId>bukkit</artifactId>
 +    <groupId>org.spigotmc</groupId>
 +    <artifactId>spigot-api</artifactId>
-     <version>1.21-R0.1-SNAPSHOT</version>
+     <version>1.21.1-R0.1-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 -    <name>Bukkit</name>
@@ -43,5 +43,5 @@ index d67e2c83a..d037b5dbf 100644
      <properties>
          <skipTests>true</skipTests>
 -- 
-2.45.2
+2.46.0
 

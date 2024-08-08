@@ -1,11 +1,11 @@
-From b82b473e0dc32a87c568088f0890fd942e74333e Mon Sep 17 00:00:00 2001
+From 39f1b6b2c4e4a4371952ed923ed0863c1c8b4bf3 Mon Sep 17 00:00:00 2001
 From: lazertester <austin.techhead@gmail.com>
 Date: Sun, 17 Aug 2014 19:56:17 +1000
 Subject: [PATCH] Add Hunger Config Values
 
 
 diff --git a/src/main/java/net/minecraft/server/level/EntityPlayer.java b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-index f99694c80..4d7788f71 100644
+index f99694c800..4d7788f714 100644
 --- a/src/main/java/net/minecraft/server/level/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/EntityPlayer.java
 @@ -1671,19 +1671,19 @@ public class EntityPlayer extends EntityHuman {
@@ -49,7 +49,7 @@ index f99694c80..4d7788f71 100644
                  }
              } else if (this.isFallFlying()) {
 diff --git a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
-index 1f1368e13..2026b13f7 100644
+index 1f1368e133..2026b13f76 100644
 --- a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
 +++ b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
 @@ -1430,7 +1430,7 @@ public abstract class EntityHuman extends EntityLiving {
@@ -74,7 +74,7 @@ index 1f1368e13..2026b13f7 100644
  
      }
 diff --git a/src/main/java/net/minecraft/world/food/FoodMetaData.java b/src/main/java/net/minecraft/world/food/FoodMetaData.java
-index 0ee1bfea9..c9094d75f 100644
+index 0ee1bfea99..c9094d75fa 100644
 --- a/src/main/java/net/minecraft/world/food/FoodMetaData.java
 +++ b/src/main/java/net/minecraft/world/food/FoodMetaData.java
 @@ -100,7 +100,7 @@ public class FoodMetaData {
@@ -87,7 +87,7 @@ index 0ee1bfea9..c9094d75f 100644
              }
          } else if (this.foodLevel <= 0) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 7882c95f4..1b5d1e283 100644
+index 7882c95f4c..1b5d1e2837 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -330,4 +330,30 @@ public class SpigotWorldConfig
@@ -122,5 +122,5 @@ index 7882c95f4..1b5d1e283 100644
 +    }
  }
 -- 
-2.45.2
+2.46.0
 
