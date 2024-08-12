@@ -1,4 +1,4 @@
-From 45f077380e983b4a984d960f5145f081327a199a Mon Sep 17 00:00:00 2001
+From 752db4b19d65d08cbc81880db9d4f1ecd13a8bc7 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 2 Jul 2013 13:07:39 +1000
 Subject: [PATCH] POM Changes
@@ -6,10 +6,10 @@ Subject: [PATCH] POM Changes
 Basic changes to the build system which mark the artifact as Spigot, and the necessary code changes to ensure proper functionality. Also disables the auto updater provided by CraftBukkit as it is useless to us.
 
 diff --git a/checkstyle.xml b/checkstyle.xml
-index 5c7f6a5d51..5863906588 100644
+index 12feab88bc..3150fd744e 100644
 --- a/checkstyle.xml
 +++ b/checkstyle.xml
-@@ -25,6 +25,9 @@
+@@ -34,6 +34,9 @@
          <property name="checks" value="UnusedImports"/>
          <property name="files" value=".*[/\\]net[/\\]minecraft[/\\].*"/>
      </module>
@@ -17,9 +17,9 @@ index 5c7f6a5d51..5863906588 100644
 +        <property name="checks" value="LeftCurly|ParenPad"/>
 +    </module>
  
-     <!-- See SPIGOT-7676: Enforce Locale, to prevent issues with turkish 'I' and similar -->
-     <module name="RegexpSingleline">
-@@ -56,6 +59,13 @@
+     <module name="TreeWalker">
+         <!-- See https://checkstyle.org/checks/javadoc/index.html -->
+@@ -55,6 +58,13 @@
          <module name="SuppressWithNearbyCommentFilter">
              <property name="commentFormat" value="CraftBukkit"/>
          </module>
@@ -31,7 +31,7 @@ index 5c7f6a5d51..5863906588 100644
 +            <property name="commentFormat" value="Spigot"/>
 +        </module>
  
-         <!-- See http://checkstyle.sourceforge.net/config_imports.html -->
+         <!-- See https://checkstyle.org/checks/imports/index.html -->
          <module name="AvoidStarImport">
 diff --git a/pom.xml b/pom.xml
 index 3d0a759a1f..5abcca1894 100644
