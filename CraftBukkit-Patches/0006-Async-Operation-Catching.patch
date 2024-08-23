@@ -1,4 +1,4 @@
-From 75840190917cc8fd46ab62f7fa5a4796813c1be9 Mon Sep 17 00:00:00 2001
+From c71dd1b0d50918e96124c9f9b0726c455724d3e5 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 25 Mar 2014 16:10:01 +1100
 Subject: [PATCH] Async Operation Catching
@@ -201,17 +201,17 @@ index dbc5e32620..8dae9176ca 100644
          List<Entity> notchEntityList = entity.level().getEntities(entity, entity.getBoundingBox().inflate(x, y, z), Predicates.alwaysTrue());
          List<org.bukkit.entity.Entity> bukkitEntityList = new java.util.ArrayList<org.bukkit.entity.Entity>(notchEntityList.size());
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 08cf2bdd77..0f9b9113b3 100644
+index 099dfd69f9..8fa62ce452 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -477,6 +477,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -479,6 +479,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      @Override
      public void kickPlayer(String message) {
 +        org.spigotmc.AsyncCatcher.catchOp("player kick"); // Spigot
-         if (getHandle().connection == null) return;
+         getHandle().transferCookieConnection.kickPlayer(CraftChatMessage.fromStringOrEmpty(message, true));
+     }
  
-         getHandle().connection.disconnect(CraftChatMessage.fromStringOrEmpty(message, true));
 diff --git a/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java b/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java
 index 726887ece2..ec5670e24b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java

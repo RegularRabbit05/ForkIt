@@ -1,4 +1,4 @@
-From 6831368c2f3bfc87df890c9349e00b9802eb8532 Mon Sep 17 00:00:00 2001
+From 07325025dd5e45b5618aab1414580cac4dc816bc Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 23 Mar 2013 09:46:33 +1100
 Subject: [PATCH] Merge tweaks and configuration
@@ -31,10 +31,10 @@ index 301540e659..4b29f547f7 100644
              } else {
                  merge(entityitem, itemstack1, this, itemstack);
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index fe60bfb5b5..d51ee616ea 100644
+index fb7d1e8f3e..3a3ff5a8de 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -717,6 +717,23 @@ public class CraftEventFactory {
+@@ -719,6 +719,23 @@ public class CraftEventFactory {
              return false;
          }
  
