@@ -1,11 +1,11 @@
-From 2f973b448a01a0ac141e9c19ff618d93eec4fe15 Mon Sep 17 00:00:00 2001
+From 2296ba7d067b309ff6071a6508c2fabc1353c984 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Feb 2014 16:55:46 +0000
 Subject: [PATCH] Add Option to Nerf Mobs from Spawners
 
 
 diff --git a/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java b/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
-index ccbecd23cb..a519fc2cb4 100644
+index d43c840903..13fe8649c2 100644
 --- a/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
 +++ b/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
 @@ -162,6 +162,12 @@ public abstract class MobSpawnerAbstract {
@@ -38,5 +38,5 @@ index 457a8e84b0..3e398c4e06 100644
 +    }
  }
 -- 
-2.46.0
+2.47.0
 

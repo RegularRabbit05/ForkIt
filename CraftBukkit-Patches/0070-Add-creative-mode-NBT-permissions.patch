@@ -1,14 +1,14 @@
-From e901de114bbf50c5c04d4492fc5731fc61910440 Mon Sep 17 00:00:00 2001
+From 3ced283e5b0782e4b32e4f9ccae7f7eed5027904 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 25 Feb 2019 19:26:56 +1100
 Subject: [PATCH] Add creative mode NBT permissions
 
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerInteractManager.java b/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
-index da7ad43f0b..4a93d19ead 100644
+index 63f4aa9793..2181111bd1 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
-@@ -208,6 +208,14 @@ public class PlayerInteractManager {
+@@ -206,6 +206,14 @@ public class PlayerInteractManager {
                      return;
                  }
  
@@ -24,10 +24,10 @@ index da7ad43f0b..4a93d19ead 100644
                      this.player.connection.send(new PacketPlayOutBlockChange(blockposition, this.level.getBlockState(blockposition)));
                      this.debugLogging(blockposition, false, j, "block action restricted");
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 81719d8e3f..63d2ecf258 100644
+index fabad60dcf..2abd110783 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -2904,7 +2904,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2945,7 +2945,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
  
              CustomData customdata = (CustomData) itemstack.getOrDefault(DataComponents.BLOCK_ENTITY_DATA, CustomData.EMPTY);
  
@@ -37,10 +37,10 @@ index 81719d8e3f..63d2ecf258 100644
  
                  if (this.player.level().isLoaded(blockposition)) {
 diff --git a/src/main/java/net/minecraft/world/item/ItemBlock.java b/src/main/java/net/minecraft/world/item/ItemBlock.java
-index fc92e5fdef..91dff53a4e 100644
+index b284faaa67..e355329719 100644
 --- a/src/main/java/net/minecraft/world/item/ItemBlock.java
 +++ b/src/main/java/net/minecraft/world/item/ItemBlock.java
-@@ -207,7 +207,7 @@ public class ItemBlock extends Item {
+@@ -201,7 +201,7 @@ public class ItemBlock extends Item {
                  TileEntity tileentity = world.getBlockEntity(blockposition);
  
                  if (tileentity != null) {
@@ -50,7 +50,7 @@ index fc92e5fdef..91dff53a4e 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/ItemDebugStick.java b/src/main/java/net/minecraft/world/item/ItemDebugStick.java
-index b1b0bfa17d..60822c6601 100644
+index 02e8829c80..e115cc74bb 100644
 --- a/src/main/java/net/minecraft/world/item/ItemDebugStick.java
 +++ b/src/main/java/net/minecraft/world/item/ItemDebugStick.java
 @@ -53,7 +53,7 @@ public class ItemDebugStick extends Item {
@@ -80,5 +80,5 @@ index 75f8d47a20..525ebf961e 100644
      }
  }
 -- 
-2.46.0
+2.47.0
 

@@ -1,4 +1,4 @@
-From 677c4bc20626f1ab30dd2e7bc7ee150870bebcd1 Mon Sep 17 00:00:00 2001
+From a9bf74ce64252c956b7dbdedddb5e81752f0e4fd Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thinkofdeath@spigotmc.org>
 Date: Sun, 29 Jun 2014 21:10:34 +0100
 Subject: [PATCH] Limit block placement/interaction packets
@@ -45,10 +45,10 @@ index ad5a18ee99..de5ff1a4dc 100644
          this.blockHit = packetdataserializer.readBlockHitResult();
          this.sequence = packetdataserializer.readVarInt();
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 5a9bd904d1..fb7181a2f4 100644
+index 8930188788..2406ff74ab 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -1535,10 +1535,30 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1537,10 +1537,30 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          }
      }
  
@@ -79,7 +79,7 @@ index 5a9bd904d1..fb7181a2f4 100644
          this.player.connection.ackBlockChangesUpTo(packetplayinuseitem.getSequence());
          WorldServer worldserver = this.player.serverLevel();
          EnumHand enumhand = packetplayinuseitem.getHand();
-@@ -1595,6 +1615,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1601,6 +1621,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
      public void handleUseItem(PacketPlayInBlockPlace packetplayinblockplace) {
          PlayerConnectionUtils.ensureRunningOnSameThread(packetplayinblockplace, this, this.player.serverLevel());
          if (this.player.isImmobile()) return; // CraftBukkit
@@ -88,5 +88,5 @@ index 5a9bd904d1..fb7181a2f4 100644
          WorldServer worldserver = this.player.serverLevel();
          EnumHand enumhand = packetplayinblockplace.getHand();
 -- 
-2.46.0
+2.47.0
 

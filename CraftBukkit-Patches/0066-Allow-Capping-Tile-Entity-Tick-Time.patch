@@ -1,4 +1,4 @@
-From 02799f140cf3c7443a0809564dcdbd893b7eab22 Mon Sep 17 00:00:00 2001
+From 5c4b24581ac60dd7d6eb25e0571f616669f79dc8 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 20 Feb 2015 21:39:31 +1100
 Subject: [PATCH] Allow Capping (Tile)Entity Tick Time.
@@ -10,10 +10,10 @@ For tiles there is very little tradeoff for this option, as tile ticks are based
 This feature was commisioned by Chunkr.
 
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index 56f1999ef0..38d4b1552c 100644
+index dd710c0635..32b06ef2c3 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
-@@ -159,6 +159,9 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -160,6 +160,9 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
  
      public final SpigotTimings.WorldTimingsHandler timings; // Spigot
      public static BlockPosition lastPhysicsProblem; // Spigot
@@ -32,7 +32,7 @@ index 56f1999ef0..38d4b1552c 100644
      }
  
      @Override
-@@ -645,14 +650,23 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -647,14 +652,23 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
          timings.tileEntityPending.stopTiming(); // Spigot
  
          timings.tileEntityTick.startTiming(); // Spigot
@@ -105,5 +105,5 @@ index 0000000000..23a39382be
 +    }
 +}
 -- 
-2.46.0
+2.47.0
 

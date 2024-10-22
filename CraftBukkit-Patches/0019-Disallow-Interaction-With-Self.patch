@@ -1,14 +1,14 @@
-From d36b20c383ecb5cd5c868bdb0df0039eb550e165 Mon Sep 17 00:00:00 2001
+From 253e6be1d5ca8779b5a65df7e472894439a6ad75 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 28 Jun 2013 19:52:54 +1000
 Subject: [PATCH] Disallow Interaction With Self
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 594cf6c14c..0c1d0d6c85 100644
+index 2a5f8171a4..38df20da29 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -2325,6 +2325,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2335,6 +2335,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          if (this.player.isImmobile()) return; // CraftBukkit
          final WorldServer worldserver = this.player.serverLevel();
          final Entity entity = packetplayinuseentity.getTarget(worldserver);
@@ -23,5 +23,5 @@ index 594cf6c14c..0c1d0d6c85 100644
          this.player.resetLastActionTime();
          this.player.setShiftKeyDown(packetplayinuseentity.isUsingSecondaryAction());
 -- 
-2.46.0
+2.47.0
 

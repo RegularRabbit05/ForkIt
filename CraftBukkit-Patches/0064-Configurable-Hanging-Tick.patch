@@ -1,16 +1,16 @@
-From cec71d353f4394338981e91040e452e252c69aac Mon Sep 17 00:00:00 2001
+From 832257d6556be7732b20cba0de102f82a1dfd227 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoung@mit.edu>
 Date: Sat, 9 Aug 2014 13:56:51 -0400
 Subject: [PATCH] Configurable Hanging Tick
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java b/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java
-index cbf72a37de..72515d6901 100644
+index b53a142519..8887aac614 100644
 --- a/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java
-@@ -45,7 +45,7 @@ public abstract class BlockAttachedEntity extends Entity {
-     public void tick() {
-         if (!this.level().isClientSide) {
+@@ -50,7 +50,7 @@ public abstract class BlockAttachedEntity extends Entity {
+ 
+         if (world instanceof WorldServer worldserver) {
              this.checkBelowWorld();
 -            if (this.checkInterval++ == 100) {
 +            if (this.checkInterval++ == this.level().spigotConfig.hangingTickFrequency) { // Spigot
@@ -33,5 +33,5 @@ index 8411f9e573..76aeff3324 100644
 +    }
  }
 -- 
-2.46.0
+2.47.0
 

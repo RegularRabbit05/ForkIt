@@ -1,4 +1,4 @@
-From 752db4b19d65d08cbc81880db9d4f1ecd13a8bc7 Mon Sep 17 00:00:00 2001
+From ad2350f0ba5b038bf1fd99c2c0ee50fd993e12f1 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 2 Jul 2013 13:07:39 +1000
 Subject: [PATCH] POM Changes
@@ -34,7 +34,7 @@ index 12feab88bc..3150fd744e 100644
          <!-- See https://checkstyle.org/checks/imports/index.html -->
          <module name="AvoidStarImport">
 diff --git a/pom.xml b/pom.xml
-index 3d0a759a1f..5abcca1894 100644
+index a228e5f615..da3dad9b74 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,13 +1,20 @@
@@ -46,7 +46,7 @@ index 3d0a759a1f..5abcca1894 100644
 +    <groupId>org.spigotmc</groupId>
 +    <artifactId>spigot</artifactId>
      <packaging>jar</packaging>
-     <version>1.21.1-R0.1-SNAPSHOT</version>
+     <version>1.21.2-R0.1-SNAPSHOT</version>
 -    <name>CraftBukkit</name>
 +    <name>Spigot</name>
      <url>https://www.spigotmc.org/</url>
@@ -60,8 +60,8 @@ index 3d0a759a1f..5abcca1894 100644
 +
      <properties>
          <skipTests>true</skipTests>
-         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-@@ -27,8 +34,8 @@
+         <groups>AllFeatures,Bundle,Legacy,Normal,VanillaFeature</groups>
+@@ -28,8 +35,8 @@
  
      <dependencies>
          <dependency>
@@ -72,7 +72,7 @@ index 3d0a759a1f..5abcca1894 100644
              <version>${project.version}</version>
              <scope>compile</scope>
          </dependency>
-@@ -301,11 +308,26 @@
+@@ -387,11 +394,26 @@
                  <groupId>net.md-5</groupId>
                  <artifactId>scriptus</artifactId>
                  <version>0.5.0</version>
@@ -102,7 +102,7 @@ index 3d0a759a1f..5abcca1894 100644
                          <phase>initialize</phase>
                          <goals>
                              <goal>describe</goal>
-@@ -338,7 +360,7 @@
+@@ -424,7 +446,7 @@
                          <manifestEntries>
                              <Main-Class>org.bukkit.craftbukkit.Main</Main-Class>
                              <Implementation-Title>CraftBukkit</Implementation-Title>
@@ -125,5 +125,5 @@ index f905d17b6b..93046379d0 100644
  
          if (stream != null) {
 -- 
-2.46.0
+2.47.0
 

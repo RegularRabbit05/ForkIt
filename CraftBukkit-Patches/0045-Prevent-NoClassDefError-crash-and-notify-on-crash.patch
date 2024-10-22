@@ -1,14 +1,14 @@
-From 96061ac813e6f8510a439d28adb3cab47140a25d Mon Sep 17 00:00:00 2001
+From 37266fdb905396848fb9b1f5324ad4f014be6abd Mon Sep 17 00:00:00 2001
 From: David <dmck2b@gmail.com>
 Date: Mon, 21 Apr 2014 12:43:08 +0100
 Subject: [PATCH] Prevent NoClassDefError crash and notify on crash
 
 
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index 57c3efe4fa..7ad6f7ccc4 100644
+index c4507a388c..a9dc7b9f1d 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
-@@ -158,6 +158,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -159,6 +159,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
      public final org.spigotmc.SpigotWorldConfig spigotConfig; // Spigot
  
      public final SpigotTimings.WorldTimingsHandler timings; // Spigot
@@ -32,13 +32,13 @@ index 57c3efe4fa..7ad6f7ccc4 100644
                  // CraftBukkit end
  
 diff --git a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
-index dc43ad0e2d..dfaafe98ad 100644
+index 68dfd314c0..f526e8188a 100644
 --- a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
 +++ b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
-@@ -65,6 +65,10 @@ public interface NeighborUpdater {
+@@ -69,6 +69,10 @@ public interface NeighborUpdater {
              }
              // CraftBukkit end
-             iblockdata.handleNeighborChanged(world, blockposition, block, blockposition1, flag);
+             iblockdata.handleNeighborChanged(world, blockposition, block, orientation, flag);
 +            // Spigot Start
 +        } catch (StackOverflowError ex) {
 +            world.lastPhysicsProblem = new BlockPosition(blockposition);
@@ -65,5 +65,5 @@ index 4734d4ae83..b4eeeb0d00 100644
                  log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Spigot!):" );
                  dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
 -- 
-2.46.0
+2.47.0
 

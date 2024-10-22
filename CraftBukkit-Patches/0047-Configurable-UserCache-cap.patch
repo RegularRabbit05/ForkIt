@@ -1,11 +1,11 @@
-From 7ae3e3be3bd0c4261fdaaf4af541a6f889a05bba Mon Sep 17 00:00:00 2001
+From 06bf35a6fa2dcf19723889d0b298bf429b25b1b8 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Fri, 25 Apr 2014 18:17:30 -0400
 Subject: [PATCH] Configurable UserCache cap
 
 
 diff --git a/src/main/java/net/minecraft/server/players/UserCache.java b/src/main/java/net/minecraft/server/players/UserCache.java
-index 1a9e89e874..2071d44626 100644
+index 44645f5ee9..2791f6659d 100644
 --- a/src/main/java/net/minecraft/server/players/UserCache.java
 +++ b/src/main/java/net/minecraft/server/players/UserCache.java
 @@ -261,7 +261,7 @@ public class UserCache {
@@ -33,5 +33,5 @@ index f20e896f2e..d8cd8b47ae 100644
 +    }
  }
 -- 
-2.46.0
+2.47.0
 

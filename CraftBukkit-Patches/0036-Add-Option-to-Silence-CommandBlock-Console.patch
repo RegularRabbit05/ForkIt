@@ -1,14 +1,14 @@
-From b5fd573e08388ce3295691a1320dc2cb48e78742 Mon Sep 17 00:00:00 2001
+From d741529eb0a64e2dc5f90bc7209aa201accb57ea Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 9 Feb 2014 14:39:01 +1100
 Subject: [PATCH] Add Option to Silence CommandBlock Console
 
 
 diff --git a/src/main/java/net/minecraft/commands/CommandListenerWrapper.java b/src/main/java/net/minecraft/commands/CommandListenerWrapper.java
-index b4d866ff49..f2247c090f 100644
+index 40f8ee3246..0399ac9627 100644
 --- a/src/main/java/net/minecraft/commands/CommandListenerWrapper.java
 +++ b/src/main/java/net/minecraft/commands/CommandListenerWrapper.java
-@@ -323,7 +323,7 @@ public class CommandListenerWrapper implements ExecutionCommandSource<CommandLis
+@@ -325,7 +325,7 @@ public class CommandListenerWrapper implements ExecutionCommandSource<CommandLis
              }
          }
  
@@ -33,5 +33,5 @@ index 5565f1dd05..128b826ca9 100644
 +    }
  }
 -- 
-2.46.0
+2.47.0
 

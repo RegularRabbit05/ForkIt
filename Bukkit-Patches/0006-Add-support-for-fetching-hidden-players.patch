@@ -1,14 +1,14 @@
-From ede5b3e26c7f4b4d376378e704d299a0457b130a Mon Sep 17 00:00:00 2001
+From 299f0f4401888fa85164900605712a615344b79f Mon Sep 17 00:00:00 2001
 From: Tux <write@imaginarycode.com>
 Date: Sun, 9 Feb 2014 14:02:11 -0500
 Subject: [PATCH] Add support for fetching hidden players
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 1fd13dd8c..83aaef560 100644
+index 0bca14f60..df1649e7e 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2268,6 +2268,16 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2283,6 +2283,16 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
          public void respawn() {
              throw new UnsupportedOperationException("Not supported yet.");
          }
@@ -26,5 +26,5 @@ index 1fd13dd8c..83aaef560 100644
  
      @NotNull
 -- 
-2.46.0
+2.47.0
 

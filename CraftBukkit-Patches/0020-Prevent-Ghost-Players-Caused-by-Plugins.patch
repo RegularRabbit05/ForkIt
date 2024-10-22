@@ -1,4 +1,4 @@
-From 8af2d6801df6d9bb15bbd2059ea11b6fee967aca Mon Sep 17 00:00:00 2001
+From d85e845bd6e43447345af8d39ef750a2735ecf3b Mon Sep 17 00:00:00 2001
 From: Alex Ciuba <alexciuba@gmail.com>
 Date: Tue, 11 Jun 2013 15:23:03 -0400
 Subject: [PATCH] Prevent Ghost Players Caused by Plugins
@@ -6,10 +6,10 @@ Subject: [PATCH] Prevent Ghost Players Caused by Plugins
 Check if the player is still connected after firing event. Fixes BUKKIT-4327
 
 diff --git a/src/main/java/net/minecraft/server/level/EntityPlayer.java b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-index bb4028ea1b..f99694c800 100644
+index 7c86389a88..4935614a7a 100644
 --- a/src/main/java/net/minecraft/server/level/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-@@ -1119,6 +1119,11 @@ public class EntityPlayer extends EntityHuman {
+@@ -1379,6 +1379,11 @@ public class EntityPlayer extends EntityHuman {
  
          PlayerRespawnEvent respawnEvent = new PlayerRespawnEvent(respawnPlayer, location, isBedSpawn, isAnchorSpawn, reason);
          this.level().getCraftServer().getPluginManager().callEvent(respawnEvent);
@@ -22,21 +22,21 @@ index bb4028ea1b..f99694c800 100644
          location = respawnEvent.getRespawnLocation();
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index c4e3dce4cc..6c1492635c 100644
+index 6ec24ecfce..ea2864bfb7 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -705,6 +705,11 @@ public abstract class PlayerList {
+@@ -672,6 +672,11 @@ public abstract class PlayerList {
          } else {
-             dimensiontransition = new DimensionTransition(((CraftWorld) location.getWorld()).getHandle(), CraftLocation.toVec3D(location), Vec3D.ZERO, location.getYaw(), location.getPitch(), DimensionTransition.DO_NOTHING);
+             teleporttransition = new TeleportTransition(((CraftWorld) location.getWorld()).getHandle(), CraftLocation.toVec3D(location), Vec3D.ZERO, location.getYaw(), location.getPitch(), TeleportTransition.DO_NOTHING);
          }
 +        // Spigot Start
-+        if (dimensiontransition == null) {
++        if (teleporttransition == null) {
 +            return entityplayer;
 +        }
 +        // Spigot End
-         WorldServer worldserver = dimensiontransition.newLevel();
+         WorldServer worldserver = teleporttransition.newLevel();
          entityplayer1.spawnIn(worldserver);
          entityplayer1.unsetRemoved();
 -- 
-2.46.0
+2.47.0
 

@@ -1,14 +1,14 @@
-From 93dd5a654936e5d816e65455c94126ca298354d7 Mon Sep 17 00:00:00 2001
+From 4b616fe5484bfb122cfab661de5d6d4634273a78 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 8 Feb 2014 08:13:40 +0000
 Subject: [PATCH] Spam Filter Exclusions
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index f5e35b2e5e..5a9bd904d1 100644
+index 486b63b4ab..8930188788 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -1795,7 +1795,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1805,7 +1805,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
              }
              // CraftBukkit end
              this.performUnsignedChatCommand(serverboundchatcommandpacket.command());
@@ -17,7 +17,7 @@ index f5e35b2e5e..5a9bd904d1 100644
          }, true); // CraftBukkit - sync commands
      }
  
-@@ -1834,7 +1834,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1844,7 +1844,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  }
                  // CraftBukkit end
                  this.performSignedChatCommand(serverboundchatcommandsignedpacket, (LastSeenMessages) optional.get());
@@ -26,7 +26,7 @@ index f5e35b2e5e..5a9bd904d1 100644
              }, true); // CraftBukkit - sync commands
          }
      }
-@@ -2128,11 +2128,22 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2138,11 +2138,20 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          }
          // this.server.getPlayerList().broadcastChatMessage(playerchatmessage, this.player, ChatMessageType.bind(ChatMessageType.CHAT, (Entity) this.player));
          // CraftBukkit end
@@ -38,18 +38,16 @@ index f5e35b2e5e..5a9bd904d1 100644
 +    // Spigot start - spam exclusions
 +    private void detectRateSpam(String s) {
          // CraftBukkit start - replaced with thread safe throttle
-+        boolean counted = true;
 +        for ( String exclude : org.spigotmc.SpigotConfig.spamExclusions )
 +        {
 +            if ( exclude != null && s.startsWith( exclude ) )
 +            {
-+                counted = false;
-+                break;
++                return;
 +            }
 +        }
 +        // Spigot end
-         // this.chatSpamTickCount += 20;
-         if (this.chatSpamTickCount.addAndGet(20) > 200 && !this.server.getPlayerList().isOp(this.player.getGameProfile()) && !this.server.isSingleplayerOwner(this.player.getGameProfile())) {
+         // this.chatSpamThrottler.increment();
+         if (!this.chatSpamThrottler.isIncrementAndUnderThreshold() && !this.server.getPlayerList().isOp(this.player.getGameProfile()) && !this.server.isSingleplayerOwner(this.player.getGameProfile())) {
              // CraftBukkit end
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
 index 5b7e17ee03..5565f1dd05 100644
@@ -78,5 +76,5 @@ index 5b7e17ee03..5565f1dd05 100644
 +    }
  }
 -- 
-2.46.0
+2.47.0
 

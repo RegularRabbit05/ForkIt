@@ -1,16 +1,16 @@
-From 6327d1152a95290359b4524283564a7427688074 Mon Sep 17 00:00:00 2001
+From 726f1c18c4ca993a36f82dd1d3a0af5f871d57ea Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 18 May 2024 11:39:58 +1000
 Subject: [PATCH] Add unload-frozen-chunks option
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-index 6dbc8ceaf8..950c590938 100644
+index 156d359f2c..5f8c491ebf 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-@@ -341,7 +341,7 @@ public class ChunkProviderServer extends IChunkProvider {
-     public void tick(BooleanSupplier booleansupplier, boolean flag) {
-         this.level.getProfiler().push("purge");
+@@ -364,7 +364,7 @@ public class ChunkProviderServer extends IChunkProvider {
+ 
+         gameprofilerfiller.push("purge");
          this.level.timings.doChunkMap.startTiming(); // Spigot
 -        if (this.level.tickRateManager().runsNormally() || !flag) {
 +        if (this.level.tickRateManager().runsNormally() || !flag || this.level.spigotConfig.unloadFrozenChunks) { // Spigot
@@ -32,5 +32,5 @@ index ebddbf6d0c..2891e2537b 100644
 +    }
  }
 -- 
-2.46.0
+2.47.0
 
