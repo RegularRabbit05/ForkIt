@@ -1,4 +1,4 @@
-From 74487ac800d14344d43f72f1b7c4327895ba1805 Mon Sep 17 00:00:00 2001
+From 08e7661b34053cddee5ba2cba8ecb4f81364f981 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Jun 2013 15:10:56 +1000
 Subject: [PATCH] Skeleton API Implementations
@@ -124,10 +124,10 @@ index 3a4fb14bff..3a68e1cf5c 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 1c9ae250b4..eb5fec1820 100644
+index fa364aa322..241a17ddd9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2343,4 +2343,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2357,4 +2357,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      public boolean isAllowingServerListings() {
          return getHandle().allowsListing();
      }
