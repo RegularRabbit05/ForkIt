@@ -1,14 +1,14 @@
-From 02e3d332fb310763cbe948162f7f6695873c0d67 Mon Sep 17 00:00:00 2001
+From 2ffdc174a64fd887b4a762888b969d5f75e9ea0e Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Tue, 22 Jul 2014 15:59:01 +0200
 Subject: [PATCH] Make "moved too quickly" limit configurable
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 79995919ad..fabad60dcf 100644
+index 7edea334fb..943bb7e277 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -527,7 +527,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -535,7 +535,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  }
                  speed *= 2f; // TODO: Get the speed of the vehicle instead of the player
  
@@ -17,7 +17,7 @@ index 79995919ad..fabad60dcf 100644
                  // CraftBukkit end
                      PlayerConnection.LOGGER.warn("{} (vehicle of {}) moved too quickly! {},{},{}", new Object[]{entity.getName().getString(), this.player.getName().getString(), d6, d7, d8});
                      this.send(new PacketPlayOutVehicleMove(entity));
-@@ -1187,7 +1187,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1195,7 +1195,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                                  if (this.shouldCheckPlayerMovement(flag)) {
                                      float f2 = flag ? 300.0F : 100.0F;
  

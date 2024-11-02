@@ -1,4 +1,4 @@
-From 0d7e514340a7c950272b8918c0ff24a8a861ade2 Mon Sep 17 00:00:00 2001
+From 44a674f8f6f0500d11a951534b47654b01553585 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 12 Apr 2014 21:23:58 +1000
 Subject: [PATCH] BungeeCord Support
@@ -168,10 +168,10 @@ index b96ecd31b8..5c5c53ed98 100644
  
          HELLO, KEY, AUTHENTICATING, NEGOTIATING, VERIFYING, WAITING_FOR_COOKIES, WAITING_FOR_DUPE_DISCONNECT, PROTOCOL_SWITCHING, ACCEPTED; // CraftBukkit
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 38df20da29..486b63b4ab 100644
+index 865171a0ef..b217dc0529 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -2029,7 +2029,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2037,7 +2037,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
  
                          String message = String.format(queueEvent.getFormat(), queueEvent.getPlayer().getDisplayName(), queueEvent.getMessage());
                          if (((LazyPlayerSet) queueEvent.getRecipients()).isLazy()) {
@@ -180,7 +180,7 @@ index 38df20da29..486b63b4ab 100644
                                  PlayerConnection.this.server.getPlayerList().broadcastChatMessage(original, PlayerConnection.this.player, ChatMessageType.bind(ChatMessageType.CHAT, (Entity) PlayerConnection.this.player));
                                  return null;
                              }
-@@ -2065,7 +2065,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2073,7 +2073,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
  
                  s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
                  if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
@@ -189,7 +189,7 @@ index 38df20da29..486b63b4ab 100644
                          PlayerConnection.this.server.getPlayerList().broadcastChatMessage(original, PlayerConnection.this.player, ChatMessageType.bind(ChatMessageType.CHAT, (Entity) PlayerConnection.this.player));
                          return;
                      }
-@@ -2317,6 +2317,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2325,6 +2325,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          return this.connection.getRemoteAddress();
      }
  
@@ -217,7 +217,7 @@ index 3bf6d7d2d4..8e95956397 100644
          } else {
              String[] astring1 = astring;
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index ea2864bfb7..3da6f2cb53 100644
+index fd32e6c868..f5032cd9e4 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -543,7 +543,7 @@ public abstract class PlayerList {
@@ -230,7 +230,7 @@ index ea2864bfb7..3da6f2cb53 100644
          if (this.bans.isBanned(gameprofile)) {
              GameProfileBanEntry gameprofilebanentry = (GameProfileBanEntry) this.bans.get(gameprofile);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 1887cd41ec..e58a0762c0 100644
+index 548136e4af..2434aebf75 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -805,7 +805,13 @@ public final class CraftServer implements Server {

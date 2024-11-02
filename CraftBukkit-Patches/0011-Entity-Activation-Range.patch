@@ -1,6 +1,6 @@
-From c994e9970989839076d3d458fc79afbf5f946450 Mon Sep 17 00:00:00 2001
+From 819c9a15afb5fd2796fe74070d67443f44d73ce4 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
-Date: Sun, 3 Feb 2013 05:10:21 -0500
+Date: Sat, 2 Nov 2024 18:16:11 +1100
 Subject: [PATCH] Entity Activation Range
 
 This feature gives 3 new configurable ranges that if an entity of the matching type is outside of this radius of any player, will tick at 5% of its normal rate.
@@ -125,7 +125,7 @@ index 62df007ca7..0493d23ad3 100644
      public void tick() {
          super.tick();
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index e171abc1ad..effffbcacd 100644
+index e40c8bf341..3a37ec85bb 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -304,6 +304,13 @@ public abstract class EntityLiving extends Entity implements Attackable {
@@ -269,10 +269,10 @@ index aff7b6b438..d3328a695f 100644
      public static final HashMap<String, CustomTimingsHandler> pluginTaskTimingMap = new HashMap<String, CustomTimingsHandler>();
 diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
 new file mode 100644
-index 0000000000..53ec17197b
+index 0000000000..6b0fb6d0db
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/ActivationRange.java
-@@ -0,0 +1,262 @@
+@@ -0,0 +1,263 @@
 +package org.spigotmc;
 +
 +import net.minecraft.server.MinecraftServer;
@@ -288,6 +288,7 @@ index 0000000000..53ec17197b
 +import net.minecraft.world.entity.boss.enderdragon.EntityEnderCrystal;
 +import net.minecraft.world.entity.boss.enderdragon.EntityEnderDragon;
 +import net.minecraft.world.entity.boss.wither.EntityWither;
++import net.minecraft.world.entity.item.EntityItem;
 +import net.minecraft.world.entity.item.EntityTNTPrimed;
 +import net.minecraft.world.entity.monster.EntityCreeper;
 +import net.minecraft.world.entity.monster.EntityMonster;
@@ -505,8 +506,8 @@ index 0000000000..53ec17197b
 +    public static boolean checkIfActive(Entity entity)
 +    {
 +        SpigotTimings.checkIfActiveTimer.startTiming();
-+        // Never safe to skip fireworks or entities not yet added to chunk
-+        if ( entity instanceof EntityFireworks ) {
++        // Never safe to skip fireworks or item gravity
++        if (entity instanceof EntityFireworks || (entity instanceof EntityItem && (entity.tickCount + entity.getId() + 1) % 4 == 0)) {
 +            SpigotTimings.checkIfActiveTimer.stopTiming();
 +            return true;
 +        }

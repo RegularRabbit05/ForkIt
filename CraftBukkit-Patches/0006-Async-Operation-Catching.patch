@@ -1,4 +1,4 @@
-From d7386ad104c37103e09df6ef685ba15803c57b54 Mon Sep 17 00:00:00 2001
+From 3a74f6c100d03a14c698ae26e71dff33327d70dd Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 25 Mar 2014 16:10:01 +1100
 Subject: [PATCH] Async Operation Catching
@@ -78,7 +78,7 @@ index b61ac113a1..0166025d16 100644
              if (entity instanceof EntityPlayer entityplayer) {
                  WorldServer.this.players.remove(entityplayer);
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index 0ee571c05f..b17621a29f 100644
+index 02f729d695..7fe581b308 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -1129,6 +1129,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
@@ -90,10 +90,10 @@ index 0ee571c05f..b17621a29f 100644
              effectsToProcess.add(new ProcessableEffect(mobeffect, cause));
              return true;
 diff --git a/src/main/java/net/minecraft/world/item/crafting/CraftingManager.java b/src/main/java/net/minecraft/world/item/crafting/CraftingManager.java
-index a927c8756a..65a1fa3b61 100644
+index dd28f90d90..7f58791c8a 100644
 --- a/src/main/java/net/minecraft/world/item/crafting/CraftingManager.java
 +++ b/src/main/java/net/minecraft/world/item/crafting/CraftingManager.java
-@@ -115,6 +115,7 @@ public class CraftingManager extends ResourceDataAbstract<RecipeMap> implements
+@@ -116,6 +116,7 @@ public class CraftingManager extends ResourceDataAbstract<RecipeMap> implements
  
      // CraftBukkit start
      public void addRecipe(RecipeHolder<?> irecipe) {
@@ -125,7 +125,7 @@ index 3a143fffa3..8d15390052 100644
              world.removeBlockEntity(blockposition);
          }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7b8e1bb014..9dcdbb1cba 100644
+index 7a5f99dc86..10c80d8563 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -900,6 +900,7 @@ public final class CraftServer implements Server {

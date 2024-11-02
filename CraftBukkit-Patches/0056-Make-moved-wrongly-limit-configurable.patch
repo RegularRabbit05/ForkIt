@@ -1,14 +1,14 @@
-From 6c8ebdae77ecc40ce8449ebc4ce52f067e637a4f Mon Sep 17 00:00:00 2001
+From 81a27bbb3f4757a84170d1d24c862aa5b38ba982 Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Fri, 4 Jul 2014 23:03:13 +0200
 Subject: [PATCH] Make "moved wrongly" limit configurable
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 2406ff74ab..79995919ad 100644
+index 3c6a5b7f11..7edea334fb 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -562,7 +562,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -570,7 +570,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                  boolean flag2 = false;
  
@@ -17,7 +17,7 @@ index 2406ff74ab..79995919ad 100644
                      flag2 = true;
                      PlayerConnection.LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", new Object[]{entity.getName().getString(), this.player.getName().getString(), Math.sqrt(d10)});
                  }
-@@ -1223,7 +1223,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1231,7 +1231,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                              d10 = d6 * d6 + d7 * d7 + d8 * d8;
                              boolean flag3 = false;
  
