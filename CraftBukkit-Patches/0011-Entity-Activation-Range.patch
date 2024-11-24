@@ -1,4 +1,4 @@
-From 819c9a15afb5fd2796fe74070d67443f44d73ce4 Mon Sep 17 00:00:00 2001
+From 95dc4f8471176ded7ae32aa4fc69fbafde016e0e Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Sat, 2 Nov 2024 18:16:11 +1100
 Subject: [PATCH] Entity Activation Range
@@ -9,7 +9,7 @@ This will drastically cut down on tick timings for entities that are not in rang
 This change can have dramatic impact on gameplay if configured too low. Balance according to your servers desired gameplay.
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 70c66926cf..e1b103eefb 100644
+index 70c66926c..e1b103eef 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
 @@ -424,6 +424,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
@@ -35,10 +35,10 @@ index 70c66926cf..e1b103eefb 100644
          entity.setOldPosAndRot();
          GameProfilerFiller gameprofilerfiller = Profiler.get();
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 5905076b67..30b473ca67 100644
+index 847fdd945..f57d1688a 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -329,6 +329,12 @@ public abstract class Entity implements SyncedDataHolder, INamableTileEntity, En
+@@ -330,6 +330,12 @@ public abstract class Entity implements SyncedDataHolder, INamableTileEntity, En
      // Main use case currently is for SPIGOT-7487, preventing dropping of leash when leash is removed
      public boolean pluginRemoved = false;
      public CustomTimingsHandler tickTimer = org.bukkit.craftbukkit.SpigotTimings.getEntityTimings(this); // Spigot
@@ -51,7 +51,7 @@ index 5905076b67..30b473ca67 100644
  
      public float getBukkitYaw() {
          return this.yRot;
-@@ -369,6 +375,13 @@ public abstract class Entity implements SyncedDataHolder, INamableTileEntity, En
+@@ -370,6 +376,13 @@ public abstract class Entity implements SyncedDataHolder, INamableTileEntity, En
          this.position = Vec3D.ZERO;
          this.blockPosition = BlockPosition.ZERO;
          this.chunkPosition = ChunkCoordIntPair.ZERO;
@@ -66,7 +66,7 @@ index 5905076b67..30b473ca67 100644
  
          datawatcher_a.define(Entity.DATA_SHARED_FLAGS_ID, (byte) 0);
 diff --git a/src/main/java/net/minecraft/world/entity/EntityAgeable.java b/src/main/java/net/minecraft/world/entity/EntityAgeable.java
-index c7cf7db106..2c621ddad9 100644
+index c7cf7db10..2c621ddad 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityAgeable.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityAgeable.java
 @@ -27,6 +27,31 @@ public abstract class EntityAgeable extends EntityCreature {
@@ -102,7 +102,7 @@ index c7cf7db106..2c621ddad9 100644
      public GroupDataEntity finalizeSpawn(WorldAccess worldaccess, DifficultyDamageScaler difficultydamagescaler, EntitySpawnReason entityspawnreason, @Nullable GroupDataEntity groupdataentity) {
          if (groupdataentity == null) {
 diff --git a/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java b/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
-index 62df007ca7..0493d23ad3 100644
+index 62df007ca..0493d23ad 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
 @@ -151,6 +151,18 @@ public class EntityAreaEffectCloud extends Entity implements TraceableEntity {
@@ -125,7 +125,7 @@ index 62df007ca7..0493d23ad3 100644
      public void tick() {
          super.tick();
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index e40c8bf341..3a37ec85bb 100644
+index e40c8bf34..3a37ec85b 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -304,6 +304,13 @@ public abstract class EntityLiving extends Entity implements Attackable {
@@ -143,7 +143,7 @@ index e40c8bf341..3a37ec85bb 100644
      protected EntityLiving(EntityTypes<? extends EntityLiving> entitytypes, World world) {
          super(entitytypes, world);
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityItem.java b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-index 4067b44f68..82140f340e 100644
+index 4067b44f6..82140f340 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 @@ -229,6 +229,28 @@ public class EntityItem extends Entity implements TraceableEntity {
@@ -176,7 +176,7 @@ index 4067b44f68..82140f340e 100644
      public BlockPosition getBlockPosBelowThatAffectsMyMovement() {
          return this.getOnPos(0.999999F);
 diff --git a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-index f907e34914..c288513263 100644
+index f907e3491..c28851326 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
 @@ -225,6 +225,17 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
@@ -198,7 +198,7 @@ index f907e34914..c288513263 100644
      protected void customServerAiStep(WorldServer worldserver) {
          GameProfilerFiller gameprofilerfiller = Profiler.get();
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java b/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
-index a59456dd5b..cc352059d6 100644
+index a59456dd5..cc352059d 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
 @@ -83,6 +83,18 @@ public abstract class EntityArrow extends IProjectile {
@@ -221,7 +221,7 @@ index a59456dd5b..cc352059d6 100644
          super(entitytypes, world);
          this.pickup = EntityArrow.PickupStatus.DISALLOWED;
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java b/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java
-index 018fcda5e7..9846d617e2 100644
+index 018fcda5e..9846d617e 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java
 @@ -88,6 +88,28 @@ public class EntityFireworks extends IProjectile implements ItemSupplier {
@@ -254,7 +254,7 @@ index 018fcda5e7..9846d617e2 100644
      protected void defineSynchedData(DataWatcher.a datawatcher_a) {
          datawatcher_a.define(EntityFireworks.DATA_ID_FIREWORKS_ITEM, getDefaultItem());
 diff --git a/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java b/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java
-index aff7b6b438..d3328a695f 100644
+index aff7b6b43..d3328a695 100644
 --- a/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java
 +++ b/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java
 @@ -39,6 +39,9 @@ public class SpigotTimings {
@@ -269,7 +269,7 @@ index aff7b6b438..d3328a695f 100644
      public static final HashMap<String, CustomTimingsHandler> pluginTaskTimingMap = new HashMap<String, CustomTimingsHandler>();
 diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
 new file mode 100644
-index 0000000000..6b0fb6d0db
+index 000000000..6b0fb6d0d
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/ActivationRange.java
 @@ -0,0 +1,263 @@
@@ -537,7 +537,7 @@ index 0000000000..6b0fb6d0db
 +    }
 +}
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index e3682d28ca..936279b5fb 100644
+index e3682d28c..936279b5f 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -194,4 +194,21 @@ public class SpigotWorldConfig

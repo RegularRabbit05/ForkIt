@@ -1,4 +1,4 @@
-From 4cd1115e6462137456755e35b6641a16d56cc3b5 Mon Sep 17 00:00:00 2001
+From abd5e4bf84eea7db91cf3837204622e9a63e74ab Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Sun, 2 Jun 2013 10:42:57 +1000
 Subject: [PATCH] Spigot Timings
@@ -8,7 +8,7 @@ Adds performance tracking timings all around the Minecraft Server, and improves 
 Plugins can track their own timings with CustomTimingsHandler
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index eeb34a674..67b6e7e67 100644
+index c7e38aee4..c869a1c0f 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -868,6 +868,7 @@ public final class Bukkit {
@@ -20,10 +20,10 @@ index eeb34a674..67b6e7e67 100644
  
      /**
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 36fbd94a9..4a965bbbd 100644
+index abd04d01c..2d750d949 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1838,6 +1838,10 @@ public interface Server extends PluginMessageRecipient {
+@@ -1856,6 +1856,10 @@ public interface Server extends PluginMessageRecipient {
      // Spigot start
      public class Spigot {
  
@@ -35,7 +35,7 @@ index 36fbd94a9..4a965bbbd 100644
  
      @NotNull
 diff --git a/src/main/java/org/bukkit/command/Command.java b/src/main/java/org/bukkit/command/Command.java
-index d498b16bb..ac89f041d 100644
+index 3ad2254c5..9019ebeef 100644
 --- a/src/main/java/org/bukkit/command/Command.java
 +++ b/src/main/java/org/bukkit/command/Command.java
 @@ -33,6 +33,7 @@ public abstract class Command {
@@ -245,7 +245,7 @@ index ed4cbce77..516d7fc78 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index 04dda4d22..839130f71 100644
+index 04f797ce2..ccf2aafca 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 @@ -370,6 +370,7 @@ public final class SimplePluginManager implements PluginManager {
@@ -257,7 +257,7 @@ index 04dda4d22..839130f71 100644
      }
  
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index 39b991ff7..047c0304f 100644
+index ef913c6ec..29a8efdf3 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 @@ -43,6 +43,7 @@ import org.bukkit.plugin.TimedRegisteredListener;

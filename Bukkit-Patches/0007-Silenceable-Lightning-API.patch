@@ -1,11 +1,11 @@
-From 463bd99feef79e68ec7e9f832c0eeca208b54122 Mon Sep 17 00:00:00 2001
+From 52a43516f21249d9e36432ad85fb4a28a92d74f8 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Sun, 23 Feb 2014 16:16:29 -0400
 Subject: [PATCH] Silenceable Lightning API
 
 
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index 53cb50e63..c0479a8da 100644
+index 35c646366..55cfe19be 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
 @@ -2831,6 +2831,35 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
@@ -22,7 +22,7 @@ index 53cb50e63..c0479a8da 100644
 +         * @see World#strikeLightning(org.bukkit.Location)
 +         */
 +        @NotNull
-+        @Deprecated
++        @Deprecated(since = "1.20.4")
 +        public LightningStrike strikeLightning(@NotNull Location loc, boolean isSilent) {
 +            throw new UnsupportedOperationException("Not supported yet.");
 +        }
@@ -37,7 +37,7 @@ index 53cb50e63..c0479a8da 100644
 +         * @see World#strikeLightningEffect(org.bukkit.Location)
 +         */
 +        @NotNull
-+        @Deprecated
++        @Deprecated(since = "1.20.4")
 +        public LightningStrike strikeLightningEffect(@NotNull Location loc, boolean isSilent) {
 +            throw new UnsupportedOperationException("Not supported yet.");
 +        }
@@ -45,7 +45,7 @@ index 53cb50e63..c0479a8da 100644
  
      @NotNull
 diff --git a/src/main/java/org/bukkit/entity/LightningStrike.java b/src/main/java/org/bukkit/entity/LightningStrike.java
-index d913298ea..b27447d7a 100644
+index d913298ea..186d0bbfc 100644
 --- a/src/main/java/org/bukkit/entity/LightningStrike.java
 +++ b/src/main/java/org/bukkit/entity/LightningStrike.java
 @@ -86,6 +86,16 @@ public interface LightningStrike extends Entity {
@@ -58,7 +58,7 @@ index d913298ea..b27447d7a 100644
 +         * @return whether the strike is silent.
 +         * @deprecated sound is now client side and cannot be removed
 +         */
-+        @Deprecated
++        @Deprecated(since = "1.20.4")
 +        public boolean isSilent() {
 +            throw new UnsupportedOperationException("Not supported yet.");
 +        }
