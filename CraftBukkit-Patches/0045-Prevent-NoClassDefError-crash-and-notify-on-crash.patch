@@ -1,14 +1,14 @@
-From 37266fdb905396848fb9b1f5324ad4f014be6abd Mon Sep 17 00:00:00 2001
+From 78fc531d7f6d044a936765d0c2773ea8753a59a8 Mon Sep 17 00:00:00 2001
 From: David <dmck2b@gmail.com>
 Date: Mon, 21 Apr 2014 12:43:08 +0100
 Subject: [PATCH] Prevent NoClassDefError crash and notify on crash
 
 
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index c4507a388c..a9dc7b9f1d 100644
+index cd6a4fa1d..5d8dc816e 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
-@@ -159,6 +159,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -160,6 +160,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
      public final org.spigotmc.SpigotWorldConfig spigotConfig; // Spigot
  
      public final SpigotTimings.WorldTimingsHandler timings; // Spigot
@@ -16,7 +16,7 @@ index c4507a388c..a9dc7b9f1d 100644
  
      public CraftWorld getWorld() {
          return this.world;
-@@ -378,7 +379,13 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -379,7 +380,13 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
                  // CraftBukkit start
                  if (!this.captureBlockStates) { // Don't notify clients or update physics while capturing blockstates
                      // Modularize client and physic updates
@@ -32,7 +32,7 @@ index c4507a388c..a9dc7b9f1d 100644
                  // CraftBukkit end
  
 diff --git a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
-index 68dfd314c0..f526e8188a 100644
+index 68dfd314c..f526e8188 100644
 --- a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
 +++ b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
 @@ -69,6 +69,10 @@ public interface NeighborUpdater {
@@ -47,7 +47,7 @@ index 68dfd314c0..f526e8188a 100644
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Exception while updating neighbours");
              CrashReportSystemDetails crashreportsystemdetails = crashreport.addCategory("Block being updated");
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 4734d4ae83..b4eeeb0d00 100644
+index 4734d4ae8..b4eeeb0d0 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -74,6 +74,13 @@ public class WatchdogThread extends Thread
@@ -65,5 +65,5 @@ index 4734d4ae83..b4eeeb0d00 100644
                  log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Spigot!):" );
                  dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
 -- 
-2.47.0
+2.47.1
 

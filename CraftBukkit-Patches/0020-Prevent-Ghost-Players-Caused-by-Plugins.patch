@@ -1,4 +1,4 @@
-From d85e845bd6e43447345af8d39ef750a2735ecf3b Mon Sep 17 00:00:00 2001
+From cd87ec86fe6bab018653417bec67831c31fa82ec Mon Sep 17 00:00:00 2001
 From: Alex Ciuba <alexciuba@gmail.com>
 Date: Tue, 11 Jun 2013 15:23:03 -0400
 Subject: [PATCH] Prevent Ghost Players Caused by Plugins
@@ -6,10 +6,10 @@ Subject: [PATCH] Prevent Ghost Players Caused by Plugins
 Check if the player is still connected after firing event. Fixes BUKKIT-4327
 
 diff --git a/src/main/java/net/minecraft/server/level/EntityPlayer.java b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-index 7c86389a88..4935614a7a 100644
+index cfe60b219..2f80e275b 100644
 --- a/src/main/java/net/minecraft/server/level/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-@@ -1379,6 +1379,11 @@ public class EntityPlayer extends EntityHuman {
+@@ -1371,6 +1371,11 @@ public class EntityPlayer extends EntityHuman {
  
          PlayerRespawnEvent respawnEvent = new PlayerRespawnEvent(respawnPlayer, location, isBedSpawn, isAnchorSpawn, reason);
          this.level().getCraftServer().getPluginManager().callEvent(respawnEvent);
@@ -22,7 +22,7 @@ index 7c86389a88..4935614a7a 100644
          location = respawnEvent.getRespawnLocation();
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 6ec24ecfce..ea2864bfb7 100644
+index 906b12166..fd32e6c86 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -672,6 +672,11 @@ public abstract class PlayerList {
@@ -38,5 +38,5 @@ index 6ec24ecfce..ea2864bfb7 100644
          entityplayer1.spawnIn(worldserver);
          entityplayer1.unsetRemoved();
 -- 
-2.47.0
+2.47.1
 

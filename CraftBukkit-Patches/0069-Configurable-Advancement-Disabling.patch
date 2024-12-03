@@ -1,4 +1,4 @@
-From 45908f95fbaed65367cb8df7b9467daa1924b37e Mon Sep 17 00:00:00 2001
+From efc27b1f2d9d5b5fd1651f819808e26a249a972d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 9 Jun 2017 16:29:31 +1000
 Subject: [PATCH] Configurable Advancement Disabling
@@ -6,7 +6,7 @@ Subject: [PATCH] Configurable Advancement Disabling
 Allow disabling any (or all) inbuilt advancements with a configuration option.
 
 diff --git a/src/main/java/net/minecraft/server/AdvancementDataPlayer.java b/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
-index 51eea97956..d2d8018b3e 100644
+index 51eea9795..d2d8018b3 100644
 --- a/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
 +++ b/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
 @@ -162,6 +162,7 @@ public class AdvancementDataPlayer {
@@ -18,7 +18,7 @@ index 51eea97956..d2d8018b3e 100644
  
          try {
 diff --git a/src/main/java/net/minecraft/server/AdvancementDataWorld.java b/src/main/java/net/minecraft/server/AdvancementDataWorld.java
-index b3d6afa89b..5a07a19592 100644
+index 59bf53d1c..e582cbc9b 100644
 --- a/src/main/java/net/minecraft/server/AdvancementDataWorld.java
 +++ b/src/main/java/net/minecraft/server/AdvancementDataWorld.java
 @@ -41,6 +41,11 @@ public class AdvancementDataWorld extends ResourceDataJson<Advancement> {
@@ -34,7 +34,7 @@ index b3d6afa89b..5a07a19592 100644
              builder.put(minecraftkey, new AdvancementHolder(minecraftkey, advancement));
          });
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 11a716f919..c17d581422 100644
+index 11a716f91..c17d58142 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -382,4 +382,11 @@ public class SpigotConfig
@@ -50,5 +50,5 @@ index 11a716f919..c17d581422 100644
 +    }
  }
 -- 
-2.47.0
+2.47.1
 

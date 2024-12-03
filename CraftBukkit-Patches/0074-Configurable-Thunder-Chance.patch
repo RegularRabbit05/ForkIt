@@ -1,14 +1,14 @@
-From 3801ad59cdd6b2d118545068e5855ab0231eaa51 Mon Sep 17 00:00:00 2001
+From c834b348710c708aaa165344fba7df6067c7ad27 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 24 Oct 2021 20:29:25 +1100
 Subject: [PATCH] Configurable Thunder Chance
 
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index b62703d5a3..8363aafc0e 100644
+index bffcf315a..acc40bf7c 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -511,7 +511,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -512,7 +512,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
          GameProfilerFiller gameprofilerfiller = Profiler.get();
  
          gameprofilerfiller.push("thunder");
@@ -18,7 +18,7 @@ index b62703d5a3..8363aafc0e 100644
  
              if (this.isRainingAt(blockposition)) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 68cf01386e..b6ac09ee9f 100644
+index 68cf01386..b6ac09ee9 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -382,4 +382,10 @@ public class SpigotWorldConfig
@@ -33,5 +33,5 @@ index 68cf01386e..b6ac09ee9f 100644
 +    }
  }
 -- 
-2.47.0
+2.47.1
 

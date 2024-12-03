@@ -1,11 +1,11 @@
-From 7d0b01101d3ecfdfe8e0a0da8eb7e621749df7e5 Mon Sep 17 00:00:00 2001
+From 9031b67e900c1da7fa172ede2bfcc1e4ba0a344c Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Jun 2013 15:20:49 +1000
 Subject: [PATCH] BungeeCord Support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index fa02099c..975305be 100644
+index da0ddce5..f26ffbdb 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -2291,6 +2291,16 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -26,5 +26,5 @@ index fa02099c..975305be 100644
  
      @NotNull
 -- 
-2.47.0
+2.47.1
 

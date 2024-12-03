@@ -1,11 +1,11 @@
-From f7ad3d34bd1d5875de15a8aa725ab83bd6e33b7a Mon Sep 17 00:00:00 2001
+From aa9438e06ced2cefd896eab3702fbeffd6b967f7 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Sat, 29 Mar 2014 13:44:25 -0400
 Subject: [PATCH] Configurable dragon death and wither spawn sounds
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java
-index 5f999f3f95..de21ec0e45 100644
+index 466a4e754..4cf95c5be 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java
 @@ -664,7 +664,24 @@ public class EntityEnderDragon extends EntityInsentient implements IMonster {
@@ -35,10 +35,10 @@ index 5f999f3f95..de21ec0e45 100644
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java b/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java
-index 4141b122bc..c65cbddf80 100644
+index 7f412cabc..17d9a8e33 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java
-@@ -283,6 +283,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
+@@ -282,6 +282,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
                          double deltaX = this.getX() - player.getX();
                          double deltaZ = this.getZ() - player.getZ();
                          double distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
@@ -47,7 +47,7 @@ index 4141b122bc..c65cbddf80 100644
                              double deltaLength = Math.sqrt(distanceSquared);
                              double relativeX = player.getX() + (deltaX / deltaLength) * viewDistance;
 diff --git a/src/main/java/net/minecraft/world/item/ItemEnderEye.java b/src/main/java/net/minecraft/world/item/ItemEnderEye.java
-index ede4ad7961..a4b00ccbaa 100644
+index ede4ad796..a4b00ccba 100644
 --- a/src/main/java/net/minecraft/world/item/ItemEnderEye.java
 +++ b/src/main/java/net/minecraft/world/item/ItemEnderEye.java
 @@ -62,7 +62,25 @@ public class ItemEnderEye extends Item {
@@ -78,7 +78,7 @@ index ede4ad7961..a4b00ccbaa 100644
  
                  return EnumInteractionResult.SUCCESS;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index d4eb3ccdab..7f5f97defc 100644
+index d4eb3ccda..7f5f97def 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -276,4 +276,22 @@ public class SpigotWorldConfig
@@ -105,5 +105,5 @@ index d4eb3ccdab..7f5f97defc 100644
 +    }
  }
 -- 
-2.47.0
+2.47.1
 

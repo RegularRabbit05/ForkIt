@@ -1,4 +1,4 @@
-From 9226af3ca85df5e5903f4e02094f705c0beb07f0 Mon Sep 17 00:00:00 2001
+From 9d7a5dadbd0f2e3507521291861920d60c17ea3f Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 23 Mar 2013 09:52:41 +1100
 Subject: [PATCH] View Distance
@@ -6,10 +6,10 @@ Subject: [PATCH] View Distance
 This commit allows the user to select per world view distances.
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 0166025d16..8aeb3a5683 100644
+index b861abb19..2a436d2ea 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -277,8 +277,8 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -278,8 +278,8 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
  
          this.entityManager = new PersistentEntitySectionManager<>(Entity.class, new WorldServer.a(), entitypersistentstorage);
          StructureTemplateManager structuretemplatemanager = minecraftserver.getStructureManager();
@@ -21,7 +21,7 @@ index 0166025d16..8aeb3a5683 100644
  
          Objects.requireNonNull(this.entityManager);
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 5f117e0aaf..8fc11b1383 100644
+index 089498cd3..d745be139 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -237,7 +237,8 @@ public abstract class PlayerList {
@@ -44,7 +44,7 @@ index 5f117e0aaf..8fc11b1383 100644
          entityplayer1.connection.send(new PacketPlayOutSpawnPosition(worldserver.getSharedSpawnPos(), worldserver.getSharedSpawnAngle()));
          entityplayer1.connection.send(new PacketPlayOutServerDifficulty(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 5ff085b9e6..acaf903011 100644
+index 5ff085b9e..acaf90301 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -148,4 +148,36 @@ public class SpigotWorldConfig
@@ -85,5 +85,5 @@ index 5ff085b9e6..acaf903011 100644
 +    }
  }
 -- 
-2.47.0
+2.47.1
 

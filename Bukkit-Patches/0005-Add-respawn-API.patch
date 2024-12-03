@@ -1,11 +1,11 @@
-From ba9ed20617e2ca645a2252ad49f2ad446319d4c8 Mon Sep 17 00:00:00 2001
+From b1db32e9a43b89b115df807c026aa81de4d800ec Mon Sep 17 00:00:00 2001
 From: ninja- <xninja@openmailbox.org>
 Date: Tue, 8 Oct 2013 14:35:58 +0200
 Subject: [PATCH] Add respawn API.
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 975305be..8ac939b4 100644
+index f26ffbdb..5a339dbc 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -2301,6 +2301,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -23,5 +23,5 @@ index 975305be..8ac939b4 100644
  
      @NotNull
 -- 
-2.47.0
+2.47.1
 

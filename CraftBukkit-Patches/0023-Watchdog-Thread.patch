@@ -1,11 +1,11 @@
-From 22c46a02acfa99fa605bbf87b6ba63ec7a141788 Mon Sep 17 00:00:00 2001
+From b6d388202839e2ea85409dda10cb09cd52a7c593 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 5 Aug 2014 17:20:19 +0100
 Subject: [PATCH] Watchdog Thread.
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 6efdd15f8..cd7dff5f0 100644
+index 3dce991cb..663ca5c1e 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1120,6 +1120,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
@@ -360,5 +360,5 @@ index 000000000..4734d4ae8
 +    }
 +}
 -- 
-2.47.0
+2.47.1
 

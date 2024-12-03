@@ -1,4 +1,4 @@
-From ef218d51b31e6499b46d5802513105ae009965e1 Mon Sep 17 00:00:00 2001
+From fbce8b84f225fc9936d5308b71c5a9219cd0597b Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Wed, 20 Aug 2014 18:12:32 -0400
 Subject: [PATCH] Limit TNT Detonations per tick
@@ -7,7 +7,7 @@ This gives a per-world control on how much TNT will be processed per-tick,
 preventing a massive TNT detonation from lagging out the server.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java b/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
-index 819a6013ba..7eda81dd3b 100644
+index f8258e15a..8fdaadc1c 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
 @@ -101,6 +101,7 @@ public class EntityTNTPrimed extends Entity implements TraceableEntity {
@@ -19,10 +19,10 @@ index 819a6013ba..7eda81dd3b 100644
          this.applyGravity();
          this.move(EnumMoveType.SELF, this.getDeltaMovement());
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index a9dc7b9f1d..dd710c0635 100644
+index 5d8dc816e..cc771311b 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
-@@ -663,6 +663,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -664,6 +664,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
          timings.tileEntityTick.stopTiming(); // Spigot
          this.tickingBlockEntities = false;
          gameprofilerfiller.pop();
@@ -31,7 +31,7 @@ index a9dc7b9f1d..dd710c0635 100644
  
      public <T extends Entity> void guardEntityTick(Consumer<T> consumer, T t0) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 1b5d1e2837..8411f9e573 100644
+index 1b5d1e283..8411f9e57 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -356,4 +356,15 @@ public class SpigotWorldConfig
@@ -51,5 +51,5 @@ index 1b5d1e2837..8411f9e573 100644
 +    }
  }
 -- 
-2.47.0
+2.47.1
 

@@ -1,11 +1,11 @@
-From cf319036b11948c9d0e0bbc62eceaebfd2f1728a Mon Sep 17 00:00:00 2001
+From 2b7180ee91eccf1864b4bcbf5813f71c262ca98f Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 22 Sep 2013 19:10:53 +1000
 Subject: [PATCH] Item Despawn Rate
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityItem.java b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-index e6969c9d0f..4067b44f68 100644
+index e6969c9d0..4067b44f6 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 @@ -216,7 +216,7 @@ public class EntityItem extends Entity implements TraceableEntity {
@@ -27,7 +27,7 @@ index e6969c9d0f..4067b44f68 100644
  
      public static float getSpin(float f, float f1) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 0c0c29efe5..e3682d28ca 100644
+index 0c0c29efe..e3682d28c 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -187,4 +187,11 @@ public class SpigotWorldConfig
@@ -43,5 +43,5 @@ index 0c0c29efe5..e3682d28ca 100644
 +    }
  }
 -- 
-2.47.0
+2.47.1
 

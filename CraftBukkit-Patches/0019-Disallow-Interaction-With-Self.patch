@@ -1,27 +1,27 @@
-From 18d688db44b904fc1654c215f200ef84475ecb18 Mon Sep 17 00:00:00 2001
+From f564fbec9d03fd558f11ed16483d3eb3228feba1 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 28 Jun 2013 19:52:54 +1000
 Subject: [PATCH] Disallow Interaction With Self
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 4f72da4f06..865171a0ef 100644
+index 4fc6d4149..b4a114fd6 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -2343,6 +2343,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
-         if (this.player.isImmobile()) return; // CraftBukkit
-         final WorldServer worldserver = this.player.serverLevel();
-         final Entity entity = packetplayinuseentity.getTarget(worldserver);
-+        // Spigot Start
-+        if ( entity == player && !player.isSpectator() )
-+        {
-+            disconnect( IChatBaseComponent.literal( "Cannot interact with self!" ) );
-+            return;
-+        }
-+        // Spigot End
+@@ -2418,6 +2418,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+         if (this.player.hasClientLoaded()) {
+             final WorldServer worldserver = this.player.serverLevel();
+             final Entity entity = packetplayinuseentity.getTarget(worldserver);
++            // Spigot Start
++            if ( entity == player && !player.isSpectator() )
++            {
++                disconnect( IChatBaseComponent.literal( "Cannot interact with self!" ) );
++                return;
++            }
++            // Spigot End
  
-         this.player.resetLastActionTime();
-         this.player.setShiftKeyDown(packetplayinuseentity.isUsingSecondaryAction());
+             this.player.resetLastActionTime();
+             this.player.setShiftKeyDown(packetplayinuseentity.isUsingSecondaryAction());
 -- 
-2.47.0
+2.47.1
 

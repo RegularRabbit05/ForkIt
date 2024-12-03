@@ -1,11 +1,11 @@
-From 832257d6556be7732b20cba0de102f82a1dfd227 Mon Sep 17 00:00:00 2001
+From 8a2c966a27341b18b0cb32d9b4dbfee92a7626c9 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoung@mit.edu>
 Date: Sat, 9 Aug 2014 13:56:51 -0400
 Subject: [PATCH] Configurable Hanging Tick
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java b/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java
-index b53a142519..8887aac614 100644
+index b53a14251..8887aac61 100644
 --- a/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/decoration/BlockAttachedEntity.java
 @@ -50,7 +50,7 @@ public abstract class BlockAttachedEntity extends Entity {
@@ -18,7 +18,7 @@ index b53a142519..8887aac614 100644
                  if (!this.isRemoved() && !this.survives()) {
                      // CraftBukkit start - fire break events
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 8411f9e573..76aeff3324 100644
+index 8411f9e57..76aeff332 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -367,4 +367,10 @@ public class SpigotWorldConfig
@@ -33,5 +33,5 @@ index 8411f9e573..76aeff3324 100644
 +    }
  }
 -- 
-2.47.0
+2.47.1
 

@@ -1,4 +1,4 @@
-From 95dc4f8471176ded7ae32aa4fc69fbafde016e0e Mon Sep 17 00:00:00 2001
+From b11683495e2a1aa3927e9fcea450edcd908d130b Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Sat, 2 Nov 2024 18:16:11 +1100
 Subject: [PATCH] Entity Activation Range
@@ -9,10 +9,10 @@ This will drastically cut down on tick timings for entities that are not in rang
 This change can have dramatic impact on gameplay if configured too low. Balance according to your servers desired gameplay.
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 70c66926c..e1b103eef 100644
+index 5bd0ac6eb..f6276730f 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -424,6 +424,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -425,6 +425,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
                  gameprofilerfiller.pop();
              }
  
@@ -20,7 +20,7 @@ index 70c66926c..e1b103eef 100644
              timings.entityTick.startTiming(); // Spigot
              this.entityTickList.forEach((entity) -> {
                  if (!entity.isRemoved()) {
-@@ -856,6 +857,13 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -857,6 +858,13 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
      }
  
      public void tickNonPassenger(Entity entity) {
@@ -35,7 +35,7 @@ index 70c66926c..e1b103eef 100644
          entity.setOldPosAndRot();
          GameProfilerFiller gameprofilerfiller = Profiler.get();
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 847fdd945..f57d1688a 100644
+index d517caa5f..9edb5f38d 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -330,6 +330,12 @@ public abstract class Entity implements SyncedDataHolder, INamableTileEntity, En
@@ -102,7 +102,7 @@ index c7cf7db10..2c621ddad 100644
      public GroupDataEntity finalizeSpawn(WorldAccess worldaccess, DifficultyDamageScaler difficultydamagescaler, EntitySpawnReason entityspawnreason, @Nullable GroupDataEntity groupdataentity) {
          if (groupdataentity == null) {
 diff --git a/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java b/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
-index 62df007ca..0493d23ad 100644
+index 781112452..a5d9cd7dd 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
 @@ -151,6 +151,18 @@ public class EntityAreaEffectCloud extends Entity implements TraceableEntity {
@@ -125,10 +125,10 @@ index 62df007ca..0493d23ad 100644
      public void tick() {
          super.tick();
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index e40c8bf34..3a37ec85b 100644
+index 50d29db11..cf4328e0b 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-@@ -304,6 +304,13 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -302,6 +302,13 @@ public abstract class EntityLiving extends Entity implements Attackable {
          return getYHeadRot();
      }
      // CraftBukkit end
@@ -176,7 +176,7 @@ index 4067b44f6..82140f340 100644
      public BlockPosition getBlockPosBelowThatAffectsMyMovement() {
          return this.getOnPos(0.999999F);
 diff --git a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-index f907e3491..c28851326 100644
+index 0ed62c68d..4cca5ce91 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
 @@ -225,6 +225,17 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
@@ -198,10 +198,10 @@ index f907e3491..c28851326 100644
      protected void customServerAiStep(WorldServer worldserver) {
          GameProfilerFiller gameprofilerfiller = Profiler.get();
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java b/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
-index a59456dd5..cc352059d 100644
+index 6b9d7337a..ec634f372 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
-@@ -83,6 +83,18 @@ public abstract class EntityArrow extends IProjectile {
+@@ -85,6 +85,18 @@ public abstract class EntityArrow extends IProjectile {
      @Nullable
      public ItemStack firedFromWeapon;
  
@@ -563,5 +563,5 @@ index e3682d28c..936279b5f 100644
 +    }
  }
 -- 
-2.47.0
+2.47.1
 

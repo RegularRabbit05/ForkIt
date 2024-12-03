@@ -1,4 +1,4 @@
-From 1438df0ea1c06c799cff75cd34d4aeac201d0a4c Mon Sep 17 00:00:00 2001
+From 9c28d665e4afdd35174b41e25b343befdb690657 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 4 Jul 2014 13:28:45 +1000
 Subject: [PATCH] Further Seed Customisation
@@ -6,7 +6,7 @@ Subject: [PATCH] Further Seed Customisation
 Allow server admins that really want to to customise the seeds used in world generation even further.
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index ba35aafbf9..19e3bdbf48 100644
+index ba35aafbf..19e3bdbf4 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 @@ -207,7 +207,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
@@ -19,7 +19,7 @@ index ba35aafbf9..19e3bdbf48 100644
          ConsecutiveExecutor consecutiveexecutor = new ConsecutiveExecutor(executor, "worldgen");
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java b/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
-index 14f764e898..d497f33d0b 100644
+index 14f764e89..d497f33d0 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
 @@ -343,7 +343,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
@@ -32,10 +32,10 @@ index 14f764e898..d497f33d0b 100644
              if (randomsource.nextInt(10) == 0 && flag && blockposition.getY() < 40) {
                  return checkMobSpawnRules(entitytypes, generatoraccess, entityspawnreason, blockposition, randomsource);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-index 956efa598d..4aef1165b3 100644
+index 757325ad7..b8c182709 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-@@ -107,8 +107,8 @@ public abstract class ChunkGenerator {
+@@ -108,8 +108,8 @@ public abstract class ChunkGenerator {
  
      protected abstract MapCodec<? extends ChunkGenerator> codec();
  
@@ -47,7 +47,7 @@ index 956efa598d..4aef1165b3 100644
  
      public Optional<ResourceKey<MapCodec<? extends ChunkGenerator>>> getTypeNameForDataFixer() {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
-index 46aaabdc80..36c038c887 100644
+index 46aaabdc8..36c038c88 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
 @@ -34,6 +34,11 @@ import net.minecraft.world.level.levelgen.structure.placement.ConcentricRingsStr
@@ -149,7 +149,7 @@ index 46aaabdc80..36c038c887 100644
      private static boolean hasBiomesForStructureSet(StructureSet structureset, WorldChunkManager worldchunkmanager) {
          Stream<Holder<BiomeBase>> stream = structureset.structures().stream().flatMap((structureset_a) -> {
 diff --git a/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java b/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java
-index 76f094b541..1293786c1f 100644
+index 76f094b54..1293786c1 100644
 --- a/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java
 +++ b/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java
 @@ -48,14 +48,14 @@ public class ChunkProviderFlat extends ChunkGenerator {
@@ -170,7 +170,7 @@ index 76f094b541..1293786c1f 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-index b786d5aefb..f8246da211 100644
+index b786d5aef..f8246da21 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 @@ -220,7 +220,7 @@ public class CraftChunk implements Chunk {
@@ -183,7 +183,7 @@ index b786d5aefb..f8246da211 100644
  
      @Override
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 7f5f97defc..7882c95f4c 100644
+index 7f5f97def..7882c95f4 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -294,4 +294,40 @@ public class SpigotWorldConfig
@@ -228,5 +228,5 @@ index 7f5f97defc..7882c95f4c 100644
 +    }
  }
 -- 
-2.47.0
+2.47.1
 

@@ -1,11 +1,11 @@
-From f9d0a3ddb6c114c3e92a05a38955e770b755e2f5 Mon Sep 17 00:00:00 2001
+From b3709fdb23f310040f4962defbf0fcb36007e0d1 Mon Sep 17 00:00:00 2001
 From: DerFrZocker <derrieple@gmail.com>
 Date: Sun, 28 Nov 2021 12:09:29 +1100
 Subject: [PATCH] Configurable Below Zero Generation
 
 
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java b/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java
-index e44a7582f0..95acf5cc8a 100644
+index e44a7582f..95acf5cc8 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java
 @@ -108,8 +108,22 @@ public class IChunkLoader implements AutoCloseable {
@@ -32,7 +32,7 @@ index e44a7582f0..95acf5cc8a 100644
                  GameProfileSerializer.addCurrentDataVersion(nbttagcompound);
                  return nbttagcompound;
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 5e7ec99192..1c4649f727 100644
+index 5e7ec9919..1c4649f72 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -401,4 +401,9 @@ public class SpigotConfig
@@ -46,7 +46,7 @@ index 5e7ec99192..1c4649f727 100644
 +    }
  }
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index b6ac09ee9f..ebddbf6d0c 100644
+index b6ac09ee9..ebddbf6d0 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -388,4 +388,9 @@ public class SpigotWorldConfig
@@ -60,5 +60,5 @@ index b6ac09ee9f..ebddbf6d0c 100644
 +    }
  }
 -- 
-2.47.0
+2.47.1
 
