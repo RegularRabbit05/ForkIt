@@ -1,4 +1,4 @@
-From e7f470f4597a55606b16c94fe38ae36073b9d99c Mon Sep 17 00:00:00 2001
+From d398bd7a4f77716d4b96d86addbb2a637245777d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 23 Mar 2013 09:46:33 +1100
 Subject: [PATCH] Merge tweaks and configuration
@@ -6,7 +6,7 @@ Subject: [PATCH] Merge tweaks and configuration
 This allows the merging of Experience orbs, as well as the configuration of the merge radius of items. Additionally it refactors the merge algorithm to be a better experience for players.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityItem.java b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-index 42c72aa56..e6969c9d0 100644
+index 42c72aa564..e6969c9d0f 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 @@ -250,7 +250,10 @@ public class EntityItem extends Entity implements TraceableEntity {
@@ -31,10 +31,10 @@ index 42c72aa56..e6969c9d0 100644
              } else {
                  merge(entityitem, itemstack1, this, itemstack);
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index bc49380ba..029812631 100644
+index 9ef6ac8868..d280d6bc14 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -717,6 +717,23 @@ public class CraftEventFactory {
+@@ -721,6 +721,23 @@ public class CraftEventFactory {
              return false;
          }
  
@@ -59,7 +59,7 @@ index bc49380ba..029812631 100644
      }
  
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index f42972427..5ff085b9e 100644
+index f42972427b..5ff085b9e6 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -134,4 +134,18 @@ public class SpigotWorldConfig

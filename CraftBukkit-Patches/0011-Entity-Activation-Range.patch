@@ -1,4 +1,4 @@
-From b11683495e2a1aa3927e9fcea450edcd908d130b Mon Sep 17 00:00:00 2001
+From 9c863147942fe6c4720b8155361461d24d4cf4c0 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Sat, 2 Nov 2024 18:16:11 +1100
 Subject: [PATCH] Entity Activation Range
@@ -9,7 +9,7 @@ This will drastically cut down on tick timings for entities that are not in rang
 This change can have dramatic impact on gameplay if configured too low. Balance according to your servers desired gameplay.
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 5bd0ac6eb..f6276730f 100644
+index 1f63f833f1..71550037ae 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
 @@ -425,6 +425,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
@@ -35,7 +35,7 @@ index 5bd0ac6eb..f6276730f 100644
          entity.setOldPosAndRot();
          GameProfilerFiller gameprofilerfiller = Profiler.get();
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index d517caa5f..9edb5f38d 100644
+index d517caa5f9..9edb5f38d7 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -330,6 +330,12 @@ public abstract class Entity implements SyncedDataHolder, INamableTileEntity, En
@@ -66,7 +66,7 @@ index d517caa5f..9edb5f38d 100644
  
          datawatcher_a.define(Entity.DATA_SHARED_FLAGS_ID, (byte) 0);
 diff --git a/src/main/java/net/minecraft/world/entity/EntityAgeable.java b/src/main/java/net/minecraft/world/entity/EntityAgeable.java
-index c7cf7db10..2c621ddad 100644
+index c7cf7db106..2c621ddad9 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityAgeable.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityAgeable.java
 @@ -27,6 +27,31 @@ public abstract class EntityAgeable extends EntityCreature {
@@ -102,7 +102,7 @@ index c7cf7db10..2c621ddad 100644
      public GroupDataEntity finalizeSpawn(WorldAccess worldaccess, DifficultyDamageScaler difficultydamagescaler, EntitySpawnReason entityspawnreason, @Nullable GroupDataEntity groupdataentity) {
          if (groupdataentity == null) {
 diff --git a/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java b/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
-index 781112452..a5d9cd7dd 100644
+index 7811124528..a5d9cd7dd2 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
 @@ -151,6 +151,18 @@ public class EntityAreaEffectCloud extends Entity implements TraceableEntity {
@@ -125,7 +125,7 @@ index 781112452..a5d9cd7dd 100644
      public void tick() {
          super.tick();
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index 50d29db11..cf4328e0b 100644
+index 50d29db117..cf4328e0ba 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -302,6 +302,13 @@ public abstract class EntityLiving extends Entity implements Attackable {
@@ -143,7 +143,7 @@ index 50d29db11..cf4328e0b 100644
      protected EntityLiving(EntityTypes<? extends EntityLiving> entitytypes, World world) {
          super(entitytypes, world);
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityItem.java b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-index 4067b44f6..82140f340 100644
+index 4067b44f68..82140f340e 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 @@ -229,6 +229,28 @@ public class EntityItem extends Entity implements TraceableEntity {
@@ -176,10 +176,10 @@ index 4067b44f6..82140f340 100644
      public BlockPosition getBlockPosBelowThatAffectsMyMovement() {
          return this.getOnPos(0.999999F);
 diff --git a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-index 0ed62c68d..4cca5ce91 100644
+index e58c5ea46f..2bf898e97f 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-@@ -225,6 +225,17 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+@@ -230,6 +230,17 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
          return this.assignProfessionWhenSpawned;
      }
  
@@ -198,7 +198,7 @@ index 0ed62c68d..4cca5ce91 100644
      protected void customServerAiStep(WorldServer worldserver) {
          GameProfilerFiller gameprofilerfiller = Profiler.get();
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java b/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
-index 6b9d7337a..ec634f372 100644
+index 6b9d7337a9..ec634f372e 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/EntityArrow.java
 @@ -85,6 +85,18 @@ public abstract class EntityArrow extends IProjectile {
@@ -221,7 +221,7 @@ index 6b9d7337a..ec634f372 100644
          super(entitytypes, world);
          this.pickup = EntityArrow.PickupStatus.DISALLOWED;
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java b/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java
-index 018fcda5e..9846d617e 100644
+index 018fcda5e7..9846d617e2 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java
 @@ -88,6 +88,28 @@ public class EntityFireworks extends IProjectile implements ItemSupplier {
@@ -254,7 +254,7 @@ index 018fcda5e..9846d617e 100644
      protected void defineSynchedData(DataWatcher.a datawatcher_a) {
          datawatcher_a.define(EntityFireworks.DATA_ID_FIREWORKS_ITEM, getDefaultItem());
 diff --git a/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java b/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java
-index aff7b6b43..d3328a695 100644
+index aff7b6b438..d3328a695f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java
 +++ b/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java
 @@ -39,6 +39,9 @@ public class SpigotTimings {
@@ -269,10 +269,10 @@ index aff7b6b43..d3328a695 100644
      public static final HashMap<String, CustomTimingsHandler> pluginTaskTimingMap = new HashMap<String, CustomTimingsHandler>();
 diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
 new file mode 100644
-index 000000000..6b0fb6d0d
+index 0000000000..9228a07813
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/ActivationRange.java
-@@ -0,0 +1,263 @@
+@@ -0,0 +1,268 @@
 +package org.spigotmc;
 +
 +import net.minecraft.server.MinecraftServer;
@@ -353,6 +353,11 @@ index 000000000..6b0fb6d0d
 +     */
 +    public static boolean initializeEntityActivationState(Entity entity, SpigotWorldConfig config)
 +    {
++        if ( config == null )
++        {
++            return false;
++        }
++
 +        if ( ( entity.activationType == ActivationType.MISC && config.miscActivationRange == 0 )
 +                || ( entity.activationType == ActivationType.RAIDER && config.raiderActivationRange == 0 )
 +                || ( entity.activationType == ActivationType.ANIMAL && config.animalActivationRange == 0 )
@@ -537,7 +542,7 @@ index 000000000..6b0fb6d0d
 +    }
 +}
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index e3682d28c..936279b5f 100644
+index e3682d28ca..936279b5fb 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -194,4 +194,21 @@ public class SpigotWorldConfig

@@ -1,14 +1,14 @@
-From da352dbc8515ded572bc6bfe84adff8940ab31b8 Mon Sep 17 00:00:00 2001
+From 6b4ae0e7d008771e04aa25f8dbf60a58df46fb34 Mon Sep 17 00:00:00 2001
 From: lazertester <austin.techhead@gmail.com>
 Date: Sun, 17 Aug 2014 19:56:17 +1000
 Subject: [PATCH] Add Hunger Config Values
 
 
 diff --git a/src/main/java/net/minecraft/server/level/EntityPlayer.java b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-index 2f80e275b..fbc066f0e 100644
+index 7c7e49adc2..b72cbda134 100644
 --- a/src/main/java/net/minecraft/server/level/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-@@ -1893,19 +1893,19 @@ public class EntityPlayer extends EntityHuman {
+@@ -1894,19 +1894,19 @@ public class EntityPlayer extends EntityHuman {
                  i = Math.round((float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * 100.0F);
                  if (i > 0) {
                      this.awardStat(StatisticList.SWIM_ONE_CM, i);
@@ -31,7 +31,7 @@ index 2f80e275b..fbc066f0e 100644
                  }
              } else if (this.onClimbable()) {
                  if (d1 > 0.0D) {
-@@ -1916,13 +1916,13 @@ public class EntityPlayer extends EntityHuman {
+@@ -1917,13 +1917,13 @@ public class EntityPlayer extends EntityHuman {
                  if (i > 0) {
                      if (this.isSprinting()) {
                          this.awardStat(StatisticList.SPRINT_ONE_CM, i);
@@ -48,7 +48,7 @@ index 2f80e275b..fbc066f0e 100644
                      }
                  }
              } else if (this.isFallFlying()) {
-@@ -2005,9 +2005,9 @@ public class EntityPlayer extends EntityHuman {
+@@ -2006,9 +2006,9 @@ public class EntityPlayer extends EntityHuman {
          super.jumpFromGround();
          this.awardStat(StatisticList.JUMP);
          if (this.isSprinting()) {
@@ -61,7 +61,7 @@ index 2f80e275b..fbc066f0e 100644
  
      }
 diff --git a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
-index 58082f5bf..fadaaa6ef 100644
+index 58082f5bf3..fadaaa6efe 100644
 --- a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
 +++ b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
 @@ -1403,7 +1403,7 @@ public abstract class EntityHuman extends EntityLiving {
@@ -74,7 +74,7 @@ index 58082f5bf..fadaaa6ef 100644
                          this.level().playSound((EntityHuman) null, this.getX(), this.getY(), this.getZ(), SoundEffects.PLAYER_ATTACK_NODAMAGE, this.getSoundSource(), 1.0F, 1.0F);
                          // CraftBukkit start - resync on cancelled event
 diff --git a/src/main/java/net/minecraft/world/food/FoodMetaData.java b/src/main/java/net/minecraft/world/food/FoodMetaData.java
-index 4bf05462c..cc375483c 100644
+index 4bf05462ca..cc375483c2 100644
 --- a/src/main/java/net/minecraft/world/food/FoodMetaData.java
 +++ b/src/main/java/net/minecraft/world/food/FoodMetaData.java
 @@ -91,7 +91,7 @@ public class FoodMetaData {
@@ -87,7 +87,7 @@ index 4bf05462c..cc375483c 100644
              }
          } else if (this.foodLevel <= 0) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 7882c95f4..1b5d1e283 100644
+index 7882c95f4c..1b5d1e2837 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -330,4 +330,30 @@ public class SpigotWorldConfig
