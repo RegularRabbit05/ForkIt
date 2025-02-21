@@ -1,4 +1,4 @@
-From 3f477693301339f73ed256668c2d0a6daf5c3aaa Mon Sep 17 00:00:00 2001
+From 1a4a9745253ade9eb30524e1369de5ba4a6034d3 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 19:21:58 +1000
 Subject: [PATCH] Configurable Messages
@@ -45,10 +45,10 @@ index d745be139..906b12166 100644
          }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 2ccabcb18..db46d24fd 100644
+index 49e7eccd8..20e5b6e69 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -906,11 +906,11 @@ public final class CraftServer implements Server {
+@@ -905,11 +905,11 @@ public final class CraftServer implements Server {
              return true;
          }
  
@@ -106,5 +106,5 @@ index fc352ecf1..8ad8b2589 100644
 +    }
  }
 -- 
-2.47.1
+2.48.1
 

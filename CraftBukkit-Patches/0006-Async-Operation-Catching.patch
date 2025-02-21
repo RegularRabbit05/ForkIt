@@ -1,4 +1,4 @@
-From 97ff8b2304836754dc4178e714f3484009a01288 Mon Sep 17 00:00:00 2001
+From 2e25ec5d0bdcf5e6f9d2df7863ae02067ba4b893 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 25 Mar 2014 16:10:01 +1100
 Subject: [PATCH] Async Operation Catching
@@ -6,7 +6,7 @@ Subject: [PATCH] Async Operation Catching
 Catch and throw an exception when a potentially unsafe operation occurs on a thread other than the main server thread.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMapDistance.java b/src/main/java/net/minecraft/server/level/ChunkMapDistance.java
-index faff79f8f..2e44b6852 100644
+index faff79f8f..ef80239bd 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMapDistance.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMapDistance.java
 @@ -102,6 +102,7 @@ public abstract class ChunkMapDistance {
@@ -17,6 +17,14 @@ index faff79f8f..2e44b6852 100644
          this.naturalSpawnChunkCounter.runAllUpdates();
          this.tickingTicketsTracker.runAllUpdates();
          this.playerTicketManager.runAllUpdates();
+@@ -468,6 +469,7 @@ public abstract class ChunkMapDistance {
+ 
+         @Override
+         protected void setLevel(long i, int j) {
++            org.spigotmc.AsyncCatcher.catchOp("chunk level update"); // Spigot
+             PlayerChunk playerchunk = ChunkMapDistance.this.getChunk(i);
+             int k = playerchunk == null ? ChunkMapDistance.a.MAX_LEVEL : playerchunk.getTicketLevel();
+ 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 index 4d8aa931f..5043631d1 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
@@ -137,10 +145,10 @@ index d60d8b93f..102121490 100644
              world.removeBlockEntity(blockposition);
          }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 71cb0d98b..862f5d3ec 100644
+index 8831f1d4f..cb8ee2a64 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -900,6 +900,7 @@ public final class CraftServer implements Server {
+@@ -899,6 +899,7 @@ public final class CraftServer implements Server {
      public boolean dispatchCommand(CommandSender sender, String commandLine) {
          Preconditions.checkArgument(sender != null, "sender cannot be null");
          Preconditions.checkArgument(commandLine != null, "commandLine cannot be null");
@@ -149,7 +157,7 @@ index 71cb0d98b..862f5d3ec 100644
          if (commandMap.dispatch(sender, commandLine)) {
              return true;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index b689d7d20..3aad490b1 100644
+index 54c601d73..ad0d8e975 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -288,6 +288,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
@@ -213,7 +221,7 @@ index ff47b09dc..f9aba6e6d 100644
          List<Entity> notchEntityList = entity.level().getEntities(entity, entity.getBoundingBox().inflate(x, y, z), Predicates.alwaysTrue());
          List<org.bukkit.entity.Entity> bukkitEntityList = new java.util.ArrayList<org.bukkit.entity.Entity>(notchEntityList.size());
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index daf975fd0..7e49a4edf 100644
+index 8e39697f9..a289d7668 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -496,6 +496,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
