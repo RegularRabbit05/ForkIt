@@ -1,11 +1,11 @@
-From 2817309e7d6190dcdb4120bdd894aa92e4bd74df Mon Sep 17 00:00:00 2001
+From cb7c1d280247b5e25689cd1db199a3666908d6dc Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thinkofdeath@spigotmc.org>
 Date: Sun, 29 Jun 2014 21:10:34 +0100
 Subject: [PATCH] Limit block placement/interaction packets
 
 
 diff --git a/src/main/java/net/minecraft/network/protocol/game/PacketPlayInBlockPlace.java b/src/main/java/net/minecraft/network/protocol/game/PacketPlayInBlockPlace.java
-index f1adb85f2..402f4487b 100644
+index 774be58a0..3267f98e3 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/PacketPlayInBlockPlace.java
 +++ b/src/main/java/net/minecraft/network/protocol/game/PacketPlayInBlockPlace.java
 @@ -14,6 +14,7 @@ public class PacketPlayInBlockPlace implements Packet<PacketListenerPlayIn> {
@@ -25,7 +25,7 @@ index f1adb85f2..402f4487b 100644
          this.sequence = packetdataserializer.readVarInt();
          this.yRot = packetdataserializer.readFloat();
 diff --git a/src/main/java/net/minecraft/network/protocol/game/PacketPlayInUseItem.java b/src/main/java/net/minecraft/network/protocol/game/PacketPlayInUseItem.java
-index ad5a18ee9..de5ff1a4d 100644
+index 92a182668..66ac250db 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/PacketPlayInUseItem.java
 +++ b/src/main/java/net/minecraft/network/protocol/game/PacketPlayInUseItem.java
 @@ -14,6 +14,7 @@ public class PacketPlayInUseItem implements Packet<PacketListenerPlayIn> {
@@ -45,10 +45,10 @@ index ad5a18ee9..de5ff1a4d 100644
          this.blockHit = packetdataserializer.readBlockHitResult();
          this.sequence = packetdataserializer.readVarInt();
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 9c2ad597e..8a6dc6c01 100644
+index 8ace16b40..da95cd08c 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -1608,10 +1608,30 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1712,10 +1712,30 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          }
      }
  
@@ -79,7 +79,7 @@ index 9c2ad597e..8a6dc6c01 100644
          if (this.player.hasClientLoaded()) {
              this.player.connection.ackBlockChangesUpTo(packetplayinuseitem.getSequence());
              WorldServer worldserver = this.player.serverLevel();
-@@ -1674,6 +1694,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1778,6 +1798,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
      public void handleUseItem(PacketPlayInBlockPlace packetplayinblockplace) {
          PlayerConnectionUtils.ensureRunningOnSameThread(packetplayinblockplace, this, this.player.serverLevel());
          if (this.player.isImmobile()) return; // CraftBukkit
@@ -88,5 +88,5 @@ index 9c2ad597e..8a6dc6c01 100644
              this.ackBlockChangesUpTo(packetplayinblockplace.getSequence());
              WorldServer worldserver = this.player.serverLevel();
 -- 
-2.47.1
+2.49.0
 

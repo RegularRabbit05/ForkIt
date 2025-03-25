@@ -1,28 +1,28 @@
-From 86f4d2c80721ed6d1fb8cec475b6bd6c80dc0e7d Mon Sep 17 00:00:00 2001
+From f50eab37a4b8b9e9cbd0aaf6ad52f4847cde7111 Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thethinkofdeath@gmail.com>
 Date: Tue, 7 Jan 2014 15:56:26 +0000
 Subject: [PATCH] Allow statistics to be disabled/forced
 
 
 diff --git a/src/main/java/net/minecraft/stats/ServerStatisticManager.java b/src/main/java/net/minecraft/stats/ServerStatisticManager.java
-index f9236cd8b..71766d2e6 100644
+index 5e7623cb5..637378508 100644
 --- a/src/main/java/net/minecraft/stats/ServerStatisticManager.java
 +++ b/src/main/java/net/minecraft/stats/ServerStatisticManager.java
-@@ -48,6 +48,13 @@ public class ServerStatisticManager extends StatisticManager {
+@@ -72,6 +72,13 @@ public class ServerStatisticManager extends StatisticManager {
      public ServerStatisticManager(MinecraftServer minecraftserver, File file) {
          this.server = minecraftserver;
          this.file = file;
 +        // Spigot start
-+        for ( Map.Entry<MinecraftKey, Integer> entry : org.spigotmc.SpigotConfig.forcedStats.entrySet() )
++        for ( Map.Entry<net.minecraft.resources.MinecraftKey, Integer> entry : org.spigotmc.SpigotConfig.forcedStats.entrySet() )
 +        {
-+            Statistic<MinecraftKey> wrapper = StatisticList.CUSTOM.get( entry.getKey() );
++            Statistic<net.minecraft.resources.MinecraftKey> wrapper = StatisticList.CUSTOM.get( entry.getKey() );
 +            this.stats.put( wrapper, entry.getValue().intValue() );
 +        }
 +        // Spigot end
          if (file.isFile()) {
              try {
                  this.parseLocal(minecraftserver.getFixerUpper(), FileUtils.readFileToString(file));
-@@ -61,6 +68,7 @@ public class ServerStatisticManager extends StatisticManager {
+@@ -85,6 +92,7 @@ public class ServerStatisticManager extends StatisticManager {
      }
  
      public void save() {
@@ -30,7 +30,7 @@ index f9236cd8b..71766d2e6 100644
          try {
              FileUtils.writeStringToFile(this.file, this.toJson());
          } catch (IOException ioexception) {
-@@ -71,6 +79,7 @@ public class ServerStatisticManager extends StatisticManager {
+@@ -95,6 +103,7 @@ public class ServerStatisticManager extends StatisticManager {
  
      @Override
      public void setValue(EntityHuman entityhuman, Statistic<?> statistic, int i) {
@@ -94,5 +94,5 @@ index 809177065..db04e7418 100644
 +    }
  }
 -- 
-2.47.1
+2.49.0
 

@@ -1,14 +1,14 @@
-From 7eea70f581588caa5982483920e75731a3fbd921 Mon Sep 17 00:00:00 2001
+From 46ee542daac93973232d90a42b6a678b7e0b63f6 Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Tue, 22 Jul 2014 15:59:01 +0200
 Subject: [PATCH] Make "moved too quickly" limit configurable
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 364e2d8ca..87a20f5b2 100644
+index fec26227d..a0f7e83f9 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -537,7 +537,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -548,7 +548,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  }
                  speed *= 2f; // TODO: Get the speed of the vehicle instead of the player
  
@@ -17,15 +17,15 @@ index 364e2d8ca..87a20f5b2 100644
                  // CraftBukkit end
                      PlayerConnection.LOGGER.warn("{} (vehicle of {}) moved too quickly! {},{},{}", new Object[]{entity.getName().getString(), this.player.getName().getString(), d6, d7, d8});
                      this.send(PacketPlayOutVehicleMove.fromEntity(entity));
-@@ -1256,7 +1256,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
-                                 if (this.shouldCheckPlayerMovement(flag)) {
-                                     float f2 = flag ? 300.0F : 100.0F;
+@@ -1364,7 +1364,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+                                     if (this.shouldCheckPlayerMovement(flag)) {
+                                         float f2 = flag ? 300.0F : 100.0F;
  
--                                    if (d10 - d9 > Math.max(f2, Math.pow((double) (10.0F * (float) i * speed), 2))) {
-+                                    if (d10 - d9 > Math.max(f2, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2))) {
-                                     // CraftBukkit end
-                                         PlayerConnection.LOGGER.warn("{} moved too quickly! {},{},{}", new Object[]{this.player.getName().getString(), d6, d7, d8});
-                                         this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
+-                                        if (d10 - d9 > Math.max(f2, Math.pow((double) (10.0F * (float) i * speed), 2))) {
++                                        if (d10 - d9 > Math.max(f2, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2))) {
+                                         // CraftBukkit end
+                                             PlayerConnection.LOGGER.warn("{} moved too quickly! {},{},{}", new Object[]{this.player.getName().getString(), d6, d7, d8});
+                                             this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
 index 64156e8c6..45cdda2f9 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
@@ -42,5 +42,5 @@ index 64156e8c6..45cdda2f9 100644
 +    }
  }
 -- 
-2.47.1
+2.49.0
 

@@ -1,20 +1,20 @@
-From 3b97c352c497e9e1853f5ab60980ce19f49d09d0 Mon Sep 17 00:00:00 2001
+From 5b0855dd8a7dab30714682a83c7887c3b01c5aea Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 18 May 2024 11:39:58 +1000
 Subject: [PATCH] Add unload-frozen-chunks option
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-index 156d359f2..5f8c491eb 100644
+index 80d916877..728432773 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-@@ -364,7 +364,7 @@ public class ChunkProviderServer extends IChunkProvider {
+@@ -368,7 +368,7 @@ public class ChunkProviderServer extends IChunkProvider {
  
          gameprofilerfiller.push("purge");
          this.level.timings.doChunkMap.startTiming(); // Spigot
 -        if (this.level.tickRateManager().runsNormally() || !flag) {
 +        if (this.level.tickRateManager().runsNormally() || !flag || this.level.spigotConfig.unloadFrozenChunks) { // Spigot
-             this.distanceManager.purgeStaleTickets();
+             this.ticketStorage.purgeStaleTickets();
          }
  
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
@@ -32,5 +32,5 @@ index ebddbf6d0..2891e2537 100644
 +    }
  }
 -- 
-2.47.1
+2.49.0
 

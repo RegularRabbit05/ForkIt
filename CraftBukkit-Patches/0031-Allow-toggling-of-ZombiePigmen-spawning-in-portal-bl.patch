@@ -1,20 +1,20 @@
-From 8b20c768cd3ac386712d7c03e2b6dece1eec4bf3 Mon Sep 17 00:00:00 2001
+From 1fcaac7870296e1f5d3e575bd1d7df7af9147c90 Mon Sep 17 00:00:00 2001
 From: Dmck2b <dmck2b+github@gmail.com>
 Date: Mon, 20 Jan 2014 20:18:23 +0000
 Subject: [PATCH] Allow toggling of ZombiePigmen spawning in portal blocks
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockPortal.java b/src/main/java/net/minecraft/world/level/block/BlockPortal.java
-index d842419f3..27e09daad 100644
+index 5b50d7ff4..77faf6771 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockPortal.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockPortal.java
 @@ -80,7 +80,7 @@ public class BlockPortal extends Block implements Portal {
  
      @Override
      protected void randomTick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, RandomSource randomsource) {
--        if (worldserver.dimensionType().natural() && worldserver.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && randomsource.nextInt(2000) < worldserver.getDifficulty().getId()) {
-+        if (worldserver.spigotConfig.enableZombiePigmenPortalSpawns && worldserver.dimensionType().natural() && worldserver.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && randomsource.nextInt(2000) < worldserver.getDifficulty().getId()) { // Spigot
-             while (worldserver.getBlockState(blockposition).is((Block) this)) {
+-        if (worldserver.dimensionType().natural() && worldserver.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && randomsource.nextInt(2000) < worldserver.getDifficulty().getId() && worldserver.anyPlayerCloseEnoughForSpawning(blockposition)) {
++        if (worldserver.spigotConfig.enableZombiePigmenPortalSpawns && worldserver.dimensionType().natural() && worldserver.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && randomsource.nextInt(2000) < worldserver.getDifficulty().getId() && worldserver.anyPlayerCloseEnoughForSpawning(blockposition)) { // Spigot
+             while (worldserver.getBlockState(blockposition).is(this)) {
                  blockposition = blockposition.below();
              }
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
@@ -34,5 +34,5 @@ index 3e398c4e0..d4eb3ccda 100644
 +    }
  }
 -- 
-2.47.1
+2.49.0
 

@@ -1,14 +1,14 @@
-From 36161aebc02cb47aed17d16f35b42d5f0355044f Mon Sep 17 00:00:00 2001
+From 7faf37ac00b3197c68f13433680cd7811536752e Mon Sep 17 00:00:00 2001
 From: ninja- <xninja@openmailbox.org>
 Date: Tue, 8 Oct 2013 14:34:49 +0200
 Subject: [PATCH] Implement respawn API.
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 7e49a4edf..f047179df 100644
+index a61b8e4d0..316a07e93 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2347,6 +2347,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2352,6 +2352,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      // Spigot start
      private final Player.Spigot spigot = new Player.Spigot()
      {
@@ -25,5 +25,5 @@ index 7e49a4edf..f047179df 100644
  
      public Player.Spigot spigot()
 -- 
-2.47.1
+2.49.0
 

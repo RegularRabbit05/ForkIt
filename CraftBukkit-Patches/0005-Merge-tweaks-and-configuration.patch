@@ -1,4 +1,4 @@
-From b05ae9be64cc553b0862bf4813b64478e8af7690 Mon Sep 17 00:00:00 2001
+From 0ed11d10a11d805793af276a231db2e2649d93b7 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 23 Mar 2013 09:46:33 +1100
 Subject: [PATCH] Merge tweaks and configuration
@@ -6,22 +6,22 @@ Subject: [PATCH] Merge tweaks and configuration
 This allows the merging of Experience orbs, as well as the configuration of the merge radius of items. Additionally it refactors the merge algorithm to be a better experience for players.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityItem.java b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-index 42c72aa56..e6969c9d0 100644
+index 3d4fe3f4d..acb1a58ae 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-@@ -250,7 +250,10 @@ public class EntityItem extends Entity implements TraceableEntity {
+@@ -259,7 +259,10 @@ public class EntityItem extends Entity implements TraceableEntity {
  
      private void mergeWithNeighbours() {
          if (this.isMergable()) {
--            List<EntityItem> list = this.level().getEntitiesOfClass(EntityItem.class, this.getBoundingBox().inflate(0.5D, 0.0D, 0.5D), (entityitem) -> {
+-            for (EntityItem entityitem : this.level().getEntitiesOfClass(EntityItem.class, this.getBoundingBox().inflate(0.5D, 0.0D, 0.5D), (entityitem1) -> {
 +            // Spigot start
 +            double radius = this.level().spigotConfig.itemMerge;
-+            List<EntityItem> list = this.level().getEntitiesOfClass(EntityItem.class, this.getBoundingBox().inflate(radius, radius - 0.5D, radius), (entityitem) -> {
++            for (EntityItem entityitem : this.level().getEntitiesOfClass(EntityItem.class, this.getBoundingBox().inflate(radius, radius - 0.5D, radius), (entityitem1) -> {
 +                // Spigot end
-                 return entityitem != this && entityitem.isMergable();
-             });
-             Iterator iterator = list.iterator();
-@@ -280,7 +283,7 @@ public class EntityItem extends Entity implements TraceableEntity {
+                 return entityitem1 != this && entityitem1.isMergable();
+             })) {
+                 if (entityitem.isMergable()) {
+@@ -284,7 +287,7 @@ public class EntityItem extends Entity implements TraceableEntity {
          ItemStack itemstack1 = entityitem.getItem();
  
          if (Objects.equals(this.target, entityitem.target) && areMergable(itemstack, itemstack1)) {
@@ -31,7 +31,7 @@ index 42c72aa56..e6969c9d0 100644
              } else {
                  merge(entityitem, itemstack1, this, itemstack);
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index dfcc86531..0fe7c7650 100644
+index 1f47a53b0..5137480fe 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 @@ -728,6 +728,23 @@ public class CraftEventFactory {
@@ -46,7 +46,7 @@ index dfcc86531..0fe7c7650 100644
 +                for (Entity e : entities) {
 +                    if (e instanceof EntityExperienceOrb loopItem) {
 +                        if (!loopItem.isRemoved()) {
-+                            xp.value += loopItem.value;
++                            xp.setValue(xp.getValue() + loopItem.getValue());
 +                            loopItem.discard(null); // Add Bukkit remove cause
 +                        }
 +                    }
@@ -82,5 +82,5 @@ index f42972427..5ff085b9e 100644
 +    }
  }
 -- 
-2.48.1
+2.49.0
 

@@ -1,14 +1,14 @@
-From 78fc531d7f6d044a936765d0c2773ea8753a59a8 Mon Sep 17 00:00:00 2001
+From 5297ef7961b358352e9a27b452321f813c68a89b Mon Sep 17 00:00:00 2001
 From: David <dmck2b@gmail.com>
 Date: Mon, 21 Apr 2014 12:43:08 +0100
 Subject: [PATCH] Prevent NoClassDefError crash and notify on crash
 
 
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index cd6a4fa1d..5d8dc816e 100644
+index 601b24af4..2c19f8801 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
-@@ -160,6 +160,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -164,6 +164,7 @@ public abstract class World implements GeneratorAccess, UUIDLookup<Entity>, Auto
      public final org.spigotmc.SpigotWorldConfig spigotConfig; // Spigot
  
      public final SpigotTimings.WorldTimingsHandler timings; // Spigot
@@ -16,7 +16,7 @@ index cd6a4fa1d..5d8dc816e 100644
  
      public CraftWorld getWorld() {
          return this.world;
-@@ -379,7 +380,13 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -383,7 +384,13 @@ public abstract class World implements GeneratorAccess, UUIDLookup<Entity>, Auto
                  // CraftBukkit start
                  if (!this.captureBlockStates) { // Don't notify clients or update physics while capturing blockstates
                      // Modularize client and physic updates
@@ -32,7 +32,7 @@ index cd6a4fa1d..5d8dc816e 100644
                  // CraftBukkit end
  
 diff --git a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
-index 68dfd314c..f526e8188 100644
+index dcedf1365..7c528b886 100644
 --- a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
 +++ b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
 @@ -69,6 +69,10 @@ public interface NeighborUpdater {
@@ -65,5 +65,5 @@ index 4734d4ae8..b4eeeb0d0 100644
                  log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Spigot!):" );
                  dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
 -- 
-2.47.1
+2.49.0
 

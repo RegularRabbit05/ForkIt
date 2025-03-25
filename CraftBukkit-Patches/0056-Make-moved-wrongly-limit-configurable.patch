@@ -1,14 +1,14 @@
-From e3c15e91773edc6407d81e9bbf89d259105e3d09 Mon Sep 17 00:00:00 2001
+From 2e80ff36e8f1790fda2a3dade4f6b782feb78800 Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Fri, 4 Jul 2014 23:03:13 +0200
 Subject: [PATCH] Make "moved wrongly" limit configurable
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 8a6dc6c01..364e2d8ca 100644
+index da95cd08c..fec26227d 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -572,7 +572,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -583,7 +583,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                  boolean flag2 = false;
  
@@ -17,15 +17,15 @@ index 8a6dc6c01..364e2d8ca 100644
                      flag2 = true;
                      PlayerConnection.LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", new Object[]{entity.getName().getString(), this.player.getName().getString(), Math.sqrt(d10)});
                  }
-@@ -1292,7 +1292,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
-                             d10 = d6 * d6 + d7 * d7 + d8 * d8;
-                             boolean flag3 = false;
+@@ -1400,7 +1400,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+                                 d10 = d6 * d6 + d7 * d7 + d8 * d8;
+                                 boolean flag3 = false;
  
--                            if (!this.player.isChangingDimension() && d10 > 0.0625D && !this.player.isSleeping() && !this.player.gameMode.isCreative() && this.player.gameMode.getGameModeForPlayer() != EnumGamemode.SPECTATOR) {
-+                            if (!this.player.isChangingDimension() && d10 > org.spigotmc.SpigotConfig.movedWronglyThreshold && !this.player.isSleeping() && !this.player.gameMode.isCreative() && this.player.gameMode.getGameModeForPlayer() != EnumGamemode.SPECTATOR) { // Spigot
-                                 flag3 = true;
-                                 PlayerConnection.LOGGER.warn("{} moved wrongly!", this.player.getName().getString());
-                             }
+-                                if (!this.player.isChangingDimension() && d10 > 0.0625D && !this.player.isSleeping() && !this.player.isCreative() && !this.player.isSpectator()) {
++                                if (!this.player.isChangingDimension() && d10 > org.spigotmc.SpigotConfig.movedWronglyThreshold && !this.player.isSleeping() && !this.player.isCreative() && !this.player.isSpectator()) { // Spigot
+                                     flag3 = true;
+                                     PlayerConnection.LOGGER.warn("{} moved wrongly!", this.player.getName().getString());
+                                 }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
 index 6dfa89f6f..64156e8c6 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
@@ -42,5 +42,5 @@ index 6dfa89f6f..64156e8c6 100644
 +    }
  }
 -- 
-2.47.1
+2.49.0
 

@@ -1,14 +1,14 @@
-From 2b7180ee91eccf1864b4bcbf5813f71c262ca98f Mon Sep 17 00:00:00 2001
+From d515ef155b17d350b66df44563f6a267b9b418fb Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 22 Sep 2013 19:10:53 +1000
 Subject: [PATCH] Item Despawn Rate
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityItem.java b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-index e6969c9d0..4067b44f6 100644
+index acb1a58ae..58ae3f016 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityItem.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-@@ -216,7 +216,7 @@ public class EntityItem extends Entity implements TraceableEntity {
+@@ -225,7 +225,7 @@ public class EntityItem extends Entity implements TraceableEntity {
                  }
              }
  
@@ -17,7 +17,7 @@ index e6969c9d0..4067b44f6 100644
                  // CraftBukkit start - fire ItemDespawnEvent
                  if (CraftEventFactory.callItemDespawnEvent(this).isCancelled()) {
                      this.age = 0;
-@@ -566,7 +566,7 @@ public class EntityItem extends Entity implements TraceableEntity {
+@@ -552,7 +552,7 @@ public class EntityItem extends Entity implements TraceableEntity {
  
      public void makeFakeItem() {
          this.setNeverPickUp();
@@ -43,5 +43,5 @@ index 0c0c29efe..e3682d28c 100644
 +    }
  }
 -- 
-2.47.1
+2.49.0
 

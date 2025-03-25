@@ -1,14 +1,14 @@
-From 802937df858e0bf42318743e7f350a6c42f70260 Mon Sep 17 00:00:00 2001
+From 9d1124b2b14d0335c557fed2e49346bdedfdce99 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 14 Dec 2019 10:26:52 +1100
 Subject: [PATCH] Add log-villager-deaths option
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index cf4328e0ba..56a5e25824 100644
+index 8932d4c87..e394a6f16 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-@@ -1744,7 +1744,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -1814,7 +1814,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
              }
  
              if (!this.level().isClientSide && this.hasCustomName()) {
@@ -18,10 +18,10 @@ index cf4328e0ba..56a5e25824 100644
  
              this.dead = true;
 diff --git a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-index 2bf898e97f..e788cec704 100644
+index 75d832de7..a9f18d1d3 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-@@ -655,7 +655,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+@@ -626,7 +626,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
  
      @Override
      public void die(DamageSource damagesource) {
@@ -31,7 +31,7 @@ index 2bf898e97f..e788cec704 100644
  
          if (entity != null) {
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index c17d581422..6502572f51 100644
+index c17d58142..6502572f5 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -389,4 +389,11 @@ public class SpigotConfig
@@ -47,5 +47,5 @@ index c17d581422..6502572f51 100644
 +    }
  }
 -- 
-2.47.1
+2.49.0
 

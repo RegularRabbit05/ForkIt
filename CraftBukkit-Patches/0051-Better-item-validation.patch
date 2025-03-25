@@ -1,24 +1,24 @@
-From 9d5a2b697d1545015a08eb6078ff552f21a7a87c Mon Sep 17 00:00:00 2001
+From 204e69b863d27332d54ecf1b485abbe34127887e Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thinkofdeath@spigotmc.org>
 Date: Wed, 2 Jul 2014 23:35:51 +0100
 Subject: [PATCH] Better item validation
 
 
 diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
-index edbfdfb64..c5f951873 100644
+index 5627e2150..ad41281bc 100644
 --- a/src/main/java/net/minecraft/world/item/ItemStack.java
 +++ b/src/main/java/net/minecraft/world/item/ItemStack.java
-@@ -184,6 +184,10 @@ public final class ItemStack implements DataComponentHolder {
-                 registryfriendlybytebuf.writeVarInt(0);
-             } else {
-                 registryfriendlybytebuf.writeVarInt(itemstack.getCount());
-+                // Spigot start - filter
-+                itemstack = itemstack.copy();
-+                CraftItemStack.setItemMeta(itemstack, CraftItemStack.getItemMeta(itemstack));
-+                // Spigot end
-                 ITEM_STREAM_CODEC.encode(registryfriendlybytebuf, itemstack.getItemHolder()); // CraftBukkit - decompile error
-                 DataComponentPatch.STREAM_CODEC.encode(registryfriendlybytebuf, itemstack.components.asPatch());
-             }
+@@ -203,6 +203,10 @@ public final class ItemStack implements DataComponentHolder {
+                     registryfriendlybytebuf.writeVarInt(0);
+                 } else {
+                     registryfriendlybytebuf.writeVarInt(itemstack.getCount());
++                    // Spigot start - filter
++                    itemstack = itemstack.copy();
++                    CraftItemStack.setItemMeta(itemstack, CraftItemStack.getItemMeta(itemstack));
++                    // Spigot end
+                     Item.STREAM_CODEC.encode(registryfriendlybytebuf, itemstack.getItemHolder());
+                     streamcodec.encode(registryfriendlybytebuf, itemstack.components.asPatch());
+                 }
 -- 
-2.47.1
+2.49.0
 

@@ -1,4 +1,4 @@
-From cc5e7ca2d195acbc2856733dcc6ae210c95b3854 Mon Sep 17 00:00:00 2001
+From f4dba52dd5b7bcfd8f5687d55f7594a140c2ea23 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 7 Mar 2016 22:14:13 +1100
 Subject: [PATCH] Crop Growth Rates
@@ -6,10 +6,10 @@ Subject: [PATCH] Crop Growth Rates
 Allows configuring the growth rates of crops as a percentage of their normal growth rate.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/Block.java b/src/main/java/net/minecraft/world/level/block/Block.java
-index 8c2ef9ee1..ce057e126 100644
+index 55ef6ae8c..5d3730b59 100644
 --- a/src/main/java/net/minecraft/world/level/block/Block.java
 +++ b/src/main/java/net/minecraft/world/level/block/Block.java
-@@ -513,6 +513,18 @@ public class Block extends BlockBase implements IMaterial {
+@@ -580,6 +580,18 @@ public class Block extends BlockBase implements IMaterial {
      }
      // CraftBukkit end
  
@@ -29,10 +29,10 @@ index 8c2ef9ee1..ce057e126 100644
  
          public boolean equals(Object object) {
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockBamboo.java b/src/main/java/net/minecraft/world/level/block/BlockBamboo.java
-index 5938b6f2e..7ad7dd452 100644
+index 224e722ea..81e950c66 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockBamboo.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockBamboo.java
-@@ -134,7 +134,7 @@ public class BlockBamboo extends Block implements IBlockFragilePlantElement {
+@@ -125,7 +125,7 @@ public class BlockBamboo extends Block implements IBlockFragilePlantElement {
      @Override
      protected void randomTick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, RandomSource randomsource) {
          if ((Integer) iblockdata.getValue(BlockBamboo.STAGE) == 0) {
@@ -42,10 +42,10 @@ index 5938b6f2e..7ad7dd452 100644
  
                  if (i < 16) {
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockBambooSapling.java b/src/main/java/net/minecraft/world/level/block/BlockBambooSapling.java
-index 0d432a83c..a3534d7a0 100644
+index 901730b97..7eb839afe 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockBambooSapling.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockBambooSapling.java
-@@ -45,7 +45,7 @@ public class BlockBambooSapling extends Block implements IBlockFragilePlantEleme
+@@ -39,7 +39,7 @@ public class BlockBambooSapling extends Block implements IBlockFragilePlantEleme
  
      @Override
      protected void randomTick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, RandomSource randomsource) {
@@ -55,31 +55,27 @@ index 0d432a83c..a3534d7a0 100644
          }
  
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockCactus.java b/src/main/java/net/minecraft/world/level/block/BlockCactus.java
-index c50d2cb02..5eb95ee2b 100644
+index 71f523848..90b412f99 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockCactus.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockCactus.java
-@@ -66,13 +66,14 @@ public class BlockCactus extends Block {
-             if (i < 3) {
-                 int j = (Integer) iblockdata.getValue(BlockCactus.AGE);
- 
--                if (j == 15) {
-+                int modifier = worldserver.spigotConfig.cactusModifier; // Spigot - SPIGOT-7159: Better modifier resolution
-+                if (j >= 15 || (modifier != 100 && randomsource.nextFloat() < (modifier / (100.0f * 16)))) { // Spigot - SPIGOT-7159: Better modifier resolution
-                     CraftEventFactory.handleBlockGrowEvent(worldserver, blockposition1, this.defaultBlockState()); // CraftBukkit
-                     IBlockData iblockdata1 = (IBlockData) iblockdata.setValue(BlockCactus.AGE, 0);
- 
-                     worldserver.setBlock(blockposition, iblockdata1, 4);
-                     worldserver.neighborChanged(iblockdata1, blockposition1, this, (Orientation) null, false);
--                } else {
-+                } else if (modifier == 100 || randomsource.nextFloat() < (modifier / (100.0f * 16))) { // Spigot - SPIGOT-7159: Better modifier resolution
-                     worldserver.setBlock(blockposition, (IBlockData) iblockdata.setValue(BlockCactus.AGE, j + 1), 4);
+@@ -70,6 +70,12 @@ public class BlockCactus extends Block {
                  }
+             }
+ 
++            // Spigot start - SPIGOT-7159: Better modifier resolution
++            int modifier = worldserver.spigotConfig.cactusModifier;
++            if (modifier != 100 && randomsource.nextFloat() >= (modifier / (100.0f * 16))) {
++                return;
++            }
++            // Spigot end
+             if (j == 8 && this.canSurvive(this.defaultBlockState(), worldserver, blockposition.above())) {
+                 double d0 = i >= 3 ? 0.25D : 0.1D;
  
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockCocoa.java b/src/main/java/net/minecraft/world/level/block/BlockCocoa.java
-index 65ea808b7..26493ceb6 100644
+index 85d561dec..49f304c22 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockCocoa.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockCocoa.java
-@@ -59,7 +59,7 @@ public class BlockCocoa extends BlockFacingHorizontal implements IBlockFragilePl
+@@ -53,7 +53,7 @@ public class BlockCocoa extends BlockFacingHorizontal implements IBlockFragilePl
  
      @Override
      protected void randomTick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, RandomSource randomsource) {
@@ -89,10 +85,10 @@ index 65ea808b7..26493ceb6 100644
  
              if (i < 2) {
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockCrops.java b/src/main/java/net/minecraft/world/level/block/BlockCrops.java
-index 2e9b1778c..de9c16f03 100644
+index 090dc15c6..bfbe5e5f5 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockCrops.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockCrops.java
-@@ -84,7 +84,20 @@ public class BlockCrops extends BlockPlant implements IBlockFragilePlantElement
+@@ -87,7 +87,20 @@ public class BlockCrops extends VegetationBlock implements IBlockFragilePlantEle
              if (i < this.getMaxAge()) {
                  float f = getGrowthSpeed(this, worldserver, blockposition);
  
@@ -115,7 +111,7 @@ index 2e9b1778c..de9c16f03 100644
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockGrowingTop.java b/src/main/java/net/minecraft/world/level/block/BlockGrowingTop.java
-index 7d41e7cb8..b31223b05 100644
+index fea77b840..d9c72fe41 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockGrowingTop.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockGrowingTop.java
 @@ -44,7 +44,19 @@ public abstract class BlockGrowingTop extends BlockGrowingAbstract implements IB
@@ -140,23 +136,23 @@ index 7d41e7cb8..b31223b05 100644
  
              if (this.canGrowInto(worldserver.getBlockState(blockposition1))) {
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockMushroom.java b/src/main/java/net/minecraft/world/level/block/BlockMushroom.java
-index 1d6d30f48..b09e5a040 100644
+index fe9e38b86..5f55dc59c 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockMushroom.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockMushroom.java
-@@ -52,7 +52,7 @@ public class BlockMushroom extends BlockPlant implements IBlockFragilePlantEleme
+@@ -50,7 +50,7 @@ public class BlockMushroom extends VegetationBlock implements IBlockFragilePlant
  
      @Override
      protected void randomTick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, RandomSource randomsource) {
 -        if (randomsource.nextInt(25) == 0) {
 +        if (randomsource.nextFloat() < (worldserver.spigotConfig.mushroomModifier / (100.0f * 25))) { // Spigot - SPIGOT-7159: Better modifier resolution
              int i = 5;
-             boolean flag = true;
-             Iterator iterator = BlockPosition.betweenClosed(blockposition.offset(-4, -1, -4), blockposition.offset(4, 1, 4)).iterator();
+             int j = 4;
+ 
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockNetherWart.java b/src/main/java/net/minecraft/world/level/block/BlockNetherWart.java
-index 93ee76f89..e355c81b3 100644
+index cf5c87f90..5719b9f9d 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockNetherWart.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockNetherWart.java
-@@ -52,7 +52,7 @@ public class BlockNetherWart extends BlockPlant {
+@@ -54,7 +54,7 @@ public class BlockNetherWart extends VegetationBlock {
      protected void randomTick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, RandomSource randomsource) {
          int i = (Integer) iblockdata.getValue(BlockNetherWart.AGE);
  
@@ -166,10 +162,10 @@ index 93ee76f89..e355c81b3 100644
              org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockGrowEvent(worldserver, blockposition, iblockdata, 2); // CraftBukkit
          }
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockReed.java b/src/main/java/net/minecraft/world/level/block/BlockReed.java
-index 3e588f119..9c5d0357c 100644
+index 7066fffea..b7ab063aa 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockReed.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockReed.java
-@@ -62,10 +62,11 @@ public class BlockReed extends Block {
+@@ -60,10 +60,11 @@ public class BlockReed extends Block {
              if (i < 3) {
                  int j = (Integer) iblockdata.getValue(BlockReed.AGE);
  
@@ -177,17 +173,17 @@ index 3e588f119..9c5d0357c 100644
 +                int modifier = worldserver.spigotConfig.caneModifier; // Spigot - SPIGOT-7159: Better modifier resolution
 +                if (j >= 15 || (modifier != 100 && randomsource.nextFloat() < (modifier / (100.0f * 16)))) { // Spigot - SPIGOT-7159: Better modifier resolution
                      org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockGrowEvent(worldserver, blockposition.above(), this.defaultBlockState()); // CraftBukkit
-                     worldserver.setBlock(blockposition, (IBlockData) iblockdata.setValue(BlockReed.AGE, 0), 4);
+                     worldserver.setBlock(blockposition, (IBlockData) iblockdata.setValue(BlockReed.AGE, 0), 260);
 -                } else {
 +                } else if (modifier == 100 || randomsource.nextFloat() < (modifier / (100.0f * 16))) { // Spigot - SPIGOT-7159: Better modifier resolution
-                     worldserver.setBlock(blockposition, (IBlockData) iblockdata.setValue(BlockReed.AGE, j + 1), 4);
+                     worldserver.setBlock(blockposition, (IBlockData) iblockdata.setValue(BlockReed.AGE, j + 1), 260);
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockSapling.java b/src/main/java/net/minecraft/world/level/block/BlockSapling.java
-index 59762a170..ad96c7000 100644
+index 6c99b16e2..5fc10a631 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockSapling.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockSapling.java
-@@ -57,7 +57,7 @@ public class BlockSapling extends BlockPlant implements IBlockFragilePlantElemen
+@@ -56,7 +56,7 @@ public class BlockSapling extends VegetationBlock implements IBlockFragilePlantE
  
      @Override
      protected void randomTick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, RandomSource randomsource) {
@@ -197,10 +193,10 @@ index 59762a170..ad96c7000 100644
          }
  
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockStem.java b/src/main/java/net/minecraft/world/level/block/BlockStem.java
-index 8543242b5..f4dec93db 100644
+index 5f537a6c1..46827dcc4 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockStem.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockStem.java
-@@ -76,7 +76,7 @@ public class BlockStem extends BlockPlant implements IBlockFragilePlantElement {
+@@ -77,7 +77,7 @@ public class BlockStem extends VegetationBlock implements IBlockFragilePlantElem
          if (worldserver.getRawBrightness(blockposition, 0) >= 9) {
              float f = BlockCrops.getGrowthSpeed(this, worldserver, blockposition);
  
@@ -210,10 +206,10 @@ index 8543242b5..f4dec93db 100644
  
                  if (i < 7) {
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockSweetBerryBush.java b/src/main/java/net/minecraft/world/level/block/BlockSweetBerryBush.java
-index fcdbc4619..f061f78f6 100644
+index d4953ae62..230294731 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockSweetBerryBush.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockSweetBerryBush.java
-@@ -74,7 +74,7 @@ public class BlockSweetBerryBush extends BlockPlant implements IBlockFragilePlan
+@@ -88,7 +88,7 @@ public class BlockSweetBerryBush extends VegetationBlock implements IBlockFragil
      protected void randomTick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, RandomSource randomsource) {
          int i = (Integer) iblockdata.getValue(BlockSweetBerryBush.AGE);
  
@@ -223,10 +219,10 @@ index fcdbc4619..f061f78f6 100644
  
              if (!CraftEventFactory.handleBlockGrowEvent(worldserver, blockposition, iblockdata1, 2)) return; // CraftBukkit
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockVine.java b/src/main/java/net/minecraft/world/level/block/BlockVine.java
-index db16b9d8b..77f4eecc8 100644
+index e674279b7..1d572ddd4 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockVine.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockVine.java
-@@ -186,7 +186,7 @@ public class BlockVine extends Block {
+@@ -163,7 +163,7 @@ public class BlockVine extends Block {
      @Override
      protected void randomTick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, RandomSource randomsource) {
          if (worldserver.getGameRules().getBoolean(GameRules.RULE_DO_VINES_SPREAD)) {
@@ -234,7 +230,7 @@ index db16b9d8b..77f4eecc8 100644
 +            if (randomsource.nextFloat() < (worldserver.spigotConfig.vineModifier / (100.0f * 4))) { // Spigot - SPIGOT-7159: Better modifier resolution
                  EnumDirection enumdirection = EnumDirection.getRandom(randomsource);
                  BlockPosition blockposition1 = blockposition.above();
-                 BlockPosition blockposition2;
+ 
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 index 1cce14866..f42972427 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
@@ -300,5 +296,5 @@ index 1cce14866..f42972427 100644
 +    }
  }
 -- 
-2.47.1
+2.49.0
 

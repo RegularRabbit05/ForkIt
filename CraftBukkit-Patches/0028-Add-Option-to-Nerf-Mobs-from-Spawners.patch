@@ -1,14 +1,14 @@
-From 15b96288587bcaab5db30560dece8c98b65a3ffc Mon Sep 17 00:00:00 2001
+From c8515b41fa90bea91f480f7c3314fa2508aaeb7a Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Feb 2014 16:55:46 +0000
 Subject: [PATCH] Add Option to Nerf Mobs from Spawners
 
 
 diff --git a/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java b/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
-index d43c84090..13fe8649c 100644
+index f6c5bc765..6457167ac 100644
 --- a/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
 +++ b/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
-@@ -162,6 +162,12 @@ public abstract class MobSpawnerAbstract {
+@@ -161,6 +161,12 @@ public abstract class MobSpawnerAbstract {
  
                              Objects.requireNonNull(entityinsentient);
                              optional1.ifPresent(entityinsentient::equip);
@@ -38,5 +38,5 @@ index 457a8e84b..3e398c4e0 100644
 +    }
  }
 -- 
-2.47.1
+2.49.0
 

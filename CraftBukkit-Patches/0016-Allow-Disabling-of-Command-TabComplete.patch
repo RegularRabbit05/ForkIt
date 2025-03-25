@@ -1,14 +1,14 @@
-From 5919b5020367418d839d506715aaad2079cc7df2 Mon Sep 17 00:00:00 2001
+From 5258813fa2e7af981a337ca546ab750bc4168cf4 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 18:05:54 +1000
 Subject: [PATCH] Allow Disabling of Command TabComplete
 
 
 diff --git a/src/main/java/net/minecraft/commands/CommandDispatcher.java b/src/main/java/net/minecraft/commands/CommandDispatcher.java
-index 1a2acacd3..3ffa30754 100644
+index 1bec30015..0e5a8754c 100644
 --- a/src/main/java/net/minecraft/commands/CommandDispatcher.java
 +++ b/src/main/java/net/minecraft/commands/CommandDispatcher.java
-@@ -438,6 +438,7 @@ public class CommandDispatcher {
+@@ -437,6 +437,7 @@ public class CommandDispatcher {
      }
  
      public void sendCommands(EntityPlayer entityplayer) {
@@ -16,16 +16,16 @@ index 1a2acacd3..3ffa30754 100644
          // CraftBukkit start
          // Register Vanilla commands into builtRoot as before
          Map<CommandNode<CommandListenerWrapper>, CommandNode<ICompletionProvider>> map = Maps.newIdentityHashMap(); // Use identity to prevent aliasing issues
-@@ -476,6 +477,7 @@ public class CommandDispatcher {
+@@ -472,6 +473,7 @@ public class CommandDispatcher {
  
-         while (iterator.hasNext()) {
-             CommandNode<CommandListenerWrapper> commandnode2 = (CommandNode) iterator.next();
+     private void fillUsableCommands(CommandNode<CommandListenerWrapper> commandnode, CommandNode<ICompletionProvider> commandnode1, CommandListenerWrapper commandlistenerwrapper, Map<CommandNode<CommandListenerWrapper>, CommandNode<ICompletionProvider>> map) {
+         for (CommandNode<CommandListenerWrapper> commandnode2 : commandnode.getChildren()) {
 +            if ( !org.spigotmc.SpigotConfig.sendNamespaced && commandnode2.getName().contains( ":" ) ) continue; // Spigot
- 
              if (commandnode2.canUse(commandlistenerwrapper)) {
                  ArgumentBuilder argumentbuilder = commandnode2.createBuilder(); // CraftBukkit - decompile error
+ 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 1e334691d..49e7eccd8 100644
+index c89785454..4f8454392 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2188,6 +2188,13 @@ public final class CraftServer implements Server {
@@ -71,5 +71,5 @@ index bc9fbcc58..fc352ecf1 100644
 +    }
  }
 -- 
-2.48.1
+2.49.0
 

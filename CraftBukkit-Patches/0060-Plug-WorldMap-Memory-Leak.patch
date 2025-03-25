@@ -1,14 +1,14 @@
-From 6cd51349fa51187b34fe1e73f11138cee31f6b1c Mon Sep 17 00:00:00 2001
+From 69e887adaf3aa14241656165fb1b542e044f3c09 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 8 Aug 2014 19:57:03 +1000
 Subject: [PATCH] Plug WorldMap Memory Leak
 
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index d2041b0557..c190285b25 100644
+index 20998ccfb..66175cdca 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -2120,6 +2120,29 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -2009,6 +2009,29 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
  
          public void onTrackingEnd(Entity entity) {
              org.spigotmc.AsyncCatcher.catchOp("entity unregister"); // Spigot
@@ -23,7 +23,7 @@ index d2041b0557..c190285b25 100644
 +                        {
 +                            WorldMap map = (WorldMap) o;
 +                            map.carriedByPlayers.remove( (EntityHuman) entity );
-+                            for ( Iterator<WorldMap.WorldMapHumanTracker> iter = (Iterator<WorldMap.WorldMapHumanTracker>) map.carriedBy.iterator(); iter.hasNext(); )
++                            for ( java.util.Iterator<WorldMap.WorldMapHumanTracker> iter = (java.util.Iterator<WorldMap.WorldMapHumanTracker>) map.carriedBy.iterator(); iter.hasNext(); )
 +                            {
 +                                if ( iter.next().player == entity )
 +                                {
@@ -39,5 +39,5 @@ index d2041b0557..c190285b25 100644
              if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof EntityPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  for (org.bukkit.entity.HumanEntity h : Lists.newArrayList(((org.bukkit.inventory.InventoryHolder) entity.getBukkitEntity()).getInventory().getViewers())) {
 -- 
-2.47.1
+2.49.0
 

@@ -1,14 +1,14 @@
-From 79490c4ead53a881a18da3853bd07b0950d976e4 Mon Sep 17 00:00:00 2001
+From 7d81f6b26b0bbb6a62984b9fa1a45ce7778ec0b2 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Fri, 25 Apr 2014 18:17:30 -0400
 Subject: [PATCH] Configurable UserCache cap
 
 
 diff --git a/src/main/java/net/minecraft/server/players/UserCache.java b/src/main/java/net/minecraft/server/players/UserCache.java
-index 44645f5ee..2791f6659 100644
+index 01b8db8e8..822ffbc75 100644
 --- a/src/main/java/net/minecraft/server/players/UserCache.java
 +++ b/src/main/java/net/minecraft/server/players/UserCache.java
-@@ -261,7 +261,7 @@ public class UserCache {
+@@ -216,7 +216,7 @@ public class UserCache {
          JsonArray jsonarray = new JsonArray();
          DateFormat dateformat = createDateFormat();
  
@@ -33,5 +33,5 @@ index f20e896f2..d8cd8b47a 100644
 +    }
  }
 -- 
-2.47.1
+2.49.0
 

@@ -1,4 +1,4 @@
-From 2b9eb321fbbc65ff50fb1f9eddc1f0d34fabbc01 Mon Sep 17 00:00:00 2001
+From 612e8c63e87900f18d444b754fc6f853be9ba1eb Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 12 Apr 2014 21:23:58 +1000
 Subject: [PATCH] BungeeCord Support
@@ -7,10 +7,10 @@ Subject: [PATCH] BungeeCord Support
 * Treats Bungee as Online Mode.
 
 diff --git a/src/main/java/net/minecraft/network/NetworkManager.java b/src/main/java/net/minecraft/network/NetworkManager.java
-index 7457279ed..35f64c5f4 100644
+index 64e65b037..96d675528 100644
 --- a/src/main/java/net/minecraft/network/NetworkManager.java
 +++ b/src/main/java/net/minecraft/network/NetworkManager.java
-@@ -96,6 +96,10 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -95,6 +95,10 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
      private final Queue<Consumer<NetworkManager>> pendingActions = Queues.newConcurrentLinkedQueue();
      public Channel channel;
      public SocketAddress address;
@@ -22,7 +22,7 @@ index 7457279ed..35f64c5f4 100644
      private volatile PacketListener disconnectListener;
      @Nullable
 diff --git a/src/main/java/net/minecraft/network/protocol/handshake/PacketHandshakingInSetProtocol.java b/src/main/java/net/minecraft/network/protocol/handshake/PacketHandshakingInSetProtocol.java
-index fee554758..b8fc8ffba 100644
+index caf396b38..544390eed 100644
 --- a/src/main/java/net/minecraft/network/protocol/handshake/PacketHandshakingInSetProtocol.java
 +++ b/src/main/java/net/minecraft/network/protocol/handshake/PacketHandshakingInSetProtocol.java
 @@ -12,7 +12,8 @@ public record PacketHandshakingInSetProtocol(int protocolVersion, String hostNam
@@ -36,7 +36,7 @@ index fee554758..b8fc8ffba 100644
  
      private void write(PacketDataSerializer packetdataserializer) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index e26a31527..c3b3c3802 100644
+index 3cc568cdb..ced333824 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -239,7 +239,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -56,10 +56,10 @@ index e26a31527..c3b3c3802 100644
          }
  
 diff --git a/src/main/java/net/minecraft/server/network/HandshakeListener.java b/src/main/java/net/minecraft/server/network/HandshakeListener.java
-index 35d8c8543..608de4f36 100644
+index f05f3dbd3..4f4b1ea66 100644
 --- a/src/main/java/net/minecraft/server/network/HandshakeListener.java
 +++ b/src/main/java/net/minecraft/server/network/HandshakeListener.java
-@@ -20,6 +20,11 @@ import java.util.HashMap;
+@@ -19,6 +19,11 @@ import java.util.HashMap;
  
  public class HandshakeListener implements PacketHandshakingInListener {
  
@@ -71,8 +71,8 @@ index 35d8c8543..608de4f36 100644
      // CraftBukkit start - add fields
      private static final HashMap<InetAddress, Long> throttleTracker = new HashMap<InetAddress, Long>();
      private static int throttleCounter = 0;
-@@ -116,6 +121,31 @@ public class HandshakeListener implements PacketHandshakingInListener {
-             this.connection.disconnect((IChatBaseComponent) ichatmutablecomponent);
+@@ -115,6 +120,31 @@ public class HandshakeListener implements PacketHandshakingInListener {
+             this.connection.disconnect(ichatbasecomponent);
          } else {
              this.connection.setupInboundProtocol(LoginProtocols.SERVERBOUND, new LoginListener(this.server, this.connection, flag));
 +            // Spigot Start
@@ -168,10 +168,10 @@ index b96ecd31b..5c5c53ed9 100644
  
          HELLO, KEY, AUTHENTICATING, NEGOTIATING, VERIFYING, WAITING_FOR_COOKIES, WAITING_FOR_DUPE_DISCONNECT, PROTOCOL_SWITCHING, ACCEPTED; // CraftBukkit
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 09796d0a5..9ba4087ec 100644
+index a4ad817e2..8a4da5a1b 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -2104,7 +2104,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2198,7 +2198,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
  
                          String message = String.format(queueEvent.getFormat(), queueEvent.getPlayer().getDisplayName(), queueEvent.getMessage());
                          if (((LazyPlayerSet) queueEvent.getRecipients()).isLazy()) {
@@ -180,7 +180,7 @@ index 09796d0a5..9ba4087ec 100644
                                  PlayerConnection.this.server.getPlayerList().broadcastChatMessage(original, PlayerConnection.this.player, ChatMessageType.bind(ChatMessageType.CHAT, (Entity) PlayerConnection.this.player));
                                  return null;
                              }
-@@ -2140,7 +2140,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2234,7 +2234,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
  
                  s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
                  if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
@@ -189,7 +189,7 @@ index 09796d0a5..9ba4087ec 100644
                          PlayerConnection.this.server.getPlayerList().broadcastChatMessage(original, PlayerConnection.this.player, ChatMessageType.bind(ChatMessageType.CHAT, (Entity) PlayerConnection.this.player));
                          return;
                      }
-@@ -2405,6 +2405,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2495,6 +2495,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          return this.connection.getRemoteAddress();
      }
  
@@ -204,10 +204,10 @@ index 09796d0a5..9ba4087ec 100644
          this.waitingForSwitchToConfig = true;
          this.removePlayerFromWorld();
 diff --git a/src/main/java/net/minecraft/server/players/NameReferencingFileConverter.java b/src/main/java/net/minecraft/server/players/NameReferencingFileConverter.java
-index 3bf6d7d2d..8e9595639 100644
+index 5a0b9b060..57bcd2092 100644
 --- a/src/main/java/net/minecraft/server/players/NameReferencingFileConverter.java
 +++ b/src/main/java/net/minecraft/server/players/NameReferencingFileConverter.java
-@@ -68,7 +68,7 @@ public class NameReferencingFileConverter {
+@@ -64,7 +64,7 @@ public class NameReferencingFileConverter {
              return new String[i];
          });
  
@@ -215,12 +215,12 @@ index 3bf6d7d2d..8e9595639 100644
 +        if (minecraftserver.usesAuthentication() || org.spigotmc.SpigotConfig.bungee) { // Spigot: bungee = online mode, for now.
              minecraftserver.getProfileRepository().findProfilesByNames(astring, profilelookupcallback);
          } else {
-             String[] astring1 = astring;
+             for (String s : astring) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index fd32e6c86..f5032cd9e 100644
+index 48a1b79d8..d44b88cdb 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -543,7 +543,7 @@ public abstract class PlayerList {
+@@ -521,7 +521,7 @@ public abstract class PlayerList {
          EntityPlayer entity = new EntityPlayer(this.server, this.server.getLevel(World.OVERWORLD), gameprofile, ClientInformation.createDefault());
          entity.transferCookieConnection = loginlistener;
          Player player = entity.getBukkitEntity();
@@ -230,7 +230,7 @@ index fd32e6c86..f5032cd9e 100644
          if (this.bans.isBanned(gameprofile)) {
              GameProfileBanEntry gameprofilebanentry = (GameProfileBanEntry) this.bans.get(gameprofile);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b1cbbf4d5..712b3c18e 100644
+index 5e4167660..5accaa3b1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -804,7 +804,13 @@ public final class CraftServer implements Server {
@@ -258,10 +258,10 @@ index b1cbbf4d5..712b3c18e 100644
                  profile = console.getProfileCache().get(name).orElse(null);
              }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 0241578b5..4aa76772e 100644
+index 316a07e93..ce1f54b61 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2348,6 +2348,12 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2353,6 +2353,12 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      private final Player.Spigot spigot = new Player.Spigot()
      {
  
@@ -294,5 +294,5 @@ index 130016282..1e6b13103 100644
 +    }
  }
 -- 
-2.48.1
+2.49.0
 
