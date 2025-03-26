@@ -1,4 +1,4 @@
-From 612e8c63e87900f18d444b754fc6f853be9ba1eb Mon Sep 17 00:00:00 2001
+From 41af8b8aae1aef3fb46454947406c9c0c8c257cf Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 12 Apr 2014 21:23:58 +1000
 Subject: [PATCH] BungeeCord Support
@@ -104,10 +104,10 @@ index f05f3dbd3..4f4b1ea66 100644
  
      }
 diff --git a/src/main/java/net/minecraft/server/network/LoginListener.java b/src/main/java/net/minecraft/server/network/LoginListener.java
-index b96ecd31b..5c5c53ed9 100644
+index aaf68153d..bfd49a7e1 100644
 --- a/src/main/java/net/minecraft/server/network/LoginListener.java
 +++ b/src/main/java/net/minecraft/server/network/LoginListener.java
-@@ -181,7 +181,7 @@ public class LoginListener implements PacketLoginInListener, TickablePacketListe
+@@ -182,7 +182,7 @@ public class LoginListener implements PacketLoginInListener, TickablePacketListe
                      @Override
                      public void run() {
                          try {
@@ -116,7 +116,7 @@ index b96ecd31b..5c5c53ed9 100644
  
                              LoginListener.this.callPlayerPreLoginEvents(gameprofile);
                              LoginListener.LOGGER.info("UUID of player {} is {}", gameprofile.getName(), gameprofile.getId());
-@@ -293,7 +293,7 @@ public class LoginListener implements PacketLoginInListener, TickablePacketListe
+@@ -294,7 +294,7 @@ public class LoginListener implements PacketLoginInListener, TickablePacketListe
                          LoginListener.this.startClientVerification(gameprofile);
                      } else if (LoginListener.this.server.isSingleplayer()) {
                          LoginListener.LOGGER.warn("Failed to verify username but will let them in anyway!");
@@ -125,7 +125,7 @@ index b96ecd31b..5c5c53ed9 100644
                      } else {
                          LoginListener.this.disconnect(IChatBaseComponent.translatable("multiplayer.disconnect.unverified_username"));
                          LoginListener.LOGGER.error("Username '{}' tried to join with an invalid session", s1);
-@@ -301,7 +301,7 @@ public class LoginListener implements PacketLoginInListener, TickablePacketListe
+@@ -302,7 +302,7 @@ public class LoginListener implements PacketLoginInListener, TickablePacketListe
                  } catch (AuthenticationUnavailableException authenticationunavailableexception) {
                      if (LoginListener.this.server.isSingleplayer()) {
                          LoginListener.LOGGER.warn("Authentication servers are down but will let them in anyway!");
@@ -134,7 +134,7 @@ index b96ecd31b..5c5c53ed9 100644
                      } else {
                          LoginListener.this.disconnect(IChatBaseComponent.translatable("multiplayer.disconnect.authservers_down"));
                          LoginListener.LOGGER.error("Couldn't verify username because servers are unavailable");
-@@ -400,6 +400,32 @@ public class LoginListener implements PacketLoginInListener, TickablePacketListe
+@@ -401,6 +401,32 @@ public class LoginListener implements PacketLoginInListener, TickablePacketListe
          this.disconnect(ServerCommonPacketListenerImpl.DISCONNECT_UNEXPECTED_QUERY);
      }
  
@@ -166,7 +166,7 @@ index b96ecd31b..5c5c53ed9 100644
 +
      private static enum EnumProtocolState {
  
-         HELLO, KEY, AUTHENTICATING, NEGOTIATING, VERIFYING, WAITING_FOR_COOKIES, WAITING_FOR_DUPE_DISCONNECT, PROTOCOL_SWITCHING, ACCEPTED; // CraftBukkit
+         HELLO, KEY, AUTHENTICATING, NEGOTIATING, VERIFYING, WAITING_FOR_DUPE_DISCONNECT, PROTOCOL_SWITCHING, ACCEPTED, WAITING_FOR_COOKIES, DISCONNECTED; // CraftBukkit
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
 index a4ad817e2..8a4da5a1b 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
