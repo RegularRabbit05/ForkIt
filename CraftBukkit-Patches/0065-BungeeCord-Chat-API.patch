@@ -1,11 +1,11 @@
-From 1df4faeee6a601ebf32b0481baffa7b296d6330e Mon Sep 17 00:00:00 2001
+From 1c7a10caca1a565f22ee1343656a60f98f36530c Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 03:06:05 +0100
 Subject: [PATCH] BungeeCord Chat API
 
 
 diff --git a/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java b/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java
-index eed54194c..152584969 100644
+index eed54194c..8375d2f41 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java
 +++ b/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java
 @@ -13,6 +13,12 @@ public record ClientboundSystemChatPacket(IChatBaseComponent content, boolean ov
@@ -14,7 +14,7 @@ index eed54194c..152584969 100644
  
 +    // Spigot start
 +    public ClientboundSystemChatPacket(net.md_5.bungee.api.chat.BaseComponent[] content, boolean overlay) {
-+        this(org.bukkit.craftbukkit.util.CraftChatMessage.fromJSON(net.md_5.bungee.chat.ComponentSerializer.toString(content)), overlay);
++        this(org.bukkit.craftbukkit.util.CraftChatMessage.fromJSON(org.bukkit.craftbukkit.util.CraftChatMessage.getBungee().toString(content)), overlay);
 +    }
 +    // Spigot end
 +
@@ -192,17 +192,16 @@ index 1fa96ea9b..621ef1f6f 100644
  
      public Player.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
-index ed599634a..cbe620fff 100644
+index ed599634a..a702fa1bb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
-@@ -20,6 +20,14 @@ import org.bukkit.craftbukkit.util.CraftChatMessage;
+@@ -20,6 +20,13 @@ import org.bukkit.craftbukkit.util.CraftChatMessage;
  import org.bukkit.inventory.meta.BookMeta;
  import org.bukkit.inventory.meta.WritableBookMeta;
  
 +// Spigot start
 +import java.util.AbstractList;
 +import net.md_5.bungee.api.chat.BaseComponent;
-+import net.md_5.bungee.chat.ComponentSerializer;
 +import net.minecraft.network.chat.IChatBaseComponent;
 +import org.bukkit.craftbukkit.util.CraftChatMessage;
 +// Spigot end
@@ -210,7 +209,7 @@ index ed599634a..cbe620fff 100644
  @DelegateDeserialization(SerializableMeta.class)
  public class CraftMetaBook extends CraftMetaItem implements BookMeta, WritableBookMeta {
      @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
-@@ -291,6 +299,84 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta, WritableBo
+@@ -291,6 +298,84 @@ public class CraftMetaBook extends CraftMetaItem implements BookMeta, WritableBo
      // Spigot start
      private BookMeta.Spigot spigot = new SpigotMeta();
      private class SpigotMeta extends BookMeta.Spigot {
@@ -223,14 +222,14 @@ index ed599634a..cbe620fff 100644
 +
 +        private String componentsToPage(BaseComponent[] components) {
 +            // Convert component to plain String:
-+            IChatBaseComponent component = CraftChatMessage.fromJSONOrNull(ComponentSerializer.toString(components));
++            IChatBaseComponent component = CraftChatMessage.fromJSONOrNull(CraftChatMessage.getBungee().toString(components));
 +            return CraftChatMessage.fromComponent(component);
 +        }
 +
 +        @Override
 +        public BaseComponent[] getPage(final int page) {
 +            Preconditions.checkArgument(isValidPage(page), "Invalid page number");
-+            return ComponentSerializer.parse(pageToJSON(pages.get(page - 1)));
++            return CraftChatMessage.getBungee().parse(pageToJSON(pages.get(page - 1)));
 +        }
 +
 +        @Override
@@ -267,7 +266,7 @@ index ed599634a..cbe620fff 100644
 +
 +                @Override
 +                public BaseComponent[] get(int index) {
-+                    return ComponentSerializer.parse(pageToJSON(copy.get(index)));
++                    return CraftChatMessage.getBungee().parse(pageToJSON(copy.get(index)));
 +                }
 +
 +                @Override
@@ -296,23 +295,22 @@ index ed599634a..cbe620fff 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java
-index 67c6bae18..5a791211d 100644
+index 67c6bae18..bb526d587 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java
-@@ -21,6 +21,12 @@ import org.bukkit.configuration.serialization.DelegateDeserialization;
+@@ -21,6 +21,11 @@ import org.bukkit.configuration.serialization.DelegateDeserialization;
  import org.bukkit.craftbukkit.util.CraftChatMessage;
  import org.bukkit.inventory.meta.BookMeta;
  
 +// Spigot start
 +import java.util.AbstractList;
 +import net.md_5.bungee.api.chat.BaseComponent;
-+import net.md_5.bungee.chat.ComponentSerializer;
 +// Spigot end
 +
  @DelegateDeserialization(SerializableMeta.class)
  public class CraftMetaBookSigned extends CraftMetaItem implements BookMeta {
      @ItemMetaKey.Specific(ItemMetaKey.Specific.To.NBT)
-@@ -369,6 +375,83 @@ public class CraftMetaBookSigned extends CraftMetaItem implements BookMeta {
+@@ -369,6 +374,83 @@ public class CraftMetaBookSigned extends CraftMetaItem implements BookMeta {
      // Spigot start
      private BookMeta.Spigot spigot = new SpigotMeta();
      private class SpigotMeta extends BookMeta.Spigot {
@@ -325,13 +323,13 @@ index 67c6bae18..5a791211d 100644
 +        private IChatBaseComponent componentsToPage(BaseComponent[] components) {
 +            // asserted: components != null
 +            // Pages are in JSON format:
-+            return CraftChatMessage.fromJSON(ComponentSerializer.toString(components));
++            return CraftChatMessage.fromJSON(CraftChatMessage.getBungee().toString(components));
 +        }
 +
 +        @Override
 +        public BaseComponent[] getPage(final int page) {
 +            Preconditions.checkArgument(isValidPage(page), "Invalid page number");
-+            return ComponentSerializer.parse(pageToJSON(pages.get(page - 1)));
++            return CraftChatMessage.getBungee().parse(pageToJSON(pages.get(page - 1)));
 +        }
 +
 +        @Override
@@ -368,7 +366,7 @@ index 67c6bae18..5a791211d 100644
 +
 +                @Override
 +                public BaseComponent[] get(int index) {
-+                    return ComponentSerializer.parse(pageToJSON(copy.get(index)));
++                    return CraftChatMessage.getBungee().parse(pageToJSON(copy.get(index)));
 +                }
 +
 +                @Override
@@ -396,6 +394,23 @@ index 67c6bae18..5a791211d 100644
      };
  
      @Override
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java b/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
+index c67199fbf..082e9d63c 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
+@@ -36,6 +36,12 @@ public final class CraftChatMessage {
+         formatMap = builder.build();
+     }
+ 
++    // Spigot start
++    public static net.md_5.bungee.chat.VersionedComponentSerializer getBungee() {
++        return net.md_5.bungee.chat.VersionedComponentSerializer.forVersion(net.md_5.bungee.chat.ChatVersion.V1_21_5);
++    }
++    // Spigot end
++
+     public static EnumChatFormat getColor(ChatColor color) {
+         return formatMap.get(color.getChar());
+     }
 -- 
 2.49.0
 
