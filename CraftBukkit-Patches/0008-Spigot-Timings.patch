@@ -1,4 +1,4 @@
-From e4e1bd97faead9df4b0da4c133f22cd114d5d7fa Mon Sep 17 00:00:00 2001
+From dbd0fd7b7f7255443cae28b0ed64f95f5a8af76c Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Thu, 10 Jan 2013 00:18:11 -0500
 Subject: [PATCH] Spigot Timings
@@ -277,7 +277,7 @@ index ea18536f5..7e8a46715 100644
      }
  
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index b95d29a28..0c8ffcd12 100644
+index 6ba2871eb..0819474b6 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
 @@ -353,6 +353,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
@@ -322,7 +322,7 @@ index b95d29a28..0c8ffcd12 100644
      }
      // CraftBukkit end
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 452861af7..9c78b7d2c 100644
+index 26d92a2ef..111869fce 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -156,6 +156,7 @@ import org.bukkit.command.CommandSender;
@@ -358,7 +358,7 @@ index 452861af7..9c78b7d2c 100644
  
      private void applyMovementEmissionAndPlaySound(Entity.MovementEmission entity_movementemission, Vec3D vec3d, BlockPosition blockposition, IBlockData iblockdata) {
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index 1fb92b185..8d8cf895b 100644
+index 4fed9669c..8dc1f4333 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -164,6 +164,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
@@ -412,7 +412,7 @@ index 1fb92b185..8d8cf895b 100644
  
          gameprofilerfiller.pop();
          gameprofilerfiller.push("jump");
-@@ -3489,6 +3497,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3493,6 +3501,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
              this.resetFallDistance();
          }
  
@@ -420,7 +420,7 @@ index 1fb92b185..8d8cf895b 100644
          label122:
          {
              EntityLiving entityliving = this.getControllingPassenger();
-@@ -3504,6 +3513,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3508,6 +3517,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
                  this.travel(vec3d1);
              }
          }
@@ -428,7 +428,7 @@ index 1fb92b185..8d8cf895b 100644
  
          if (!this.level().isClientSide() || this.isLocalInstanceAuthoritative()) {
              this.applyEffectsFromBlocks();
-@@ -3537,7 +3547,9 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -3541,7 +3551,9 @@ public abstract class EntityLiving extends Entity implements Attackable {
              this.checkAutoSpinAttack(axisalignedbb, this.getBoundingBox());
          }
  

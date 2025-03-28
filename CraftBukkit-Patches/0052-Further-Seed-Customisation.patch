@@ -1,4 +1,4 @@
-From cfeb6b47827415a9ab4e6e5bf07cc89b8157f2a8 Mon Sep 17 00:00:00 2001
+From e439bb8b6ff8b7cfc851791cdb022600caab686e Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 4 Jul 2014 13:28:45 +1000
 Subject: [PATCH] Further Seed Customisation
@@ -32,10 +32,10 @@ index 7e71c7465..bf1d3a792 100644
              if (randomsource.nextInt(10) == 0 && flag && blockposition.getY() < 40) {
                  return checkMobSpawnRules(entitytypes, generatoraccess, entityspawnreason, blockposition, randomsource);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-index a80e22444..14a8f5fb0 100644
+index 7a4d27cb5..c9c20bf8c 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-@@ -108,8 +108,8 @@ public abstract class ChunkGenerator {
+@@ -107,8 +107,8 @@ public abstract class ChunkGenerator {
  
      protected abstract MapCodec<? extends ChunkGenerator> codec();
  

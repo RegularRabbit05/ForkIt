@@ -1,4 +1,4 @@
-From 07aaf3466b8bca0e83623f187d52148a303a39b1 Mon Sep 17 00:00:00 2001
+From a51ec56ed0277c7d4af74fa7a27571f98b9fcf0b Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 25 Feb 2019 19:26:56 +1100
 Subject: [PATCH] Add creative mode NBT permissions
@@ -24,7 +24,7 @@ index 2efee4088..352c3c657 100644
                      this.player.connection.send(new PacketPlayOutBlockChange(blockposition, this.level.getBlockState(blockposition)));
                      this.debugLogging(blockposition, false, j, "block action restricted");
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index a0f7e83f9..df03c9984 100644
+index 863e45207..101cfdb8a 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
 @@ -865,7 +865,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
@@ -37,16 +37,16 @@ index a0f7e83f9..df03c9984 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/ItemBlock.java b/src/main/java/net/minecraft/world/item/ItemBlock.java
-index cc88c42a7..27b1d8d3e 100644
+index 74e23ed81..f5e6910fd 100644
 --- a/src/main/java/net/minecraft/world/item/ItemBlock.java
 +++ b/src/main/java/net/minecraft/world/item/ItemBlock.java
 @@ -208,7 +208,7 @@ public class ItemBlock extends Item {
                          return false;
                      }
  
--                    if (tileentitytypes1.onlyOpCanSetNbt() && (entityhuman == null || !entityhuman.canUseGameMasterBlocks())) {
-+                    if (tileentitytypes1.onlyOpCanSetNbt() && (entityhuman == null || !(entityhuman.canUseGameMasterBlocks() || (entityhuman.getAbilities().instabuild && entityhuman.getBukkitEntity().hasPermission("minecraft.nbt.place"))))) { // Spigot - add permission
-                         return false;
+-                    if (!tileentitytypes1.onlyOpCanSetNbt() || entityhuman != null && entityhuman.canUseGameMasterBlocks()) {
++                    if (!tileentitytypes1.onlyOpCanSetNbt() || entityhuman != null && (entityhuman.canUseGameMasterBlocks() || (entityhuman.getAbilities().instabuild && entityhuman.getBukkitEntity().hasPermission("minecraft.nbt.place")))) { // Spigot - add permission
+                         return customdata.loadInto(tileentity, world.registryAccess());
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/ItemDebugStick.java b/src/main/java/net/minecraft/world/item/ItemDebugStick.java
