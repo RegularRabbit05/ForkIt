@@ -1,4 +1,4 @@
-From 3a5bd4799b74080866ccb39043d16852c1a48b6f Mon Sep 17 00:00:00 2001
+From 7664d6101dfc8d9f79e8332a711bdcb642aed707 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Jun 2013 15:10:56 +1000
 Subject: [PATCH] Skeleton API Implementations
@@ -27,10 +27,10 @@ index 01de36d0b..3e1903310 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 285acb1c5..65fd6faee 100644
+index f21946418..b8f783209 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -2086,4 +2086,15 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2079,4 +2079,15 @@ public class CraftWorld extends CraftRegionAccessor implements World {
              this.persistentDataContainer.putAll((NBTTagCompound) c);
          }
      }
@@ -124,7 +124,7 @@ index 3a4fb14bf..3a68e1cf5 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index ebd52ca0e..33dd4e643 100644
+index 5af8802e3..a1f7c91e3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -2347,4 +2347,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {

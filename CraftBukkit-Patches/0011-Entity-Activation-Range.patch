@@ -1,4 +1,4 @@
-From 8a7115a73598c0826420eb39b835585558bc9dbb Mon Sep 17 00:00:00 2001
+From af59d606c76f6df7dc0c73d8935170893c33b43c Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Sat, 2 Nov 2024 18:16:11 +1100
 Subject: [PATCH] Entity Activation Range
@@ -9,10 +9,10 @@ This will drastically cut down on tick timings for entities that are not in rang
 This change can have dramatic impact on gameplay if configured too low. Balance according to your servers desired gameplay.
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 7e8a46715..3fa80f956 100644
+index 34c4d8464..3ee75d6ce 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -423,6 +423,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -425,6 +425,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
                  gameprofilerfiller.pop();
              }
  
@@ -20,7 +20,7 @@ index 7e8a46715..3fa80f956 100644
              timings.entityTick.startTiming(); // Spigot
              this.entityTickList.forEach((entity) -> {
                  if (!entity.isRemoved()) {
-@@ -856,6 +857,13 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -858,6 +859,13 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
      }
  
      public void tickNonPassenger(Entity entity) {
@@ -35,7 +35,7 @@ index 7e8a46715..3fa80f956 100644
          entity.setOldPosAndRot();
          GameProfilerFiller gameprofilerfiller = Profiler.get();
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 9c78b7d2c..0265f8551 100644
+index 111869fce..dca61d83b 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -339,6 +339,12 @@ public abstract class Entity implements SyncedDataHolder, INamableTileEntity, En
@@ -125,7 +125,7 @@ index 8f1dbca8a..ba5cc953c 100644
      public void tick() {
          super.tick();
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index 8d8cf895b..8932d4c87 100644
+index 325d5dae8..8d14f6349 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -291,6 +291,13 @@ public abstract class EntityLiving extends Entity implements Attackable {

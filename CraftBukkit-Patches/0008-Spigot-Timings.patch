@@ -1,4 +1,4 @@
-From dbd0fd7b7f7255443cae28b0ed64f95f5a8af76c Mon Sep 17 00:00:00 2001
+From e4230a5fcdcdf8ef356934e620e5482200699b2f Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Thu, 10 Jan 2013 00:18:11 -0500
 Subject: [PATCH] Spigot Timings
@@ -199,7 +199,7 @@ index 03f9d3c7a..4fdf130de 100644
          gameprofilerfiller.pop();
          gameprofilerfiller.popPush("customSpawners");
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index ea18536f5..7e8a46715 100644
+index 229e7ef9b..34c4d8464 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
 @@ -178,6 +178,7 @@ import net.minecraft.world.level.levelgen.ChunkProviderFlat;
@@ -209,8 +209,8 @@ index ea18536f5..7e8a46715 100644
 +import org.bukkit.craftbukkit.SpigotTimings; // Spigot
  import org.bukkit.craftbukkit.event.CraftEventFactory;
  import org.bukkit.craftbukkit.generator.CustomWorldChunkManager;
- import org.bukkit.craftbukkit.util.WorldUUID;
-@@ -379,6 +380,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+ import org.bukkit.craftbukkit.util.CraftLocation;
+@@ -381,6 +382,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
          }
  
          gameprofilerfiller.push("tickPending");
@@ -218,7 +218,7 @@ index ea18536f5..7e8a46715 100644
          if (!this.isDebug() && flag) {
              long k = this.getGameTime();
  
-@@ -388,6 +390,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -390,6 +392,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
              this.fluidTicks.tick(k, 65536, this::tickFluid);
              gameprofilerfiller.pop();
          }
@@ -226,7 +226,7 @@ index ea18536f5..7e8a46715 100644
  
          gameprofilerfiller.popPush("raid");
          if (flag) {
-@@ -398,7 +401,9 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -400,7 +403,9 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
          this.getChunkSource().tick(booleansupplier, true);
          gameprofilerfiller.popPush("blockEvents");
          if (flag) {
@@ -236,7 +236,7 @@ index ea18536f5..7e8a46715 100644
          }
  
          this.handlingTick = false;
-@@ -411,12 +416,14 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -413,12 +418,14 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
  
          if (flag1 || this.emptyTime++ < 300) {
              gameprofilerfiller.push("entities");
@@ -251,7 +251,7 @@ index ea18536f5..7e8a46715 100644
              this.entityTickList.forEach((entity) -> {
                  if (!entity.isRemoved()) {
                      if (!tickratemanager.isEntityFrozen(entity)) {
-@@ -441,6 +448,8 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -443,6 +450,8 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
                      }
                  }
              });
@@ -260,7 +260,7 @@ index ea18536f5..7e8a46715 100644
              gameprofilerfiller.pop();
              this.tickBlockEntities();
          }
-@@ -847,6 +856,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -849,6 +858,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
      }
  
      public void tickNonPassenger(Entity entity) {
@@ -268,7 +268,7 @@ index ea18536f5..7e8a46715 100644
          entity.setOldPosAndRot();
          GameProfilerFiller gameprofilerfiller = Profiler.get();
  
-@@ -862,6 +872,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -864,6 +874,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
          for (Entity entity1 : entity.getPassengers()) {
              this.tickPassenger(entity, entity1);
          }
@@ -358,7 +358,7 @@ index 26d92a2ef..111869fce 100644
  
      private void applyMovementEmissionAndPlaySound(Entity.MovementEmission entity_movementemission, Vec3D vec3d, BlockPosition blockposition, IBlockData iblockdata) {
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index 4fed9669c..8dc1f4333 100644
+index d2d6de827..325d5dae8 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
 @@ -164,6 +164,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
@@ -459,7 +459,7 @@ index 1dc65bcb3..d93940fb5 100644
      }
  
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index fa9f22a38..601b24af4 100644
+index 17231dbab..1367de17b 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
 @@ -100,6 +100,7 @@ import net.minecraft.world.level.dimension.WorldDimension;
