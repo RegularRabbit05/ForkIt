@@ -1,4 +1,4 @@
-From 7debde8cd014665aded14729352101e62fcf5fc9 Mon Sep 17 00:00:00 2001
+From b40454506420a23e97012e635f81a4aa981bb1f1 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 25 Mar 2014 16:10:01 +1100
 Subject: [PATCH] Async Operation Catching
@@ -62,7 +62,7 @@ index d4bf5c5d8..7eea04eb5 100644
                  Vec3D vec3d = entityplayer.position().subtract(this.entity.position());
                  int i = PlayerChunkMap.this.getPlayerViewDistance(entityplayer);
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index bafca6b82..f39ee0546 100644
+index 6c58226ae..6b0055956 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
 @@ -1070,6 +1070,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
@@ -89,7 +89,7 @@ index bafca6b82..f39ee0546 100644
              WorldServer.this.getChunkSource().addEntity(entity);
              if (entity instanceof EntityPlayer entityplayer) {
                  WorldServer.this.players.add(entityplayer);
-@@ -1983,6 +1986,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -1982,6 +1985,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
          }
  
          public void onTrackingEnd(Entity entity) {

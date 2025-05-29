@@ -1,4 +1,4 @@
-From 8fc3a5b63893237d3957aef42f8856efb7773a6d Mon Sep 17 00:00:00 2001
+From 8e7fc140575773a86e106b069393de9e15100376 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 5 Aug 2014 17:20:19 +0100
 Subject: [PATCH] Watchdog Thread.
@@ -38,7 +38,7 @@ index 6e2684753..3cc568cdb 100644
  
                  thread1.setUncaughtExceptionHandler(new ThreadNamedUncaughtExceptionHandler(DedicatedServer.LOGGER));
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 87fdccfad..5e4167660 100644
+index 87fdccfad..4bcb46d87 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2145,7 +2145,7 @@ public final class CraftServer implements Server {
@@ -46,7 +46,7 @@ index 87fdccfad..5e4167660 100644
      @Override
      public boolean isPrimaryThread() {
 -        return Thread.currentThread().equals(console.serverThread) || console.hasStopped(); // All bets are off if we have shut down (e.g. due to watchdog)
-+        return Thread.currentThread().equals(console.serverThread) || console.hasStopped() || !org.spigotmc.AsyncCatcher.enabled; // All bets are off if we have shut down (e.g. due to watchdog)
++        return Thread.currentThread().equals(console.serverThread) || console.hasStopped() || org.spigotmc.RestartCommand.restarting; // All bets are off if we have shut down (e.g. due to watchdog)
      }
  
      @Override
@@ -64,10 +64,10 @@ index 87fdccfad..5e4167660 100644
      public org.bukkit.Server.Spigot spigot()
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
 new file mode 100644
-index 000000000..f78961aa1
+index 000000000..b53beb6b4
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
-@@ -0,0 +1,131 @@
+@@ -0,0 +1,139 @@
 +package org.spigotmc;
 +
 +import java.io.File;
@@ -80,6 +80,8 @@ index 000000000..f78961aa1
 +
 +public class RestartCommand extends Command
 +{
++
++    public static boolean restarting;
 +
 +    public RestartCommand(String name)
 +    {
@@ -113,6 +115,12 @@ index 000000000..f78961aa1
 +
 +    private static void restart(final String restartScript)
 +    {
++        if (restarting)
++        {
++            return;
++        }
++
++        RestartCommand.restarting = true;
 +        AsyncCatcher.enabled = false; // Disable async catcher incase it interferes with us
 +        try
 +        {
