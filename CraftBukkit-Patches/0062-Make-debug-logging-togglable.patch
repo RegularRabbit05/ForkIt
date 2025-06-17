@@ -1,4 +1,4 @@
-From 5a2bd3e6b15ea2f49a32dd10b71a0707cc452a2c Mon Sep 17 00:00:00 2001
+From 4345a8247f80c771674aee4c675d5d7234cb1271 Mon Sep 17 00:00:00 2001
 From: Minecrell <dev@minecrell.net>
 Date: Sun, 17 Aug 2014 12:42:53 +0200
 Subject: [PATCH] Make debug logging togglable.

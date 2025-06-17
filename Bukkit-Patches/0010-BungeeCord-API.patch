@@ -1,11 +1,11 @@
-From a8e654be8c4d53cc3328bcfaec71880ec64bfafa Mon Sep 17 00:00:00 2001
+From e607d6710a706a5df1ad00f9c13acd6e1c21cf28 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 02:59:14 +0100
-Subject: [PATCH] BungeeCord Chat API
+Subject: [PATCH] BungeeCord API
 
 
 diff --git a/pom.xml b/pom.xml
-index fce99867..5a7e3b8c 100644
+index 356a9c9f..74e9d450 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -51,6 +51,13 @@
@@ -14,8 +14,8 @@ index fce99867..5a7e3b8c 100644
          </dependency>
 +        <dependency>
 +            <groupId>net.md-5</groupId>
-+            <artifactId>bungeecord-chat</artifactId>
-+            <version>1.21-R0.2</version>
++            <artifactId>bungeecord-serializer</artifactId>
++            <version>1.21-R0.3</version>
 +            <type>jar</type>
 +            <scope>compile</scope>
 +        </dependency>
@@ -285,11 +285,11 @@ index 6149c77d..e3f185dc 100644
       * Gets the char value associated with this color
       *
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index e45b944f..ab1f7c8f 100644
+index b0cc490c..c6263cc6 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1872,6 +1872,24 @@ public interface Server extends PluginMessageRecipient {
-         public org.bukkit.configuration.file.YamlConfiguration getConfig() {
+@@ -1879,6 +1879,24 @@ public interface Server extends PluginMessageRecipient {
+         public void restart() {
              throw new UnsupportedOperationException("Not supported yet.");
          }
 +
@@ -362,10 +362,24 @@ index 4b6b9540..284be63a 100644
  
      @NotNull
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index b09ebd03..299c3d4c 100644
+index c4b82154..43be9aee 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2318,6 +2318,58 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2294,6 +2294,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+     @ApiStatus.Experimental
+     public void clearDialog();
+ 
++    /**
++     * Show a dialog to the player.
++     *
++     * @param dialog the dialog to show
++     */
++    public void showDialog(@NotNull net.md_5.bungee.api.dialog.Dialog dialog);
++
+     // Spigot start
+     public class Spigot extends Entity.Spigot {
+ 
+@@ -2324,6 +2331,58 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
          public java.util.Set<Player> getHiddenPlayers() {
              throw new UnsupportedOperationException("Not supported yet.");
          }

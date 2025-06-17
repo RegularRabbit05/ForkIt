@@ -1,4 +1,4 @@
-From 121f69e7b463cf9e4aa564ea8793a6ae4e082f75 Mon Sep 17 00:00:00 2001
+From b02bf51e554f1808ccaf2580f6fc5f9f8ff91a05 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 9 Jun 2017 16:29:31 +1000
 Subject: [PATCH] Configurable Advancement Disabling
@@ -6,10 +6,10 @@ Subject: [PATCH] Configurable Advancement Disabling
 Allow disabling any (or all) inbuilt advancements with a configuration option.
 
 diff --git a/src/main/java/net/minecraft/server/AdvancementDataPlayer.java b/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
-index 35e87ce15..09ba69e89 100644
+index 1197e9cfd..94a7be017 100644
 --- a/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
 +++ b/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
-@@ -136,6 +136,7 @@ public class AdvancementDataPlayer {
+@@ -135,6 +135,7 @@ public class AdvancementDataPlayer {
      }
  
      public void save() {
@@ -18,7 +18,7 @@ index 35e87ce15..09ba69e89 100644
  
          try {
 diff --git a/src/main/java/net/minecraft/server/AdvancementDataWorld.java b/src/main/java/net/minecraft/server/AdvancementDataWorld.java
-index 26dc74b92..a5e63774d 100644
+index 1809010ac..0b70f52a8 100644
 --- a/src/main/java/net/minecraft/server/AdvancementDataWorld.java
 +++ b/src/main/java/net/minecraft/server/AdvancementDataWorld.java
 @@ -39,6 +39,11 @@ public class AdvancementDataWorld extends ResourceDataJson<Advancement> {

@@ -1,4 +1,4 @@
-From e439bb8b6ff8b7cfc851791cdb022600caab686e Mon Sep 17 00:00:00 2001
+From bd080002af6e689a0615e4a986d279fe3e2b7faf Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 4 Jul 2014 13:28:45 +1000
 Subject: [PATCH] Further Seed Customisation
@@ -6,7 +6,7 @@ Subject: [PATCH] Further Seed Customisation
 Allow server admins that really want to to customise the seeds used in world generation even further.
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index a2c820acf..331f778c0 100644
+index 648ece155..afacd130e 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 @@ -209,7 +209,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
@@ -19,10 +19,10 @@ index a2c820acf..331f778c0 100644
          ConsecutiveExecutor consecutiveexecutor = new ConsecutiveExecutor(executor, "worldgen");
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java b/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
-index 7e71c7465..bf1d3a792 100644
+index b899999ef..bde2326ef 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
-@@ -344,7 +344,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
+@@ -345,7 +345,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
              }
  
              ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(blockposition);

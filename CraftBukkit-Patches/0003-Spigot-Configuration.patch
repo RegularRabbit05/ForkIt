@@ -1,4 +1,4 @@
-From 3b4f2ddfc4b82a208681f755e3b25fc6a2144bec Mon Sep 17 00:00:00 2001
+From 27f0f0530d1f3d5670f9c51d1b204e26e6406d2e Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 7 Jul 2013 09:32:53 +1000
 Subject: [PATCH] Spigot Configuration
@@ -6,7 +6,7 @@ Subject: [PATCH] Spigot Configuration
 Provides the basic infrastructure to load and save the Spigot configuration file, spigot.yml
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 3b753f647..496ca6184 100644
+index 742ef34cb..4d0dc0cb3 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -194,6 +194,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -31,7 +31,7 @@ index 3b753f647..496ca6184 100644
          server.enablePlugins(org.bukkit.plugin.PluginLoadOrder.STARTUP);
          // CraftBukkit end
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index 8c2cf787e..fa9f22a38 100644
+index cdeef02ff..26d5241d6 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
 @@ -160,6 +160,7 @@ public abstract class World implements GeneratorAccess, UUIDLookup<Entity>, Auto
@@ -51,10 +51,10 @@ index 8c2cf787e..fa9f22a38 100644
          this.world = new CraftWorld((WorldServer) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3e1903310..e6e8076e1 100644
+index 067094066..4a2e507d5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -946,6 +946,7 @@ public final class CraftServer implements Server {
+@@ -947,6 +947,7 @@ public final class CraftServer implements Server {
              logger.log(Level.WARNING, "Failed to load banned-players.json, " + ex.getMessage());
          }
  
@@ -62,7 +62,7 @@ index 3e1903310..e6e8076e1 100644
          for (WorldServer world : console.getAllLevels()) {
              world.serverLevelData.setDifficulty(config.difficulty);
              world.setSpawnSettings(config.spawnMonsters);
-@@ -960,11 +961,13 @@ public final class CraftServer implements Server {
+@@ -961,11 +962,13 @@ public final class CraftServer implements Server {
                      }
                  }
              }
@@ -77,10 +77,10 @@ index 3e1903310..e6e8076e1 100644
          ignoreVanillaPermissions = commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index c2c4126b3..a4e0f8c82 100644
+index 7f7ff4fb7..c2d868781 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -134,6 +134,14 @@ public class Main {
+@@ -135,6 +135,14 @@ public class Main {
                  acceptsAll(asList("demo"), "Demo mode");
  
                  acceptsAll(asList("initSettings"), "Only create configuration files and then exit"); // SPIGOT-5761: Add initSettings option

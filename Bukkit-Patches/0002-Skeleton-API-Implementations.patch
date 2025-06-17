@@ -1,4 +1,4 @@
-From 0bbdc4139e08c26af9262e0cc5fe91e8e0e40c5a Mon Sep 17 00:00:00 2001
+From dada70e24de7b916a852f311a22ff1e8cc7b9aee Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 15 May 2017 15:16:15 +1000
 Subject: [PATCH] Skeleton API Implementations
@@ -120,13 +120,13 @@ index 158ac20f..d913298e 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 3e044e1b..da0ddce5 100644
+index 94142faf..24bc46a0 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2287,4 +2287,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
-      * @return whether the player allows server listings
+@@ -2293,4 +2293,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
-     public boolean isAllowingServerListings();
+     @ApiStatus.Experimental
+     public void clearDialog();
 +
 +    // Spigot start
 +    public class Spigot extends Entity.Spigot {

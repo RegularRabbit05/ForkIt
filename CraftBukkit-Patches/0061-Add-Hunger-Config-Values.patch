@@ -1,14 +1,14 @@
-From 077f3b0cb38c617235749682f89ff9f511741175 Mon Sep 17 00:00:00 2001
+From 24a448c93fe5b39bcf35f757697ee362fc276866 Mon Sep 17 00:00:00 2001
 From: lazertester <austin.techhead@gmail.com>
 Date: Sun, 17 Aug 2014 19:56:17 +1000
 Subject: [PATCH] Add Hunger Config Values
 
 
 diff --git a/src/main/java/net/minecraft/server/level/EntityPlayer.java b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-index a87e2c92f..0f4a3fc96 100644
+index 4c0994b82..49ec56d2b 100644
 --- a/src/main/java/net/minecraft/server/level/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-@@ -1790,21 +1790,21 @@ public class EntityPlayer extends EntityHuman {
+@@ -1824,21 +1824,21 @@ public class EntityPlayer extends EntityHuman {
  
                  if (i > 0) {
                      this.awardStat(StatisticList.SWIM_ONE_CM, i);
@@ -33,7 +33,7 @@ index a87e2c92f..0f4a3fc96 100644
                  }
              } else if (this.onClimbable()) {
                  if (d1 > 0.0D) {
-@@ -1816,13 +1816,13 @@ public class EntityPlayer extends EntityHuman {
+@@ -1850,13 +1850,13 @@ public class EntityPlayer extends EntityHuman {
                  if (l > 0) {
                      if (this.isSprinting()) {
                          this.awardStat(StatisticList.SPRINT_ONE_CM, l);
@@ -50,7 +50,7 @@ index a87e2c92f..0f4a3fc96 100644
                      }
                  }
              } else if (this.isFallFlying()) {
-@@ -1907,9 +1907,9 @@ public class EntityPlayer extends EntityHuman {
+@@ -1943,9 +1943,9 @@ public class EntityPlayer extends EntityHuman {
          super.jumpFromGround();
          this.awardStat(StatisticList.JUMP);
          if (this.isSprinting()) {
@@ -63,10 +63,10 @@ index a87e2c92f..0f4a3fc96 100644
  
      }
 diff --git a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
-index fca024fcd..fe0bfedc5 100644
+index 8f7f879ec..c2ee5b0dc 100644
 --- a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
 +++ b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
-@@ -1319,7 +1319,7 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1330,7 +1330,7 @@ public abstract class EntityHuman extends EntityLiving {
                              }
                          }
  
@@ -76,10 +76,10 @@ index fca024fcd..fe0bfedc5 100644
                          this.level().playSound((Entity) null, this.getX(), this.getY(), this.getZ(), SoundEffects.PLAYER_ATTACK_NODAMAGE, this.getSoundSource(), 1.0F, 1.0F);
                          // CraftBukkit start - resync on cancelled event
 diff --git a/src/main/java/net/minecraft/world/food/FoodMetaData.java b/src/main/java/net/minecraft/world/food/FoodMetaData.java
-index 3761e34ce..61d3d308e 100644
+index 67d9573a9..653d7c623 100644
 --- a/src/main/java/net/minecraft/world/food/FoodMetaData.java
 +++ b/src/main/java/net/minecraft/world/food/FoodMetaData.java
-@@ -93,7 +93,7 @@ public class FoodMetaData {
+@@ -94,7 +94,7 @@ public class FoodMetaData {
              if (this.tickTimer >= this.unsaturatedRegenRate) { // CraftBukkit - add regen rate manipulation
                  entityplayer.heal(1.0F, org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason.SATIATED); // CraftBukkit - added RegainReason
                  // this.addExhaustion(6.0F); CraftBukkit - EntityExhaustionEvent

@@ -1,4 +1,4 @@
-From cb7c1d280247b5e25689cd1db199a3666908d6dc Mon Sep 17 00:00:00 2001
+From c4a49672978722f92668c39c8d1b0dbc5948c612 Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thinkofdeath@spigotmc.org>
 Date: Sun, 29 Jun 2014 21:10:34 +0100
 Subject: [PATCH] Limit block placement/interaction packets
@@ -45,10 +45,10 @@ index 92a182668..66ac250db 100644
          this.blockHit = packetdataserializer.readBlockHitResult();
          this.sequence = packetdataserializer.readVarInt();
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 8ace16b40..da95cd08c 100644
+index 1d8891a30..e5e710fe9 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -1712,10 +1712,30 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1736,10 +1736,30 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          }
      }
  
@@ -73,20 +73,20 @@ index 8ace16b40..da95cd08c 100644
 +
      @Override
      public void handleUseItemOn(PacketPlayInUseItem packetplayinuseitem) {
-         PlayerConnectionUtils.ensureRunningOnSameThread(packetplayinuseitem, this, this.player.serverLevel());
+         PlayerConnectionUtils.ensureRunningOnSameThread(packetplayinuseitem, this, this.player.level());
          if (this.player.isImmobile()) return; // CraftBukkit
 +        if (!checkLimit(packetplayinuseitem.timestamp)) return; // Spigot - check limit
          if (this.player.hasClientLoaded()) {
-             this.player.connection.ackBlockChangesUpTo(packetplayinuseitem.getSequence());
-             WorldServer worldserver = this.player.serverLevel();
-@@ -1778,6 +1798,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+             this.ackBlockChangesUpTo(packetplayinuseitem.getSequence());
+             WorldServer worldserver = this.player.level();
+@@ -1802,6 +1822,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
      public void handleUseItem(PacketPlayInBlockPlace packetplayinblockplace) {
-         PlayerConnectionUtils.ensureRunningOnSameThread(packetplayinblockplace, this, this.player.serverLevel());
+         PlayerConnectionUtils.ensureRunningOnSameThread(packetplayinblockplace, this, this.player.level());
          if (this.player.isImmobile()) return; // CraftBukkit
 +        if (!checkLimit(packetplayinblockplace.timestamp)) return; // Spigot - check limit
          if (this.player.hasClientLoaded()) {
              this.ackBlockChangesUpTo(packetplayinblockplace.getSequence());
-             WorldServer worldserver = this.player.serverLevel();
+             WorldServer worldserver = this.player.level();
 -- 
 2.49.0
 

@@ -1,14 +1,14 @@
-From 8e7fc140575773a86e106b069393de9e15100376 Mon Sep 17 00:00:00 2001
+From d8613018f620c3b72ea6e74b0864100799d368fa Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 5 Aug 2014 17:20:19 +0100
 Subject: [PATCH] Watchdog Thread.
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index a1a7cba6e..8f4f70bcb 100644
+index 86eb082da..cc31bb363 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1095,6 +1095,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1097,6 +1097,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
                      this.services.profileCache().clearExecutor();
                  }
  
@@ -16,7 +16,7 @@ index a1a7cba6e..8f4f70bcb 100644
                  // CraftBukkit start - Restore terminal to original settings
                  try {
                      reader.getTerminal().restore();
-@@ -1299,6 +1300,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1301,6 +1302,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      }
  
      public void tickServer(BooleanSupplier booleansupplier) {
@@ -25,7 +25,7 @@ index a1a7cba6e..8f4f70bcb 100644
          int j = this.pauseWhileEmptySeconds() * 20;
  
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 6e2684753..3cc568cdb 100644
+index c8fe1455e..1befcf743 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -277,7 +277,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
@@ -38,10 +38,10 @@ index 6e2684753..3cc568cdb 100644
  
                  thread1.setUncaughtExceptionHandler(new ThreadNamedUncaughtExceptionHandler(DedicatedServer.LOGGER));
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 87fdccfad..4bcb46d87 100644
+index 8dd4e3e6f..ce2f291bd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2145,7 +2145,7 @@ public final class CraftServer implements Server {
+@@ -2146,7 +2146,7 @@ public final class CraftServer implements Server {
  
      @Override
      public boolean isPrimaryThread() {
@@ -50,7 +50,7 @@ index 87fdccfad..4bcb46d87 100644
      }
  
      @Override
-@@ -2586,6 +2586,11 @@ public final class CraftServer implements Server {
+@@ -2587,6 +2587,11 @@ public final class CraftServer implements Server {
          {
              return org.spigotmc.SpigotConfig.config;
          }

@@ -1,11 +1,11 @@
-From df7d0439a2abded5285e0a583dce14d7b88ac880 Mon Sep 17 00:00:00 2001
+From 9367f990537854884865253bbc379b359a97a24f Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 25 Feb 2019 19:26:56 +1100
 Subject: [PATCH] Add creative mode NBT permissions
 
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerInteractManager.java b/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
-index 56650b6b2..5f92ace58 100644
+index 90c458a96..79a28f352 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
 @@ -209,6 +209,14 @@ public class PlayerInteractManager {
@@ -24,10 +24,10 @@ index 56650b6b2..5f92ace58 100644
                      this.player.connection.send(new PacketPlayOutBlockChange(blockposition, this.level.getBlockState(blockposition)));
                      this.debugLogging(blockposition, false, j, "block action restricted");
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 863e45207..101cfdb8a 100644
+index d44068815..5d9cc1ffc 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -865,7 +865,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -881,7 +881,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  ItemStack itemstack = iblockdata.getCloneItemStack(worldserver, blockposition, flag);
  
                  if (!itemstack.isEmpty()) {
@@ -37,7 +37,7 @@ index 863e45207..101cfdb8a 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/ItemBlock.java b/src/main/java/net/minecraft/world/item/ItemBlock.java
-index 74e23ed81..f5e6910fd 100644
+index 2bdaa1925..c4dc51bf7 100644
 --- a/src/main/java/net/minecraft/world/item/ItemBlock.java
 +++ b/src/main/java/net/minecraft/world/item/ItemBlock.java
 @@ -208,7 +208,7 @@ public class ItemBlock extends Item {

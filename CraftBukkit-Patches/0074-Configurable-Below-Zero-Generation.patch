@@ -1,11 +1,11 @@
-From 913f3c8af14f4f9d9a6e43a654caa57fc14dd1a9 Mon Sep 17 00:00:00 2001
+From e27963e283cac9acc7a623351d34a2f9ed97d678 Mon Sep 17 00:00:00 2001
 From: DerFrZocker <derrieple@gmail.com>
 Date: Sun, 28 Nov 2021 12:09:29 +1100
 Subject: [PATCH] Configurable Below Zero Generation
 
 
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java b/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java
-index 681ccd963..1d3e0b19c 100644
+index ed32a7673..e4573edaf 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java
 @@ -109,8 +109,22 @@ public class IChunkLoader implements AutoCloseable {

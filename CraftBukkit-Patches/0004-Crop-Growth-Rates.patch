@@ -1,4 +1,4 @@
-From f4dba52dd5b7bcfd8f5687d55f7594a140c2ea23 Mon Sep 17 00:00:00 2001
+From 9ddc5e65c899743f067340ee0907d24a13837bc0 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 7 Mar 2016 22:14:13 +1100
 Subject: [PATCH] Crop Growth Rates
@@ -111,7 +111,7 @@ index 090dc15c6..bfbe5e5f5 100644
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockGrowingTop.java b/src/main/java/net/minecraft/world/level/block/BlockGrowingTop.java
-index fea77b840..d9c72fe41 100644
+index e5487a7f1..aa6c1c6f1 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockGrowingTop.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockGrowingTop.java
 @@ -44,7 +44,19 @@ public abstract class BlockGrowingTop extends BlockGrowingAbstract implements IB

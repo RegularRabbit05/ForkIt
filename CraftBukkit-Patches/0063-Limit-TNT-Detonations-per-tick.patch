@@ -1,4 +1,4 @@
-From b13c291847ac1dea1bc32a3892541b0d367512cb Mon Sep 17 00:00:00 2001
+From d363d04c913272e31e92731a0624508092357655 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Wed, 20 Aug 2014 18:12:32 -0400
 Subject: [PATCH] Limit TNT Detonations per tick
@@ -7,10 +7,10 @@ This gives a per-world control on how much TNT will be processed per-tick,
 preventing a massive TNT detonation from lagging out the server.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java b/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
-index 44d2d9a9e..b251099c0 100644
+index 3216ad2d6..30a7b8ed7 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
-@@ -104,6 +104,7 @@ public class EntityTNTPrimed extends Entity implements TraceableEntity {
+@@ -103,6 +103,7 @@ public class EntityTNTPrimed extends Entity implements TraceableEntity {
  
      @Override
      public void tick() {
@@ -19,7 +19,7 @@ index 44d2d9a9e..b251099c0 100644
          this.applyGravity();
          this.move(EnumMoveType.SELF, this.getDeltaMovement());
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index 2c19f8801..891bb1ab3 100644
+index 3b34afbf7..0be9bc735 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
 @@ -666,6 +666,7 @@ public abstract class World implements GeneratorAccess, UUIDLookup<Entity>, Auto

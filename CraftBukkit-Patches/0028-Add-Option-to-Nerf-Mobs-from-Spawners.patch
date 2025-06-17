@@ -1,26 +1,26 @@
-From c8515b41fa90bea91f480f7c3314fa2508aaeb7a Mon Sep 17 00:00:00 2001
+From 66a37aa1aea110d7335c43d5eca9a42b868d9d89 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Feb 2014 16:55:46 +0000
 Subject: [PATCH] Add Option to Nerf Mobs from Spawners
 
 
 diff --git a/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java b/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
-index f6c5bc765..6457167ac 100644
+index 51e958c33..84e79f91a 100644
 --- a/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
 +++ b/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
-@@ -161,6 +161,12 @@ public abstract class MobSpawnerAbstract {
+@@ -169,6 +169,12 @@ public abstract class MobSpawnerAbstract {
  
-                             Objects.requireNonNull(entityinsentient);
-                             optional1.ifPresent(entityinsentient::equip);
-+                            // Spigot Start
-+                            if ( entityinsentient.level().spigotConfig.nerfSpawnerMobs )
-+                            {
-+                                entityinsentient.aware = false;
-+                            }
-+                            // Spigot End
-                         }
+                                 Objects.requireNonNull(entityinsentient);
+                                 optional1.ifPresent(entityinsentient::equip);
++                                // Spigot Start
++                                if ( entityinsentient.level().spigotConfig.nerfSpawnerMobs )
++                                {
++                                    entityinsentient.aware = false;
++                                }
++                                // Spigot End
+                             }
  
-                         // CraftBukkit start
+                             // CraftBukkit start
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 index 457a8e84b..3e398c4e0 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java

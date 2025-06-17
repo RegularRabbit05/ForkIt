@@ -1,11 +1,11 @@
-From 5297ef7961b358352e9a27b452321f813c68a89b Mon Sep 17 00:00:00 2001
+From 192b7a6dded492afbc3533fb67903767ce6e625d Mon Sep 17 00:00:00 2001
 From: David <dmck2b@gmail.com>
 Date: Mon, 21 Apr 2014 12:43:08 +0100
 Subject: [PATCH] Prevent NoClassDefError crash and notify on crash
 
 
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index 601b24af4..2c19f8801 100644
+index 6cba4e205..3b34afbf7 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
 @@ -164,6 +164,7 @@ public abstract class World implements GeneratorAccess, UUIDLookup<Entity>, Auto

@@ -1,14 +1,14 @@
-From 9d1124b2b14d0335c557fed2e49346bdedfdce99 Mon Sep 17 00:00:00 2001
+From c7acf2a1192be3ee06fc7a0b48209660a52f37aa Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 14 Dec 2019 10:26:52 +1100
 Subject: [PATCH] Add log-villager-deaths option
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index 8932d4c87..e394a6f16 100644
+index 421bd441d..2e8b6a9dd 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-@@ -1814,7 +1814,7 @@ public abstract class EntityLiving extends Entity implements Attackable {
+@@ -1850,7 +1850,7 @@ public abstract class EntityLiving extends Entity implements Attackable, Waypoin
              }
  
              if (!this.level().isClientSide && this.hasCustomName()) {
@@ -18,10 +18,10 @@ index 8932d4c87..e394a6f16 100644
  
              this.dead = true;
 diff --git a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-index 75d832de7..a9f18d1d3 100644
+index 9f9ffd235..785b34460 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-@@ -626,7 +626,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+@@ -627,7 +627,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
  
      @Override
      public void die(DamageSource damagesource) {
