@@ -1,4 +1,4 @@
-From cf561220e7e5cd5e83b9c248f407ff0984e0a750 Mon Sep 17 00:00:00 2001
+From 5b1144f403019592885bb05589367a2849cb2e58 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Thu, 10 Jan 2013 00:18:11 -0500
 Subject: [PATCH] Spigot Timings
@@ -277,7 +277,7 @@ index 4697d3aa1..56e92fadd 100644
      }
  
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index d1eb92d0c..391742337 100644
+index 9ced30746..b73736621 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
 @@ -359,6 +359,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
@@ -296,7 +296,7 @@ index d1eb92d0c..391742337 100644
  
      }
  
-@@ -2275,6 +2277,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2278,6 +2280,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
      }
  
      private void handleCommand(String s) {
@@ -304,7 +304,7 @@ index d1eb92d0c..391742337 100644
          this.LOGGER.info(this.player.getScoreboardName() + " issued server command: " + s);
  
          CraftPlayer player = this.getCraftPlayer();
-@@ -2283,6 +2286,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2286,6 +2289,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          this.cserver.getPluginManager().callEvent(event);
  
          if (event.isCancelled()) {
@@ -312,7 +312,7 @@ index d1eb92d0c..391742337 100644
              return;
          }
  
-@@ -2294,6 +2298,8 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2297,6 +2301,8 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
              player.sendMessage(org.bukkit.ChatColor.RED + "An internal error occurred while attempting to perform this command");
              java.util.logging.Logger.getLogger(PlayerConnection.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
              return;

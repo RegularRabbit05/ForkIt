@@ -1,14 +1,14 @@
-From b13094a5c3e5fab554b4572f7943654877a7bf53 Mon Sep 17 00:00:00 2001
+From e1f8450c02fb0c205d89fbd4981976eb9fb0c69d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 28 Jun 2013 19:52:54 +1000
 Subject: [PATCH] Disallow Interaction With Self
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 6d28aee92..57936080d 100644
+index 5fe90762a..b9328e974 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -2523,6 +2523,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2526,6 +2526,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          if (this.player.hasClientLoaded()) {
              final WorldServer worldserver = this.player.level();
              final Entity entity = packetplayinuseentity.getTarget(worldserver);

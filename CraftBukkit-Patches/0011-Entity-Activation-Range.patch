@@ -1,4 +1,4 @@
-From d575c716f2300f9bce8c6978bebebf997a3cbcd9 Mon Sep 17 00:00:00 2001
+From a51939b47b9679ea108531012b718d7f696fc623 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Sat, 2 Nov 2024 18:16:11 +1100
 Subject: [PATCH] Entity Activation Range
@@ -176,10 +176,10 @@ index f067392d6..ac234c8ce 100644
      public BlockPosition getBlockPosBelowThatAffectsMyMovement() {
          return this.getOnPos(0.999999F);
 diff --git a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-index bfc59a42a..9f9ffd235 100644
+index 51142d485..eeb479253 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/EntityVillager.java
-@@ -246,6 +246,17 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+@@ -245,6 +245,17 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
          return this.assignProfessionWhenSpawned;
      }
  

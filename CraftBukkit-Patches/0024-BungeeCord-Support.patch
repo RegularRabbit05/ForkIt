@@ -1,4 +1,4 @@
-From bca9ecf2bba9b71b4d730ef662667f5bf36a1bc1 Mon Sep 17 00:00:00 2001
+From cb257b0860cc6e0b258d36a8c6a41e6bc3b1113a Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 12 Apr 2014 21:23:58 +1000
 Subject: [PATCH] BungeeCord Support
@@ -168,10 +168,10 @@ index aaf68153d..bfd49a7e1 100644
  
          HELLO, KEY, AUTHENTICATING, NEGOTIATING, VERIFYING, WAITING_FOR_DUPE_DISCONNECT, PROTOCOL_SWITCHING, ACCEPTED, WAITING_FOR_COOKIES, DISCONNECTED; // CraftBukkit
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 57936080d..70c32c7c7 100644
+index b9328e974..8dfa8bbf3 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -2222,7 +2222,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2225,7 +2225,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
  
                          String message = String.format(queueEvent.getFormat(), queueEvent.getPlayer().getDisplayName(), queueEvent.getMessage());
                          if (((LazyPlayerSet) queueEvent.getRecipients()).isLazy()) {
@@ -180,7 +180,7 @@ index 57936080d..70c32c7c7 100644
                                  PlayerConnection.this.server.getPlayerList().broadcastChatMessage(original, PlayerConnection.this.player, ChatMessageType.bind(ChatMessageType.CHAT, (Entity) PlayerConnection.this.player));
                                  return null;
                              }
-@@ -2258,7 +2258,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2261,7 +2261,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
  
                  s = String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage());
                  if (((LazyPlayerSet) event.getRecipients()).isLazy()) {
@@ -189,7 +189,7 @@ index 57936080d..70c32c7c7 100644
                          PlayerConnection.this.server.getPlayerList().broadcastChatMessage(original, PlayerConnection.this.player, ChatMessageType.bind(ChatMessageType.CHAT, (Entity) PlayerConnection.this.player));
                          return;
                      }
-@@ -2504,6 +2504,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2507,6 +2507,13 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          return this.connection.getRemoteAddress();
      }
  
