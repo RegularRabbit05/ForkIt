@@ -1,4 +1,4 @@
-From 5b1144f403019592885bb05589367a2849cb2e58 Mon Sep 17 00:00:00 2001
+From 9f938eb8a2ed762cc64af151168d443d19357483 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Thu, 10 Jan 2013 00:18:11 -0500
 Subject: [PATCH] Spigot Timings
@@ -6,11 +6,11 @@ Subject: [PATCH] Spigot Timings
 Overhauls the Timings System adding performance tracking all around the Minecraft Server
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 032d0e228..86eb082da 100644
+index dc8a06cdb..e65a4d4f2 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -203,6 +203,8 @@ import org.bukkit.craftbukkit.event.CraftEventFactory;
- import org.bukkit.event.server.ServerLoadEvent;
+@@ -204,6 +204,8 @@ import org.jline.terminal.Terminal;
+ import org.jline.terminal.TerminalBuilder;
  // CraftBukkit end
  
 +import org.bukkit.craftbukkit.SpigotTimings; // Spigot
@@ -18,7 +18,7 @@ index 032d0e228..86eb082da 100644
  public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTask> implements ServerInfo, ChunkIOErrorReporter, ICommandListener {
  
      public static final Logger LOGGER = LogUtils.getLogger();
-@@ -1321,6 +1323,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1319,6 +1321,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              }
          }
  
@@ -26,7 +26,7 @@ index 032d0e228..86eb082da 100644
          ++this.tickCount;
          this.tickRateManager.tick();
          this.tickChildren(booleansupplier);
-@@ -1346,10 +1349,13 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1344,10 +1347,13 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
          this.smoothedTickTimeMillis = this.smoothedTickTimeMillis * 0.8F + (float) k / (float) TimeRange.NANOSECONDS_PER_MILLISECOND * 0.19999999F;
          this.logTickMethodTime(i);
          gameprofilerfiller.pop();
@@ -40,7 +40,7 @@ index 032d0e228..86eb082da 100644
          MinecraftServer.LOGGER.debug("Autosave started");
          GameProfilerFiller gameprofilerfiller = Profiler.get();
  
-@@ -1357,6 +1363,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1355,6 +1361,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
          this.saveEverything(true, false, false);
          gameprofilerfiller.pop();
          MinecraftServer.LOGGER.debug("Autosave finished");
@@ -48,7 +48,7 @@ index 032d0e228..86eb082da 100644
      }
  
      private void logTickMethodTime(long i) {
-@@ -1429,17 +1436,24 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1427,17 +1434,24 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
          this.getPlayerList().getPlayers().forEach((entityplayer) -> {
              entityplayer.connection.suspendFlushing();
          });
@@ -73,7 +73,7 @@ index 032d0e228..86eb082da 100644
          // Send time updates to everyone, it will get the right time from the world the player is in.
          if (this.tickCount % 20 == 0) {
              for (int i = 0; i < this.getPlayerList().players.size(); ++i) {
-@@ -1447,6 +1461,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1445,6 +1459,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
                  entityplayer.connection.send(new PacketPlayOutUpdateTime(entityplayer.level().getGameTime(), entityplayer.getPlayerTime(), entityplayer.level().getGameRules().getBoolean(GameRules.RULE_DAYLIGHT))); // Add support for per player time
              }
          }
@@ -81,7 +81,7 @@ index 032d0e228..86eb082da 100644
  
          for (WorldServer worldserver : this.getAllLevels()) {
              gameprofilerfiller.push(() -> {
-@@ -1465,7 +1480,9 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1463,7 +1478,9 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              gameprofilerfiller.push("tick");
  
              try {
@@ -91,7 +91,7 @@ index 032d0e228..86eb082da 100644
              } catch (Throwable throwable) {
                  CrashReport crashreport = CrashReport.forThrowable(throwable, "Exception ticking world");
  
-@@ -1478,18 +1495,24 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1476,18 +1493,24 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
          }
  
          gameprofilerfiller.popPush("connection");
@@ -117,7 +117,7 @@ index 032d0e228..86eb082da 100644
          gameprofilerfiller.popPush("send chunks");
  
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 4d0dc0cb3..c8fe1455e 100644
+index bff4e4bc7..8774563f7 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -65,6 +65,7 @@ import org.apache.logging.log4j.Level;
@@ -125,10 +125,10 @@ index 4d0dc0cb3..c8fe1455e 100644
  import org.apache.logging.log4j.io.IoBuilder;
  import org.bukkit.command.CommandSender;
 +import org.bukkit.craftbukkit.SpigotTimings; // Spigot
- import org.bukkit.craftbukkit.util.TerminalCompletionHandler;
  import org.bukkit.craftbukkit.util.TerminalConsoleWriterThread;
  import org.bukkit.event.server.ServerCommandEvent;
-@@ -376,6 +377,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+ import org.bukkit.event.server.RemoteServerCommandEvent;
+@@ -383,6 +384,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
      }
  
      public void handleConsoleInputs() {
@@ -136,7 +136,7 @@ index 4d0dc0cb3..c8fe1455e 100644
          while (!this.consoleInput.isEmpty()) {
              ServerCommand servercommand = (ServerCommand) this.consoleInput.remove(0);
  
-@@ -390,6 +392,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -397,6 +399,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
              // CraftBukkit end
          }
  
@@ -588,7 +588,7 @@ index 9e7d6a90b..8eb5740bb 100644
          };
      }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index c3005494c..2b245f067 100644
+index c07d656ee..3e85f6294 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2575,6 +2575,11 @@ public final class CraftServer implements Server {
@@ -827,5 +827,5 @@ index c885bc744..70794669f 100644
 +    // Spigot end
  }
 -- 
-2.49.0
+2.50.1
 

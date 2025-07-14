@@ -1,4 +1,4 @@
-From cb257b0860cc6e0b258d36a8c6a41e6bc3b1113a Mon Sep 17 00:00:00 2001
+From 71bc03fbcd527fe8cd02980eefb61b31127400ae Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 12 Apr 2014 21:23:58 +1000
 Subject: [PATCH] BungeeCord Support
@@ -36,10 +36,10 @@ index caf396b38..544390eed 100644
  
      private void write(PacketDataSerializer packetdataserializer) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 1befcf743..75c893364 100644
+index b2dfcb131..2e0edbf80 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -239,7 +239,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -246,7 +246,14 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          if (!this.usesAuthentication()) {
              DedicatedServer.LOGGER.warn("**** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!");
              DedicatedServer.LOGGER.warn("The server will make no attempt to authenticate usernames. Beware.");
@@ -217,10 +217,10 @@ index 1bcc5529d..4bff22370 100644
          } else {
              for (String s : astring) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 2416577dc..570a52b75 100644
+index 29e1238b8..c3e1bc943 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -524,7 +524,7 @@ public abstract class PlayerList {
+@@ -523,7 +523,7 @@ public abstract class PlayerList {
          EntityPlayer entity = new EntityPlayer(this.server, this.server.getLevel(World.OVERWORLD), gameprofile, ClientInformation.createDefault());
          entity.transferCookieConnection = loginlistener;
          Player player = entity.getBukkitEntity();
@@ -230,7 +230,7 @@ index 2416577dc..570a52b75 100644
          if (this.bans.isBanned(gameprofile)) {
              GameProfileBanEntry gameprofilebanentry = (GameProfileBanEntry) this.bans.get(gameprofile);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index ce2f291bd..d84f4ab27 100644
+index 85c8a0a62..c0087266a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -805,7 +805,13 @@ public final class CraftServer implements Server {
@@ -294,5 +294,5 @@ index 130016282..1e6b13103 100644
 +    }
  }
 -- 
-2.49.0
+2.50.1
 

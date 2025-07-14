@@ -1,11 +1,11 @@
-From e607d6710a706a5df1ad00f9c13acd6e1c21cf28 Mon Sep 17 00:00:00 2001
+From 6009d2bcfef2c40ff875f09c720a838ef29d91cc Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 02:59:14 +0100
 Subject: [PATCH] BungeeCord API
 
 
 diff --git a/pom.xml b/pom.xml
-index 356a9c9f..74e9d450 100644
+index 49b96ccf..717e780a 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -51,6 +51,13 @@
@@ -285,10 +285,10 @@ index 6149c77d..e3f185dc 100644
       * Gets the char value associated with this color
       *
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index b0cc490c..c6263cc6 100644
+index ba7e41d1..97e8963a 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1879,6 +1879,24 @@ public interface Server extends PluginMessageRecipient {
+@@ -1877,6 +1877,24 @@ public interface Server extends PluginMessageRecipient {
          public void restart() {
              throw new UnsupportedOperationException("Not supported yet.");
          }
@@ -522,5 +522,5 @@ index 8a01c92d..9bab73c3 100644
  
      @NotNull
 -- 
-2.49.0
+2.50.1
 

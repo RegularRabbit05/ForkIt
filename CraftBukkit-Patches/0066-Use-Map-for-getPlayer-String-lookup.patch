@@ -1,11 +1,11 @@
-From 23285fb33c11d5fc611d7cb3ad58fb6e532509e9 Mon Sep 17 00:00:00 2001
+From 00c2950db23378af3289fd5ee5fbe9ff215ef950 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 13 Jul 2015 19:05:15 +1000
 Subject: [PATCH] Use Map for getPlayer(String) lookup.
 
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 68b5dc3d3..baefa7f36 100644
+index bf68c7b46..44a1ebd00 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -157,6 +157,7 @@ public abstract class PlayerList {
@@ -16,7 +16,7 @@ index 68b5dc3d3..baefa7f36 100644
  
      public PlayerList(MinecraftServer minecraftserver, LayeredRegistryAccess<RegistryLayer> layeredregistryaccess, WorldNBTStorage worldnbtstorage, int i) {
          this.cserver = minecraftserver.server = new CraftServer((DedicatedServer) minecraftserver, this);
-@@ -282,6 +283,7 @@ public abstract class PlayerList {
+@@ -281,6 +282,7 @@ public abstract class PlayerList {
  
              // entityplayer.connection.send(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(this.players)); // CraftBukkit - replaced with loop below
              this.players.add(entityplayer);
@@ -24,7 +24,7 @@ index 68b5dc3d3..baefa7f36 100644
              this.playersByUUID.put(entityplayer.getUUID(), entityplayer);
              // this.broadcastAll(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(entityplayer))); // CraftBukkit - replaced with loop below
  
-@@ -481,6 +483,7 @@ public abstract class PlayerList {
+@@ -480,6 +482,7 @@ public abstract class PlayerList {
          worldserver.removePlayerImmediately(entityplayer, Entity.RemovalReason.UNLOADED_WITH_PLAYER);
          entityplayer.getAdvancements().stopListening();
          this.players.remove(entityplayer);
@@ -32,7 +32,7 @@ index 68b5dc3d3..baefa7f36 100644
          this.server.getCustomBossEvents().onPlayerDisconnect(entityplayer);
          UUID uuid = entityplayer.getUUID();
          EntityPlayer entityplayer1 = (EntityPlayer) this.playersByUUID.get(uuid);
-@@ -612,6 +615,7 @@ public abstract class PlayerList {
+@@ -611,6 +614,7 @@ public abstract class PlayerList {
      public EntityPlayer respawn(EntityPlayer entityplayer, boolean flag, Entity.RemovalReason entity_removalreason, RespawnReason reason, Location location) {
          entityplayer.stopRiding(); // CraftBukkit
          this.players.remove(entityplayer);
@@ -40,7 +40,7 @@ index 68b5dc3d3..baefa7f36 100644
          entityplayer.level().removePlayerImmediately(entityplayer, entity_removalreason);
          /* CraftBukkit start
          TeleportTransition teleporttransition = entityplayer.findRespawnPositionAndUseSpawnBlock(!flag, TeleportTransition.DO_NOTHING);
-@@ -683,6 +687,7 @@ public abstract class PlayerList {
+@@ -682,6 +686,7 @@ public abstract class PlayerList {
          if (!entityplayer.connection.isDisconnected()) {
              worldserver.addRespawnedPlayer(entityplayer1);
              this.players.add(entityplayer1);
@@ -48,7 +48,7 @@ index 68b5dc3d3..baefa7f36 100644
              this.playersByUUID.put(entityplayer1.getUUID(), entityplayer1);
          }
          // entityplayer1.initInventoryMenu();
-@@ -897,17 +902,7 @@ public abstract class PlayerList {
+@@ -896,17 +901,7 @@ public abstract class PlayerList {
  
      @Nullable
      public EntityPlayer getPlayerByName(String s) {
@@ -68,5 +68,5 @@ index 68b5dc3d3..baefa7f36 100644
  
      public void broadcast(@Nullable EntityHuman entityhuman, double d0, double d1, double d2, double d3, ResourceKey<World> resourcekey, Packet<?> packet) {
 -- 
-2.49.0
+2.50.1
 

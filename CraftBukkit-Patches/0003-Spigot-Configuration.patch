@@ -1,4 +1,4 @@
-From 27f0f0530d1f3d5670f9c51d1b204e26e6406d2e Mon Sep 17 00:00:00 2001
+From 84e6f57e6b3611c6cdb4229bfa679f3fbd0c141a Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 7 Jul 2013 09:32:53 +1000
 Subject: [PATCH] Spigot Configuration
@@ -6,10 +6,10 @@ Subject: [PATCH] Spigot Configuration
 Provides the basic infrastructure to load and save the Spigot configuration file, spigot.yml
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 742ef34cb..4d0dc0cb3 100644
+index cce17e19e..bff4e4bc7 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -194,6 +194,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -201,6 +201,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
              this.setPreventProxyConnections(dedicatedserverproperties.preventProxyConnections);
              this.setLocalIp(dedicatedserverproperties.serverIp);
          }
@@ -21,7 +21,7 @@ index 742ef34cb..4d0dc0cb3 100644
  
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
-@@ -225,7 +230,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -232,7 +237,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          }
  
          // CraftBukkit start
@@ -51,7 +51,7 @@ index cdeef02ff..26d5241d6 100644
          this.world = new CraftWorld((WorldServer) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 067094066..4a2e507d5 100644
+index 50a2f1fcc..097af3679 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -947,6 +947,7 @@ public final class CraftServer implements Server {
@@ -77,10 +77,10 @@ index 067094066..4a2e507d5 100644
          ignoreVanillaPermissions = commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 7f7ff4fb7..c2d868781 100644
+index 680b17518..26e764a18 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -135,6 +135,14 @@ public class Main {
+@@ -136,6 +136,14 @@ public class Main {
                  acceptsAll(asList("demo"), "Demo mode");
  
                  acceptsAll(asList("initSettings"), "Only create configuration files and then exit"); // SPIGOT-5761: Add initSettings option
@@ -380,5 +380,5 @@ index 000000000..1cce14866
 +    }
 +}
 -- 
-2.49.0
+2.50.1
 
