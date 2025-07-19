@@ -1,4 +1,4 @@
-From 741d68ac99f9dfd5f57dfbdf2a027d561c24b54f Mon Sep 17 00:00:00 2001
+From 2be4d6e3ac949ba3d274b1724f4f93b0a0985858 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Jun 2013 15:10:56 +1000
 Subject: [PATCH] Skeleton API Implementations
@@ -6,7 +6,7 @@ Subject: [PATCH] Skeleton API Implementations
 This contains the basic, empty implementations for some Spigot-API extensions. They are included early in the patching progress so that compilation will still succeed midway despite the APIs only being provided by subsequent patches.
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 70c05fdd4..067094066 100644
+index 6c6a97d4f..50a2f1fcc 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2566,4 +2566,16 @@ public final class CraftServer implements Server {
@@ -124,12 +124,12 @@ index 3a4fb14bf..3a68e1cf5 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 4562bd18b..92fdac049 100644
+index f59957b54..72c148036 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2347,4 +2347,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2371,4 +2371,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
-         getHandle().connection.send(ClientboundClearDialogPacket.INSTANCE);
+         getHandle().openDialog(dialog);
      }
 +
 +    // Spigot start
@@ -200,5 +200,5 @@ index 7a7c71927..67c6bae18 100644
 +    // Spigot end
  }
 -- 
-2.49.0
+2.50.1
 

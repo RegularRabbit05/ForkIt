@@ -1,11 +1,11 @@
-From 6009d2bcfef2c40ff875f09c720a838ef29d91cc Mon Sep 17 00:00:00 2001
+From d218ee9688c6e504c208e9c90225cd05912af936 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 02:59:14 +0100
 Subject: [PATCH] BungeeCord API
 
 
 diff --git a/pom.xml b/pom.xml
-index 49b96ccf..717e780a 100644
+index 41f1f569..7ef47aac 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -51,6 +51,13 @@
@@ -362,24 +362,25 @@ index 4b6b9540..284be63a 100644
  
      @NotNull
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index c4b82154..43be9aee 100644
+index d707b2bc..52b84378 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2294,6 +2294,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2304,6 +2304,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @ApiStatus.Experimental
-     public void clearDialog();
+     public void showDialog(@NotNull NamespacedKey dialog);
  
 +    /**
 +     * Show a dialog to the player.
 +     *
 +     * @param dialog the dialog to show
 +     */
++    @ApiStatus.Experimental
 +    public void showDialog(@NotNull net.md_5.bungee.api.dialog.Dialog dialog);
 +
      // Spigot start
      public class Spigot extends Entity.Spigot {
  
-@@ -2324,6 +2331,58 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2334,6 +2342,58 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
          public java.util.Set<Player> getHiddenPlayers() {
              throw new UnsupportedOperationException("Not supported yet.");
          }

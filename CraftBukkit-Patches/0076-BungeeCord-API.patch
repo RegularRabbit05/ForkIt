@@ -1,4 +1,4 @@
-From 9123d370f57f5819daec1c5c4caad24bca3c9d64 Mon Sep 17 00:00:00 2001
+From 59b026f979e38b904ef80d0e00e3002866f2808b Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 03:06:05 +0100
 Subject: [PATCH] BungeeCord API
@@ -22,7 +22,7 @@ index eed54194c..8375d2f41 100644
      public PacketType<ClientboundSystemChatPacket> type() {
          return GamePacketTypes.CLIENTBOUND_SYSTEM_CHAT;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3f1699efa..c29f61c7a 100644
+index 601457a67..96d38ab27 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -269,6 +269,8 @@ import org.yaml.snakeyaml.Yaml;
@@ -130,10 +130,10 @@ index a7a3a85f5..43bd462cc 100644
  
      public org.bukkit.entity.Entity.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 00583d590..108eae31c 100644
+index 4329b4b84..395b55ceb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -203,6 +203,8 @@ import org.bukkit.profile.PlayerProfile;
+@@ -205,6 +205,8 @@ import org.bukkit.profile.PlayerProfile;
  import org.bukkit.scoreboard.Scoreboard;
  import org.jetbrains.annotations.NotNull;
  
@@ -142,32 +142,28 @@ index 00583d590..108eae31c 100644
  @DelegateDeserialization(CraftOfflinePlayer.class)
  public class CraftPlayer extends CraftHumanEntity implements Player {
      private long firstPlayed = 0;
-@@ -2357,6 +2359,24 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
-         getHandle().connection.send(ClientboundClearDialogPacket.INSTANCE);
+@@ -2369,6 +2371,20 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         showDialog(nms.orElseThrow(() -> new IllegalArgumentException("Dialog does not exist on server: " + dialog)));
      }
  
 +    // Spigot start
 +    @Override
 +    public void showDialog(net.md_5.bungee.api.dialog.Dialog dialog) {
-+        if (getHandle().connection == null) return;
-+
-+        if (dialog == null) {
-+            return;
-+        }
++        Preconditions.checkArgument(dialog != null, "Dialog cannot be null");
 +
 +        com.google.gson.JsonElement json = CraftChatMessage.getBungee().getDialogSerializer().toJson(dialog);
 +        net.minecraft.server.dialog.Dialog nms = net.minecraft.server.dialog.Dialog.DIRECT_CODEC
 +                .parse(getHandle().level().registryAccess().createSerializationContext(com.mojang.serialization.JsonOps.INSTANCE), json)
 +                .getOrThrow();
 +
-+        getHandle().connection.send(new net.minecraft.network.protocol.common.ClientboundShowDialogPacket(Holder.direct(nms)));
++        showDialog(Holder.direct(nms));
 +    }
 +    // Spigot end
 +
-     // Spigot start
-     private final Player.Spigot spigot = new Player.Spigot()
-     {
-@@ -2390,6 +2410,48 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+     private void showDialog(Holder<net.minecraft.server.dialog.Dialog> dialog) {
+         if (getHandle().connection == null) {
+             return;
+@@ -2414,6 +2430,48 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
              return java.util.Collections.unmodifiableSet( ret );
          }
@@ -437,5 +433,5 @@ index 8db8dc299..7efc3117a 100644
          return formatMap.get(color.getChar());
      }
 -- 
-2.49.0
+2.50.1
 

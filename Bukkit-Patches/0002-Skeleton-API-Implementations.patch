@@ -1,4 +1,4 @@
-From 00e7fa54a7ebaa91f8b99041932d464ab5bb20da Mon Sep 17 00:00:00 2001
+From 9acd8029b74bbcd2dca856a262853d9e68158793 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 15 May 2017 15:16:15 +1000
 Subject: [PATCH] Skeleton API Implementations
@@ -120,13 +120,13 @@ index 158ac20f..d913298e 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 94142faf..24bc46a0 100644
+index 25bfe50c..dc515a7d 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2293,4 +2293,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2303,4 +2303,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      @ApiStatus.Experimental
-     public void clearDialog();
+     public void showDialog(@NotNull NamespacedKey dialog);
 +
 +    // Spigot start
 +    public class Spigot extends Entity.Spigot {
