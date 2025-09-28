@@ -8,7 +8,21 @@ diff --git a/pom.xml b/pom.xml
 index 60b9a44c..28d2a576 100644
 --- a/pom.xml
 +++ b/pom.xml
-@@ -84,6 +84,14 @@
+@@ -36,6 +36,13 @@
+         </snapshotRepository>
+     </distributionManagement>
+ 
++    <repositories>
++        <repository>
++            <id>spigotmc-public</id>
++            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
++        </repository>
++    </repositories>
++
+     <!-- required until fixed plexus-compiler-eclipse is deployed -->
+     <pluginRepositories>
+         <pluginRepository>
+@@ -84,6 +91,14 @@
              <version>1.17</version>
              <scope>compile</scope>
          </dependency>
