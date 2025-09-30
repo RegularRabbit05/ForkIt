@@ -1,4 +1,4 @@
-From 26048189b3b5c736a6cff3b8e6f757af73af81ff Mon Sep 17 00:00:00 2001
+From f7d4ddebf82ae01e9b8aaf8cb8386385da0d105a Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 23 Mar 2013 09:52:41 +1100
 Subject: [PATCH] View Distance
@@ -6,10 +6,10 @@ Subject: [PATCH] View Distance
 This commit allows the user to select per world view distances.
 
 diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 07d93b08c..4697d3aa1 100644
+index 4d3993932..f5b08635d 100644
 --- a/src/main/java/net/minecraft/server/level/WorldServer.java
 +++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -279,8 +279,8 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -284,8 +284,8 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
  
          this.entityManager = new PersistentEntitySectionManager<Entity>(Entity.class, new WorldServer.a(), entitypersistentstorage);
          StructureTemplateManager structuretemplatemanager = minecraftserver.getStructureManager();
@@ -21,27 +21,27 @@ index 07d93b08c..4697d3aa1 100644
  
          Objects.requireNonNull(this.entityManager);
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index e9d408ae0..733897123 100644
+index 20e416731..19f697c1e 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -234,7 +234,8 @@ public abstract class PlayerList {
-             boolean flag1 = gamerules.getBoolean(GameRules.RULE_REDUCEDDEBUGINFO);
-             boolean flag2 = gamerules.getBoolean(GameRules.RULE_LIMITED_CRAFTING);
+@@ -194,7 +194,8 @@ public abstract class PlayerList {
+         boolean flag1 = gamerules.getBoolean(GameRules.RULE_REDUCEDDEBUGINFO);
+         boolean flag2 = gamerules.getBoolean(GameRules.RULE_LIMITED_CRAFTING);
  
--            playerconnection.send(new PacketPlayOutLogin(entityplayer.getId(), worlddata.isHardcore(), this.server.levelKeys(), this.getMaxPlayers(), this.viewDistance, this.simulationDistance, flag1, !flag, flag2, entityplayer.createCommonSpawnInfo(worldserver1), this.server.enforceSecureProfile()));
-+            // Spigot - view distance
-+            playerconnection.send(new PacketPlayOutLogin(entityplayer.getId(), worlddata.isHardcore(), this.server.levelKeys(), this.getMaxPlayers(), worldserver1.spigotConfig.viewDistance, worldserver1.spigotConfig.simulationDistance, flag1, !flag, flag2, entityplayer.createCommonSpawnInfo(worldserver1), this.server.enforceSecureProfile()));
-             entityplayer.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
-             playerconnection.send(new PacketPlayOutServerDifficulty(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
-             playerconnection.send(new PacketPlayOutAbilities(entityplayer.getAbilities()));
-@@ -651,6 +652,8 @@ public abstract class PlayerList {
+-        playerconnection.send(new PacketPlayOutLogin(entityplayer.getId(), worlddata.isHardcore(), this.server.levelKeys(), this.getMaxPlayers(), this.getViewDistance(), this.getSimulationDistance(), flag1, !flag, flag2, entityplayer.createCommonSpawnInfo(worldserver), this.server.enforceSecureProfile()));
++        // Spigot - view distance
++        playerconnection.send(new PacketPlayOutLogin(entityplayer.getId(), worlddata.isHardcore(), this.server.levelKeys(), this.getMaxPlayers(), worldserver.spigotConfig.viewDistance, worldserver.spigotConfig.simulationDistance, flag1, !flag, flag2, entityplayer.createCommonSpawnInfo(worldserver), this.server.enforceSecureProfile()));
+         entityplayer.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
+         playerconnection.send(new PacketPlayOutServerDifficulty(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
+         playerconnection.send(new PacketPlayOutAbilities(entityplayer.getAbilities()));
+@@ -604,6 +605,8 @@ public abstract class PlayerList {
          WorldData worlddata = worldserver1.getLevelData();
  
          entityplayer1.connection.send(new PacketPlayOutRespawn(entityplayer1.createCommonSpawnInfo(worldserver1), b0));
 +        entityplayer1.connection.send(new PacketPlayOutViewDistance(worldserver1.spigotConfig.viewDistance)); // Spigot
 +        entityplayer1.connection.send(new ClientboundSetSimulationDistancePacket(worldserver1.spigotConfig.simulationDistance)); // Spigot
          entityplayer1.connection.teleport(CraftLocation.toBukkit(entityplayer1.position(), worldserver1.getWorld(), entityplayer1.getYRot(), entityplayer1.getXRot())); // CraftBukkit
-         entityplayer1.connection.send(new PacketPlayOutSpawnPosition(worldserver.getSharedSpawnPos(), worldserver.getSharedSpawnAngle()));
+         entityplayer1.connection.send(new PacketPlayOutSpawnPosition(worldserver.getRespawnData()));
          entityplayer1.connection.send(new PacketPlayOutServerDifficulty(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 index 5ff085b9e..acaf90301 100644
@@ -85,5 +85,5 @@ index 5ff085b9e..acaf90301 100644
 +    }
  }
 -- 
-2.50.1
+2.51.0
 

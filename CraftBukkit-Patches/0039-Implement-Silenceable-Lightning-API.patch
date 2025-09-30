@@ -1,14 +1,14 @@
-From 7fff9910e1465ac53873a88dfc16e0ff92c6f06d Mon Sep 17 00:00:00 2001
+From 04d658b0aac7f909e991bfd1f1a02ae4ed1234d7 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Sun, 23 Feb 2014 16:16:59 -0400
 Subject: [PATCH] Implement Silenceable Lightning API
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index fc66d09d8..c9269f4f8 100644
+index 2c1054be1..8570f7487 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -2089,6 +2089,18 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2090,6 +2090,18 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      // Spigot start
      private final org.bukkit.World.Spigot spigot = new org.bukkit.World.Spigot()
      {
@@ -44,5 +44,5 @@ index 3a68e1cf5..6c44dfa1c 100644
  
      @Override
 -- 
-2.49.0
+2.51.0
 

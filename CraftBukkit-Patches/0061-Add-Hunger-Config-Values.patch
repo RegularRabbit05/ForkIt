@@ -1,14 +1,14 @@
-From 24a448c93fe5b39bcf35f757697ee362fc276866 Mon Sep 17 00:00:00 2001
+From 7bcd3f050100c56ca33b9a8dd0b245375516b272 Mon Sep 17 00:00:00 2001
 From: lazertester <austin.techhead@gmail.com>
 Date: Sun, 17 Aug 2014 19:56:17 +1000
 Subject: [PATCH] Add Hunger Config Values
 
 
 diff --git a/src/main/java/net/minecraft/server/level/EntityPlayer.java b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-index 4c0994b82..49ec56d2b 100644
+index 3c8bc9335..df02f74bf 100644
 --- a/src/main/java/net/minecraft/server/level/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-@@ -1824,21 +1824,21 @@ public class EntityPlayer extends EntityHuman {
+@@ -1860,21 +1860,21 @@ public class EntityPlayer extends EntityHuman {
  
                  if (i > 0) {
                      this.awardStat(StatisticList.SWIM_ONE_CM, i);
@@ -33,7 +33,7 @@ index 4c0994b82..49ec56d2b 100644
                  }
              } else if (this.onClimbable()) {
                  if (d1 > 0.0D) {
-@@ -1850,13 +1850,13 @@ public class EntityPlayer extends EntityHuman {
+@@ -1886,13 +1886,13 @@ public class EntityPlayer extends EntityHuman {
                  if (l > 0) {
                      if (this.isSprinting()) {
                          this.awardStat(StatisticList.SPRINT_ONE_CM, l);
@@ -50,7 +50,7 @@ index 4c0994b82..49ec56d2b 100644
                      }
                  }
              } else if (this.isFallFlying()) {
-@@ -1943,9 +1943,9 @@ public class EntityPlayer extends EntityHuman {
+@@ -1979,9 +1979,9 @@ public class EntityPlayer extends EntityHuman {
          super.jumpFromGround();
          this.awardStat(StatisticList.JUMP);
          if (this.isSprinting()) {
@@ -63,10 +63,10 @@ index 4c0994b82..49ec56d2b 100644
  
      }
 diff --git a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
-index 8f7f879ec..c2ee5b0dc 100644
+index f3a200cf6..8f4fcfb35 100644
 --- a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
 +++ b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
-@@ -1330,7 +1330,7 @@ public abstract class EntityHuman extends EntityLiving {
+@@ -1197,7 +1197,7 @@ public abstract class EntityHuman extends Avatar implements ContainerUser {
                              }
                          }
  
@@ -124,5 +124,5 @@ index 7882c95f4..1b5d1e283 100644
 +    }
  }
 -- 
-2.49.0
+2.51.0
 

@@ -1,14 +1,14 @@
-From a44ee2ed9663726b0d866f371d16ce7f1339c7c1 Mon Sep 17 00:00:00 2001
+From f84e4cb630348afb24731de41011478c4e6a2860 Mon Sep 17 00:00:00 2001
 From: Sander Knauff <sanderknauff@hotmail.com>
 Date: Sat, 7 Nov 2020 18:23:42 +1100
 Subject: [PATCH] Allow Disabling Player Data Saving
 
 
 diff --git a/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java b/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java
-index cc88c7784..12dbf9541 100644
+index 0f19ca450..d2e903c2e 100644
 --- a/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java
 +++ b/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java
-@@ -40,6 +40,7 @@ public class WorldNBTStorage {
+@@ -41,6 +41,7 @@ public class WorldNBTStorage {
      }
  
      public void save(EntityHuman entityhuman) {
@@ -31,5 +31,5 @@ index 6502572f5..5e7ec9919 100644
 +    }
  }
 -- 
-2.49.0
+2.51.0
 

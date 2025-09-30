@@ -1,4 +1,4 @@
-From dbd5f4c8d59603c14bd83f81f8414fb3e955eb76 Mon Sep 17 00:00:00 2001
+From fb312724cb27aed0146974313ffda4f507a59c41 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 20 Feb 2015 21:39:31 +1100
 Subject: [PATCH] Allow Capping (Tile)Entity Tick Time.
@@ -10,10 +10,10 @@ For tiles there is very little tradeoff for this option, as tile ticks are based
 This feature was commisioned by Chunkr.
 
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index 0be9bc735..66be5aa46 100644
+index 056aaa768..8fc969edd 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
-@@ -165,6 +165,9 @@ public abstract class World implements GeneratorAccess, UUIDLookup<Entity>, Auto
+@@ -166,6 +166,9 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
  
      public final SpigotTimings.WorldTimingsHandler timings; // Spigot
      public static BlockPosition lastPhysicsProblem; // Spigot
@@ -23,16 +23,16 @@ index 0be9bc735..66be5aa46 100644
  
      public CraftWorld getWorld() {
          return this.world;
-@@ -254,6 +257,8 @@ public abstract class World implements GeneratorAccess, UUIDLookup<Entity>, Auto
-         });
-         // CraftBukkit end
+@@ -204,6 +207,8 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+         this.palettedContainerFactory = PalettedContainerFactory.create(iregistrycustom);
+         this.damageSources = new DamageSources(iregistrycustom);
          timings = new SpigotTimings.WorldTimingsHandler(this); // Spigot - code below can generate new world and access timings
 +        this.entityLimiter = new org.spigotmc.TickLimiter(spigotConfig.entityMaxTickTime);
 +        this.tileLimiter = new org.spigotmc.TickLimiter(spigotConfig.tileMaxTickTime);
      }
  
      @Override
-@@ -650,14 +655,23 @@ public abstract class World implements GeneratorAccess, UUIDLookup<Entity>, Auto
+@@ -597,14 +602,23 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
          timings.tileEntityPending.stopTiming(); // Spigot
  
          timings.tileEntityTick.startTiming(); // Spigot
@@ -105,5 +105,5 @@ index 000000000..23a39382b
 +    }
 +}
 -- 
-2.49.0
+2.51.0
 

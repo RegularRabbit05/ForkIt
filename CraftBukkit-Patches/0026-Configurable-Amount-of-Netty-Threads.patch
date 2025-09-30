@@ -1,4 +1,4 @@
-From 500909f7a42820a0e214d5cb6a9fcd9ffaf443cc Mon Sep 17 00:00:00 2001
+From 4bec6065a85fa0f00508356b63225e88bd790ca6 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 13 Dec 2013 11:58:58 +1100
 Subject: [PATCH] Configurable Amount of Netty Threads
@@ -6,19 +6,19 @@ Subject: [PATCH] Configurable Amount of Netty Threads
 This brings back the option that the Spigot version of netty saw. By default Netty will try and use cores*2 threads, however if running multiple servers on the same machine, this can be too many threads. Additionally some people have 16 core servers. If 32 Netty threads are allowed in this setup, then the lock contention, and thus blocking between threads becomes much greater, leading to decreased performance.
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 98252e1d6..33cd270cd 100644
+index d64a64e87..34c083e90 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -371,7 +371,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
-                 services.profileCache().setExecutor(this);
-             }
- 
+@@ -378,7 +378,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+             this.packRepository = resourcepackrepository;
+             this.resources = new MinecraftServer.ReloadableResources(worldstem.resourceManager(), worldstem.dataPackResources());
+             this.services = services;
 -            this.connection = new ServerConnection(this);
 +            // this.connection = new ServerConnection(this); // Spigot
              this.tickRateManager = new ServerTickRateManager(this);
-             this.progressListenerFactory = worldloadlistenerfactory;
+             this.levelLoadListener = levelloadlistener;
              this.storageSource = convertable_conversionsession;
-@@ -1825,7 +1825,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1912,7 +1912,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      }
  
      public ServerConnection getConnection() {
@@ -44,5 +44,5 @@ index 1e6b13103..809177065 100644
 +    }
  }
 -- 
-2.50.1
+2.51.0
 

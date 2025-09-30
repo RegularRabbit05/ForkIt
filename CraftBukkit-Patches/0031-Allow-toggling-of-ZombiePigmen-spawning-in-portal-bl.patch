@@ -1,19 +1,19 @@
-From 8481535ded5e152f20b4fdb51025c3ec6cb84eb0 Mon Sep 17 00:00:00 2001
+From 09182613b0c838a772d9dd6aed1e66bfb2e184cf Mon Sep 17 00:00:00 2001
 From: Dmck2b <dmck2b+github@gmail.com>
 Date: Mon, 20 Jan 2014 20:18:23 +0000
 Subject: [PATCH] Allow toggling of ZombiePigmen spawning in portal blocks
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/BlockPortal.java b/src/main/java/net/minecraft/world/level/block/BlockPortal.java
-index 28138cf87..88e2e5b76 100644
+index 710a235df..d758aaa47 100644
 --- a/src/main/java/net/minecraft/world/level/block/BlockPortal.java
 +++ b/src/main/java/net/minecraft/world/level/block/BlockPortal.java
 @@ -75,7 +75,7 @@ public class BlockPortal extends Block implements Portal {
  
      @Override
      protected void randomTick(IBlockData iblockdata, WorldServer worldserver, BlockPosition blockposition, RandomSource randomsource) {
--        if (worldserver.dimensionType().natural() && worldserver.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && randomsource.nextInt(2000) < worldserver.getDifficulty().getId() && worldserver.anyPlayerCloseEnoughForSpawning(blockposition)) {
-+        if (worldserver.spigotConfig.enableZombiePigmenPortalSpawns && worldserver.dimensionType().natural() && worldserver.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && randomsource.nextInt(2000) < worldserver.getDifficulty().getId() && worldserver.anyPlayerCloseEnoughForSpawning(blockposition)) { // Spigot
+-        if (worldserver.dimensionType().natural() && worldserver.isSpawningMonsters() && randomsource.nextInt(2000) < worldserver.getDifficulty().getId() && worldserver.anyPlayerCloseEnoughForSpawning(blockposition)) {
++        if (worldserver.spigotConfig.enableZombiePigmenPortalSpawns && worldserver.dimensionType().natural() && worldserver.isSpawningMonsters() && randomsource.nextInt(2000) < worldserver.getDifficulty().getId() && worldserver.anyPlayerCloseEnoughForSpawning(blockposition)) { // Spigot
              while (worldserver.getBlockState(blockposition).is(this)) {
                  blockposition = blockposition.below();
              }
@@ -34,5 +34,5 @@ index 3e398c4e0..d4eb3ccda 100644
 +    }
  }
 -- 
-2.49.0
+2.51.0
 

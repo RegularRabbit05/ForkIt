@@ -1,18 +1,18 @@
-From eb756cdd8e59a997d94f79a5ca86f8bdd50d9cb5 Mon Sep 17 00:00:00 2001
+From ef19a202c486667aef54c4f9147b61f3d3129980 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 15 Apr 2014 10:32:48 +1000
 Subject: [PATCH] Fix Player Banning
 
 This issue stems from the fact that Bukkit's API only allows a UUID to be banned, but Minecraft requires both a UUID and name. To fix this we modify the code to require a UUID or a name, or both. The correct fix would be expanding the API to be able to provide a name, however this would require plugin changes.
 
-diff --git a/src/main/java/net/minecraft/server/players/GameProfileBanEntry.java b/src/main/java/net/minecraft/server/players/GameProfileBanEntry.java
-index 2fd5a1c5f..cc66113e9 100644
---- a/src/main/java/net/minecraft/server/players/GameProfileBanEntry.java
-+++ b/src/main/java/net/minecraft/server/players/GameProfileBanEntry.java
-@@ -40,20 +40,29 @@ public class GameProfileBanEntry extends ExpirableListEntry<GameProfile> {
+diff --git a/src/main/java/net/minecraft/server/players/NameAndId.java b/src/main/java/net/minecraft/server/players/NameAndId.java
+index 2178f43c2..aa6bf5af1 100644
+--- a/src/main/java/net/minecraft/server/players/NameAndId.java
++++ b/src/main/java/net/minecraft/server/players/NameAndId.java
+@@ -25,21 +25,30 @@ public record NameAndId(UUID id, String name) {
  
      @Nullable
-     private static GameProfile createGameProfile(JsonObject jsonobject) {
+     public static NameAndId fromJson(JsonObject jsonobject) {
 -        if (jsonobject.has("uuid") && jsonobject.has("name")) {
 +        // Spigot start
 +        // this whole method has to be reworked to account for the fact Bukkit only accepts UUID bans and gives no way for usernames to be stored!
@@ -29,7 +29,7 @@ index 2fd5a1c5f..cc66113e9 100644
 -                return null;
              }
  
--            return new GameProfile(uuid, jsonobject.get("name").getAsString());
+-            return new NameAndId(uuid, jsonobject.get("name").getAsString());
 +        }
 +        if ( jsonobject.has("name"))
 +        {
@@ -37,13 +37,14 @@ index 2fd5a1c5f..cc66113e9 100644
 +        }
 +        if ( uuid != null || name != null )
 +        {
-+            return new GameProfile( uuid, name );
++            return new NameAndId( uuid, name );
          } else {
              return null;
          }
 +        // Spigot End
      }
- }
+ 
+     public void appendTo(JsonObject jsonobject) {
 -- 
-2.49.0
+2.51.0
 

@@ -1,14 +1,14 @@
-From 9acd8029b74bbcd2dca856a262853d9e68158793 Mon Sep 17 00:00:00 2001
+From 0609220c66dcac3d53e469fb3f2f60ad7a8011f1 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 15 May 2017 15:16:15 +1000
 Subject: [PATCH] Skeleton API Implementations
 
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 7660ac6d..f0411cf1 100644
+index 71d68846..4ef106b5 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2187,4 +2187,9 @@ public final class Bukkit {
+@@ -2198,4 +2198,9 @@ public final class Bukkit {
      public static UnsafeValues getUnsafe() {
          return server.getUnsafe();
      }
@@ -19,10 +19,10 @@ index 7660ac6d..f0411cf1 100644
 +    }
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 37be25cf..35a8613d 100644
+index bbc87239..74a97f7b 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1862,4 +1862,13 @@ public interface Server extends PluginMessageRecipient {
+@@ -1871,4 +1871,13 @@ public interface Server extends PluginMessageRecipient {
      @Deprecated(since = "1.7.2")
      @NotNull
      UnsafeValues getUnsafe();
@@ -37,10 +37,10 @@ index 37be25cf..35a8613d 100644
 +    // Spigot end
  }
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index dff198dd..35c64636 100644
+index 21e7d906..0b569fb6 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
-@@ -2828,6 +2828,15 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
+@@ -2830,6 +2830,15 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
      @Nullable
      StructureSearchResult locateNearestStructure(@NotNull Location origin, @NotNull Structure structure, int radius, boolean findUnexplored);
  
@@ -157,5 +157,5 @@ index 1be27b04..8a01c92d 100644
 +    // Spigot end
  }
 -- 
-2.50.1
+2.51.0
 

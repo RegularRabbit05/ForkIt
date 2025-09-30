@@ -1,30 +1,30 @@
-From 9385c89f205f0f77be8047f47400381edf03208c Mon Sep 17 00:00:00 2001
+From 512dbccc31dbea89146cfc27b85f8f2a1290c399 Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Tue, 22 Jul 2014 15:59:01 +0200
 Subject: [PATCH] Make "moved too quickly" limit configurable
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index a7c678aec..c4eec2979 100644
+index 5c5396ea7..ca0e89af7 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -569,7 +569,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -577,7 +577,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  }
                  speed *= 2f; // TODO: Get the speed of the vehicle instead of the player
  
 -                if (d10 - d9 > Math.max(100.0D, Math.pow((double) (10.0F * (float) i * speed), 2)) && !this.isSingleplayerOwner()) {
 +                if (d10 - d9 > Math.max(100.0D, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2)) && !this.isSingleplayerOwner()) {
                  // CraftBukkit end
-                     PlayerConnection.LOGGER.warn("{} (vehicle of {}) moved too quickly! {},{},{}", new Object[]{entity.getName().getString(), this.player.getName().getString(), d6, d7, d8});
+                     PlayerConnection.LOGGER.warn("{} (vehicle of {}) moved too quickly! {},{},{}", new Object[]{entity.getPlainTextName(), this.player.getPlainTextName(), d6, d7, d8});
                      this.send(PacketPlayOutVehicleMove.fromEntity(entity));
-@@ -1391,7 +1391,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1399,7 +1399,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                                      if (this.shouldCheckPlayerMovement(flag)) {
                                          float f2 = flag ? 300.0F : 100.0F;
  
 -                                        if (d10 - d9 > Math.max(f2, Math.pow((double) (10.0F * (float) i * speed), 2))) {
 +                                        if (d10 - d9 > Math.max(f2, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2))) {
                                          // CraftBukkit end
-                                             PlayerConnection.LOGGER.warn("{} moved too quickly! {},{},{}", new Object[]{this.player.getName().getString(), d6, d7, d8});
+                                             PlayerConnection.LOGGER.warn("{} moved too quickly! {},{},{}", new Object[]{this.player.getPlainTextName(), d6, d7, d8});
                                              this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
 index 64156e8c6..45cdda2f9 100644
@@ -42,5 +42,5 @@ index 64156e8c6..45cdda2f9 100644
 +    }
  }
 -- 
-2.49.0
+2.51.0
 

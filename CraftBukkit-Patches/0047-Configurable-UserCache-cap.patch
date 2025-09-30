@@ -1,20 +1,20 @@
-From 2d6a4e3a88fb0203aea976cc91b2347c284364f6 Mon Sep 17 00:00:00 2001
+From 0d3f394817639312520924deda3f2180cdceda71 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Fri, 25 Apr 2014 18:17:30 -0400
 Subject: [PATCH] Configurable UserCache cap
 
 
-diff --git a/src/main/java/net/minecraft/server/players/UserCache.java b/src/main/java/net/minecraft/server/players/UserCache.java
-index 01b8db8e8..822ffbc75 100644
---- a/src/main/java/net/minecraft/server/players/UserCache.java
-+++ b/src/main/java/net/minecraft/server/players/UserCache.java
-@@ -216,7 +216,7 @@ public class UserCache {
+diff --git a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
+index 94adc65f4..20ffab397 100644
+--- a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
++++ b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
+@@ -187,7 +187,7 @@ public class CachedUserNameToIdResolver implements UserNameToIdResolver {
          JsonArray jsonarray = new JsonArray();
          DateFormat dateformat = createDateFormat();
  
--        this.getTopMRUProfiles(1000).forEach((usercache_usercacheentry) -> {
-+        this.getTopMRUProfiles(org.spigotmc.SpigotConfig.userCacheCap).forEach((usercache_usercacheentry) -> { // Spigot
-             jsonarray.add(writeGameProfile(usercache_usercacheentry, dateformat));
+-        this.getTopMRUProfiles(1000).forEach((cachedusernametoidresolver_a) -> {
++        this.getTopMRUProfiles(org.spigotmc.SpigotConfig.userCacheCap).forEach((cachedusernametoidresolver_a) -> { // Spigot
+             jsonarray.add(writeGameProfile(cachedusernametoidresolver_a, dateformat));
          });
          String s = this.gson.toJson(jsonarray);
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
@@ -33,5 +33,5 @@ index f20e896f2..d8cd8b47a 100644
 +    }
  }
 -- 
-2.49.0
+2.51.0
 

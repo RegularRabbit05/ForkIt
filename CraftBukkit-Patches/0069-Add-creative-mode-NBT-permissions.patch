@@ -1,14 +1,14 @@
-From 462d6344976af6d283a1c5a3b187cfd2bbe0835e Mon Sep 17 00:00:00 2001
+From 9d9a4150029c56c5f1342e2c20fbdba089f38ec2 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 25 Feb 2019 19:26:56 +1100
 Subject: [PATCH] Add creative mode NBT permissions
 
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerInteractManager.java b/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
-index 90c458a96..79a28f352 100644
+index 551d91101..1250fbc46 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
-@@ -209,6 +209,14 @@ public class PlayerInteractManager {
+@@ -234,6 +234,14 @@ public class PlayerInteractManager {
                      return;
                  }
  
@@ -24,10 +24,10 @@ index 90c458a96..79a28f352 100644
                      this.player.connection.send(new PacketPlayOutBlockChange(blockposition, this.level.getBlockState(blockposition)));
                      this.debugLogging(blockposition, false, j, "block action restricted");
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index c4eec2979..2ade00673 100644
+index ca0e89af7..aba5f483e 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -884,7 +884,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -892,7 +892,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  ItemStack itemstack = iblockdata.getCloneItemStack(worldserver, blockposition, flag);
  
                  if (!itemstack.isEmpty()) {
@@ -37,20 +37,20 @@ index c4eec2979..2ade00673 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/ItemBlock.java b/src/main/java/net/minecraft/world/item/ItemBlock.java
-index 2bdaa1925..c4dc51bf7 100644
+index 403c1ac62..3dd114bf3 100644
 --- a/src/main/java/net/minecraft/world/item/ItemBlock.java
 +++ b/src/main/java/net/minecraft/world/item/ItemBlock.java
-@@ -208,7 +208,7 @@ public class ItemBlock extends Item {
+@@ -201,7 +201,7 @@ public class ItemBlock extends Item {
                          return false;
                      }
  
--                    if (!tileentitytypes1.onlyOpCanSetNbt() || entityhuman != null && entityhuman.canUseGameMasterBlocks()) {
-+                    if (!tileentitytypes1.onlyOpCanSetNbt() || entityhuman != null && (entityhuman.canUseGameMasterBlocks() || (entityhuman.getAbilities().instabuild && entityhuman.getBukkitEntity().hasPermission("minecraft.nbt.place")))) { // Spigot - add permission
-                         return customdata.loadInto(tileentity, world.registryAccess());
+-                    if (!tileentitytypes.onlyOpCanSetNbt() || entityhuman != null && entityhuman.canUseGameMasterBlocks()) {
++                    if (!tileentitytypes.onlyOpCanSetNbt() || entityhuman != null && (entityhuman.canUseGameMasterBlocks() || (entityhuman.getAbilities().instabuild && entityhuman.getBukkitEntity().hasPermission("minecraft.nbt.place")))) { // Spigot - add permission
+                         return typedentitydata.loadInto(tileentity, world.registryAccess());
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/ItemDebugStick.java b/src/main/java/net/minecraft/world/item/ItemDebugStick.java
-index 4f6564c2a..a915913a7 100644
+index efe6ca10c..816ef5455 100644
 --- a/src/main/java/net/minecraft/world/item/ItemDebugStick.java
 +++ b/src/main/java/net/minecraft/world/item/ItemDebugStick.java
 @@ -53,7 +53,7 @@ public class ItemDebugStick extends Item {
@@ -80,5 +80,5 @@ index 75f8d47a2..525ebf961 100644
      }
  }
 -- 
-2.49.0
+2.51.0
 
