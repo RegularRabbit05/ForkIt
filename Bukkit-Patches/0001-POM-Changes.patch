@@ -31,7 +31,7 @@ index 823cf151..2e77911e 100644
 -    <artifactId>bukkit</artifactId>
 +    <groupId>org.spigotmc</groupId>
 +    <artifactId>spigot-api</artifactId>
-     <version>1.21.9-R0.1-SNAPSHOT</version>
+     <version>1.21.10-R0.1-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 -    <name>Bukkit</name>

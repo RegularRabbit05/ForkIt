@@ -1,14 +1,14 @@
-From 310a7c7da327566a6d98b794439623764b167ff4 Mon Sep 17 00:00:00 2001
+From d86e0bde066e80b33b683c406d5cc59834e22b40 Mon Sep 17 00:00:00 2001
 From: DerFlash <bte@freenet.de>
 Date: Tue, 9 Jul 2013 00:11:12 +0200
 Subject: [PATCH] Save ticks lived to nbttag
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 6def79c73..5cc9fd6d2 100644
+index 9aa686f92..b0aed2e1b 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -2383,6 +2383,7 @@ public abstract class Entity implements SyncedDataHolder, DebugValueSource, INam
+@@ -2390,6 +2390,7 @@ public abstract class Entity implements SyncedDataHolder, DebugValueSource, INam
              if (maxAirTicks != getDefaultMaxAirSupply()) {
                  valueoutput.putInt("Bukkit.MaxAirSupply", getMaxAirSupply());
              }
@@ -16,7 +16,7 @@ index 6def79c73..5cc9fd6d2 100644
              // CraftBukkit end
              valueoutput.storeNullable("CustomName", ComponentSerialization.CODEC, this.getCustomName());
              if (this.isCustomNameVisible()) {
-@@ -2507,6 +2508,11 @@ public abstract class Entity implements SyncedDataHolder, DebugValueSource, INam
+@@ -2514,6 +2515,11 @@ public abstract class Entity implements SyncedDataHolder, DebugValueSource, INam
              }
  
              // CraftBukkit start

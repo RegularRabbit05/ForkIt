@@ -1,14 +1,14 @@
-From c4eff66bd004969050991e52172e65c5373e6d20 Mon Sep 17 00:00:00 2001
+From e0a415ca56871e69fb439fbef1a0a26fe4833eb7 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 5 Aug 2014 17:20:19 +0100
 Subject: [PATCH] Watchdog Thread.
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index f28f3b7b0..d64a64e87 100644
+index 8e4eb5e70..6ec909034 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1147,6 +1147,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1150,6 +1150,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              } catch (Throwable throwable3) {
                  MinecraftServer.LOGGER.error("Exception stopping the server", throwable3);
              } finally {
@@ -16,7 +16,7 @@ index f28f3b7b0..d64a64e87 100644
                  // CraftBukkit start - Restore terminal to original settings
                  try {
                      terminal.close();
-@@ -1360,6 +1361,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1363,6 +1364,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      }
  
      public void tickServer(BooleanSupplier booleansupplier) {
