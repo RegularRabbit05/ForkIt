@@ -1,4 +1,4 @@
-From 4525901eeb42880af09256180127953d62a80dcb Mon Sep 17 00:00:00 2001
+From 305055dd92300cbb65329074d653f61a60bf5fd8 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 7 Jul 2013 09:32:53 +1000
 Subject: [PATCH] Spigot Configuration
@@ -6,10 +6,10 @@ Subject: [PATCH] Spigot Configuration
 Provides the basic infrastructure to load and save the Spigot configuration file, spigot.yml
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 715f8ce04..14c517f05 100644
+index 5dd87c45a..3f31b0bc5 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -301,6 +301,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -298,6 +298,11 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
              this.setPreventProxyConnections(dedicatedserverproperties.preventProxyConnections);
              this.setLocalIp(dedicatedserverproperties.serverIp);
          }
@@ -21,7 +21,7 @@ index 715f8ce04..14c517f05 100644
  
          // this.worldData.setGameType(dedicatedserverproperties.gameMode.get()); // CraftBukkit - moved to world loading
          DedicatedServer.LOGGER.info("Default game type: {}", dedicatedserverproperties.gameMode.get());
-@@ -327,7 +332,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -324,7 +329,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
          }
  
          // CraftBukkit start
@@ -31,7 +31,7 @@ index 715f8ce04..14c517f05 100644
          server.enablePlugins(org.bukkit.plugin.PluginLoadOrder.STARTUP);
          // CraftBukkit end
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index 2b2a10328..dc66a689b 100644
+index 4109ed08f..9e3399809 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
 @@ -161,6 +161,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
@@ -51,7 +51,7 @@ index 2b2a10328..dc66a689b 100644
          this.world = new CraftWorld((WorldServer) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index e0747a843..c9e8ebe7a 100644
+index a169effa1..e633687d7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -951,6 +951,7 @@ public final class CraftServer implements Server {
@@ -380,5 +380,5 @@ index 000000000..1cce14866
 +    }
 +}
 -- 
-2.51.0
+2.52.0
 

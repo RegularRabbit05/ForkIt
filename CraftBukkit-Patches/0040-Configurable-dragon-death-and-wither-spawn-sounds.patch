@@ -1,14 +1,14 @@
-From bc028694693251cde87e854b85c7c87ace98591e Mon Sep 17 00:00:00 2001
+From 4358194d4537697a7a367e5e6e6719b5bb3ed8a8 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Sat, 29 Mar 2014 13:44:25 -0400
 Subject: [PATCH] Configurable dragon death and wither spawn sounds
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java
-index 44a470923..e93e73c85 100644
+index 96e39bbd8..d1d6d9a11 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java
-@@ -646,7 +646,24 @@ public class EntityEnderDragon extends EntityInsentient implements IMonster {
+@@ -643,7 +643,24 @@ public class EntityEnderDragon extends EntityInsentient implements IMonster {
              }
  
              if (this.dragonDeathTime == 1 && !this.isSilent()) {
@@ -35,7 +35,7 @@ index 44a470923..e93e73c85 100644
          }
  
 diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java b/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java
-index 036be4731..108061590 100644
+index 3cdc46a1d..06bf77ca1 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java
 @@ -278,6 +278,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
@@ -105,5 +105,5 @@ index d4eb3ccda..7f5f97def 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 

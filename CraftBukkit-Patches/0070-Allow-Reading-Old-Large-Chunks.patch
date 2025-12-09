@@ -1,4 +1,4 @@
-From 837c55914928659aab54381cb6a61474eab00b16 Mon Sep 17 00:00:00 2001
+From 2cf95a1a6bd322028597a14c398239ef0f8720cb Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 19 Feb 2019 22:30:00 +1100
 Subject: [PATCH] Allow Reading Old Large Chunks
@@ -9,7 +9,7 @@ If their size would overflow the header field (>= 255 sectors), it can just be r
 This code/concept was adapted from MinecraftForge.
 
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
-index 8acb04057..2740d29c8 100644
+index 940791f25..aedb6f333 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
 @@ -90,6 +90,14 @@ public class RegionFile implements AutoCloseable {
@@ -27,7 +27,7 @@ index 8acb04057..2740d29c8 100644
  
                          if (i1 < 2) {
                              RegionFile.LOGGER.warn("Region file {} has invalid sector at index: {}; sector {} overlaps with header", new Object[]{path, k, i1});
-@@ -129,6 +137,13 @@ public class RegionFile implements AutoCloseable {
+@@ -128,6 +136,13 @@ public class RegionFile implements AutoCloseable {
          } else {
              int j = getSectorNumber(i);
              int k = getNumSectors(i);
@@ -42,5 +42,5 @@ index 8acb04057..2740d29c8 100644
              ByteBuffer bytebuffer = ByteBuffer.allocate(l);
  
 -- 
-2.51.0
+2.52.0
 

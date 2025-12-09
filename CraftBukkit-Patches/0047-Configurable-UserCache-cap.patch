@@ -1,14 +1,14 @@
-From 0d3f394817639312520924deda3f2180cdceda71 Mon Sep 17 00:00:00 2001
+From 86118c20a320b3b44ab65ca8e0c800207f3e3f6d Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Fri, 25 Apr 2014 18:17:30 -0400
 Subject: [PATCH] Configurable UserCache cap
 
 
 diff --git a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
-index 94adc65f4..20ffab397 100644
+index 9fcd7c3b9..325489fd2 100644
 --- a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
 +++ b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
-@@ -187,7 +187,7 @@ public class CachedUserNameToIdResolver implements UserNameToIdResolver {
+@@ -188,7 +188,7 @@ public class CachedUserNameToIdResolver implements UserNameToIdResolver {
          JsonArray jsonarray = new JsonArray();
          DateFormat dateformat = createDateFormat();
  
@@ -33,5 +33,5 @@ index f20e896f2..d8cd8b47a 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 

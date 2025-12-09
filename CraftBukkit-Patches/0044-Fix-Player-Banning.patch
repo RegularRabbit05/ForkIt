@@ -1,4 +1,4 @@
-From ef19a202c486667aef54c4f9147b61f3d3129980 Mon Sep 17 00:00:00 2001
+From 6ef7d07460e68d620623648be2a53864bb8c4b6b Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 15 Apr 2014 10:32:48 +1000
 Subject: [PATCH] Fix Player Banning
@@ -6,13 +6,13 @@ Subject: [PATCH] Fix Player Banning
 This issue stems from the fact that Bukkit's API only allows a UUID to be banned, but Minecraft requires both a UUID and name. To fix this we modify the code to require a UUID or a name, or both. The correct fix would be expanding the API to be able to provide a name, however this would require plugin changes.
 
 diff --git a/src/main/java/net/minecraft/server/players/NameAndId.java b/src/main/java/net/minecraft/server/players/NameAndId.java
-index 2178f43c2..aa6bf5af1 100644
+index b9c21fb73..07161b61a 100644
 --- a/src/main/java/net/minecraft/server/players/NameAndId.java
 +++ b/src/main/java/net/minecraft/server/players/NameAndId.java
-@@ -25,21 +25,30 @@ public record NameAndId(UUID id, String name) {
+@@ -24,21 +24,30 @@ public record NameAndId(UUID id, String name) {
+     }
  
-     @Nullable
-     public static NameAndId fromJson(JsonObject jsonobject) {
+     public static @Nullable NameAndId fromJson(JsonObject jsonobject) {
 -        if (jsonobject.has("uuid") && jsonobject.has("name")) {
 +        // Spigot start
 +        // this whole method has to be reworked to account for the fact Bukkit only accepts UUID bans and gives no way for usernames to be stored!
@@ -46,5 +46,5 @@ index 2178f43c2..aa6bf5af1 100644
  
      public void appendTo(JsonObject jsonobject) {
 -- 
-2.51.0
+2.52.0
 

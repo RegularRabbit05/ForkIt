@@ -1,4 +1,4 @@
-From fb312724cb27aed0146974313ffda4f507a59c41 Mon Sep 17 00:00:00 2001
+From 314d786563c68b3c44a9248ef8f41801f8ab7b95 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 20 Feb 2015 21:39:31 +1100
 Subject: [PATCH] Allow Capping (Tile)Entity Tick Time.
@@ -10,7 +10,7 @@ For tiles there is very little tradeoff for this option, as tile ticks are based
 This feature was commisioned by Chunkr.
 
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index 056aaa768..8fc969edd 100644
+index 9ecde47e0..04bd7ed28 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
 @@ -166,6 +166,9 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
@@ -23,7 +23,7 @@ index 056aaa768..8fc969edd 100644
  
      public CraftWorld getWorld() {
          return this.world;
-@@ -204,6 +207,8 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -202,6 +205,8 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
          this.palettedContainerFactory = PalettedContainerFactory.create(iregistrycustom);
          this.damageSources = new DamageSources(iregistrycustom);
          timings = new SpigotTimings.WorldTimingsHandler(this); // Spigot - code below can generate new world and access timings
@@ -32,7 +32,7 @@ index 056aaa768..8fc969edd 100644
      }
  
      @Override
-@@ -597,14 +602,23 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -588,14 +593,23 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
          timings.tileEntityPending.stopTiming(); // Spigot
  
          timings.tileEntityTick.startTiming(); // Spigot
@@ -105,5 +105,5 @@ index 000000000..23a39382b
 +    }
 +}
 -- 
-2.51.0
+2.52.0
 

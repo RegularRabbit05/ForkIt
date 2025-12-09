@@ -1,14 +1,14 @@
-From e0a415ca56871e69fb439fbef1a0a26fe4833eb7 Mon Sep 17 00:00:00 2001
+From e96279596d098d718d0fa6b3f4959ad55ff76c1d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 5 Aug 2014 17:20:19 +0100
 Subject: [PATCH] Watchdog Thread.
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 8e4eb5e70..6ec909034 100644
+index 0c65ac176..288326e48 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1150,6 +1150,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1144,6 +1144,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
              } catch (Throwable throwable3) {
                  MinecraftServer.LOGGER.error("Exception stopping the server", throwable3);
              } finally {
@@ -16,7 +16,7 @@ index 8e4eb5e70..6ec909034 100644
                  // CraftBukkit start - Restore terminal to original settings
                  try {
                      terminal.close();
-@@ -1363,6 +1364,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
+@@ -1358,6 +1359,7 @@ public abstract class MinecraftServer extends IAsyncTaskHandlerReentrant<TickTas
      }
  
      public void tickServer(BooleanSupplier booleansupplier) {
@@ -25,10 +25,10 @@ index 8e4eb5e70..6ec909034 100644
          int j = this.pauseWhenEmptySeconds() * 20;
  
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index c62b18db3..4e7ad8262 100644
+index bdd0b7e34..2d6d20525 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -377,7 +377,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
+@@ -374,7 +374,7 @@ public class DedicatedServer extends MinecraftServer implements IMinecraftServer
                  this.rconThread = RemoteControlListener.create(this);
              }
  
@@ -38,7 +38,7 @@ index c62b18db3..4e7ad8262 100644
  
                  thread1.setUncaughtExceptionHandler(new ThreadNamedUncaughtExceptionHandler(DedicatedServer.LOGGER));
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 2f10d8d29..a019ee230 100644
+index f2011550b..6686c1572 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2144,7 +2144,7 @@ public final class CraftServer implements Server {
@@ -368,5 +368,5 @@ index 000000000..4734d4ae8
 +    }
 +}
 -- 
-2.51.0
+2.52.0
 

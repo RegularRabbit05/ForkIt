@@ -1,4 +1,4 @@
-From c1d6f2ce13c6bf6f4f8cf73e2359a687eaa6a0aa Mon Sep 17 00:00:00 2001
+From c05843fa9c6e6cf95ae4c873f6169190430ad42b Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Wed, 20 Feb 2013 11:58:47 -0500
 Subject: [PATCH] Entity Tracking Ranges
@@ -12,10 +12,10 @@ This has multiple benefits:
 4) Less client lag - Not trying to render distant item frames and paintings and entities will reduce entity count on the client, which is major for shop/town worlds which may use tons of item frames.
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index 6514b6654..20bf9cf9a 100644
+index 1672a36d7..7733622ef 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-@@ -1265,6 +1265,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
+@@ -1298,6 +1298,7 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
          if (!(entity instanceof EntityComplexPart)) {
              EntityTypes<?> entitytypes = entity.getType();
              int i = entitytypes.clientTrackingRange() * 16;
@@ -51,7 +51,7 @@ index 936279b5f..ab984b210 100644
  }
 diff --git a/src/main/java/org/spigotmc/TrackingRange.java b/src/main/java/org/spigotmc/TrackingRange.java
 new file mode 100644
-index 000000000..7121ffcd8
+index 000000000..46e8cb42a
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/TrackingRange.java
 @@ -0,0 +1,59 @@
@@ -62,7 +62,7 @@ index 000000000..7121ffcd8
 +import net.minecraft.world.entity.Entity;
 +import net.minecraft.world.entity.EntityExperienceOrb;
 +import net.minecraft.world.entity.decoration.EntityItemFrame;
-+import net.minecraft.world.entity.decoration.EntityPainting;
++import net.minecraft.world.entity.decoration.painting.EntityPainting;
 +import net.minecraft.world.entity.item.EntityItem;
 +import net.minecraft.world.entity.monster.EntityGhast;
 +
@@ -115,5 +115,5 @@ index 000000000..7121ffcd8
 +    }
 +}
 -- 
-2.51.0
+2.52.0
 

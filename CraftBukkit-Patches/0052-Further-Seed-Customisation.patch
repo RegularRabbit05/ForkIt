@@ -1,4 +1,4 @@
-From 363fa297064a3d180c802941336eb0d3bcad7356 Mon Sep 17 00:00:00 2001
+From 9a41194fad0e3cc4114f21a783775b426488b8bf Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 4 Jul 2014 13:28:45 +1000
 Subject: [PATCH] Further Seed Customisation
@@ -6,10 +6,10 @@ Subject: [PATCH] Further Seed Customisation
 Allow server admins that really want to to customise the seeds used in world generation even further.
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index 20bf9cf9a..4caee5022 100644
+index 7733622ef..d7529a6d7 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-@@ -206,7 +206,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
+@@ -212,7 +212,7 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
              this.randomState = RandomState.create(GeneratorSettingBase.dummy(), iregistrycustom.lookupOrThrow(Registries.NOISE), j);
          }
  
@@ -19,10 +19,10 @@ index 20bf9cf9a..4caee5022 100644
          ConsecutiveExecutor consecutiveexecutor = new ConsecutiveExecutor(executor, "worldgen");
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java b/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
-index 75f9e951e..03d76c1a6 100644
+index d7b7b7f14..c1664a6c3 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EntitySlime.java
-@@ -340,7 +340,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
+@@ -345,7 +345,7 @@ public class EntitySlime extends EntityInsentient implements IMonster {
              }
  
              ChunkCoordIntPair chunkcoordintpair = new ChunkCoordIntPair(blockposition);
@@ -32,7 +32,7 @@ index 75f9e951e..03d76c1a6 100644
              if (randomsource.nextInt(10) == 0 && flag && blockposition.getY() < 40) {
                  return checkMobSpawnRules(entitytypes, generatoraccess, entityspawnreason, blockposition, randomsource);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-index a5bb3d72d..376165b24 100644
+index a1a7db033..a5841a41b 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 @@ -107,8 +107,8 @@ public abstract class ChunkGenerator {
@@ -47,11 +47,11 @@ index a5bb3d72d..376165b24 100644
  
      public Optional<ResourceKey<MapCodec<? extends ChunkGenerator>>> getTypeNameForDataFixer() {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
-index 718cf8519..ada6c4330 100644
+index b1fcae5e9..a2c8c43f4 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
-@@ -33,6 +33,11 @@ import net.minecraft.world.level.levelgen.structure.placement.ConcentricRingsStr
- import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
+@@ -33,6 +33,11 @@ import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement
+ import org.jspecify.annotations.Nullable;
  import org.slf4j.Logger;
  
 +// Spigot start
@@ -91,7 +91,7 @@ index 718cf8519..ada6c4330 100644
 +        return list.stream().map((holder) -> {
 +            StructureSet structureset = holder.value();
 +            if (structureset.placement() instanceof RandomSpreadStructurePlacement randomConfig) {
-+                String name = holder.unwrapKey().orElseThrow().location().getPath();
++                String name = holder.unwrapKey().orElseThrow().identifier().getPath();
 +                int seed = randomConfig.salt;
 +
 +                switch (name) {
@@ -149,7 +149,7 @@ index 718cf8519..ada6c4330 100644
      private static boolean hasBiomesForStructureSet(StructureSet structureset, WorldChunkManager worldchunkmanager) {
          Stream<Holder<BiomeBase>> stream = structureset.structures().stream().flatMap((structureset_a) -> {
 diff --git a/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java b/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java
-index 0656bcff1..cacbb8b81 100644
+index c86ad1489..dc677c2f7 100644
 --- a/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java
 +++ b/src/main/java/net/minecraft/world/level/levelgen/ChunkProviderFlat.java
 @@ -48,14 +48,14 @@ public class ChunkProviderFlat extends ChunkGenerator {
@@ -228,5 +228,5 @@ index 7f5f97def..7882c95f4 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 

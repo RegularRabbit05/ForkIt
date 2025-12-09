@@ -1,11 +1,11 @@
-From 881e42f540a398cfdfe34a3eb4b6af40ade42a51 Mon Sep 17 00:00:00 2001
+From c7f579a84dea1e36c5f573a613740ccafcfd3bcf Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thethinkofdeath@gmail.com>
 Date: Wed, 12 Feb 2014 20:44:14 +0000
 Subject: [PATCH] Allow vanilla commands to be the main version of a command
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index e446e97f0..d8728beb3 100644
+index 39840845d..a45e282bb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -495,8 +495,11 @@ public final class CraftServer implements Server {
@@ -78,5 +78,5 @@ index 128b826ca..f20e896f2 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 

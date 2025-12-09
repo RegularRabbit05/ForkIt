@@ -1,4 +1,4 @@
-From 19de5086972d5a602c9e67d2a52ca61749be4338 Mon Sep 17 00:00:00 2001
+From 2550b4eab9fb2243fd0cbcd234aeb623f13eeab5 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 03:06:05 +0100
 Subject: [PATCH] BungeeCord API
@@ -22,7 +22,7 @@ index eed54194c..8375d2f41 100644
      public PacketType<ClientboundSystemChatPacket> type() {
          return GamePacketTypes.CLIENTBOUND_SYSTEM_CHAT;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index d8728beb3..a413df6ed 100644
+index a45e282bb..c64846eb2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -270,6 +270,8 @@ import org.yaml.snakeyaml.Yaml;
@@ -55,6 +55,36 @@ index d8728beb3..a413df6ed 100644
      };
  
      public org.bukkit.Server.Spigot spigot()
+diff --git a/src/main/java/org/bukkit/craftbukkit/command/NullCommandSender.java b/src/main/java/org/bukkit/craftbukkit/command/NullCommandSender.java
+index b43497887..58b23d329 100644
+--- a/src/main/java/org/bukkit/craftbukkit/command/NullCommandSender.java
++++ b/src/main/java/org/bukkit/craftbukkit/command/NullCommandSender.java
+@@ -111,6 +111,25 @@ public final class NullCommandSender implements CommandSender {
+     // Spigot start
+     private final org.bukkit.command.CommandSender.Spigot spigot = new org.bukkit.command.CommandSender.Spigot()
+     {
++        @Override
++        public void sendMessage(net.md_5.bungee.api.chat.BaseComponent component)
++        {
++        }
++
++        @Override
++        public void sendMessage(net.md_5.bungee.api.chat.BaseComponent... components)
++        {
++        }
++
++        @Override
++        public void sendMessage(UUID sender, net.md_5.bungee.api.chat.BaseComponent... components)
++        {
++        }
++
++        @Override
++        public void sendMessage(UUID sender, net.md_5.bungee.api.chat.BaseComponent component)
++        {
++        }
+     };
+ 
+     @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java b/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java
 index 861739d4c..6b3632109 100644
 --- a/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java
@@ -90,10 +120,10 @@ index 861739d4c..6b3632109 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index 2464b70f4..d70e25b67 100644
+index 2b2cffbc1..afd49d91d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-@@ -64,6 +64,8 @@ import org.bukkit.util.BoundingBox;
+@@ -65,6 +65,8 @@ import org.bukkit.util.BoundingBox;
  import org.bukkit.util.NumberConversions;
  import org.bukkit.util.Vector;
  
@@ -102,7 +132,7 @@ index 2464b70f4..d70e25b67 100644
  public abstract class CraftEntity implements org.bukkit.entity.Entity {
      private static PermissibleBase perm;
      private static final CraftPersistentDataTypeRegistry DATA_TYPE_REGISTRY = new CraftPersistentDataTypeRegistry();
-@@ -899,6 +901,26 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+@@ -900,6 +902,26 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
      // Spigot start
      private final org.bukkit.entity.Entity.Spigot spigot = new org.bukkit.entity.Entity.Spigot()
      {
@@ -130,7 +160,7 @@ index 2464b70f4..d70e25b67 100644
  
      public org.bukkit.entity.Entity.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index a98492bd0..577c2d02f 100644
+index df691e651..0b74520e9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -208,6 +208,8 @@ import org.bukkit.profile.PlayerProfile;
@@ -416,7 +446,7 @@ index 67c6bae18..bb526d587 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java b/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
-index 8db8dc299..7efc3117a 100644
+index d3485a28f..5e662b5dd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
 @@ -44,6 +44,12 @@ public final class CraftChatMessage {
@@ -433,5 +463,5 @@ index 8db8dc299..7efc3117a 100644
          return formatMap.get(color.getChar());
      }
 -- 
-2.51.0
+2.52.0
 

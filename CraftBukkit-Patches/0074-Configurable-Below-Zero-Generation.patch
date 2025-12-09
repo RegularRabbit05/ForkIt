@@ -1,17 +1,17 @@
-From b6b0ceeadf458b769f3167880be4b291567bcfc7 Mon Sep 17 00:00:00 2001
+From 624c9cbd5002d1599df139301892892e0610ebbf Mon Sep 17 00:00:00 2001
 From: DerFrZocker <derrieple@gmail.com>
 Date: Sun, 28 Nov 2021 12:09:29 +1100
 Subject: [PATCH] Configurable Below Zero Generation
 
 
-diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java b/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java
-index ed32a7673..e4573edaf 100644
---- a/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java
-+++ b/src/main/java/net/minecraft/world/level/chunk/storage/IChunkLoader.java
-@@ -109,8 +109,22 @@ public class IChunkLoader implements AutoCloseable {
+diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/SimpleRegionStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/SimpleRegionStorage.java
+index ba959a7f8..1f054bb1c 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/storage/SimpleRegionStorage.java
++++ b/src/main/java/net/minecraft/world/level/chunk/storage/SimpleRegionStorage.java
+@@ -120,9 +120,22 @@ public class SimpleRegionStorage implements AutoCloseable {
                      }
                  }
- 
+                 // CraftBukkit end
 +                // Spigot start - SPIGOT-6806: Quick and dirty way to prevent below zero generation in old chunks, by setting the status to heightmap instead of empty
 +                boolean stopBelowZero = false;
 +                boolean belowZeroGenerationInExistingChunks = (generatoraccess != null) ? ((WorldServer) generatoraccess).spigotConfig.belowZeroGenerationInExistingChunks : org.spigotmc.SpigotConfig.belowZeroGenerationInExistingChunks;
@@ -20,9 +20,9 @@ index ed32a7673..e4573edaf 100644
 +                    stopBelowZero = "full".equals(nbttagcompound.getCompoundOrEmpty("Level").getStringOr("Status", ""));
 +                }
 +                // Spigot end
-+
-                 injectDatafixingContext(nbttagcompound, resourcekey, optional);
-                 nbttagcompound = DataFixTypes.CHUNK.updateToCurrentVersion(this.fixerUpper, nbttagcompound, Math.max(1493, i));
+                 nbttagcompound = ((LegacyTagFixer) this.legacyFixer.get()).applyFix(nbttagcompound);
+                 injectDatafixingContext(nbttagcompound, nbttagcompound1);
+                 nbttagcompound = this.dataFixType.updateToCurrentVersion(this.fixerUpper, nbttagcompound, Math.max(((LegacyTagFixer) this.legacyFixer.get()).targetDataVersion(), j));
 +                // Spigot start
 +                if (stopBelowZero) {
 +                    nbttagcompound.putString("Status", net.minecraft.core.registries.BuiltInRegistries.CHUNK_STATUS.getKey(ChunkStatus.SPAWN).toString());
@@ -60,5 +60,5 @@ index b6ac09ee9..ebddbf6d0 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 

@@ -1,4 +1,4 @@
-From f28f795bc131a856bfa3297985fd309e7a2d5568 Mon Sep 17 00:00:00 2001
+From 69d89647d4b913d8c8c37c7bcd948863f37f2efa Mon Sep 17 00:00:00 2001
 From: Alex Ciuba <alexciuba@gmail.com>
 Date: Tue, 11 Jun 2013 15:23:03 -0400
 Subject: [PATCH] Prevent Ghost Players Caused by Plugins
@@ -6,10 +6,10 @@ Subject: [PATCH] Prevent Ghost Players Caused by Plugins
 Check if the player is still connected after firing event. Fixes BUKKIT-4327
 
 diff --git a/src/main/java/net/minecraft/server/level/EntityPlayer.java b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-index f19666c6b..3c8bc9335 100644
+index e5dd09e8a..ac468ae62 100644
 --- a/src/main/java/net/minecraft/server/level/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-@@ -1315,6 +1315,11 @@ public class EntityPlayer extends EntityHuman {
+@@ -1312,6 +1312,11 @@ public class EntityPlayer extends EntityHuman {
  
          PlayerRespawnEvent respawnEvent = new PlayerRespawnEvent(respawnPlayer, location, isBedSpawn, isAnchorSpawn, reason);
          this.level().getCraftServer().getPluginManager().callEvent(respawnEvent);
@@ -22,10 +22,10 @@ index f19666c6b..3c8bc9335 100644
          location = respawnEvent.getRespawnLocation();
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 89af5fff5..d1c6d5437 100644
+index 5d7e76ba2..97648be33 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -587,6 +587,11 @@ public abstract class PlayerList {
+@@ -593,6 +593,11 @@ public abstract class PlayerList {
          } else {
              teleporttransition = new TeleportTransition(((CraftWorld) location.getWorld()).getHandle(), CraftLocation.toVec3D(location), Vec3D.ZERO, location.getYaw(), location.getPitch(), TeleportTransition.DO_NOTHING);
          }
@@ -38,5 +38,5 @@ index 89af5fff5..d1c6d5437 100644
          entityplayer1.spawnIn(worldserver, flag);
          entityplayer1.unsetRemoved();
 -- 
-2.51.0
+2.52.0
 

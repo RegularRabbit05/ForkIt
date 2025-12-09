@@ -1,14 +1,14 @@
-From 9d9a4150029c56c5f1342e2c20fbdba089f38ec2 Mon Sep 17 00:00:00 2001
+From 0feec7719adc09a518e0416bccf4f12941510680 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 25 Feb 2019 19:26:56 +1100
 Subject: [PATCH] Add creative mode NBT permissions
 
 
 diff --git a/src/main/java/net/minecraft/server/level/PlayerInteractManager.java b/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
-index 551d91101..1250fbc46 100644
+index 665a0289c..3249d2597 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
-@@ -234,6 +234,14 @@ public class PlayerInteractManager {
+@@ -232,6 +232,14 @@ public class PlayerInteractManager {
                      return;
                  }
  
@@ -24,10 +24,10 @@ index 551d91101..1250fbc46 100644
                      this.player.connection.send(new PacketPlayOutBlockChange(blockposition, this.level.getBlockState(blockposition)));
                      this.debugLogging(blockposition, false, j, "block action restricted");
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index ca0e89af7..aba5f483e 100644
+index 79cc8e6dc..bd6c3deab 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -892,7 +892,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -912,7 +912,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  ItemStack itemstack = iblockdata.getCloneItemStack(worldserver, blockposition, flag);
  
                  if (!itemstack.isEmpty()) {
@@ -37,10 +37,10 @@ index ca0e89af7..aba5f483e 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/ItemBlock.java b/src/main/java/net/minecraft/world/item/ItemBlock.java
-index 403c1ac62..3dd114bf3 100644
+index 7e803c308..0976a9191 100644
 --- a/src/main/java/net/minecraft/world/item/ItemBlock.java
 +++ b/src/main/java/net/minecraft/world/item/ItemBlock.java
-@@ -201,7 +201,7 @@ public class ItemBlock extends Item {
+@@ -200,7 +200,7 @@ public class ItemBlock extends Item {
                          return false;
                      }
  
@@ -50,7 +50,7 @@ index 403c1ac62..3dd114bf3 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/ItemDebugStick.java b/src/main/java/net/minecraft/world/item/ItemDebugStick.java
-index efe6ca10c..816ef5455 100644
+index 48042eb66..71d30b61b 100644
 --- a/src/main/java/net/minecraft/world/item/ItemDebugStick.java
 +++ b/src/main/java/net/minecraft/world/item/ItemDebugStick.java
 @@ -53,7 +53,7 @@ public class ItemDebugStick extends Item {
@@ -80,5 +80,5 @@ index 75f8d47a2..525ebf961 100644
      }
  }
 -- 
-2.51.0
+2.52.0
 

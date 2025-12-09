@@ -1,14 +1,14 @@
-From 983bccc5f11142364f6c0be58b068e81a4948d71 Mon Sep 17 00:00:00 2001
+From a7ec4afacdeee5dd8954379cfb5a82254cd68f9e Mon Sep 17 00:00:00 2001
 From: Suddenly <suddenly@suddenly.coffee>
 Date: Tue, 8 Jul 2014 09:44:18 +1000
 Subject: [PATCH] Safer JSON Loading
 
 
 diff --git a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
-index 772175265..f7d706deb 100644
+index 9742665f6..a38b2af58 100644
 --- a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
 +++ b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
-@@ -175,6 +175,11 @@ public class CachedUserNameToIdResolver implements UserNameToIdResolver {
+@@ -176,6 +176,11 @@ public class CachedUserNameToIdResolver implements UserNameToIdResolver {
              });
          } catch (FileNotFoundException filenotfoundexception) {
              ;
@@ -21,10 +21,10 @@ index 772175265..f7d706deb 100644
              CachedUserNameToIdResolver.LOGGER.warn("Failed to load profile cache {}", this.file, ioexception);
          }
 diff --git a/src/main/java/net/minecraft/server/players/JsonList.java b/src/main/java/net/minecraft/server/players/JsonList.java
-index 86275e449..b6095e9ad 100644
+index ac2aa3937..2db298b88 100644
 --- a/src/main/java/net/minecraft/server/players/JsonList.java
 +++ b/src/main/java/net/minecraft/server/players/JsonList.java
-@@ -172,6 +172,14 @@ public abstract class JsonList<K, V extends JsonListEntry<K>> {
+@@ -171,6 +171,14 @@ public abstract class JsonList<K, V extends JsonListEntry<K>> {
                          this.map.put(this.getKeyForUser(jsonlistentry.getUser()), (V) jsonlistentry); // CraftBukkit - decompile error
                      }
                  }
@@ -40,5 +40,5 @@ index 86275e449..b6095e9ad 100644
  
          }
 -- 
-2.51.0
+2.52.0
 

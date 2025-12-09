@@ -1,19 +1,19 @@
-From 179ec96fba4d696e9348184851bcf33742b2dd5d Mon Sep 17 00:00:00 2001
+From 207ef26715b930a7c7490b8598944e7eb6e80c09 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 9 Feb 2014 14:39:01 +1100
 Subject: [PATCH] Add Option to Silence CommandBlock Console
 
 
 diff --git a/src/main/java/net/minecraft/commands/CommandListenerWrapper.java b/src/main/java/net/minecraft/commands/CommandListenerWrapper.java
-index f9b83b7af..c294397b1 100644
+index 41ea1584d..0bcbd4554 100644
 --- a/src/main/java/net/minecraft/commands/CommandListenerWrapper.java
 +++ b/src/main/java/net/minecraft/commands/CommandListenerWrapper.java
-@@ -321,7 +321,7 @@ public class CommandListenerWrapper implements ExecutionCommandSource<CommandLis
+@@ -346,7 +346,7 @@ public class CommandListenerWrapper implements ExecutionCommandSource<CommandLis
              }
          }
  
--        if (this.source != this.server && this.server.getGameRules().getBoolean(GameRules.RULE_LOGADMINCOMMANDS)) {
-+        if (this.source != this.server && this.server.getGameRules().getBoolean(GameRules.RULE_LOGADMINCOMMANDS) && !org.spigotmc.SpigotConfig.silentCommandBlocks) { // Spigot
+-        if (this.source != this.server && (Boolean) gamerules.get(GameRules.LOG_ADMIN_COMMANDS)) {
++        if (this.source != this.server && (Boolean) gamerules.get(GameRules.LOG_ADMIN_COMMANDS) && !org.spigotmc.SpigotConfig.silentCommandBlocks) { // Spigot
              this.server.sendSystemMessage(ichatbasecomponent1);
          }
  
@@ -33,5 +33,5 @@ index 5565f1dd0..128b826ca 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 

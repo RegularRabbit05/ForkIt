@@ -1,4 +1,4 @@
-From b4da1491c3d00e34ae43ee55f7a845e83ec01df1 Mon Sep 17 00:00:00 2001
+From 20aed414a3ae6d0e9cdc2e5588d909045203229f Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Jun 2013 15:20:49 +1000
 Subject: [PATCH] BungeeCord Support
@@ -26,5 +26,5 @@ index dc515a7d..60751649 100644
  
      @NotNull
 -- 
-2.51.0
+2.52.0
 

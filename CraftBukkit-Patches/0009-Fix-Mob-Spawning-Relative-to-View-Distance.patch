@@ -1,4 +1,4 @@
-From c535f0cd61ccb1b441f871d440a02be44b13376d Mon Sep 17 00:00:00 2001
+From 30ffa141bb6b5928ee28ad7ca592ed9c52bc56df Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 17:29:54 +1000
 Subject: [PATCH] Fix Mob Spawning Relative to View Distance
@@ -8,10 +8,10 @@ Changes the mob spawning algorithm to properly account for view distance and the
 Needs better documentation.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-index 899a3bed2..cd3ec4d33 100644
+index 9d48db4a1..75b3eb0d5 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-@@ -477,7 +477,7 @@ public class ChunkProviderServer extends IChunkProvider {
+@@ -471,7 +471,7 @@ public class ChunkProviderServer extends IChunkProvider {
          }
  
          if (!list.isEmpty()) {
@@ -21,10 +21,10 @@ index 899a3bed2..cd3ec4d33 100644
              }
  
 diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index cff8ff548..6514b6654 100644
+index 9cc93ffd9..1672a36d7 100644
 --- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-@@ -1055,14 +1055,31 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
+@@ -1066,9 +1066,15 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
      }
  
      boolean anyPlayerCloseEnoughForSpawning(ChunkCoordIntPair chunkcoordintpair) {
@@ -38,6 +38,10 @@ index cff8ff548..6514b6654 100644
  
 -        return tristate == TriState.DEFAULT ? this.anyPlayerCloseEnoughForSpawningInternal(chunkcoordintpair) : tristate.toBoolean(true);
 +        return tristate == TriState.DEFAULT ? this.anyPlayerCloseEnoughForSpawningInternal(chunkcoordintpair, reducedRange) : tristate.toBoolean(true); // Spigot
+     }
+ 
+     boolean anyPlayerCloseEnoughTo(BlockPosition blockposition, int i) {
+@@ -1084,8 +1090,19 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
      }
  
      private boolean anyPlayerCloseEnoughForSpawningInternal(ChunkCoordIntPair chunkcoordintpair) {
@@ -58,7 +62,7 @@ index cff8ff548..6514b6654 100644
                  return true;
              }
          }
-@@ -1079,7 +1096,7 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
+@@ -1102,7 +1119,7 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
              ImmutableList.Builder<EntityPlayer> immutablelist_builder = ImmutableList.builder();
  
              for (EntityPlayer entityplayer : this.playerMap.getAllPlayers()) {
@@ -67,7 +71,7 @@ index cff8ff548..6514b6654 100644
                      immutablelist_builder.add(entityplayer);
                  }
              }
-@@ -1088,13 +1105,13 @@ public class PlayerChunkMap extends IChunkLoader implements PlayerChunk.b, Gener
+@@ -1111,13 +1128,13 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
          }
      }
  
@@ -100,5 +104,5 @@ index acaf90301..0c0c29efe 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 

@@ -1,14 +1,14 @@
-From 6160b56c2928fd9d94b2e2fee52ba8a2255a5f1d Mon Sep 17 00:00:00 2001
+From 26b4073f8caa2b5624696c47840091867113d2dd Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Fri, 4 Jul 2014 23:03:13 +0200
 Subject: [PATCH] Make "moved wrongly" limit configurable
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 1155154c3..5c5396ea7 100644
+index 8d8be3b85..7e13c5cb6 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -612,7 +612,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -622,7 +622,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                  boolean flag1 = false;
  
@@ -17,12 +17,12 @@ index 1155154c3..5c5396ea7 100644
                      flag1 = true;
                      PlayerConnection.LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", new Object[]{entity.getPlainTextName(), this.player.getPlainTextName(), Math.sqrt(d10)});
                  }
-@@ -1435,7 +1435,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1455,7 +1455,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                                  boolean flag3 = false;
  
--                                if (!this.player.isChangingDimension() && d10 > 0.0625D && !this.player.isSleeping() && !this.player.isCreative() && !this.player.isSpectator()) {
-+                                if (!this.player.isChangingDimension() && d10 > org.spigotmc.SpigotConfig.movedWronglyThreshold && !this.player.isSleeping() && !this.player.isCreative() && !this.player.isSpectator()) { // Spigot
+-                                if (!this.player.isChangingDimension() && d10 > 0.0625D && !this.player.isSleeping() && !this.player.isCreative() && !this.player.isSpectator() && !this.player.isInPostImpulseGraceTime()) {
++                                if (!this.player.isChangingDimension() && d10 > org.spigotmc.SpigotConfig.movedWronglyThreshold && !this.player.isSleeping() && !this.player.isCreative() && !this.player.isSpectator() && !this.player.isInPostImpulseGraceTime()) { // Spigot
                                      flag3 = true;
                                      PlayerConnection.LOGGER.warn("{} moved wrongly!", this.player.getPlainTextName());
                                  }
@@ -42,5 +42,5 @@ index 6dfa89f6f..64156e8c6 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 

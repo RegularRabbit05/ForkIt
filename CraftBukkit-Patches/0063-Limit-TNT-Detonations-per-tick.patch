@@ -1,4 +1,4 @@
-From 3010766d068559171d1eb204c6356758f164f55e Mon Sep 17 00:00:00 2001
+From 0aa143979b4b8258a49e996bfd9d6039a78921d7 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Wed, 20 Aug 2014 18:12:32 -0400
 Subject: [PATCH] Limit TNT Detonations per tick
@@ -7,10 +7,10 @@ This gives a per-world control on how much TNT will be processed per-tick,
 preventing a massive TNT detonation from lagging out the server.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java b/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
-index 3747487e8..cb1d0835a 100644
+index 2c9481459..ef9ae3e81 100644
 --- a/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
 +++ b/src/main/java/net/minecraft/world/entity/item/EntityTNTPrimed.java
-@@ -103,6 +103,7 @@ public class EntityTNTPrimed extends Entity implements TraceableEntity {
+@@ -102,6 +102,7 @@ public class EntityTNTPrimed extends Entity implements TraceableEntity {
  
      @Override
      public void tick() {
@@ -19,10 +19,10 @@ index 3747487e8..cb1d0835a 100644
          this.applyGravity();
          this.move(EnumMoveType.SELF, this.getDeltaMovement());
 diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index 6fea27950..056aaa768 100644
+index fa3e4085b..9ecde47e0 100644
 --- a/src/main/java/net/minecraft/world/level/World.java
 +++ b/src/main/java/net/minecraft/world/level/World.java
-@@ -612,6 +612,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -603,6 +603,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
  
          timings.tileEntityTick.stopTiming(); // Spigot
          this.tickingBlockEntities = false;
@@ -51,5 +51,5 @@ index 1b5d1e283..8411f9e57 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 

@@ -1,14 +1,14 @@
-From 7bcd3f050100c56ca33b9a8dd0b245375516b272 Mon Sep 17 00:00:00 2001
+From d508fd9b2bf72de9a7f5a694eea94a4bb99ddd2a Mon Sep 17 00:00:00 2001
 From: lazertester <austin.techhead@gmail.com>
 Date: Sun, 17 Aug 2014 19:56:17 +1000
 Subject: [PATCH] Add Hunger Config Values
 
 
 diff --git a/src/main/java/net/minecraft/server/level/EntityPlayer.java b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-index 3c8bc9335..df02f74bf 100644
+index ac468ae62..2891595ec 100644
 --- a/src/main/java/net/minecraft/server/level/EntityPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/EntityPlayer.java
-@@ -1860,21 +1860,21 @@ public class EntityPlayer extends EntityHuman {
+@@ -1877,21 +1877,21 @@ public class EntityPlayer extends EntityHuman {
  
                  if (i > 0) {
                      this.awardStat(StatisticList.SWIM_ONE_CM, i);
@@ -33,7 +33,7 @@ index 3c8bc9335..df02f74bf 100644
                  }
              } else if (this.onClimbable()) {
                  if (d1 > 0.0D) {
-@@ -1886,13 +1886,13 @@ public class EntityPlayer extends EntityHuman {
+@@ -1903,13 +1903,13 @@ public class EntityPlayer extends EntityHuman {
                  if (l > 0) {
                      if (this.isSprinting()) {
                          this.awardStat(StatisticList.SPRINT_ONE_CM, l);
@@ -50,7 +50,7 @@ index 3c8bc9335..df02f74bf 100644
                      }
                  }
              } else if (this.isFallFlying()) {
-@@ -1979,9 +1979,9 @@ public class EntityPlayer extends EntityHuman {
+@@ -1998,9 +1998,9 @@ public class EntityPlayer extends EntityHuman {
          super.jumpFromGround();
          this.awardStat(StatisticList.JUMP);
          if (this.isSprinting()) {
@@ -63,20 +63,20 @@ index 3c8bc9335..df02f74bf 100644
  
      }
 diff --git a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
-index f3a200cf6..8f4fcfb35 100644
+index 054960ecf..27e4356ba 100644
 --- a/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
 +++ b/src/main/java/net/minecraft/world/entity/player/EntityHuman.java
-@@ -1197,7 +1197,7 @@ public abstract class EntityHuman extends Avatar implements ContainerUser {
-                             }
-                         }
- 
--                        this.causeFoodExhaustion(0.1F, EntityExhaustionEvent.ExhaustionReason.ATTACK); // CraftBukkit - EntityExhaustionEvent
-+                        this.causeFoodExhaustion(this.level().spigotConfig.combatExhaustion, EntityExhaustionEvent.ExhaustionReason.ATTACK); // CraftBukkit - EntityExhaustionEvent // Spigot - Change to use configurable value
-                     } else {
-                         this.level().playSound((Entity) null, this.getX(), this.getY(), this.getZ(), SoundEffects.PLAYER_ATTACK_NODAMAGE, this.getSoundSource(), 1.0F, 1.0F);
-                         // CraftBukkit start - resync on cancelled event
+@@ -1316,7 +1316,7 @@ public abstract class EntityHuman extends Avatar implements ContainerUser {
+                     this.setLastHurtMob(entity);
+                     this.itemAttackInteraction(entity, itemstack, damagesource, flag3);
+                     this.damageStatsAndHearts(entity, f3);
+-                    this.causeFoodExhaustion(0.1F, EntityExhaustionEvent.ExhaustionReason.ATTACK); // CraftBukkit - EntityExhaustionEvent
++                    this.causeFoodExhaustion(this.level().spigotConfig.combatExhaustion, EntityExhaustionEvent.ExhaustionReason.ATTACK); // CraftBukkit - EntityExhaustionEvent // Spigot - Change to use configurable value
+                     return true;
+                 }
+             }
 diff --git a/src/main/java/net/minecraft/world/food/FoodMetaData.java b/src/main/java/net/minecraft/world/food/FoodMetaData.java
-index 67d9573a9..653d7c623 100644
+index 62d15bd99..3e196ef28 100644
 --- a/src/main/java/net/minecraft/world/food/FoodMetaData.java
 +++ b/src/main/java/net/minecraft/world/food/FoodMetaData.java
 @@ -94,7 +94,7 @@ public class FoodMetaData {
@@ -124,5 +124,5 @@ index 7882c95f4..1b5d1e283 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 

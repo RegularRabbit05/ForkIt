@@ -1,4 +1,4 @@
-From f64ef869c1a3bb159992e743f1f641fcbaac4a92 Mon Sep 17 00:00:00 2001
+From 82b24ad0d10289517c512434bc8c2d42f88e60f3 Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Fri, 25 Apr 2014 23:46:46 +0200
 Subject: [PATCH] Fix race condition that could kill connections before they
@@ -12,18 +12,18 @@ initialized. The ServerConnection does not remove NetworkManagers with
 this flag.
 
 diff --git a/src/main/java/net/minecraft/network/NetworkManager.java b/src/main/java/net/minecraft/network/NetworkManager.java
-index e163911ac..b7c178bab 100644
+index cb58bdc3d..e024d4b82 100644
 --- a/src/main/java/net/minecraft/network/NetworkManager.java
 +++ b/src/main/java/net/minecraft/network/NetworkManager.java
-@@ -97,6 +97,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -78,6 +78,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
      // Spigot Start
      public java.util.UUID spoofedUUID;
      public com.mojang.authlib.properties.Property[] spoofedProfile;
 +    public boolean preparing = true;
      // Spigot End
-     @Nullable
-     private volatile PacketListener disconnectListener;
-@@ -126,6 +127,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
+     private volatile @Nullable PacketListener disconnectListener;
+     private volatile @Nullable PacketListener packetListener;
+@@ -103,6 +104,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
          super.channelActive(channelhandlercontext);
          this.channel = channelhandlercontext.channel();
          this.address = this.channel.remoteAddress();
@@ -33,7 +33,7 @@ index e163911ac..b7c178bab 100644
          if (this.delayedDisconnect != null) {
              this.disconnect(this.delayedDisconnect);
          }
-@@ -457,6 +461,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -434,6 +438,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
      }
  
      public void disconnect(DisconnectionDetails disconnectiondetails) {
@@ -44,10 +44,10 @@ index e163911ac..b7c178bab 100644
              this.delayedDisconnect = disconnectiondetails;
          }
 diff --git a/src/main/java/net/minecraft/server/network/ServerConnection.java b/src/main/java/net/minecraft/server/network/ServerConnection.java
-index c0b3c561e..9757f70ce 100644
+index a03784136..6d1999731 100644
 --- a/src/main/java/net/minecraft/server/network/ServerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/ServerConnection.java
-@@ -189,6 +189,10 @@ public class ServerConnection {
+@@ -161,6 +161,10 @@ public class ServerConnection {
                              networkmanager.setReadOnly();
                          }
                      } else {
@@ -59,5 +59,5 @@ index c0b3c561e..9757f70ce 100644
                          networkmanager.handleDisconnection();
                      }
 -- 
-2.51.0
+2.52.0
 

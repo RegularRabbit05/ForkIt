@@ -1,14 +1,14 @@
-From dbaff047677122ce47999de4996698dcbef32dc8 Mon Sep 17 00:00:00 2001
+From 47fd63f37af05a61953786d454443429478234b9 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 8 Feb 2014 08:13:40 +0000
 Subject: [PATCH] Spam Filter Exclusions
 
 
 diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index eb0da02f8..6f5953177 100644
+index ef6ccb608..aaed3386a 100644
 --- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
 +++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -2038,7 +2038,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2076,7 +2076,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
              }
              // CraftBukkit end
              this.performUnsignedChatCommand(serverboundchatcommandpacket.command());
@@ -17,7 +17,7 @@ index eb0da02f8..6f5953177 100644
          }, true); // CraftBukkit - sync commands
      }
  
-@@ -2077,7 +2077,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2115,7 +2115,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
                  }
                  // CraftBukkit end
                  this.performSignedChatCommand(serverboundchatcommandsignedpacket, (LastSeenMessages) optional.get());
@@ -26,7 +26,7 @@ index eb0da02f8..6f5953177 100644
              }, true); // CraftBukkit - sync commands
          }
      }
-@@ -2364,11 +2364,20 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -2402,11 +2402,20 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
          }
          // this.server.getPlayerList().broadcastChatMessage(playerchatmessage, this.player, ChatMessageType.bind(ChatMessageType.CHAT, (Entity) this.player));
          // CraftBukkit end
@@ -76,5 +76,5 @@ index 5b7e17ee0..5565f1dd0 100644
 +    }
  }
 -- 
-2.51.0
+2.52.0
 
