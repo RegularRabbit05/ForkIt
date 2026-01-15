@@ -1,14 +1,14 @@
-From 4f4ebbc1d73e4585f38f1cf32a1cf2b446659e53 Mon Sep 17 00:00:00 2001
+From 316b439c00dfb2095eff0ed675eee210b8ec92fe Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Sun, 23 Feb 2014 16:16:59 -0400
 Subject: [PATCH] Implement Silenceable Lightning API
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index df2dd462a..f5583b7af 100644
+index 5684500e8e..85419c649c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -2035,6 +2035,18 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -2029,6 +2029,18 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      // Spigot start
      private final org.bukkit.World.Spigot spigot = new org.bukkit.World.Spigot()
      {
@@ -28,7 +28,7 @@ index df2dd462a..f5583b7af 100644
  
      public org.bukkit.World.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLightningStrike.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLightningStrike.java
-index 3a68e1cf5..6c44dfa1c 100644
+index a0a5c7e1a3..1d83c57e25 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLightningStrike.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLightningStrike.java
 @@ -54,6 +54,11 @@ public class CraftLightningStrike extends CraftEntity implements LightningStrike

@@ -1,14 +1,14 @@
-From 87959cc4d7eada327fcaa4ecafc965f573280b9f Mon Sep 17 00:00:00 2001
+From 6f3ca1d05daab8291bd3539efb739fd13ec10dbc Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 22 Sep 2013 19:10:53 +1000
 Subject: [PATCH] Item Despawn Rate
 
 
-diff --git a/src/main/java/net/minecraft/world/entity/item/EntityItem.java b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-index 424483213..4dd63390b 100644
---- a/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-+++ b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-@@ -193,7 +193,7 @@ public class EntityItem extends Entity implements TraceableEntity {
+diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
+index dfc9de5422..1927192f61 100644
+--- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
++++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
+@@ -192,7 +192,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
                  }
              }
  
@@ -17,7 +17,7 @@ index 424483213..4dd63390b 100644
                  // CraftBukkit start - fire ItemDespawnEvent
                  if (CraftEventFactory.callItemDespawnEvent(this).isCancelled()) {
                      this.age = 0;
-@@ -513,7 +513,7 @@ public class EntityItem extends Entity implements TraceableEntity {
+@@ -512,7 +512,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
  
      public void makeFakeItem() {
          this.setNeverPickUp();
@@ -27,7 +27,7 @@ index 424483213..4dd63390b 100644
  
      public static float getSpin(float f, float f1) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 0c0c29efe..e3682d28c 100644
+index 0c0c29efe5..e3682d28ca 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -187,4 +187,11 @@ public class SpigotWorldConfig

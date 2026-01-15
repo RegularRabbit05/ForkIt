@@ -1,11 +1,11 @@
-From 624c9cbd5002d1599df139301892892e0610ebbf Mon Sep 17 00:00:00 2001
+From 35af05cf3b36ff740c220e59a970a049b39e2c76 Mon Sep 17 00:00:00 2001
 From: DerFrZocker <derrieple@gmail.com>
 Date: Sun, 28 Nov 2021 12:09:29 +1100
 Subject: [PATCH] Configurable Below Zero Generation
 
 
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/SimpleRegionStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/SimpleRegionStorage.java
-index ba959a7f8..1f054bb1c 100644
+index d866209545..4e85df2763 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/SimpleRegionStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/SimpleRegionStorage.java
 @@ -120,9 +120,22 @@ public class SimpleRegionStorage implements AutoCloseable {
@@ -14,25 +14,25 @@ index ba959a7f8..1f054bb1c 100644
                  // CraftBukkit end
 +                // Spigot start - SPIGOT-6806: Quick and dirty way to prevent below zero generation in old chunks, by setting the status to heightmap instead of empty
 +                boolean stopBelowZero = false;
-+                boolean belowZeroGenerationInExistingChunks = (generatoraccess != null) ? ((WorldServer) generatoraccess).spigotConfig.belowZeroGenerationInExistingChunks : org.spigotmc.SpigotConfig.belowZeroGenerationInExistingChunks;
++                boolean belowZeroGenerationInExistingChunks = (levelaccessor != null) ? ((ServerLevel) levelaccessor).spigotConfig.belowZeroGenerationInExistingChunks : org.spigotmc.SpigotConfig.belowZeroGenerationInExistingChunks;
 +
 +                if (i <= 2730 && !belowZeroGenerationInExistingChunks) {
-+                    stopBelowZero = "full".equals(nbttagcompound.getCompoundOrEmpty("Level").getStringOr("Status", ""));
++                    stopBelowZero = "full".equals(compoundtag.getCompoundOrEmpty("Level").getStringOr("Status", ""));
 +                }
 +                // Spigot end
-                 nbttagcompound = ((LegacyTagFixer) this.legacyFixer.get()).applyFix(nbttagcompound);
-                 injectDatafixingContext(nbttagcompound, nbttagcompound1);
-                 nbttagcompound = this.dataFixType.updateToCurrentVersion(this.fixerUpper, nbttagcompound, Math.max(((LegacyTagFixer) this.legacyFixer.get()).targetDataVersion(), j));
+                 compoundtag = ((LegacyTagFixer) this.legacyFixer.get()).applyFix(compoundtag);
+                 injectDatafixingContext(compoundtag, compoundtag1);
+                 compoundtag = this.dataFixType.updateToCurrentVersion(this.fixerUpper, compoundtag, Math.max(((LegacyTagFixer) this.legacyFixer.get()).targetDataVersion(), j));
 +                // Spigot start
 +                if (stopBelowZero) {
-+                    nbttagcompound.putString("Status", net.minecraft.core.registries.BuiltInRegistries.CHUNK_STATUS.getKey(ChunkStatus.SPAWN).toString());
++                    compoundtag.putString("Status", net.minecraft.core.registries.BuiltInRegistries.CHUNK_STATUS.getKey(ChunkStatus.SPAWN).toString());
 +                }
 +                // Spigot end
-                 removeDatafixingContext(nbttagcompound);
-                 GameProfileSerializer.addCurrentDataVersion(nbttagcompound);
-                 return nbttagcompound;
+                 removeDatafixingContext(compoundtag);
+                 NbtUtils.addCurrentDataVersion(compoundtag);
+                 return compoundtag;
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 5e7ec9919..1c4649f72 100644
+index 898b379e21..044e2a0d38 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -401,4 +401,9 @@ public class SpigotConfig
@@ -46,7 +46,7 @@ index 5e7ec9919..1c4649f72 100644
 +    }
  }
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index b6ac09ee9..ebddbf6d0 100644
+index b6ac09ee9f..ebddbf6d0c 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -388,4 +388,9 @@ public class SpigotWorldConfig

@@ -1,64 +1,64 @@
-From f736f9ed72fe13148c50e96e4bd11dc04f89c585 Mon Sep 17 00:00:00 2001
+From 817acf118168b6d8eb94090f178102ccdeb486cb Mon Sep 17 00:00:00 2001
 From: David <dmck2b@gmail.com>
 Date: Mon, 21 Apr 2014 12:43:08 +0100
 Subject: [PATCH] Prevent NoClassDefError crash and notify on crash
 
 
-diff --git a/src/main/java/net/minecraft/world/level/World.java b/src/main/java/net/minecraft/world/level/World.java
-index bd5fa85aa..fa3e4085b 100644
---- a/src/main/java/net/minecraft/world/level/World.java
-+++ b/src/main/java/net/minecraft/world/level/World.java
-@@ -165,6 +165,7 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
+index c0ec077ea9..8d4d2d49ac 100644
+--- a/src/main/java/net/minecraft/world/level/Level.java
++++ b/src/main/java/net/minecraft/world/level/Level.java
+@@ -159,6 +159,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      public final org.spigotmc.SpigotWorldConfig spigotConfig; // Spigot
  
      public final SpigotTimings.WorldTimingsHandler timings; // Spigot
-+    public static BlockPosition lastPhysicsProblem; // Spigot
++    public static BlockPos lastPhysicsProblem; // Spigot
  
      public CraftWorld getWorld() {
          return this.world;
-@@ -340,7 +341,13 @@ public abstract class World implements GeneratorAccess, AutoCloseable {
+@@ -334,7 +335,13 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
                  // CraftBukkit start
                  if (!this.captureBlockStates) { // Don't notify clients or update physics while capturing blockstates
                      // Modularize client and physic updates
--                    notifyAndUpdatePhysics(blockposition, chunk, iblockdata1, iblockdata, iblockdata2, i, j);
+-                    notifyAndUpdatePhysics(blockpos, levelchunk, blockstate1, blockstate, blockstate2, i, j);
 +                    // Spigot start
 +                    try {
-+                        notifyAndUpdatePhysics(blockposition, chunk, iblockdata1, iblockdata, iblockdata2, i, j);
++                        notifyAndUpdatePhysics(blockpos, levelchunk, blockstate1, blockstate, blockstate2, i, j);
 +                    } catch (StackOverflowError ex) {
-+                        lastPhysicsProblem = new BlockPosition(blockposition);
++                        lastPhysicsProblem = new BlockPos(blockpos);
 +                    }
 +                    // Spigot end
                  }
                  // CraftBukkit end
  
 diff --git a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
-index 9dda4620e..fa1b14ee1 100644
+index 66be8a90b2..00162c8860 100644
 --- a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
 +++ b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
 @@ -70,6 +70,10 @@ public interface NeighborUpdater {
              }
              // CraftBukkit end
-             iblockdata.handleNeighborChanged(world, blockposition, block, orientation, flag);
+             blockstate.handleNeighborChanged(level, blockpos, block, orientation, flag);
 +            // Spigot Start
 +        } catch (StackOverflowError ex) {
-+            world.lastPhysicsProblem = new BlockPosition(blockposition);
++            level.lastPhysicsProblem = new BlockPos(blockpos);
 +            // Spigot End
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Exception while updating neighbours");
-             CrashReportSystemDetails crashreportsystemdetails = crashreport.addCategory("Block being updated");
+             CrashReportCategory crashreportcategory = crashreport.addCategory("Block being updated");
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 4734d4ae8..b4eeeb0d0 100644
+index 4734d4ae83..9a695b80ef 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -74,6 +74,13 @@ public class WatchdogThread extends Thread
                  log.log( Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports" );
                  log.log( Level.SEVERE, "Spigot version: " + Bukkit.getServer().getVersion() );
                  //
-+                if ( net.minecraft.world.level.World.lastPhysicsProblem != null )
++                if ( net.minecraft.world.level.Level.lastPhysicsProblem != null )
 +                {
 +                    log.log( Level.SEVERE, "------------------------------" );
 +                    log.log( Level.SEVERE, "During the run of the server, a physics stackoverflow was supressed" );
-+                    log.log( Level.SEVERE, "near " + net.minecraft.world.level.World.lastPhysicsProblem );
++                    log.log( Level.SEVERE, "near " + net.minecraft.world.level.Level.lastPhysicsProblem );
 +                }
 +                //
                  log.log( Level.SEVERE, "------------------------------" );

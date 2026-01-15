@@ -1,16 +1,16 @@
-From 439348e973e0e271ae0c3d781349383bc9cb1f18 Mon Sep 17 00:00:00 2001
+From 4f72b007923cb1b15e20eaaf2b04eca94f73c4c0 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 18 May 2024 11:39:58 +1000
 Subject: [PATCH] Add unload-frozen-chunks option
 
 
-diff --git a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-index 75b3eb0d5..de2ae61e4 100644
---- a/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-+++ b/src/main/java/net/minecraft/server/level/ChunkProviderServer.java
-@@ -357,7 +357,7 @@ public class ChunkProviderServer extends IChunkProvider {
+diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
+index 3aff16c92d..106e1d23e6 100644
+--- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
++++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
+@@ -357,7 +357,7 @@ public class ServerChunkCache extends ChunkSource {
  
-         gameprofilerfiller.push("purge");
+         profilerfiller.push("purge");
          this.level.timings.doChunkMap.startTiming(); // Spigot
 -        if (this.level.tickRateManager().runsNormally() || !flag) {
 +        if (this.level.tickRateManager().runsNormally() || !flag || this.level.spigotConfig.unloadFrozenChunks) { // Spigot
@@ -18,7 +18,7 @@ index 75b3eb0d5..de2ae61e4 100644
          }
  
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index ebddbf6d0..2891e2537 100644
+index ebddbf6d0c..2891e2537b 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -393,4 +393,9 @@ public class SpigotWorldConfig

@@ -1,15 +1,15 @@
-From 74c571bd211e4e4bf1848599fe10fe74b0ab60bc Mon Sep 17 00:00:00 2001
+From 16a414dea839883c77aaed2ab0e4d4bdf0dd67d7 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 13 Apr 2014 14:41:23 +1000
 Subject: [PATCH] Use Offline Player Data Once if Required.
 
 If we are online mode and the only copy of player data we can find is the player's offline mode data, we will attempt a once off conversion by reading this data and then renaming the file so it won't be used again.
 
-diff --git a/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java b/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java
-index 8a444f2f7..adf209f60 100644
---- a/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java
-+++ b/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java
-@@ -78,10 +78,29 @@ public class WorldNBTStorage {
+diff --git a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
+index e76a119d42..f7b90b0e10 100644
+--- a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
++++ b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
+@@ -77,10 +77,29 @@ public class PlayerDataStorage {
          File file = this.playerDir;
          String s1 = String.valueOf(nameandid.id());
          File file1 = new File(file, s1 + s);
@@ -28,9 +28,9 @@ index 8a444f2f7..adf209f60 100644
  
          if (file1.exists() && file1.isFile()) {
              try {
--                return Optional.of(NBTCompressedStreamTools.readCompressed(file1.toPath(), NBTReadLimiter.unlimitedHeap()));
+-                return Optional.of(NbtIo.readCompressed(file1.toPath(), NbtAccounter.unlimitedHeap()));
 +                // Spigot Start
-+                Optional<NBTTagCompound> optional = Optional.of(NBTCompressedStreamTools.readCompressed(file1.toPath(), NBTReadLimiter.unlimitedHeap()));
++                Optional<CompoundTag> optional = Optional.of(NbtIo.readCompressed(file1.toPath(), NbtAccounter.unlimitedHeap()));
 +                if ( usingWrongFile )
 +                {
 +                    file1.renameTo( new File( file1.getPath() + ".offline-read" ) );
@@ -38,7 +38,7 @@ index 8a444f2f7..adf209f60 100644
 +                return optional;
 +                // Spigot End
              } catch (Exception exception) {
-                 WorldNBTStorage.LOGGER.warn("Failed to load player data for {}", nameandid.name());
+                 PlayerDataStorage.LOGGER.warn("Failed to load player data for {}", nameandid.name());
              }
 -- 
 2.52.0

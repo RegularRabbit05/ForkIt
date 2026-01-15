@@ -1,37 +1,37 @@
-From cb5cf8e760a48d13b3159da06eaa79f49fd25538 Mon Sep 17 00:00:00 2001
+From 1e72d210dd3b4c39cfbf4dc052e7d5e5419adb63 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 14 Dec 2019 10:26:52 +1100
 Subject: [PATCH] Add log-villager-deaths option
 
 
-diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index f6d5e4b4c..e6e923394 100644
---- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
-+++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-@@ -1862,7 +1862,7 @@ public abstract class EntityLiving extends Entity implements Attackable, Waypoin
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index 169142e8bb..3e518258ff 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -1859,7 +1859,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
  
              this.stopUsingItem();
              if (!this.level().isClientSide() && this.hasCustomName()) {
--                EntityLiving.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString());
-+                if (org.spigotmc.SpigotConfig.logNamedDeaths) EntityLiving.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString()); // Spigot
+-                LivingEntity.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString());
++                if (org.spigotmc.SpigotConfig.logNamedDeaths) LivingEntity.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString()); // Spigot
              }
  
              this.dead = true;
-diff --git a/src/main/java/net/minecraft/world/entity/npc/villager/EntityVillager.java b/src/main/java/net/minecraft/world/entity/npc/villager/EntityVillager.java
-index a56f00d69..4341dba3c 100644
---- a/src/main/java/net/minecraft/world/entity/npc/villager/EntityVillager.java
-+++ b/src/main/java/net/minecraft/world/entity/npc/villager/EntityVillager.java
-@@ -619,7 +619,7 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+diff --git a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
+index bda15bdbfb..c85be4ca67 100644
+--- a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
++++ b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
+@@ -616,7 +616,7 @@ public class Villager extends AbstractVillager implements VillagerDataHolder, Re
  
      @Override
      public void die(DamageSource damagesource) {
--        EntityVillager.LOGGER.info("Villager {} died, message: '{}'", this, damagesource.getLocalizedDeathMessage(this).getString());
-+        if (org.spigotmc.SpigotConfig.logVillagerDeaths) EntityVillager.LOGGER.info("Villager {} died, message: '{}'", this, damagesource.getLocalizedDeathMessage(this).getString()); // Spigot
+-        Villager.LOGGER.info("Villager {} died, message: '{}'", this, damagesource.getLocalizedDeathMessage(this).getString());
++        if (org.spigotmc.SpigotConfig.logVillagerDeaths) Villager.LOGGER.info("Villager {} died, message: '{}'", this, damagesource.getLocalizedDeathMessage(this).getString()); // Spigot
          Entity entity = damagesource.getEntity();
  
          if (entity != null) {
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index c17d58142..6502572f5 100644
+index 3a42829eeb..8649678902 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -389,4 +389,11 @@ public class SpigotConfig

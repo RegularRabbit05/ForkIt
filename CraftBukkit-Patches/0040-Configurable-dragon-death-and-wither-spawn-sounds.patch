@@ -1,84 +1,84 @@
-From 4358194d4537697a7a367e5e6e6719b5bb3ed8a8 Mon Sep 17 00:00:00 2001
+From 6c073ba26e1c18d75413101ac52fbf81673bc0a5 Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Sat, 29 Mar 2014 13:44:25 -0400
 Subject: [PATCH] Configurable dragon death and wither spawn sounds
 
 
-diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java
-index 96e39bbd8..d1d6d9a11 100644
---- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java
-+++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EntityEnderDragon.java
-@@ -643,7 +643,24 @@ public class EntityEnderDragon extends EntityInsentient implements IMonster {
+diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
+index 20db944254..e4812ce595 100644
+--- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
++++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
+@@ -642,7 +642,24 @@ public class EnderDragon extends Mob implements Enemy {
              }
  
              if (this.dragonDeathTime == 1 && !this.isSilent()) {
--                worldserver.globalLevelEvent(1028, this.blockPosition(), 0);
+-                serverlevel.globalLevelEvent(1028, this.blockPosition(), 0);
 +                // CraftBukkit start - Use relative location for far away sounds
 +                // worldserver.globalLevelEvent(1028, this.blockPosition(), 0);
-+                int viewDistance = worldserver.getCraftServer().getViewDistance() * 16;
-+                for (net.minecraft.server.level.EntityPlayer player : worldserver.getServer().getPlayerList().players) {
++                int viewDistance = serverlevel.getCraftServer().getViewDistance() * 16;
++                for (net.minecraft.server.level.ServerPlayer player : serverlevel.getServer().getPlayerList().players) {
 +                    double deltaX = this.getX() - player.getX();
 +                    double deltaZ = this.getZ() - player.getZ();
 +                    double distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
-+                    if ( worldserver.spigotConfig.dragonDeathSoundRadius > 0 && distanceSquared > worldserver.spigotConfig.dragonDeathSoundRadius * worldserver.spigotConfig.dragonDeathSoundRadius ) continue; // Spigot
++                    if ( serverlevel.spigotConfig.dragonDeathSoundRadius > 0 && distanceSquared > serverlevel.spigotConfig.dragonDeathSoundRadius * serverlevel.spigotConfig.dragonDeathSoundRadius ) continue; // Spigot
 +                    if (distanceSquared > viewDistance * viewDistance) {
 +                        double deltaLength = Math.sqrt(distanceSquared);
 +                        double relativeX = player.getX() + (deltaX / deltaLength) * viewDistance;
 +                        double relativeZ = player.getZ() + (deltaZ / deltaLength) * viewDistance;
-+                        player.connection.send(new net.minecraft.network.protocol.game.PacketPlayOutWorldEvent(1028, new BlockPosition((int) relativeX, (int) this.getY(), (int) relativeZ), 0, true));
++                        player.connection.send(new net.minecraft.network.protocol.game.ClientboundLevelEventPacket(1028, new BlockPos((int) relativeX, (int) this.getY(), (int) relativeZ), 0, true));
 +                    } else {
-+                        player.connection.send(new net.minecraft.network.protocol.game.PacketPlayOutWorldEvent(1028, new BlockPosition((int) this.getX(), (int) this.getY(), (int) this.getZ()), 0, true));
++                        player.connection.send(new net.minecraft.network.protocol.game.ClientboundLevelEventPacket(1028, new BlockPos((int) this.getX(), (int) this.getY(), (int) this.getZ()), 0, true));
 +                    }
 +                }
 +                // CraftBukkit end
              }
          }
  
-diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java b/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java
-index 3cdc46a1d..06bf77ca1 100644
---- a/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java
-+++ b/src/main/java/net/minecraft/world/entity/boss/wither/EntityWither.java
-@@ -278,6 +278,7 @@ public class EntityWither extends EntityMonster implements IRangedEntity {
+diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
+index c428d0d200..a499485478 100644
+--- a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
++++ b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
+@@ -277,6 +277,7 @@ public class WitherBoss extends Monster implements RangedAttackMob {
                          double deltaX = this.getX() - player.getX();
                          double deltaZ = this.getZ() - player.getZ();
                          double distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
-+                        if ( worldserver.spigotConfig.witherSpawnSoundRadius > 0 && distanceSquared > worldserver.spigotConfig.witherSpawnSoundRadius * worldserver.spigotConfig.witherSpawnSoundRadius ) continue; // Spigot
++                        if ( serverlevel.spigotConfig.witherSpawnSoundRadius > 0 && distanceSquared > serverlevel.spigotConfig.witherSpawnSoundRadius * serverlevel.spigotConfig.witherSpawnSoundRadius ) continue; // Spigot
                          if (distanceSquared > viewDistance * viewDistance) {
                              double deltaLength = Math.sqrt(distanceSquared);
                              double relativeX = player.getX() + (deltaX / deltaLength) * viewDistance;
-diff --git a/src/main/java/net/minecraft/world/item/ItemEnderEye.java b/src/main/java/net/minecraft/world/item/ItemEnderEye.java
-index 740fd8b7c..013c86598 100644
---- a/src/main/java/net/minecraft/world/item/ItemEnderEye.java
-+++ b/src/main/java/net/minecraft/world/item/ItemEnderEye.java
-@@ -65,7 +65,25 @@ public class ItemEnderEye extends Item {
+diff --git a/src/main/java/net/minecraft/world/item/EnderEyeItem.java b/src/main/java/net/minecraft/world/item/EnderEyeItem.java
+index 7517ccc839..693f87158e 100644
+--- a/src/main/java/net/minecraft/world/item/EnderEyeItem.java
++++ b/src/main/java/net/minecraft/world/item/EnderEyeItem.java
+@@ -65,7 +65,25 @@ public class EnderEyeItem extends Item {
                          }
                      }
  
--                    world.globalLevelEvent(1038, blockposition1.offset(1, 0, 1), 0);
+-                    level.globalLevelEvent(1038, blockpos1.offset(1, 0, 1), 0);
 +                    // CraftBukkit start - Use relative location for far away sounds
 +                    // world.globalLevelEvent(1038, blockposition1.offset(1, 0, 1), 0);
-+                    int viewDistance = world.getCraftServer().getViewDistance() * 16;
-+                    BlockPosition soundPos = blockposition1.offset(1, 0, 1);
-+                    for (EntityPlayer player : world.getServer().getPlayerList().players) {
++                    int viewDistance = level.getCraftServer().getViewDistance() * 16;
++                    BlockPos soundPos = blockpos1.offset(1, 0, 1);
++                    for (ServerPlayer player : level.getServer().getPlayerList().players) {
 +                        double deltaX = soundPos.getX() - player.getX();
 +                        double deltaZ = soundPos.getZ() - player.getZ();
 +                        double distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
-+                        if (world.spigotConfig.endPortalSoundRadius > 0 && distanceSquared > world.spigotConfig.endPortalSoundRadius * world.spigotConfig.endPortalSoundRadius) continue; // Spigot
++                        if (level.spigotConfig.endPortalSoundRadius > 0 && distanceSquared > level.spigotConfig.endPortalSoundRadius * level.spigotConfig.endPortalSoundRadius) continue; // Spigot
 +                        if (distanceSquared > viewDistance * viewDistance) {
 +                            double deltaLength = Math.sqrt(distanceSquared);
 +                            double relativeX = player.getX() + (deltaX / deltaLength) * viewDistance;
 +                            double relativeZ = player.getZ() + (deltaZ / deltaLength) * viewDistance;
-+                            player.connection.send(new net.minecraft.network.protocol.game.PacketPlayOutWorldEvent(1038, new BlockPosition((int) relativeX, (int) soundPos.getY(), (int) relativeZ), 0, true));
++                            player.connection.send(new net.minecraft.network.protocol.game.ClientboundLevelEventPacket(1038, new BlockPos((int) relativeX, (int) soundPos.getY(), (int) relativeZ), 0, true));
 +                        } else {
-+                            player.connection.send(new net.minecraft.network.protocol.game.PacketPlayOutWorldEvent(1038, soundPos, 0, true));
++                            player.connection.send(new net.minecraft.network.protocol.game.ClientboundLevelEventPacket(1038, soundPos, 0, true));
 +                        }
 +                    }
 +                    // CraftBukkit end
                  }
  
-                 return EnumInteractionResult.SUCCESS;
+                 return InteractionResult.SUCCESS;
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index d4eb3ccda..7f5f97def 100644
+index d4eb3ccdab..7f5f97defc 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -276,4 +276,22 @@ public class SpigotWorldConfig

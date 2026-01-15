@@ -1,15 +1,15 @@
-From 57f7be2b3612f59cc7981a6eb925a64d4a36592c Mon Sep 17 00:00:00 2001
+From e7d5ff40763ca8e042fc1ac21421c9be169fdb1c Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 9 Jun 2017 16:29:31 +1000
 Subject: [PATCH] Configurable Advancement Disabling
 
 Allow disabling any (or all) inbuilt advancements with a configuration option.
 
-diff --git a/src/main/java/net/minecraft/server/AdvancementDataPlayer.java b/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
-index 45a3efcee..d9546bac4 100644
---- a/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
-+++ b/src/main/java/net/minecraft/server/AdvancementDataPlayer.java
-@@ -134,6 +134,7 @@ public class AdvancementDataPlayer {
+diff --git a/src/main/java/net/minecraft/server/PlayerAdvancements.java b/src/main/java/net/minecraft/server/PlayerAdvancements.java
+index 86f11c39db..f72d70d91e 100644
+--- a/src/main/java/net/minecraft/server/PlayerAdvancements.java
++++ b/src/main/java/net/minecraft/server/PlayerAdvancements.java
+@@ -134,6 +134,7 @@ public class PlayerAdvancements {
      }
  
      public void save() {
@@ -17,24 +17,24 @@ index 45a3efcee..d9546bac4 100644
          JsonElement jsonelement = (JsonElement) this.codec.encodeStart(JsonOps.INSTANCE, this.asData()).getOrThrow();
  
          try {
-diff --git a/src/main/java/net/minecraft/server/AdvancementDataWorld.java b/src/main/java/net/minecraft/server/AdvancementDataWorld.java
-index afe554240..c784ea939 100644
---- a/src/main/java/net/minecraft/server/AdvancementDataWorld.java
-+++ b/src/main/java/net/minecraft/server/AdvancementDataWorld.java
-@@ -39,6 +39,11 @@ public class AdvancementDataWorld extends ResourceDataJson<Advancement> {
-         ImmutableMap.Builder<MinecraftKey, AdvancementHolder> immutablemap_builder = ImmutableMap.builder();
+diff --git a/src/main/java/net/minecraft/server/ServerAdvancementManager.java b/src/main/java/net/minecraft/server/ServerAdvancementManager.java
+index c9187db2c9..6da26226e8 100644
+--- a/src/main/java/net/minecraft/server/ServerAdvancementManager.java
++++ b/src/main/java/net/minecraft/server/ServerAdvancementManager.java
+@@ -39,6 +39,11 @@ public class ServerAdvancementManager extends SimpleJsonResourceReloadListener<A
+         ImmutableMap.Builder<Identifier, AdvancementHolder> immutablemap_builder = ImmutableMap.builder();
  
-         map.forEach((minecraftkey, advancement) -> {
+         map.forEach((identifier, advancement) -> {
 +            // Spigot start
-+            if (org.spigotmc.SpigotConfig.disabledAdvancements != null && (org.spigotmc.SpigotConfig.disabledAdvancements.contains("*") || org.spigotmc.SpigotConfig.disabledAdvancements.contains(minecraftkey.toString()) || org.spigotmc.SpigotConfig.disabledAdvancements.contains(minecraftkey.getNamespace()))) {
++            if (org.spigotmc.SpigotConfig.disabledAdvancements != null && (org.spigotmc.SpigotConfig.disabledAdvancements.contains("*") || org.spigotmc.SpigotConfig.disabledAdvancements.contains(identifier.toString()) || org.spigotmc.SpigotConfig.disabledAdvancements.contains(identifier.getNamespace()))) {
 +                return;
 +            }
 +            // Spigot end
-             this.validate(minecraftkey, advancement);
-             immutablemap_builder.put(minecraftkey, new AdvancementHolder(minecraftkey, advancement));
+             this.validate(identifier, advancement);
+             immutablemap_builder.put(identifier, new AdvancementHolder(identifier, advancement));
          });
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 11a716f91..c17d58142 100644
+index ac9d222e8a..3a42829eeb 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -382,4 +382,11 @@ public class SpigotConfig

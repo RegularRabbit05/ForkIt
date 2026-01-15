@@ -1,4 +1,4 @@
-From 82b24ad0d10289517c512434bc8c2d42f88e60f3 Mon Sep 17 00:00:00 2001
+From f2fd4a721c2f47d10f7fe8210a505a0d941916b8 Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Fri, 25 Apr 2014 23:46:46 +0200
 Subject: [PATCH] Fix race condition that could kill connections before they
@@ -11,11 +11,11 @@ a 'preparing' variable that is true while the NetworkManager is not
 initialized. The ServerConnection does not remove NetworkManagers with
 this flag.
 
-diff --git a/src/main/java/net/minecraft/network/NetworkManager.java b/src/main/java/net/minecraft/network/NetworkManager.java
-index cb58bdc3d..e024d4b82 100644
---- a/src/main/java/net/minecraft/network/NetworkManager.java
-+++ b/src/main/java/net/minecraft/network/NetworkManager.java
-@@ -78,6 +78,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
+diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
+index 5ccd95f96f..fafa7c9544 100644
+--- a/src/main/java/net/minecraft/network/Connection.java
++++ b/src/main/java/net/minecraft/network/Connection.java
+@@ -78,6 +78,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
      // Spigot Start
      public java.util.UUID spoofedUUID;
      public com.mojang.authlib.properties.Property[] spoofedProfile;
@@ -23,7 +23,7 @@ index cb58bdc3d..e024d4b82 100644
      // Spigot End
      private volatile @Nullable PacketListener disconnectListener;
      private volatile @Nullable PacketListener packetListener;
-@@ -103,6 +104,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -102,6 +103,9 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
          super.channelActive(channelhandlercontext);
          this.channel = channelhandlercontext.channel();
          this.address = this.channel.remoteAddress();
@@ -33,7 +33,7 @@ index cb58bdc3d..e024d4b82 100644
          if (this.delayedDisconnect != null) {
              this.disconnect(this.delayedDisconnect);
          }
-@@ -434,6 +438,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -433,6 +437,9 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
      }
  
      public void disconnect(DisconnectionDetails disconnectiondetails) {
@@ -43,20 +43,20 @@ index cb58bdc3d..e024d4b82 100644
          if (this.channel == null) {
              this.delayedDisconnect = disconnectiondetails;
          }
-diff --git a/src/main/java/net/minecraft/server/network/ServerConnection.java b/src/main/java/net/minecraft/server/network/ServerConnection.java
-index a03784136..6d1999731 100644
---- a/src/main/java/net/minecraft/server/network/ServerConnection.java
-+++ b/src/main/java/net/minecraft/server/network/ServerConnection.java
-@@ -161,6 +161,10 @@ public class ServerConnection {
-                             networkmanager.setReadOnly();
+diff --git a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
+index c0c1df0bb6..20e4ebd379 100644
+--- a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
++++ b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
+@@ -161,6 +161,10 @@ public class ServerConnectionListener {
+                             connection.setReadOnly();
                          }
                      } else {
 +                        // Spigot Start
 +                        // Fix a race condition where a NetworkManager could be unregistered just before connection.
-+                        if (networkmanager.preparing) continue;
++                        if (connection.preparing) continue;
 +                        // Spigot End
                          iterator.remove();
-                         networkmanager.handleDisconnection();
+                         connection.handleDisconnection();
                      }
 -- 
 2.52.0

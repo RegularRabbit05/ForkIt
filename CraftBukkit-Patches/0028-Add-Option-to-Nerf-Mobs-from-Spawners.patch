@@ -1,28 +1,28 @@
-From 78cac1abff5e34cf618c4a24551ef9bbe3c0f112 Mon Sep 17 00:00:00 2001
+From b3af055c3f957b98f40860c558bf30f38e89160c Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Feb 2014 16:55:46 +0000
 Subject: [PATCH] Add Option to Nerf Mobs from Spawners
 
 
-diff --git a/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java b/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
-index edf8a6045..09edad9ee 100644
---- a/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
-+++ b/src/main/java/net/minecraft/world/level/MobSpawnerAbstract.java
-@@ -167,6 +167,12 @@ public abstract class MobSpawnerAbstract {
+diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
+index ddd9a27b08..9a1620e6b0 100644
+--- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
++++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
+@@ -167,6 +167,12 @@ public abstract class BaseSpawner {
  
-                                 Objects.requireNonNull(entityinsentient);
-                                 optional1.ifPresent(entityinsentient::equip);
+                                 Objects.requireNonNull(mob);
+                                 optional1.ifPresent(mob::equip);
 +                                // Spigot Start
-+                                if ( entityinsentient.level().spigotConfig.nerfSpawnerMobs )
++                                if ( mob.level().spigotConfig.nerfSpawnerMobs )
 +                                {
-+                                    entityinsentient.aware = false;
++                                    mob.aware = false;
 +                                }
 +                                // Spigot End
                              }
  
                              // CraftBukkit start
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 457a8e84b..3e398c4e0 100644
+index 457a8e84b0..3e398c4e06 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -262,4 +262,11 @@ public class SpigotWorldConfig

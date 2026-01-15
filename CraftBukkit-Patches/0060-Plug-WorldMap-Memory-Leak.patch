@@ -1,29 +1,29 @@
-From 05bdfcd012035960ffb63092bfcb0548960dbd90 Mon Sep 17 00:00:00 2001
+From 5682d10152be2ec2fcd23073ae7ec87f267c767b Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 8 Aug 2014 19:57:03 +1000
 Subject: [PATCH] Plug WorldMap Memory Leak
 
 
-diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 668a3ffac..6a4830fb8 100644
---- a/src/main/java/net/minecraft/server/level/WorldServer.java
-+++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -2181,6 +2181,29 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index c9e1aa1247..f1e4f9a8a1 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -2180,6 +2180,29 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
          public void onTrackingEnd(Entity entity) {
              org.spigotmc.AsyncCatcher.catchOp("entity unregister"); // Spigot
 +            // Spigot start
-+            if ( entity instanceof EntityHuman )
++            if ( entity instanceof Player )
 +            {
-+                com.google.common.collect.Streams.stream( getServer().getAllLevels() ).map( WorldServer::getDataStorage ).forEach( (worldData) ->
++                com.google.common.collect.Streams.stream( getServer().getAllLevels() ).map( ServerLevel::getDataStorage ).forEach( (worldData) ->
 +                {
 +                    for (Object o : worldData.cache.values() )
 +                    {
-+                        if ( o instanceof WorldMap )
++                        if ( o instanceof MapItemSavedData )
 +                        {
-+                            WorldMap map = (WorldMap) o;
-+                            map.carriedByPlayers.remove( (EntityHuman) entity );
-+                            for ( java.util.Iterator<WorldMap.WorldMapHumanTracker> iter = (java.util.Iterator<WorldMap.WorldMapHumanTracker>) map.carriedBy.iterator(); iter.hasNext(); )
++                            MapItemSavedData map = (MapItemSavedData) o;
++                            map.carriedByPlayers.remove( (Player) entity );
++                            for ( java.util.Iterator<MapItemSavedData.HoldingPlayer> iter = (java.util.Iterator<MapItemSavedData.HoldingPlayer>) map.carriedBy.iterator(); iter.hasNext(); )
 +                            {
 +                                if ( iter.next().player == entity )
 +                                {
@@ -36,7 +36,7 @@ index 668a3ffac..6a4830fb8 100644
 +            }
 +            // Spigot end
              // Spigot Start
-             if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof EntityPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
+             if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof ServerPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  for (org.bukkit.entity.HumanEntity h : Lists.newArrayList(((org.bukkit.inventory.InventoryHolder) entity.getBukkitEntity()).getInventory().getViewers())) {
 -- 
 2.52.0

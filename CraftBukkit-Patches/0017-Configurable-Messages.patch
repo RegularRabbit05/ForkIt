@@ -1,41 +1,41 @@
-From c7e049022dc5b0e97a2bfed7178bcafdf7e7ffdf Mon Sep 17 00:00:00 2001
+From b0c3afe615ca9bb062c9be5462bb5ddd93fac3c4 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 19:21:58 +1000
 Subject: [PATCH] Configurable Messages
 
 
-diff --git a/src/main/java/net/minecraft/server/network/HandshakeListener.java b/src/main/java/net/minecraft/server/network/HandshakeListener.java
-index 48f7e900b..fc21e03ed 100644
---- a/src/main/java/net/minecraft/server/network/HandshakeListener.java
-+++ b/src/main/java/net/minecraft/server/network/HandshakeListener.java
-@@ -105,10 +105,10 @@ public class HandshakeListener implements PacketHandshakingInListener {
-         if (packethandshakinginsetprotocol.protocolVersion() != SharedConstants.getCurrentVersion().protocolVersion()) {
-             IChatBaseComponent ichatbasecomponent;
+diff --git a/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java
+index c939bba212..7039e199f1 100644
+--- a/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerHandshakePacketListenerImpl.java
+@@ -105,10 +105,10 @@ public class ServerHandshakePacketListenerImpl implements ServerHandshakePacketL
+         if (clientintentionpacket.protocolVersion() != SharedConstants.getCurrentVersion().protocolVersion()) {
+             Component component;
  
--            if (packethandshakinginsetprotocol.protocolVersion() < 754) {
--                ichatbasecomponent = IChatBaseComponent.translatable("multiplayer.disconnect.outdated_client", SharedConstants.getCurrentVersion().name());
-+            if (packethandshakinginsetprotocol.protocolVersion() < SharedConstants.getCurrentVersion().protocolVersion()) { // Spigot - SPIGOT-7546: Handle version check correctly for outdated client message
-+                ichatbasecomponent = IChatBaseComponent.literal( java.text.MessageFormat.format( org.spigotmc.SpigotConfig.outdatedClientMessage.replaceAll("'", "''"), SharedConstants.getCurrentVersion().name() ) ); // Spigot
+-            if (clientintentionpacket.protocolVersion() < 754) {
+-                component = Component.translatable("multiplayer.disconnect.outdated_client", SharedConstants.getCurrentVersion().name());
++            if (clientintentionpacket.protocolVersion() < SharedConstants.getCurrentVersion().protocolVersion()) { // Spigot - SPIGOT-7546: Handle version check correctly for outdated client message
++                component = Component.literal( java.text.MessageFormat.format( org.spigotmc.SpigotConfig.outdatedClientMessage.replaceAll("'", "''"), SharedConstants.getCurrentVersion().name() ) ); // Spigot
              } else {
--                ichatbasecomponent = IChatBaseComponent.translatable("multiplayer.disconnect.incompatible", SharedConstants.getCurrentVersion().name());
-+                ichatbasecomponent = IChatBaseComponent.literal( java.text.MessageFormat.format( org.spigotmc.SpigotConfig.outdatedServerMessage.replaceAll("'", "''"), SharedConstants.getCurrentVersion().name() ) ); // Spigot
+-                component = Component.translatable("multiplayer.disconnect.incompatible", SharedConstants.getCurrentVersion().name());
++                component = Component.literal( java.text.MessageFormat.format( org.spigotmc.SpigotConfig.outdatedServerMessage.replaceAll("'", "''"), SharedConstants.getCurrentVersion().name() ) ); // Spigot
              }
  
-             this.connection.send(new PacketLoginOutDisconnect(ichatbasecomponent));
+             this.connection.send(new ClientboundLoginDisconnectPacket(component));
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index deb6bb21b..5d7e76ba2 100644
+index 0ecd88f172..6f78544706 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -495,7 +495,7 @@ public abstract class PlayerList {
-             event.disallow(PlayerLoginEvent.Result.KICK_BANNED, CraftChatMessage.fromComponent(ichatmutablecomponent));
+@@ -493,7 +493,7 @@ public abstract class PlayerList {
+             event.disallow(PlayerLoginEvent.Result.KICK_BANNED, CraftChatMessage.fromComponent(mutablecomponent));
          } else if (!this.isWhiteListed(nameandid)) {
-             IChatMutableComponent ichatmutablecomponent = IChatBaseComponent.translatable("multiplayer.disconnect.not_whitelisted");
--            event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, CraftChatMessage.fromComponent(ichatmutablecomponent));
+             MutableComponent mutablecomponent = Component.translatable("multiplayer.disconnect.not_whitelisted");
+-            event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, CraftChatMessage.fromComponent(mutablecomponent));
 +            event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, org.spigotmc.SpigotConfig.whitelistMessage); // Spigot
          } else if (this.ipBans.isBanned(socketaddress)) {
-             IpBanEntry ipbanentry = this.ipBans.get(socketaddress);
-             IChatMutableComponent ichatmutablecomponent1 = IChatBaseComponent.translatable("multiplayer.disconnect.banned_ip.reason", ipbanentry.getReasonMessage());
-@@ -509,7 +509,7 @@ public abstract class PlayerList {
+             IpBanListEntry ipbanlistentry = this.ipBans.get(socketaddress);
+             MutableComponent mutablecomponent1 = Component.translatable("multiplayer.disconnect.banned_ip.reason", ipbanlistentry.getReasonMessage());
+@@ -507,7 +507,7 @@ public abstract class PlayerList {
          } else {
              // return this.players.size() >= this.getMaxPlayers() && !this.canBypassPlayerLimit(nameandid) ? IChatBaseComponent.translatable("multiplayer.disconnect.server_full") : null;
              if (this.players.size() >= this.getMaxPlayers() && !this.canBypassPlayerLimit(nameandid)) {
@@ -45,10 +45,10 @@ index deb6bb21b..5d7e76ba2 100644
          }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 99af56484..f2011550b 100644
+index f7b5fc31fb..083f46c96b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -913,11 +913,11 @@ public final class CraftServer implements Server {
+@@ -911,11 +911,11 @@ public final class CraftServer implements Server {
              return true;
          }
  
@@ -65,7 +65,7 @@ index 99af56484..f2011550b 100644
          return false;
      }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index fc352ecf1..8ad8b2589 100644
+index fc352ecf10..8ad8b25894 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -12,6 +12,7 @@ import java.util.Map;

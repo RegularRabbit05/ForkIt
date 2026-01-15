@@ -1,17 +1,17 @@
-From 3b035659ac68b9c916473a6e6292df6156b5deb1 Mon Sep 17 00:00:00 2001
+From 03ac20bc9ec2cbe281e2b0c73586c6fd4afee10d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 23 Mar 2013 09:52:41 +1100
 Subject: [PATCH] View Distance
 
 This commit allows the user to select per world view distances.
 
-diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 85e0d2aeb..5202f3de4 100644
---- a/src/main/java/net/minecraft/server/level/WorldServer.java
-+++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -290,8 +290,8 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index 4f05501d51..ab25f3e98d 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -289,8 +289,8 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
-         this.entityManager = new PersistentEntitySectionManager<Entity>(Entity.class, new WorldServer.a(), entitypersistentstorage);
+         this.entityManager = new PersistentEntitySectionManager<Entity>(Entity.class, new ServerLevel.EntityCallbacks(), entitypersistentstorage);
          StructureTemplateManager structuretemplatemanager = minecraftserver.getStructureManager();
 -        int j = minecraftserver.getPlayerList().getViewDistance();
 -        int k = minecraftserver.getPlayerList().getSimulationDistance();
@@ -21,30 +21,30 @@ index 85e0d2aeb..5202f3de4 100644
  
          Objects.requireNonNull(this.entityManager);
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 95fa740af..deb6bb21b 100644
+index 64384576b0..0ecd88f172 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -200,7 +200,8 @@ public abstract class PlayerList {
+@@ -198,7 +198,8 @@ public abstract class PlayerList {
          boolean flag1 = (Boolean) gamerules.get(GameRules.REDUCED_DEBUG_INFO);
          boolean flag2 = (Boolean) gamerules.get(GameRules.LIMITED_CRAFTING);
  
--        playerconnection.send(new PacketPlayOutLogin(entityplayer.getId(), worlddata.isHardcore(), this.server.levelKeys(), this.getMaxPlayers(), this.getViewDistance(), this.getSimulationDistance(), flag1, !flag, flag2, entityplayer.createCommonSpawnInfo(worldserver), this.server.enforceSecureProfile()));
+-        servergamepacketlistenerimpl.send(new ClientboundLoginPacket(serverplayer.getId(), leveldata.isHardcore(), this.server.levelKeys(), this.getMaxPlayers(), this.getViewDistance(), this.getSimulationDistance(), flag1, !flag, flag2, serverplayer.createCommonSpawnInfo(serverlevel), this.server.enforceSecureProfile()));
 +        // Spigot - view distance
-+        playerconnection.send(new PacketPlayOutLogin(entityplayer.getId(), worlddata.isHardcore(), this.server.levelKeys(), this.getMaxPlayers(), worldserver.spigotConfig.viewDistance, worldserver.spigotConfig.simulationDistance, flag1, !flag, flag2, entityplayer.createCommonSpawnInfo(worldserver), this.server.enforceSecureProfile()));
-         entityplayer.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
-         playerconnection.send(new PacketPlayOutServerDifficulty(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
-         playerconnection.send(new PacketPlayOutAbilities(entityplayer.getAbilities()));
-@@ -610,6 +611,8 @@ public abstract class PlayerList {
-         WorldData worlddata = worldserver1.getLevelData();
++        servergamepacketlistenerimpl.send(new ClientboundLoginPacket(serverplayer.getId(), leveldata.isHardcore(), this.server.levelKeys(), this.getMaxPlayers(), serverlevel.spigotConfig.viewDistance, serverlevel.spigotConfig.simulationDistance, flag1, !flag, flag2, serverplayer.createCommonSpawnInfo(serverlevel), this.server.enforceSecureProfile()));
+         serverplayer.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
+         servergamepacketlistenerimpl.send(new ClientboundChangeDifficultyPacket(leveldata.getDifficulty(), leveldata.isDifficultyLocked()));
+         servergamepacketlistenerimpl.send(new ClientboundPlayerAbilitiesPacket(serverplayer.getAbilities()));
+@@ -607,6 +608,8 @@ public abstract class PlayerList {
+         LevelData leveldata = serverlevel1.getLevelData();
  
-         entityplayer1.connection.send(new PacketPlayOutRespawn(entityplayer1.createCommonSpawnInfo(worldserver1), b0));
-+        entityplayer1.connection.send(new PacketPlayOutViewDistance(worldserver1.spigotConfig.viewDistance)); // Spigot
-+        entityplayer1.connection.send(new ClientboundSetSimulationDistancePacket(worldserver1.spigotConfig.simulationDistance)); // Spigot
-         entityplayer1.connection.teleport(CraftLocation.toBukkit(entityplayer1.position(), worldserver1.getWorld(), entityplayer1.getYRot(), entityplayer1.getXRot())); // CraftBukkit
-         entityplayer1.connection.send(new PacketPlayOutSpawnPosition(worldserver.getRespawnData()));
-         entityplayer1.connection.send(new PacketPlayOutServerDifficulty(worlddata.getDifficulty(), worlddata.isDifficultyLocked()));
+         serverplayer1.connection.send(new ClientboundRespawnPacket(serverplayer1.createCommonSpawnInfo(serverlevel1), b0));
++        serverplayer1.connection.send(new ClientboundSetChunkCacheRadiusPacket(serverlevel1.spigotConfig.viewDistance)); // Spigot
++        serverplayer1.connection.send(new ClientboundSetSimulationDistancePacket(serverlevel1.spigotConfig.simulationDistance)); // Spigot
+         serverplayer1.connection.teleport(CraftLocation.toBukkit(serverplayer1.position(), serverlevel1.getWorld(), serverplayer1.getYRot(), serverplayer1.getXRot())); // CraftBukkit
+         serverplayer1.connection.send(new ClientboundSetDefaultSpawnPositionPacket(serverlevel.getRespawnData()));
+         serverplayer1.connection.send(new ClientboundChangeDifficultyPacket(leveldata.getDifficulty(), leveldata.isDifficultyLocked()));
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 5ff085b9e..acaf90301 100644
+index 5ff085b9e6..acaf903011 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -148,4 +148,36 @@ public class SpigotWorldConfig

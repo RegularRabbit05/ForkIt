@@ -1,4 +1,4 @@
-From c05843fa9c6e6cf95ae4c873f6169190430ad42b Mon Sep 17 00:00:00 2001
+From d6ffc572eaaf5070006acb13e41c6885032fb12e Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Wed, 20 Feb 2013 11:58:47 -0500
 Subject: [PATCH] Entity Tracking Ranges
@@ -11,20 +11,20 @@ This has multiple benefits:
 3) Less lag in general - Less work for the server to do
 4) Less client lag - Not trying to render distant item frames and paintings and entities will reduce entity count on the client, which is major for shop/town worlds which may use tons of item frames.
 
-diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index 1672a36d7..7733622ef 100644
---- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-+++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-@@ -1298,6 +1298,7 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
-         if (!(entity instanceof EntityComplexPart)) {
-             EntityTypes<?> entitytypes = entity.getType();
-             int i = entitytypes.clientTrackingRange() * 16;
+diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
+index dbdca5928c..7d353ffb79 100644
+--- a/src/main/java/net/minecraft/server/level/ChunkMap.java
++++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
+@@ -1297,6 +1297,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+         if (!(entity instanceof EnderDragonPart)) {
+             EntityType<?> entitytype = entity.getType();
+             int i = entitytype.clientTrackingRange() * 16;
 +            i = org.spigotmc.TrackingRange.getEntityTrackingRange(entity, i); // Spigot
  
              if (i != 0) {
-                 int j = entitytypes.updateInterval();
+                 int j = entitytype.updateInterval();
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 936279b5f..ab984b210 100644
+index 936279b5fb..ab984b2109 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -211,4 +211,21 @@ public class SpigotWorldConfig
@@ -51,20 +51,20 @@ index 936279b5f..ab984b210 100644
  }
 diff --git a/src/main/java/org/spigotmc/TrackingRange.java b/src/main/java/org/spigotmc/TrackingRange.java
 new file mode 100644
-index 000000000..46e8cb42a
+index 0000000000..3fea7bedb3
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/TrackingRange.java
 @@ -0,0 +1,59 @@
 +package org.spigotmc;
 +
-+import net.minecraft.server.level.EntityPlayer;
++import net.minecraft.server.level.ServerPlayer;
 +import net.minecraft.world.entity.Display;
 +import net.minecraft.world.entity.Entity;
-+import net.minecraft.world.entity.EntityExperienceOrb;
-+import net.minecraft.world.entity.decoration.EntityItemFrame;
-+import net.minecraft.world.entity.decoration.painting.EntityPainting;
-+import net.minecraft.world.entity.item.EntityItem;
-+import net.minecraft.world.entity.monster.EntityGhast;
++import net.minecraft.world.entity.ExperienceOrb;
++import net.minecraft.world.entity.decoration.ItemFrame;
++import net.minecraft.world.entity.decoration.painting.Painting;
++import net.minecraft.world.entity.item.ItemEntity;
++import net.minecraft.world.entity.monster.Ghast;
 +
 +public class TrackingRange
 +{
@@ -84,13 +84,13 @@ index 000000000..46e8cb42a
 +            return defaultRange;
 +        }
 +        SpigotWorldConfig config = entity.level().spigotConfig;
-+        if ( entity instanceof EntityPlayer )
++        if ( entity instanceof ServerPlayer )
 +        {
 +            return config.playerTrackingRange;
 +        } else if ( entity.activationType == ActivationRange.ActivationType.MONSTER || entity.activationType == ActivationRange.ActivationType.RAIDER )
 +        {
 +            return config.monsterTrackingRange;
-+        } else if ( entity instanceof EntityGhast )
++        } else if ( entity instanceof Ghast )
 +        {
 +            if ( config.monsterTrackingRange > config.monsterActivationRange )
 +            {
@@ -102,7 +102,7 @@ index 000000000..46e8cb42a
 +        } else if ( entity.activationType == ActivationRange.ActivationType.ANIMAL )
 +        {
 +            return config.animalTrackingRange;
-+        } else if ( entity instanceof EntityItemFrame || entity instanceof EntityPainting || entity instanceof EntityItem || entity instanceof EntityExperienceOrb )
++        } else if ( entity instanceof ItemFrame || entity instanceof Painting || entity instanceof ItemEntity || entity instanceof ExperienceOrb )
 +        {
 +            return config.miscTrackingRange;
 +        } else if ( entity instanceof Display )

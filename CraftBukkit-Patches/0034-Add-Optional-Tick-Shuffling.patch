@@ -1,15 +1,15 @@
-From a2167ff98a907d56c3777d7fa96311af5bbfca42 Mon Sep 17 00:00:00 2001
+From 94ccaf7bfa369501481f2b14ca9117ecc2233cd7 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 27 Jan 2014 08:39:26 +1100
 Subject: [PATCH] Add Optional Tick Shuffling
 
 This prevents players from 'gaming' the server, and strategically relogging to increase their position in the tick order.
 
-diff --git a/src/main/java/net/minecraft/server/network/ServerConnection.java b/src/main/java/net/minecraft/server/network/ServerConnection.java
-index a83365564..a03784136 100644
---- a/src/main/java/net/minecraft/server/network/ServerConnection.java
-+++ b/src/main/java/net/minecraft/server/network/ServerConnection.java
-@@ -131,6 +131,13 @@ public class ServerConnection {
+diff --git a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
+index 3cf8ee327d..c0c1df0bb6 100644
+--- a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
++++ b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
+@@ -131,6 +131,13 @@ public class ServerConnectionListener {
  
      public void tick() {
          synchronized (this.connections) {
@@ -20,11 +20,11 @@ index a83365564..a03784136 100644
 +                Collections.shuffle( this.connections );
 +            }
 +            // Spigot End
-             Iterator<NetworkManager> iterator = this.connections.iterator();
+             Iterator<Connection> iterator = this.connections.iterator();
  
              while (iterator.hasNext()) {
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 175b389e5..5b7e17ee0 100644
+index cabfecd2a4..9744e9456b 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -278,4 +278,10 @@ public class SpigotConfig

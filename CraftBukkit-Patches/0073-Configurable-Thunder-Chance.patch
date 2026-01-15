@@ -1,24 +1,24 @@
-From 0e8820fc49b48279e4070455e1afe8bee15cebbc Mon Sep 17 00:00:00 2001
+From 237bc22ab242b8122cb43fc0969df71254ad6ffc Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 24 Oct 2021 20:29:25 +1100
 Subject: [PATCH] Configurable Thunder Chance
 
 
-diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 6a4830fb8..26f209963 100644
---- a/src/main/java/net/minecraft/server/level/WorldServer.java
-+++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -602,7 +602,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
-         GameProfilerFiller gameprofilerfiller = Profiler.get();
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index f1e4f9a8a1..2cffa51e7a 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -601,7 +601,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+         ProfilerFiller profilerfiller = Profiler.get();
  
-         gameprofilerfiller.push("thunder");
+         profilerfiller.push("thunder");
 -        if (flag && this.isThundering() && this.random.nextInt(100000) == 0) {
 +        if (flag && this.isThundering() && this.spigotConfig.thunderChance > 0 && this.random.nextInt(this.spigotConfig.thunderChance) == 0) { // Spigot
-             BlockPosition blockposition = this.findLightningTargetAround(this.getBlockRandomPos(i, 0, j, 15));
+             BlockPos blockpos = this.findLightningTargetAround(this.getBlockRandomPos(i, 0, j, 15));
  
-             if (this.isRainingAt(blockposition)) {
+             if (this.isRainingAt(blockpos)) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 68cf01386..b6ac09ee9 100644
+index 68cf01386e..b6ac09ee9f 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -382,4 +382,10 @@ public class SpigotWorldConfig

@@ -1,14 +1,14 @@
-From 7ab8b005eb6efb7a295689077dcbe251f3d9d7c2 Mon Sep 17 00:00:00 2001
+From efeb71cdf87783148a35477ca49627dbcdacc621 Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thinkofdeath@spigotmc.org>
 Date: Wed, 2 Jul 2014 23:35:51 +0100
 Subject: [PATCH] Better item validation
 
 
 diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
-index cc15f4784..3748f82de 100644
+index b3c6e49dc5..eeea5eaaaa 100644
 --- a/src/main/java/net/minecraft/world/item/ItemStack.java
 +++ b/src/main/java/net/minecraft/world/item/ItemStack.java
-@@ -206,6 +206,10 @@ public final class ItemStack implements DataComponentHolder {
+@@ -201,6 +201,10 @@ public final class ItemStack implements DataComponentHolder {
                      registryfriendlybytebuf.writeVarInt(0);
                  } else {
                      registryfriendlybytebuf.writeVarInt(itemstack.getCount());

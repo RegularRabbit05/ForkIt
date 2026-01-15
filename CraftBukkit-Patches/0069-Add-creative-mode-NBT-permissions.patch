@@ -1,69 +1,69 @@
-From 0feec7719adc09a518e0416bccf4f12941510680 Mon Sep 17 00:00:00 2001
+From 0d5a6fe3e979b9eb2f2a0c471863b42167f0567f Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 25 Feb 2019 19:26:56 +1100
 Subject: [PATCH] Add creative mode NBT permissions
 
 
-diff --git a/src/main/java/net/minecraft/server/level/PlayerInteractManager.java b/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
-index 665a0289c..3249d2597 100644
---- a/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
-+++ b/src/main/java/net/minecraft/server/level/PlayerInteractManager.java
-@@ -232,6 +232,14 @@ public class PlayerInteractManager {
+diff --git a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
+index 9352b2f272..c240786b64 100644
+--- a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
++++ b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
+@@ -230,6 +230,14 @@ public class ServerPlayerGameMode {
                      return;
                  }
  
 +                // Spigot start - handle debug stick left click for non-creative
 +                if (this.player.getMainHandItem().is(net.minecraft.world.item.Items.DEBUG_STICK)
-+                        && ((net.minecraft.world.item.ItemDebugStick) net.minecraft.world.item.Items.DEBUG_STICK).handleInteraction(this.player, this.level.getBlockState(blockposition), this.level, blockposition, false, this.player.getMainHandItem())) {
-+                    this.player.connection.send(new PacketPlayOutBlockChange(this.level, blockposition));
++                        && ((net.minecraft.world.item.DebugStickItem) net.minecraft.world.item.Items.DEBUG_STICK).handleInteraction(this.player, this.level.getBlockState(blockpos), this.level, blockpos, false, this.player.getMainHandItem())) {
++                    this.player.connection.send(new ClientboundBlockUpdatePacket(this.level, blockpos));
 +                    return;
 +                }
 +                // Spigot end
 +
-                 if (this.player.blockActionRestricted(this.level, blockposition, this.gameModeForPlayer)) {
-                     this.player.connection.send(new PacketPlayOutBlockChange(blockposition, this.level.getBlockState(blockposition)));
-                     this.debugLogging(blockposition, false, j, "block action restricted");
-diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 79cc8e6dc..bd6c3deab 100644
---- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
-+++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -912,7 +912,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
-                 ItemStack itemstack = iblockdata.getCloneItemStack(worldserver, blockposition, flag);
+                 if (this.player.blockActionRestricted(this.level, blockpos, this.gameModeForPlayer)) {
+                     this.player.connection.send(new ClientboundBlockUpdatePacket(blockpos, this.level.getBlockState(blockpos)));
+                     this.debugLogging(blockpos, false, j, "block action restricted");
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index da548db8bb..3351782b3c 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -909,7 +909,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+                 ItemStack itemstack = blockstate.getCloneItemStack(serverlevel, blockpos, flag);
  
                  if (!itemstack.isEmpty()) {
 -                    if (flag) {
 +                    if (flag && this.player.getBukkitEntity().hasPermission("minecraft.nbt.copy")) { // Spigot
-                         addBlockDataToItem(iblockdata, worldserver, blockposition, itemstack);
+                         addBlockDataToItem(blockstate, serverlevel, blockpos, itemstack);
                      }
  
-diff --git a/src/main/java/net/minecraft/world/item/ItemBlock.java b/src/main/java/net/minecraft/world/item/ItemBlock.java
-index 7e803c308..0976a9191 100644
---- a/src/main/java/net/minecraft/world/item/ItemBlock.java
-+++ b/src/main/java/net/minecraft/world/item/ItemBlock.java
-@@ -200,7 +200,7 @@ public class ItemBlock extends Item {
+diff --git a/src/main/java/net/minecraft/world/item/BlockItem.java b/src/main/java/net/minecraft/world/item/BlockItem.java
+index bc1de57a67..7bcdedc18b 100644
+--- a/src/main/java/net/minecraft/world/item/BlockItem.java
++++ b/src/main/java/net/minecraft/world/item/BlockItem.java
+@@ -200,7 +200,7 @@ public class BlockItem extends Item {
                          return false;
                      }
  
--                    if (!tileentitytypes.onlyOpCanSetNbt() || entityhuman != null && entityhuman.canUseGameMasterBlocks()) {
-+                    if (!tileentitytypes.onlyOpCanSetNbt() || entityhuman != null && (entityhuman.canUseGameMasterBlocks() || (entityhuman.getAbilities().instabuild && entityhuman.getBukkitEntity().hasPermission("minecraft.nbt.place")))) { // Spigot - add permission
-                         return typedentitydata.loadInto(tileentity, world.registryAccess());
+-                    if (!blockentitytype.onlyOpCanSetNbt() || player != null && player.canUseGameMasterBlocks()) {
++                    if (!blockentitytype.onlyOpCanSetNbt() || player != null && (player.canUseGameMasterBlocks() || (player.getAbilities().instabuild && player.getBukkitEntity().hasPermission("minecraft.nbt.place")))) { // Spigot - add permission
+                         return typedentitydata.loadInto(blockentity, level.registryAccess());
                      }
  
-diff --git a/src/main/java/net/minecraft/world/item/ItemDebugStick.java b/src/main/java/net/minecraft/world/item/ItemDebugStick.java
-index 48042eb66..71d30b61b 100644
---- a/src/main/java/net/minecraft/world/item/ItemDebugStick.java
-+++ b/src/main/java/net/minecraft/world/item/ItemDebugStick.java
-@@ -53,7 +53,7 @@ public class ItemDebugStick extends Item {
+diff --git a/src/main/java/net/minecraft/world/item/DebugStickItem.java b/src/main/java/net/minecraft/world/item/DebugStickItem.java
+index d5c17be758..8f3758a89a 100644
+--- a/src/main/java/net/minecraft/world/item/DebugStickItem.java
++++ b/src/main/java/net/minecraft/world/item/DebugStickItem.java
+@@ -53,7 +53,7 @@ public class DebugStickItem extends Item {
      }
  
-     public boolean handleInteraction(EntityHuman entityhuman, IBlockData iblockdata, GeneratorAccess generatoraccess, BlockPosition blockposition, boolean flag, ItemStack itemstack) {
--        if (!entityhuman.canUseGameMasterBlocks()) {
-+        if (!entityhuman.canUseGameMasterBlocks() && !(entityhuman.getAbilities().instabuild && entityhuman.getBukkitEntity().hasPermission("minecraft.debugstick")) && !entityhuman.getBukkitEntity().hasPermission("minecraft.debugstick.always")) { // Spigot
+     public boolean handleInteraction(Player player, BlockState blockstate, LevelAccessor levelaccessor, BlockPos blockpos, boolean flag, ItemStack itemstack) {
+-        if (!player.canUseGameMasterBlocks()) {
++        if (!player.canUseGameMasterBlocks() && !(player.getAbilities().instabuild && player.getBukkitEntity().hasPermission("minecraft.debugstick")) && !player.getBukkitEntity().hasPermission("minecraft.debugstick.always")) { // Spigot
              return false;
          } else {
-             Holder<Block> holder = iblockdata.getBlockHolder();
+             Holder<Block> holder = blockstate.getBlockHolder();
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java b/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
-index 75f8d47a2..525ebf961 100644
+index 75f8d47a20..525ebf961e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
 @@ -11,6 +11,12 @@ public final class CraftDefaultPermissions {

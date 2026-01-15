@@ -1,23 +1,59 @@
-From d3302ca886b2985e008f25d104569d2bcdbccfd0 Mon Sep 17 00:00:00 2001
+From 3c2ad578ceb5f3c4cfe9c981fbb312e593256319 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 25 Mar 2014 16:10:01 +1100
 Subject: [PATCH] Async Operation Catching
 
 Catch and throw an exception when a potentially unsafe operation occurs on a thread other than the main server thread.
 
-diff --git a/src/main/java/net/minecraft/server/level/ChunkMapDistance.java b/src/main/java/net/minecraft/server/level/ChunkMapDistance.java
-index 0da8cb09f..0c1d3c9d8 100644
---- a/src/main/java/net/minecraft/server/level/ChunkMapDistance.java
-+++ b/src/main/java/net/minecraft/server/level/ChunkMapDistance.java
-@@ -65,6 +65,7 @@ public abstract class ChunkMapDistance {
-     protected abstract @Nullable PlayerChunk updateChunkScheduling(long i, int j, @Nullable PlayerChunk playerchunk, int k);
+diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
+index 3cb5719ff1..0b0c39855c 100644
+--- a/src/main/java/net/minecraft/server/level/ChunkMap.java
++++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
+@@ -1276,6 +1276,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+     }
  
-     public boolean runAllUpdates(PlayerChunkMap playerchunkmap) {
+     protected void addEntity(Entity entity) {
++        org.spigotmc.AsyncCatcher.catchOp("entity track"); // Spigot
+         if (!(entity instanceof EnderDragonPart)) {
+             EntityType<?> entitytype = entity.getType();
+             int i = entitytype.clientTrackingRange() * 16;
+@@ -1311,6 +1312,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+     }
+ 
+     protected void removeEntity(Entity entity) {
++        org.spigotmc.AsyncCatcher.catchOp("entity untrack"); // Spigot
+         if (entity instanceof ServerPlayer serverplayer) {
+             this.updatePlayerStatus(serverplayer, false);
+             ObjectIterator objectiterator = this.entityMap.values().iterator();
+@@ -1576,6 +1578,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+         }
+ 
+         public void removePlayer(ServerPlayer serverplayer) {
++            org.spigotmc.AsyncCatcher.catchOp("player tracker clear"); // Spigot
+             if (this.seenBy.remove(serverplayer.connection)) {
+                 this.serverEntity.removePairing(serverplayer);
+                 if (this.seenBy.isEmpty()) {
+@@ -1586,6 +1589,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+         }
+ 
+         public void updatePlayer(ServerPlayer serverplayer) {
++            org.spigotmc.AsyncCatcher.catchOp("player tracker update"); // Spigot
+             if (serverplayer != this.entity) {
+                 Vec3 vec3 = serverplayer.position().subtract(this.entity.position());
+                 int i = ChunkMap.this.getPlayerViewDistance(serverplayer);
+diff --git a/src/main/java/net/minecraft/server/level/DistanceManager.java b/src/main/java/net/minecraft/server/level/DistanceManager.java
+index 18f63bd122..9aee1580fc 100644
+--- a/src/main/java/net/minecraft/server/level/DistanceManager.java
++++ b/src/main/java/net/minecraft/server/level/DistanceManager.java
+@@ -65,6 +65,7 @@ public abstract class DistanceManager {
+     protected abstract @Nullable ChunkHolder updateChunkScheduling(long i, int j, @Nullable ChunkHolder chunkholder, int k);
+ 
+     public boolean runAllUpdates(ChunkMap chunkmap) {
 +        org.spigotmc.AsyncCatcher.catchOp("chunk updates"); // Spigot
          this.naturalSpawnChunkCounter.runAllUpdates();
          this.simulationChunkTracker.runAllUpdates();
          this.playerTicketManager.runAllUpdates();
-@@ -239,6 +240,7 @@ public abstract class ChunkMapDistance {
+@@ -239,6 +240,7 @@ public abstract class DistanceManager {
  
          @Override
          protected void setLevel(long i, int j) {
@@ -25,55 +61,19 @@ index 0da8cb09f..0c1d3c9d8 100644
              byte b0;
  
              if (j > this.maxDistance) {
-diff --git a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-index 20305763c..9cc93ffd9 100644
---- a/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-+++ b/src/main/java/net/minecraft/server/level/PlayerChunkMap.java
-@@ -1277,6 +1277,7 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
-     }
- 
-     protected void addEntity(Entity entity) {
-+        org.spigotmc.AsyncCatcher.catchOp("entity track"); // Spigot
-         if (!(entity instanceof EntityComplexPart)) {
-             EntityTypes<?> entitytypes = entity.getType();
-             int i = entitytypes.clientTrackingRange() * 16;
-@@ -1312,6 +1313,7 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
-     }
- 
-     protected void removeEntity(Entity entity) {
-+        org.spigotmc.AsyncCatcher.catchOp("entity untrack"); // Spigot
-         if (entity instanceof EntityPlayer entityplayer) {
-             this.updatePlayerStatus(entityplayer, false);
-             ObjectIterator objectiterator = this.entityMap.values().iterator();
-@@ -1577,6 +1579,7 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
-         }
- 
-         public void removePlayer(EntityPlayer entityplayer) {
-+            org.spigotmc.AsyncCatcher.catchOp("player tracker clear"); // Spigot
-             if (this.seenBy.remove(entityplayer.connection)) {
-                 this.serverEntity.removePairing(entityplayer);
-                 if (this.seenBy.isEmpty()) {
-@@ -1587,6 +1590,7 @@ public class PlayerChunkMap extends SimpleRegionStorage implements PlayerChunk.b
-         }
- 
-         public void updatePlayer(EntityPlayer entityplayer) {
-+            org.spigotmc.AsyncCatcher.catchOp("player tracker update"); // Spigot
-             if (entityplayer != this.entity) {
-                 Vec3D vec3d = entityplayer.position().subtract(this.entity.position());
-                 int i = PlayerChunkMap.this.getPlayerViewDistance(entityplayer);
-diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 16a53edd9..85e0d2aeb 100644
---- a/src/main/java/net/minecraft/server/level/WorldServer.java
-+++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -1150,6 +1150,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index 48145377f8..4f05501d51 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -1149,6 +1149,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
      // CraftBukkit start
      private boolean addEntity(Entity entity, CreatureSpawnEvent.SpawnReason spawnReason) {
 +        org.spigotmc.AsyncCatcher.catchOp("entity add"); // Spigot
          if (entity.isRemoved()) {
-             // WorldServer.LOGGER.warn("Tried to add entity {} but it was marked as removed already", EntityTypes.getKey(entity.getType())); // CraftBukkit
+             // ServerLevel.LOGGER.warn("Tried to add entity {} but it was marked as removed already", EntityTypes.getKey(entity.getType())); // CraftBukkit
              return false;
-@@ -1922,6 +1923,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -1921,6 +1922,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
      @Override
      public LevelEntityGetter<Entity> getEntities() {
@@ -81,39 +81,39 @@ index 16a53edd9..85e0d2aeb 100644
          return this.entityManager.getEntityGetter();
      }
  
-@@ -2112,6 +2114,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -2111,6 +2113,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          }
  
          public void onTrackingStart(Entity entity) {
 +            org.spigotmc.AsyncCatcher.catchOp("entity register"); // Spigot
-             WorldServer.this.getChunkSource().addEntity(entity);
-             if (entity instanceof EntityPlayer entityplayer) {
-                 WorldServer.this.players.add(entityplayer);
-@@ -2149,6 +2152,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+             ServerLevel.this.getChunkSource().addEntity(entity);
+             if (entity instanceof ServerPlayer serverplayer) {
+                 ServerLevel.this.players.add(serverplayer);
+@@ -2148,6 +2151,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          }
  
          public void onTrackingEnd(Entity entity) {
 +            org.spigotmc.AsyncCatcher.catchOp("entity unregister"); // Spigot
-             WorldServer.this.getChunkSource().removeEntity(entity);
-             if (entity instanceof EntityPlayer entityplayer) {
-                 WorldServer.this.players.remove(entityplayer);
-diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index 7fff1e2ac..9c03e27ab 100644
---- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
-+++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-@@ -1201,6 +1201,7 @@ public abstract class EntityLiving extends Entity implements Attackable, Waypoin
+             ServerLevel.this.getChunkSource().removeEntity(entity);
+             if (entity instanceof ServerPlayer serverplayer) {
+                 ServerLevel.this.players.remove(serverplayer);
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index 2578d5b7e7..48af7236b4 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -1196,6 +1196,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
      }
  
-     public boolean addEffect(MobEffect mobeffect, @Nullable Entity entity, EntityPotionEffectEvent.Cause cause) {
+     public boolean addEffect(MobEffectInstance mobeffectinstance, @Nullable Entity entity, EntityPotionEffectEvent.Cause cause) {
 +        org.spigotmc.AsyncCatcher.catchOp("effect add"); // Spigot
          if (isTickingEffects) {
-             effectsToProcess.add(new ProcessableEffect(mobeffect, cause));
+             effectsToProcess.add(new ProcessableEffect(mobeffectinstance, cause));
              return true;
-diff --git a/src/main/java/net/minecraft/world/item/crafting/CraftingManager.java b/src/main/java/net/minecraft/world/item/crafting/CraftingManager.java
-index bb0790257..bd74068f4 100644
---- a/src/main/java/net/minecraft/world/item/crafting/CraftingManager.java
-+++ b/src/main/java/net/minecraft/world/item/crafting/CraftingManager.java
-@@ -117,6 +117,7 @@ public class CraftingManager extends ResourceDataAbstract<RecipeMap> implements
+diff --git a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
+index 9ef5c1900e..b3fb5281e8 100644
+--- a/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
++++ b/src/main/java/net/minecraft/world/item/crafting/RecipeManager.java
+@@ -117,6 +117,7 @@ public class RecipeManager extends SimplePreparableReloadListener<RecipeMap> imp
  
      // CraftBukkit start
      public void addRecipe(RecipeHolder<?> irecipe) {
@@ -121,26 +121,26 @@ index bb0790257..bd74068f4 100644
          this.recipes.addRecipe(irecipe);
          finalizeRecipeLoading();
      }
-diff --git a/src/main/java/net/minecraft/world/level/block/state/BlockBase.java b/src/main/java/net/minecraft/world/level/block/state/BlockBase.java
-index 4b7643173..966698e71 100644
---- a/src/main/java/net/minecraft/world/level/block/state/BlockBase.java
-+++ b/src/main/java/net/minecraft/world/level/block/state/BlockBase.java
-@@ -161,7 +161,9 @@ public abstract class BlockBase implements FeatureElement {
+diff --git a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
+index e919461873..a16e2fa6ba 100644
+--- a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
++++ b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
+@@ -161,7 +161,9 @@ public abstract class BlockBehaviour implements FeatureElement {
  
-     protected void neighborChanged(IBlockData iblockdata, World world, BlockPosition blockposition, Block block, @Nullable Orientation orientation, boolean flag) {}
+     protected void neighborChanged(BlockState blockstate, Level level, BlockPos blockpos, Block block, @Nullable Orientation orientation, boolean flag) {}
  
--    protected void onPlace(IBlockData iblockdata, World world, BlockPosition blockposition, IBlockData iblockdata1, boolean flag) {}
-+    protected void onPlace(IBlockData iblockdata, World world, BlockPosition blockposition, IBlockData iblockdata1, boolean flag) {
+-    protected void onPlace(BlockState blockstate, Level level, BlockPos blockpos, BlockState blockstate1, boolean flag) {}
++    protected void onPlace(BlockState blockstate, Level level, BlockPos blockpos, BlockState blockstate1, boolean flag) {
 +        org.spigotmc.AsyncCatcher.catchOp("block onPlace"); // Spigot
 +    }
  
      // CraftBukkit start
-     protected void onPlace(IBlockData iblockdata, World world, BlockPosition blockposition, IBlockData iblockdata1, boolean flag, @Nullable ItemActionContext context) {
+     protected void onPlace(BlockState blockstate, Level level, BlockPos blockpos, BlockState blockstate1, boolean flag, @Nullable UseOnContext context) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index e633687d7..468899249 100644
+index a988a7775c..2cb98d9a0f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -907,6 +907,7 @@ public final class CraftServer implements Server {
+@@ -905,6 +905,7 @@ public final class CraftServer implements Server {
      public boolean dispatchCommand(CommandSender sender, String commandLine) {
          Preconditions.checkArgument(sender != null, "sender cannot be null");
          Preconditions.checkArgument(commandLine != null, "commandLine cannot be null");
@@ -149,18 +149,18 @@ index e633687d7..468899249 100644
          if (commandMap.dispatch(sender, commandLine)) {
              return true;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 2d564e84a..df2dd462a 100644
+index f81aaba251..5684500e8e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -287,6 +287,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -281,6 +281,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public boolean unloadChunkRequest(int x, int z) {
 +        org.spigotmc.AsyncCatcher.catchOp("chunk unload"); // Spigot
          if (isChunkLoaded(x, z)) {
-             world.getChunkSource().removeTicketWithRadius(TicketType.PLUGIN, new ChunkCoordIntPair(x, z), 1);
+             world.getChunkSource().removeTicketWithRadius(TicketType.PLUGIN, new ChunkPos(x, z), 1);
          }
-@@ -295,6 +296,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -289,6 +290,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      }
  
      private boolean unloadChunk0(int x, int z, boolean save) {
@@ -168,7 +168,7 @@ index 2d564e84a..df2dd462a 100644
          if (!isChunkLoaded(x, z)) {
              return true;
          }
-@@ -311,6 +313,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -305,6 +307,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public boolean regenerateChunk(int x, int z) {
@@ -176,23 +176,23 @@ index 2d564e84a..df2dd462a 100644
          throw new UnsupportedOperationException("Not supported in this Minecraft version! Unless you can fix it, this is not a bug :)");
          /*
          if (!unloadChunk0(x, z, false)) {
-@@ -388,6 +391,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -382,6 +385,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public boolean loadChunk(int x, int z, boolean generate) {
 +        org.spigotmc.AsyncCatcher.catchOp("chunk load"); // Spigot
-         IChunkAccess chunk = world.getChunkSource().getChunk(x, z, generate ? ChunkStatus.FULL : ChunkStatus.EMPTY, true);
+         ChunkAccess chunk = world.getChunkSource().getChunk(x, z, generate ? ChunkStatus.FULL : ChunkStatus.EMPTY, true);
  
          // If generate = false, but the chunk already exists, we will get this back.
-@@ -923,6 +927,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -917,6 +921,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public Collection<Entity> getNearbyEntities(BoundingBox boundingBox, Predicate<? super Entity> filter) {
 +        org.spigotmc.AsyncCatcher.catchOp("getNearbyEntities"); // Spigot
          Preconditions.checkArgument(boundingBox != null, "BoundingBox cannot be null");
  
-         AxisAlignedBB bb = new AxisAlignedBB(boundingBox.getMinX(), boundingBox.getMinY(), boundingBox.getMinZ(), boundingBox.getMaxX(), boundingBox.getMaxY(), boundingBox.getMaxZ());
-@@ -1077,6 +1082,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+         AABB bb = new AABB(boundingBox.getMinX(), boundingBox.getMinY(), boundingBox.getMinZ(), boundingBox.getMaxX(), boundingBox.getMaxY(), boundingBox.getMaxZ());
+@@ -1071,6 +1076,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public void save() {
@@ -201,10 +201,10 @@ index 2d564e84a..df2dd462a 100644
          boolean oldSave = world.noSave;
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index 05bc35c0a..2b2cffbc1 100644
+index c183972bb9..509700fa44 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-@@ -234,6 +234,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+@@ -232,6 +232,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
      @Override
      public List<org.bukkit.entity.Entity> getNearbyEntities(double x, double y, double z) {
          Preconditions.checkState(!entity.generation, "Cannot get nearby entities during world generation");
@@ -213,10 +213,10 @@ index 05bc35c0a..2b2cffbc1 100644
          List<Entity> notchEntityList = entity.level().getEntities(entity, entity.getBoundingBox().inflate(x, y, z), Predicates.alwaysTrue());
          List<org.bukkit.entity.Entity> bukkitEntityList = new java.util.ArrayList<org.bukkit.entity.Entity>(notchEntityList.size());
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 225438f62..d1b774205 100644
+index 572d33440c..d315d1222c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -509,6 +509,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -505,6 +505,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      @Override
      public void kickPlayer(String message) {
@@ -225,7 +225,7 @@ index 225438f62..d1b774205 100644
      }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java b/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java
-index 726887ece..ec5670e24 100644
+index ea2cfd6b7d..3f7c67e6e1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scoreboard/CraftScoreboardManager.java
 @@ -41,6 +41,7 @@ public final class CraftScoreboardManager implements ScoreboardManager {
@@ -233,11 +233,11 @@ index 726887ece..ec5670e24 100644
      @Override
      public CraftScoreboard getNewScoreboard() {
 +        org.spigotmc.AsyncCatcher.catchOp("scoreboard creation"); // Spigot
-         CraftScoreboard scoreboard = new CraftScoreboard(new ScoreboardServer(server));
+         CraftScoreboard scoreboard = new CraftScoreboard(new ServerScoreboard(server));
          scoreboards.add(scoreboard);
          return scoreboard;
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java b/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
-index e96a80117..830d0d211 100644
+index e96a801176..830d0d211b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/ServerShutdownThread.java
 @@ -12,6 +12,7 @@ public class ServerShutdownThread extends Thread {
@@ -250,7 +250,7 @@ index e96a80117..830d0d211 100644
              try {
 diff --git a/src/main/java/org/spigotmc/AsyncCatcher.java b/src/main/java/org/spigotmc/AsyncCatcher.java
 new file mode 100644
-index 000000000..aeed76972
+index 0000000000..aeed769725
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/AsyncCatcher.java
 @@ -0,0 +1,17 @@

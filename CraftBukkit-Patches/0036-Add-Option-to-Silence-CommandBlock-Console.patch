@@ -1,24 +1,24 @@
-From 207ef26715b930a7c7490b8598944e7eb6e80c09 Mon Sep 17 00:00:00 2001
+From 2b8d433b3e19b7dbb5a5af1efc08d203ef46b3e4 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 9 Feb 2014 14:39:01 +1100
 Subject: [PATCH] Add Option to Silence CommandBlock Console
 
 
-diff --git a/src/main/java/net/minecraft/commands/CommandListenerWrapper.java b/src/main/java/net/minecraft/commands/CommandListenerWrapper.java
-index 41ea1584d..0bcbd4554 100644
---- a/src/main/java/net/minecraft/commands/CommandListenerWrapper.java
-+++ b/src/main/java/net/minecraft/commands/CommandListenerWrapper.java
-@@ -346,7 +346,7 @@ public class CommandListenerWrapper implements ExecutionCommandSource<CommandLis
+diff --git a/src/main/java/net/minecraft/commands/CommandSourceStack.java b/src/main/java/net/minecraft/commands/CommandSourceStack.java
+index b66b97d850..bc633c6ff6 100644
+--- a/src/main/java/net/minecraft/commands/CommandSourceStack.java
++++ b/src/main/java/net/minecraft/commands/CommandSourceStack.java
+@@ -347,7 +347,7 @@ public class CommandSourceStack implements SharedSuggestionProvider, ExecutionCo
              }
          }
  
 -        if (this.source != this.server && (Boolean) gamerules.get(GameRules.LOG_ADMIN_COMMANDS)) {
 +        if (this.source != this.server && (Boolean) gamerules.get(GameRules.LOG_ADMIN_COMMANDS) && !org.spigotmc.SpigotConfig.silentCommandBlocks) { // Spigot
-             this.server.sendSystemMessage(ichatbasecomponent1);
+             this.server.sendSystemMessage(component1);
          }
  
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 5565f1dd0..128b826ca 100644
+index d53c089eb9..12ffd78376 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -294,4 +294,10 @@ public class SpigotConfig

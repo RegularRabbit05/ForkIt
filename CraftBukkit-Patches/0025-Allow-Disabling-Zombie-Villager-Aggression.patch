@@ -1,25 +1,25 @@
-From 48e5f8abaf638947e0e3e5a9de9be2490ff34573 Mon Sep 17 00:00:00 2001
+From 39b340e6b609fd62000909a184ae8e85197e2dd2 Mon Sep 17 00:00:00 2001
 From: Dylan Xaldin <Puremin0rez515@gmail.com>
 Date: Thu, 12 Dec 2013 18:05:03 -0600
 Subject: [PATCH] Allow Disabling Zombie Villager Aggression
 
 Ability to configure if Zombies will be aggressive towards Villagers.
 
-diff --git a/src/main/java/net/minecraft/world/entity/monster/zombie/EntityZombie.java b/src/main/java/net/minecraft/world/entity/monster/zombie/EntityZombie.java
-index df4826b19..072a6c141 100644
---- a/src/main/java/net/minecraft/world/entity/monster/zombie/EntityZombie.java
-+++ b/src/main/java/net/minecraft/world/entity/monster/zombie/EntityZombie.java
-@@ -129,7 +129,7 @@ public class EntityZombie extends EntityMonster {
-         this.goalSelector.addGoal(7, new PathfinderGoalRandomStrollLand(this, 1.0D));
-         this.targetSelector.addGoal(1, (new PathfinderGoalHurtByTarget(this, new Class[0])).setAlertOthers(EntityPigZombie.class));
-         this.targetSelector.addGoal(2, new PathfinderGoalNearestAttackableTarget(this, EntityHuman.class, true));
--        this.targetSelector.addGoal(3, new PathfinderGoalNearestAttackableTarget(this, EntityVillagerAbstract.class, false));
-+        if ( this.level().spigotConfig.zombieAggressiveTowardsVillager ) this.targetSelector.addGoal(3, new PathfinderGoalNearestAttackableTarget(this, EntityVillagerAbstract.class, false)); // Spigot
-         this.targetSelector.addGoal(3, new PathfinderGoalNearestAttackableTarget(this, EntityIronGolem.class, true));
-         this.targetSelector.addGoal(5, new PathfinderGoalNearestAttackableTarget(this, EntityTurtle.class, 10, true, false, EntityTurtle.BABY_ON_LAND_SELECTOR));
+diff --git a/src/main/java/net/minecraft/world/entity/monster/zombie/Zombie.java b/src/main/java/net/minecraft/world/entity/monster/zombie/Zombie.java
+index 740cf09fe5..e3aced2dab 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/zombie/Zombie.java
++++ b/src/main/java/net/minecraft/world/entity/monster/zombie/Zombie.java
+@@ -128,7 +128,7 @@ public class Zombie extends Monster {
+         this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers(ZombifiedPiglin.class));
+         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, true));
+-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal(this, AbstractVillager.class, false));
++        if ( this.level().spigotConfig.zombieAggressiveTowardsVillager ) this.targetSelector.addGoal(3, new NearestAttackableTargetGoal(this, AbstractVillager.class, false)); // Spigot
+         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal(this, IronGolem.class, true));
+         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal(this, Turtle.class, 10, true, false, Turtle.BABY_ON_LAND_SELECTOR));
      }
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 4894096ae..457a8e84b 100644
+index 4894096ae1..457a8e84b0 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -255,4 +255,11 @@ public class SpigotWorldConfig

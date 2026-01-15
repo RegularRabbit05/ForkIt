@@ -1,23 +1,23 @@
-From cbe833f38bd6df849d28fd8449b451356a47c0fc Mon Sep 17 00:00:00 2001
+From adeb36e735e9eff96576877bc8e68cfa04cd8d48 Mon Sep 17 00:00:00 2001
 From: Sander Knauff <sanderknauff@hotmail.com>
 Date: Sat, 7 Nov 2020 18:23:42 +1100
 Subject: [PATCH] Allow Disabling Player Data Saving
 
 
-diff --git a/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java b/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java
-index adf209f60..4ffa37205 100644
---- a/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java
-+++ b/src/main/java/net/minecraft/world/level/storage/WorldNBTStorage.java
-@@ -39,6 +39,7 @@ public class WorldNBTStorage {
+diff --git a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
+index f7b90b0e10..beaca0abff 100644
+--- a/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
++++ b/src/main/java/net/minecraft/world/level/storage/PlayerDataStorage.java
+@@ -38,6 +38,7 @@ public class PlayerDataStorage {
      }
  
-     public void save(EntityHuman entityhuman) {
+     public void save(Player player) {
 +        if (org.spigotmc.SpigotConfig.disablePlayerDataSaving) return; // Spigot
-         try (ProblemReporter.j problemreporter_j = new ProblemReporter.j(entityhuman.problemPath(), WorldNBTStorage.LOGGER)) {
-             TagValueOutput tagvalueoutput = TagValueOutput.createWithContext(problemreporter_j, entityhuman.registryAccess());
+         try (ProblemReporter.ScopedCollector problemreporter_scopedcollector = new ProblemReporter.ScopedCollector(player.problemPath(), PlayerDataStorage.LOGGER)) {
+             TagValueOutput tagvalueoutput = TagValueOutput.createWithContext(problemreporter_scopedcollector, player.registryAccess());
  
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 6502572f5..5e7ec9919 100644
+index 8649678902..898b379e21 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -396,4 +396,9 @@ public class SpigotConfig

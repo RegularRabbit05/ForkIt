@@ -1,14 +1,14 @@
-From a0acf0f28f8370eb39734079f5fe9cbbaa86475d Mon Sep 17 00:00:00 2001
+From 0f885b3471bb3185bbb1a57b5359a0c04a0ac1e1 Mon Sep 17 00:00:00 2001
 From: DerFlash <bte@freenet.de>
 Date: Tue, 9 Jul 2013 00:11:12 +0200
 Subject: [PATCH] Save ticks lived to nbttag
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 04a956fe2..686da54a1 100644
+index 653b2531bb..12fdc7c265 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -2414,6 +2414,7 @@ public abstract class Entity implements SyncedDataHolder, DebugValueSource, INam
+@@ -2412,6 +2412,7 @@ public abstract class Entity implements Nameable, EntityAccess, ScoreHolder, Syn
              if (maxAirTicks != getDefaultMaxAirSupply()) {
                  valueoutput.putInt("Bukkit.MaxAirSupply", getMaxAirSupply());
              }
@@ -16,12 +16,12 @@ index 04a956fe2..686da54a1 100644
              // CraftBukkit end
              valueoutput.storeNullable("CustomName", ComponentSerialization.CODEC, this.getCustomName());
              if (this.isCustomNameVisible()) {
-@@ -2538,6 +2539,11 @@ public abstract class Entity implements SyncedDataHolder, DebugValueSource, INam
+@@ -2536,6 +2537,11 @@ public abstract class Entity implements Nameable, EntityAccess, ScoreHolder, Syn
              }
  
              // CraftBukkit start
 +            // Spigot start
-+            if (this instanceof EntityLiving) {
++            if (this instanceof LivingEntity) {
 +                this.tickCount = valueinput.getIntOr("Spigot.ticksLived", this.tickCount);
 +            }
 +            // Spigot end

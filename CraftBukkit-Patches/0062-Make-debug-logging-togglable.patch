@@ -1,17 +1,17 @@
-From 1ce5d3a489e99c09d76e068a382ebe4eeb57a83d Mon Sep 17 00:00:00 2001
+From 308341bab997078ad96d7773afc94d1af4b3febb Mon Sep 17 00:00:00 2001
 From: Minecrell <dev@minecrell.net>
 Date: Sun, 17 Aug 2014 12:42:53 +0200
 Subject: [PATCH] Make debug logging togglable.
 
 
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index e12a5df12..11a716f91 100644
+index a955d40851..ac9d222e8a 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
-@@ -18,6 +18,9 @@ import net.minecraft.resources.MinecraftKey;
+@@ -18,6 +18,9 @@ import net.minecraft.resources.Identifier;
  import net.minecraft.server.MinecraftServer;
- import net.minecraft.world.entity.ai.attributes.AttributeRanged;
- import net.minecraft.world.entity.ai.attributes.GenericAttributes;
+ import net.minecraft.world.entity.ai.attributes.Attributes;
+ import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 +import org.apache.logging.log4j.LogManager;
 +import org.apache.logging.log4j.core.LoggerContext;
 +import org.apache.logging.log4j.core.config.Configuration;
@@ -20,7 +20,7 @@ index e12a5df12..11a716f91 100644
  import org.bukkit.command.Command;
 @@ -356,4 +359,27 @@ public class SpigotConfig
          attackDamage = getDouble( "settings.attribute.attackDamage.max", attackDamage );
-         ( (AttributeRanged) GenericAttributes.ATTACK_DAMAGE.value() ).maxValue = attackDamage;
+         ( (RangedAttribute) Attributes.ATTACK_DAMAGE.value() ).maxValue = attackDamage;
      }
 +
 +    public static boolean debug;
@@ -47,7 +47,7 @@ index e12a5df12..11a716f91 100644
 +    }
  }
 diff --git a/src/main/resources/log4j2.xml b/src/main/resources/log4j2.xml
-index edbd70b16..0ff3f750f 100644
+index edbd70b164..0ff3f750fb 100644
 --- a/src/main/resources/log4j2.xml
 +++ b/src/main/resources/log4j2.xml
 @@ -24,10 +24,10 @@

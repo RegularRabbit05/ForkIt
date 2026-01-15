@@ -1,11 +1,11 @@
-From a7ec4afacdeee5dd8954379cfb5a82254cd68f9e Mon Sep 17 00:00:00 2001
+From a044ba2a7718e73e7a4f7457ce80d64a73a03472 Mon Sep 17 00:00:00 2001
 From: Suddenly <suddenly@suddenly.coffee>
 Date: Tue, 8 Jul 2014 09:44:18 +1000
 Subject: [PATCH] Safer JSON Loading
 
 
 diff --git a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
-index 9742665f6..a38b2af58 100644
+index b3cf5e271a..e49be6cafb 100644
 --- a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
 +++ b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
 @@ -176,6 +176,11 @@ public class CachedUserNameToIdResolver implements UserNameToIdResolver {
@@ -20,12 +20,12 @@ index 9742665f6..a38b2af58 100644
          } catch (JsonParseException | IOException ioexception) {
              CachedUserNameToIdResolver.LOGGER.warn("Failed to load profile cache {}", this.file, ioexception);
          }
-diff --git a/src/main/java/net/minecraft/server/players/JsonList.java b/src/main/java/net/minecraft/server/players/JsonList.java
-index ac2aa3937..2db298b88 100644
---- a/src/main/java/net/minecraft/server/players/JsonList.java
-+++ b/src/main/java/net/minecraft/server/players/JsonList.java
-@@ -171,6 +171,14 @@ public abstract class JsonList<K, V extends JsonListEntry<K>> {
-                         this.map.put(this.getKeyForUser(jsonlistentry.getUser()), (V) jsonlistentry); // CraftBukkit - decompile error
+diff --git a/src/main/java/net/minecraft/server/players/StoredUserList.java b/src/main/java/net/minecraft/server/players/StoredUserList.java
+index ad82e7c0a9..044c85bcab 100644
+--- a/src/main/java/net/minecraft/server/players/StoredUserList.java
++++ b/src/main/java/net/minecraft/server/players/StoredUserList.java
+@@ -171,6 +171,14 @@ public abstract class StoredUserList<K, V extends StoredUserEntry<K>> {
+                         this.map.put(this.getKeyForUser(storeduserentry.getUser()), (V) storeduserentry); // CraftBukkit - decompile error
                      }
                  }
 +            // Spigot Start

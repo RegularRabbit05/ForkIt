@@ -1,16 +1,16 @@
-From 322a7cff8c23316a5a2523d2ffdafaf31e2efe6f Mon Sep 17 00:00:00 2001
+From 6c3ce697090074b21872035bcb7445ec447b4b82 Mon Sep 17 00:00:00 2001
 From: ninja <xninja@openmailbox.org>
 Date: Tue, 8 Apr 2014 14:05:19 +0200
 Subject: [PATCH] Implement PlayerSpawnLocationEvent.
 
 
 diff --git a/src/main/java/net/minecraft/server/network/config/PrepareSpawnTask.java b/src/main/java/net/minecraft/server/network/config/PrepareSpawnTask.java
-index e47b906ce..145ea34d0 100644
+index a6657943ed..2bf8d40e7d 100644
 --- a/src/main/java/net/minecraft/server/network/config/PrepareSpawnTask.java
 +++ b/src/main/java/net/minecraft/server/network/config/PrepareSpawnTask.java
 @@ -32,6 +32,11 @@ import org.slf4j.Logger;
  import net.minecraft.resources.ResourceKey;
- import net.minecraft.world.level.World;
+ import net.minecraft.world.level.Level;
  // CraftBukkit end
 +// Spigot start
 +import org.bukkit.Location;
@@ -21,24 +21,24 @@ index e47b906ce..145ea34d0 100644
  public class PrepareSpawnTask implements ConfigurationTask {
  
 @@ -221,6 +226,18 @@ public class PrepareSpawnTask implements ConfigurationTask {
-                 Objects.requireNonNull(entityplayer);
-                 optional.ifPresent(entityplayer::load);
-                 entityplayer.snapTo(this.spawnPosition, this.spawnAngle.x, this.spawnAngle.y);
+                 Objects.requireNonNull(serverplayer);
+                 optional.ifPresent(serverplayer::load);
+                 serverplayer.snapTo(this.spawnPosition, this.spawnAngle.x, this.spawnAngle.y);
 +                // Spigot start - spawn location event
-+                Player spawnPlayer = entityplayer.getBukkitEntity();
++                Player spawnPlayer = serverplayer.getBukkitEntity();
 +                org.spigotmc.event.player.PlayerSpawnLocationEvent ev = new org.spigotmc.event.player.PlayerSpawnLocationEvent(spawnPlayer, spawnPlayer.getLocation());
 +                spawnPlayer.getServer().getPluginManager().callEvent(ev);
 +
 +                Location loc = ev.getSpawnLocation();
-+                WorldServer spawnWorld = ((CraftWorld) loc.getWorld()).getHandle();
++                ServerLevel spawnWorld = ((CraftWorld) loc.getWorld()).getHandle();
 +
-+                entityplayer.spawnIn(spawnWorld, true);
-+                entityplayer.gameMode.setLevel((WorldServer) entityplayer.level());
-+                entityplayer.absSnapTo(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
++                serverplayer.spawnIn(spawnWorld, true);
++                serverplayer.gameMode.setLevel((ServerLevel) serverplayer.level());
++                serverplayer.absSnapTo(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
 +                // Spigot end
-                 PrepareSpawnTask.this.server.getPlayerList().placeNewPlayer(networkmanager, entityplayer, commonlistenercookie);
+                 PrepareSpawnTask.this.server.getPlayerList().placeNewPlayer(connection, serverplayer, commonlistenercookie);
                  optional.ifPresent((valueinput) -> {
-                     entityplayer.loadAndSpawnEnderPearls(valueinput);
+                     serverplayer.loadAndSpawnEnderPearls(valueinput);
 -- 
 2.52.0
 

@@ -1,14 +1,14 @@
-From 67b165295cf60b160edbd27f330bc411da5e5332 Mon Sep 17 00:00:00 2001
+From 6c6732f0f07db6f8106cc3ddeb4884a3dcbfd70a Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 26 Jan 2014 21:48:34 +1100
 Subject: [PATCH] Configurable Ping Sample Size
 
 
-diff --git a/src/main/java/net/minecraft/server/network/PacketStatusListener.java b/src/main/java/net/minecraft/server/network/PacketStatusListener.java
-index f75c7ca7d..abc4892da 100644
---- a/src/main/java/net/minecraft/server/network/PacketStatusListener.java
-+++ b/src/main/java/net/minecraft/server/network/PacketStatusListener.java
-@@ -134,6 +134,13 @@ public class PacketStatusListener implements PacketStatusInListener {
+diff --git a/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
+index 61b319ee56..13bc59ebde 100644
+--- a/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
+@@ -133,6 +133,13 @@ public class ServerStatusPacketListenerImpl implements ServerStatusPacketListene
                  }
              }
  
@@ -19,11 +19,11 @@ index f75c7ca7d..abc4892da 100644
 +                profiles = profiles.subList( 0, Math.min( profiles.size(), org.spigotmc.SpigotConfig.playerSample ) ); // Cap the sample to n (or less) displayed players, ie: Vanilla behaviour
 +            }
 +            // Spigot End
-             ServerPing.ServerPingPlayerSample playerSample = new ServerPing.ServerPingPlayerSample(event.getMaxPlayers(), event.getNumPlayers(), (server.hidesOnlinePlayers()) ? Collections.emptyList() : profiles);
+             ServerStatus.Players playerSample = new ServerStatus.Players(event.getMaxPlayers(), event.getNumPlayers(), (server.hidesOnlinePlayers()) ? Collections.emptyList() : profiles);
  
-             ServerPing ping = new ServerPing(
+             ServerStatus ping = new ServerStatus(
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index cf09bd207..175b389e5 100644
+index 418e99b407..cabfecd2a4 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -271,4 +271,11 @@ public class SpigotConfig

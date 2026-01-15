@@ -1,4 +1,4 @@
-From 6d96a37f77a6327551f994299bab14dcf6e7a17a Mon Sep 17 00:00:00 2001
+From fc114f7271a291cad1cedf24851afcb63f30fcc1 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Sat, 2 Nov 2024 18:16:11 +1100
 Subject: [PATCH] Entity Activation Range
@@ -8,19 +8,19 @@ This feature gives 3 new configurable ranges that if an entity of the matching t
 This will drastically cut down on tick timings for entities that are not in range of a user to actually be "used".
 This change can have dramatic impact on gameplay if configured too low. Balance according to your servers desired gameplay.
 
-diff --git a/src/main/java/net/minecraft/server/level/WorldServer.java b/src/main/java/net/minecraft/server/level/WorldServer.java
-index 9c86f033a..c6a574989 100644
---- a/src/main/java/net/minecraft/server/level/WorldServer.java
-+++ b/src/main/java/net/minecraft/server/level/WorldServer.java
-@@ -452,6 +452,7 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
-                 gameprofilerfiller.pop();
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index 93e3299f6c..9619654006 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -451,6 +451,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+                 profilerfiller.pop();
              }
  
 +            org.spigotmc.ActivationRange.activateEntities(this); // Spigot
              timings.entityTick.startTiming(); // Spigot
              this.entityTickList.forEach((entity) -> {
                  if (!entity.isRemoved()) {
-@@ -926,6 +927,13 @@ public class WorldServer extends World implements ServerEntityGetter, GeneratorA
+@@ -925,6 +926,13 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      }
  
      public void tickNonPassenger(Entity entity) {
@@ -33,44 +33,13 @@ index 9c86f033a..c6a574989 100644
 +        // Spigot end
          entity.tickTimer.startTiming(); // Spigot
          entity.setOldPosAndRot();
-         GameProfilerFiller gameprofilerfiller = Profiler.get();
-diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 0c9d9af81..04a956fe2 100644
---- a/src/main/java/net/minecraft/world/entity/Entity.java
-+++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -367,6 +367,12 @@ public abstract class Entity implements SyncedDataHolder, DebugValueSource, INam
-     // Main use case currently is for SPIGOT-7487, preventing dropping of leash when leash is removed
-     public boolean pluginRemoved = false;
-     public CustomTimingsHandler tickTimer = org.bukkit.craftbukkit.SpigotTimings.getEntityTimings(this); // Spigot
-+    // Spigot start
-+    public final org.spigotmc.ActivationRange.ActivationType activationType = org.spigotmc.ActivationRange.initializeEntityActivationType(this);
-+    public final boolean defaultActivationState;
-+    public long activatedTick = Integer.MIN_VALUE;
-+    public void inactiveTick() { }
-+    // Spigot end
- 
-     public float getBukkitYaw() {
-         return this.yRot;
-@@ -409,6 +415,13 @@ public abstract class Entity implements SyncedDataHolder, DebugValueSource, INam
-         this.position = Vec3D.ZERO;
-         this.blockPosition = BlockPosition.ZERO;
-         this.chunkPosition = ChunkCoordIntPair.ZERO;
-+        // Spigot start
-+        if (world != null) {
-+            this.defaultActivationState = org.spigotmc.ActivationRange.initializeEntityActivationState(this, world.spigotConfig);
-+        } else {
-+            this.defaultActivationState = false;
-+        }
-+        // Spigot end
-         DataWatcher.a datawatcher_a = new DataWatcher.a(this);
- 
-         datawatcher_a.define(Entity.DATA_SHARED_FLAGS_ID, (byte) 0);
-diff --git a/src/main/java/net/minecraft/world/entity/EntityAgeable.java b/src/main/java/net/minecraft/world/entity/EntityAgeable.java
-index a890c2034..c07e6299e 100644
---- a/src/main/java/net/minecraft/world/entity/EntityAgeable.java
-+++ b/src/main/java/net/minecraft/world/entity/EntityAgeable.java
-@@ -30,6 +30,31 @@ public abstract class EntityAgeable extends EntityCreature {
-         super(entitytypes, world);
+         ProfilerFiller profilerfiller = Profiler.get();
+diff --git a/src/main/java/net/minecraft/world/entity/AgeableMob.java b/src/main/java/net/minecraft/world/entity/AgeableMob.java
+index 69a2cef858..4f54f9d61a 100644
+--- a/src/main/java/net/minecraft/world/entity/AgeableMob.java
++++ b/src/main/java/net/minecraft/world/entity/AgeableMob.java
+@@ -30,6 +30,31 @@ public abstract class AgeableMob extends PathfinderMob {
+         super(entitytype, level);
      }
  
 +    // Spigot start
@@ -99,13 +68,13 @@ index a890c2034..c07e6299e 100644
 +    // Spigot end
 +
      @Override
-     public @Nullable GroupDataEntity finalizeSpawn(WorldAccess worldaccess, DifficultyDamageScaler difficultydamagescaler, EntitySpawnReason entityspawnreason, @Nullable GroupDataEntity groupdataentity) {
-         if (groupdataentity == null) {
-diff --git a/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java b/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
-index b17f1219a..bccc6858a 100644
---- a/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
-+++ b/src/main/java/net/minecraft/world/entity/EntityAreaEffectCloud.java
-@@ -163,6 +163,18 @@ public class EntityAreaEffectCloud extends Entity implements TraceableEntity {
+     public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor serverlevelaccessor, DifficultyInstance difficultyinstance, EntitySpawnReason entityspawnreason, @Nullable SpawnGroupData spawngroupdata) {
+         if (spawngroupdata == null) {
+diff --git a/src/main/java/net/minecraft/world/entity/AreaEffectCloud.java b/src/main/java/net/minecraft/world/entity/AreaEffectCloud.java
+index d233de5a7a..de255b35a1 100644
+--- a/src/main/java/net/minecraft/world/entity/AreaEffectCloud.java
++++ b/src/main/java/net/minecraft/world/entity/AreaEffectCloud.java
+@@ -162,6 +162,18 @@ public class AreaEffectCloud extends Entity implements TraceableEntity {
          this.duration = i;
      }
  
@@ -124,11 +93,42 @@ index b17f1219a..bccc6858a 100644
      @Override
      public void tick() {
          super.tick();
-diff --git a/src/main/java/net/minecraft/world/entity/EntityLiving.java b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-index 93a2e43fa..f6d5e4b4c 100644
---- a/src/main/java/net/minecraft/world/entity/EntityLiving.java
-+++ b/src/main/java/net/minecraft/world/entity/EntityLiving.java
-@@ -308,6 +308,13 @@ public abstract class EntityLiving extends Entity implements Attackable, Waypoin
+diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
+index d21c73fcd9..653b2531bb 100644
+--- a/src/main/java/net/minecraft/world/entity/Entity.java
++++ b/src/main/java/net/minecraft/world/entity/Entity.java
+@@ -365,6 +365,12 @@ public abstract class Entity implements Nameable, EntityAccess, ScoreHolder, Syn
+     // Main use case currently is for SPIGOT-7487, preventing dropping of leash when leash is removed
+     public boolean pluginRemoved = false;
+     public CustomTimingsHandler tickTimer = org.bukkit.craftbukkit.SpigotTimings.getEntityTimings(this); // Spigot
++    // Spigot start
++    public final org.spigotmc.ActivationRange.ActivationType activationType = org.spigotmc.ActivationRange.initializeEntityActivationType(this);
++    public final boolean defaultActivationState;
++    public long activatedTick = Integer.MIN_VALUE;
++    public void inactiveTick() { }
++    // Spigot end
+ 
+     public float getBukkitYaw() {
+         return this.yRot;
+@@ -407,6 +413,13 @@ public abstract class Entity implements Nameable, EntityAccess, ScoreHolder, Syn
+         this.position = Vec3.ZERO;
+         this.blockPosition = BlockPos.ZERO;
+         this.chunkPosition = ChunkPos.ZERO;
++        // Spigot start
++        if (level != null) {
++            this.defaultActivationState = org.spigotmc.ActivationRange.initializeEntityActivationState(this, level.spigotConfig);
++        } else {
++            this.defaultActivationState = false;
++        }
++        // Spigot end
+         SynchedEntityData.Builder synchedentitydata_builder = new SynchedEntityData.Builder(this);
+ 
+         synchedentitydata_builder.define(Entity.DATA_SHARED_FLAGS_ID, (byte) 0);
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index efc7a8ee62..169142e8bb 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -303,6 +303,13 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
          return getYHeadRot();
      }
      // CraftBukkit end
@@ -140,13 +140,13 @@ index 93a2e43fa..f6d5e4b4c 100644
 +    }
 +    // Spigot end
  
-     protected EntityLiving(EntityTypes<? extends EntityLiving> entitytypes, World world) {
-         super(entitytypes, world);
-diff --git a/src/main/java/net/minecraft/world/entity/item/EntityItem.java b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-index 4dd63390b..3fa09c21a 100644
---- a/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-+++ b/src/main/java/net/minecraft/world/entity/item/EntityItem.java
-@@ -206,6 +206,28 @@ public class EntityItem extends Entity implements TraceableEntity {
+     protected LivingEntity(EntityType<? extends LivingEntity> entitytype, Level level) {
+         super(entitytype, level);
+diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
+index 1927192f61..90d67db595 100644
+--- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
++++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
+@@ -205,6 +205,28 @@ public class ItemEntity extends Entity implements TraceableEntity {
          }
      }
  
@@ -173,13 +173,13 @@ index 4dd63390b..3fa09c21a 100644
 +    // Spigot end
 +
      @Override
-     public BlockPosition getBlockPosBelowThatAffectsMyMovement() {
+     public BlockPos getBlockPosBelowThatAffectsMyMovement() {
          return this.getOnPos(0.999999F);
-diff --git a/src/main/java/net/minecraft/world/entity/npc/villager/EntityVillager.java b/src/main/java/net/minecraft/world/entity/npc/villager/EntityVillager.java
-index 39300a17b..a56f00d69 100644
---- a/src/main/java/net/minecraft/world/entity/npc/villager/EntityVillager.java
-+++ b/src/main/java/net/minecraft/world/entity/npc/villager/EntityVillager.java
-@@ -245,6 +245,17 @@ public class EntityVillager extends EntityVillagerAbstract implements Reputation
+diff --git a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
+index f43fec707e..bda15bdbfb 100644
+--- a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
++++ b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
+@@ -242,6 +242,17 @@ public class Villager extends AbstractVillager implements VillagerDataHolder, Re
          return this.assignProfessionWhenSpawned;
      }
  
@@ -188,20 +188,20 @@ index 39300a17b..a56f00d69 100644
 +    public void inactiveTick() {
 +        // SPIGOT-3874, SPIGOT-3894, SPIGOT-3846, SPIGOT-5286 :(
 +        if (this.level().spigotConfig.tickInactiveVillagers && this.isEffectiveAi()) {
-+            this.customServerAiStep((WorldServer) this.level());
++            this.customServerAiStep((ServerLevel) this.level());
 +        }
 +        super.inactiveTick();
 +    }
 +    // Spigot End
 +
      @Override
-     protected void customServerAiStep(WorldServer worldserver) {
-         GameProfilerFiller gameprofilerfiller = Profiler.get();
-diff --git a/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java b/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java
-index dd7734886..9880dd1f1 100644
---- a/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java
-+++ b/src/main/java/net/minecraft/world/entity/projectile/EntityFireworks.java
-@@ -94,6 +94,28 @@ public class EntityFireworks extends IProjectile implements ItemSupplier {
+     protected void customServerAiStep(ServerLevel serverlevel) {
+         ProfilerFiller profilerfiller = Profiler.get();
+diff --git a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
+index 5300e09a0e..aa53ac42c9 100644
+--- a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
++++ b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
+@@ -94,6 +94,28 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
          this.setOwner(entity);
      }
  
@@ -211,14 +211,14 @@ index dd7734886..9880dd1f1 100644
 +        this.life += 1;
 +
 +        if (this.life > this.lifetime) {
-+            World world = this.level();
++            Level level = this.level();
 +
-+            if (world instanceof WorldServer) {
-+                WorldServer worldserver = (WorldServer) world;
++            if (level instanceof ServerLevel) {
++                ServerLevel serverlevel = (ServerLevel) level;
 +
 +                // CraftBukkit start
 +                if (!org.bukkit.craftbukkit.event.CraftEventFactory.callFireworkExplodeEvent(this).isCancelled()) {
-+                    this.explode(worldserver);
++                    this.explode(serverlevel);
 +                }
 +                // CraftBukkit end
 +            }
@@ -228,13 +228,13 @@ index dd7734886..9880dd1f1 100644
 +    // Spigot End
 +
      @Override
-     protected void defineSynchedData(DataWatcher.a datawatcher_a) {
-         datawatcher_a.define(EntityFireworks.DATA_ID_FIREWORKS_ITEM, getDefaultItem());
-diff --git a/src/main/java/net/minecraft/world/entity/projectile/arrow/EntityArrow.java b/src/main/java/net/minecraft/world/entity/projectile/arrow/EntityArrow.java
-index acbff0d20..c0eb561a2 100644
---- a/src/main/java/net/minecraft/world/entity/projectile/arrow/EntityArrow.java
-+++ b/src/main/java/net/minecraft/world/entity/projectile/arrow/EntityArrow.java
-@@ -88,6 +88,18 @@ public abstract class EntityArrow extends IProjectile {
+     protected void defineSynchedData(SynchedEntityData.Builder synchedentitydata_builder) {
+         synchedentitydata_builder.define(FireworkRocketEntity.DATA_ID_FIREWORKS_ITEM, getDefaultItem());
+diff --git a/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java b/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
+index d08aef2698..8a80b7dc3a 100644
+--- a/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
++++ b/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
+@@ -88,6 +88,18 @@ public abstract class AbstractArrow extends Projectile {
      public ItemStack pickupItemStack;
      public @Nullable ItemStack firedFromWeapon;
  
@@ -250,11 +250,11 @@ index acbff0d20..c0eb561a2 100644
 +    }
 +    // Spigot End
 +
-     protected EntityArrow(EntityTypes<? extends EntityArrow> entitytypes, World world) {
-         super(entitytypes, world);
-         this.pickup = EntityArrow.PickupStatus.DISALLOWED;
+     protected AbstractArrow(EntityType<? extends AbstractArrow> entitytype, Level level) {
+         super(entitytype, level);
+         this.pickup = AbstractArrow.Pickup.DISALLOWED;
 diff --git a/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java b/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java
-index aff7b6b43..d3328a695 100644
+index 52f54c2e07..56b644e272 100644
 --- a/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java
 +++ b/src/main/java/org/bukkit/craftbukkit/SpigotTimings.java
 @@ -39,6 +39,9 @@ public class SpigotTimings {
@@ -269,7 +269,7 @@ index aff7b6b43..d3328a695 100644
      public static final HashMap<String, CustomTimingsHandler> pluginTaskTimingMap = new HashMap<String, CustomTimingsHandler>();
 diff --git a/src/main/java/org/spigotmc/ActivationRange.java b/src/main/java/org/spigotmc/ActivationRange.java
 new file mode 100644
-index 000000000..6b5181fab
+index 0000000000..82566467ae
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/ActivationRange.java
 @@ -0,0 +1,268 @@
@@ -277,32 +277,32 @@ index 000000000..6b5181fab
 +
 +import net.minecraft.server.MinecraftServer;
 +import net.minecraft.world.entity.Entity;
-+import net.minecraft.world.entity.EntityCreature;
-+import net.minecraft.world.entity.EntityExperienceOrb;
-+import net.minecraft.world.entity.EntityLightning;
-+import net.minecraft.world.entity.EntityLiving;
-+import net.minecraft.world.entity.ambient.EntityAmbient;
-+import net.minecraft.world.entity.animal.EntityAnimal;
-+import net.minecraft.world.entity.animal.sheep.EntitySheep;
-+import net.minecraft.world.entity.boss.enderdragon.EntityComplexPart;
-+import net.minecraft.world.entity.boss.enderdragon.EntityEnderCrystal;
-+import net.minecraft.world.entity.boss.enderdragon.EntityEnderDragon;
-+import net.minecraft.world.entity.boss.wither.EntityWither;
-+import net.minecraft.world.entity.item.EntityItem;
-+import net.minecraft.world.entity.item.EntityTNTPrimed;
-+import net.minecraft.world.entity.monster.EntityCreeper;
-+import net.minecraft.world.entity.monster.EntityMonster;
-+import net.minecraft.world.entity.monster.EntitySlime;
-+import net.minecraft.world.entity.npc.villager.EntityVillager;
-+import net.minecraft.world.entity.player.EntityHuman;
-+import net.minecraft.world.entity.projectile.EntityFireworks;
-+import net.minecraft.world.entity.projectile.EntityProjectile;
-+import net.minecraft.world.entity.projectile.arrow.EntityArrow;
-+import net.minecraft.world.entity.projectile.arrow.EntityThrownTrident;
-+import net.minecraft.world.entity.projectile.hurtingprojectile.EntityFireball;
-+import net.minecraft.world.entity.raid.EntityRaider;
-+import net.minecraft.world.level.World;
-+import net.minecraft.world.phys.AxisAlignedBB;
++import net.minecraft.world.entity.ExperienceOrb;
++import net.minecraft.world.entity.LightningBolt;
++import net.minecraft.world.entity.LivingEntity;
++import net.minecraft.world.entity.PathfinderMob;
++import net.minecraft.world.entity.ambient.AmbientCreature;
++import net.minecraft.world.entity.animal.Animal;
++import net.minecraft.world.entity.animal.sheep.Sheep;
++import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
++import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
++import net.minecraft.world.entity.boss.enderdragon.EnderDragonPart;
++import net.minecraft.world.entity.boss.wither.WitherBoss;
++import net.minecraft.world.entity.item.ItemEntity;
++import net.minecraft.world.entity.item.PrimedTnt;
++import net.minecraft.world.entity.monster.Creeper;
++import net.minecraft.world.entity.monster.Monster;
++import net.minecraft.world.entity.monster.Slime;
++import net.minecraft.world.entity.npc.villager.Villager;
++import net.minecraft.world.entity.player.Player;
++import net.minecraft.world.entity.projectile.FireworkRocketEntity;
++import net.minecraft.world.entity.projectile.ThrowableProjectile;
++import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
++import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
++import net.minecraft.world.entity.projectile.hurtingprojectile.AbstractHurtingProjectile;
++import net.minecraft.world.entity.raid.Raider;
++import net.minecraft.world.level.Level;
++import net.minecraft.world.phys.AABB;
 +import org.bukkit.craftbukkit.SpigotTimings;
 +
 +public class ActivationRange
@@ -315,10 +315,10 @@ index 000000000..6b5181fab
 +        RAIDER,
 +        MISC;
 +
-+        AxisAlignedBB boundingBox = new AxisAlignedBB( 0, 0, 0, 0, 0, 0 );
++        AABB boundingBox = new AABB( 0, 0, 0, 0, 0, 0 );
 +    }
 +
-+    static AxisAlignedBB maxBB = new AxisAlignedBB( 0, 0, 0, 0, 0, 0 );
++    static AABB maxBB = new AABB( 0, 0, 0, 0, 0, 0 );
 +
 +    /**
 +     * Initializes an entities type on construction to specify what group this
@@ -329,13 +329,13 @@ index 000000000..6b5181fab
 +     */
 +    public static ActivationType initializeEntityActivationType(Entity entity)
 +    {
-+        if ( entity instanceof EntityRaider )
++        if ( entity instanceof Raider )
 +        {
 +            return ActivationType.RAIDER;
-+        } else if ( entity instanceof EntityMonster || entity instanceof EntitySlime )
++        } else if ( entity instanceof Monster || entity instanceof Slime )
 +        {
 +            return ActivationType.MONSTER;
-+        } else if ( entity instanceof EntityCreature || entity instanceof EntityAmbient )
++        } else if ( entity instanceof PathfinderMob || entity instanceof AmbientCreature )
 +        {
 +            return ActivationType.ANIMAL;
 +        } else
@@ -362,17 +362,17 @@ index 000000000..6b5181fab
 +                || ( entity.activationType == ActivationType.RAIDER && config.raiderActivationRange == 0 )
 +                || ( entity.activationType == ActivationType.ANIMAL && config.animalActivationRange == 0 )
 +                || ( entity.activationType == ActivationType.MONSTER && config.monsterActivationRange == 0 )
-+                || entity instanceof EntityHuman
-+                || entity instanceof EntityProjectile
-+                || entity instanceof EntityEnderDragon
-+                || entity instanceof EntityComplexPart
-+                || entity instanceof EntityWither
-+                || entity instanceof EntityFireball
-+                || entity instanceof EntityLightning
-+                || entity instanceof EntityTNTPrimed
-+                || entity instanceof EntityEnderCrystal
-+                || entity instanceof EntityFireworks
-+                || entity instanceof EntityThrownTrident )
++                || entity instanceof Player
++                || entity instanceof ThrowableProjectile
++                || entity instanceof EnderDragon
++                || entity instanceof EnderDragonPart
++                || entity instanceof WitherBoss
++                || entity instanceof AbstractHurtingProjectile
++                || entity instanceof LightningBolt
++                || entity instanceof PrimedTnt
++                || entity instanceof EndCrystal
++                || entity instanceof FireworkRocketEntity
++                || entity instanceof ThrownTrident )
 +        {
 +            return true;
 +        }
@@ -386,23 +386,23 @@ index 000000000..6b5181fab
 +     *
 +     * @param world
 +     */
-+    public static void activateEntities(World world)
++    public static void activateEntities(Level level)
 +    {
 +        SpigotTimings.entityActivationCheckTimer.startTiming();
-+        final int miscActivationRange = world.spigotConfig.miscActivationRange;
-+        final int raiderActivationRange = world.spigotConfig.raiderActivationRange;
-+        final int animalActivationRange = world.spigotConfig.animalActivationRange;
-+        final int monsterActivationRange = world.spigotConfig.monsterActivationRange;
++        final int miscActivationRange = level.spigotConfig.miscActivationRange;
++        final int raiderActivationRange = level.spigotConfig.raiderActivationRange;
++        final int animalActivationRange = level.spigotConfig.animalActivationRange;
++        final int monsterActivationRange = level.spigotConfig.monsterActivationRange;
 +
 +        int maxRange = Math.max( monsterActivationRange, animalActivationRange );
 +        maxRange = Math.max( maxRange, raiderActivationRange );
 +        maxRange = Math.max( maxRange, miscActivationRange );
-+        maxRange = Math.min( ( world.spigotConfig.simulationDistance << 4 ) - 8, maxRange );
++        maxRange = Math.min( ( level.spigotConfig.simulationDistance << 4 ) - 8, maxRange );
 +
-+        for ( EntityHuman player : world.players() )
++        for ( Player player : level.players() )
 +        {
 +            player.activatedTick = MinecraftServer.currentTick;
-+            if ( world.spigotConfig.ignoreSpectatorActivation && player.isSpectator() )
++            if ( level.spigotConfig.ignoreSpectatorActivation && player.isSpectator() )
 +            {
 +                continue;
 +            }
@@ -413,7 +413,7 @@ index 000000000..6b5181fab
 +            ActivationType.ANIMAL.boundingBox = player.getBoundingBox().inflate( animalActivationRange, 256, animalActivationRange );
 +            ActivationType.MONSTER.boundingBox = player.getBoundingBox().inflate( monsterActivationRange, 256, monsterActivationRange );
 +
-+            world.getEntities().get(maxBB, ActivationRange::activateEntity);
++            level.getEntities().get(maxBB, ActivationRange::activateEntity);
 +        }
 +        SpigotTimings.entityActivationCheckTimer.stopTiming();
 +    }
@@ -453,50 +453,50 @@ index 000000000..6b5181fab
 +        {
 +            return true;
 +        }
-+        if ( !( entity instanceof EntityArrow ) )
++        if ( !( entity instanceof AbstractArrow ) )
 +        {
 +            if ( !entity.onGround() || !entity.passengers.isEmpty() || entity.isPassenger() )
 +            {
 +                return true;
 +            }
-+        } else if ( !( (EntityArrow) entity ).isInGround() )
++        } else if ( !( (AbstractArrow) entity ).isInGround() )
 +        {
 +            return true;
 +        }
 +        // special cases.
-+        if ( entity instanceof EntityLiving )
++        if ( entity instanceof LivingEntity )
 +        {
-+            EntityLiving living = (EntityLiving) entity;
++            LivingEntity living = (LivingEntity) entity;
 +            if ( /*TODO: Missed mapping? living.attackTicks > 0 || */ living.hurtTime > 0 || living.activeEffects.size() > 0 )
 +            {
 +                return true;
 +            }
-+            if ( entity instanceof EntityCreature && ( (EntityCreature) entity ).getTarget() != null )
++            if ( entity instanceof PathfinderMob && ( (PathfinderMob) entity ).getTarget() != null )
 +            {
 +                return true;
 +            }
-+            if ( entity instanceof EntityVillager && ( (EntityVillager) entity ).canBreed() )
++            if ( entity instanceof Villager && ( (Villager) entity ).canBreed() )
 +            {
 +                return true;
 +            }
-+            if ( entity instanceof EntityAnimal )
++            if ( entity instanceof Animal )
 +            {
-+                EntityAnimal animal = (EntityAnimal) entity;
++                Animal animal = (Animal) entity;
 +                if ( animal.isBaby() || animal.isInLove() )
 +                {
 +                    return true;
 +                }
-+                if ( entity instanceof EntitySheep && ( (EntitySheep) entity ).isSheared() )
++                if ( entity instanceof Sheep && ( (Sheep) entity ).isSheared() )
 +                {
 +                    return true;
 +                }
 +            }
-+            if (entity instanceof EntityCreeper && ((EntityCreeper) entity).isIgnited()) { // isExplosive
++            if (entity instanceof Creeper && ((Creeper) entity).isIgnited()) { // isExplosive
 +                return true;
 +            }
 +        }
 +        // SPIGOT-6644: Otherwise the target refresh tick will be missed
-+        if (entity instanceof EntityExperienceOrb) {
++        if (entity instanceof ExperienceOrb) {
 +            return true;
 +        }
 +        return false;
@@ -512,7 +512,7 @@ index 000000000..6b5181fab
 +    {
 +        SpigotTimings.checkIfActiveTimer.startTiming();
 +        // Never safe to skip fireworks or item gravity
-+        if (entity instanceof EntityFireworks || (entity instanceof EntityItem && (entity.tickCount + entity.getId() + 1) % 4 == 0)) {
++        if (entity instanceof FireworkRocketEntity || (entity instanceof ItemEntity && (entity.tickCount + entity.getId() + 1) % 4 == 0)) {
 +            SpigotTimings.checkIfActiveTimer.stopTiming();
 +            return true;
 +        }
@@ -542,7 +542,7 @@ index 000000000..6b5181fab
 +    }
 +}
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index e3682d28c..936279b5f 100644
+index e3682d28ca..936279b5fb 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -194,4 +194,21 @@ public class SpigotWorldConfig

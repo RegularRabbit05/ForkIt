@@ -1,33 +1,33 @@
-From 26b4073f8caa2b5624696c47840091867113d2dd Mon Sep 17 00:00:00 2001
+From 8f9c26553f2ff936ce0650b2c5d387141028d464 Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Fri, 4 Jul 2014 23:03:13 +0200
 Subject: [PATCH] Make "moved wrongly" limit configurable
 
 
-diff --git a/src/main/java/net/minecraft/server/network/PlayerConnection.java b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-index 8d8be3b85..7e13c5cb6 100644
---- a/src/main/java/net/minecraft/server/network/PlayerConnection.java
-+++ b/src/main/java/net/minecraft/server/network/PlayerConnection.java
-@@ -622,7 +622,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index fd2f2da9bd..d17b50ed4c 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -619,7 +619,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                  boolean flag1 = false;
  
 -                if (d10 > 0.0625D) {
 +                if (d10 > org.spigotmc.SpigotConfig.movedWronglyThreshold) { // Spigot
                      flag1 = true;
-                     PlayerConnection.LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", new Object[]{entity.getPlainTextName(), this.player.getPlainTextName(), Math.sqrt(d10)});
+                     ServerGamePacketListenerImpl.LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", new Object[]{entity.getPlainTextName(), this.player.getPlainTextName(), Math.sqrt(d10)});
                  }
-@@ -1455,7 +1455,7 @@ public class PlayerConnection extends ServerCommonPacketListenerImpl implements
+@@ -1452,7 +1452,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                                  boolean flag3 = false;
  
 -                                if (!this.player.isChangingDimension() && d10 > 0.0625D && !this.player.isSleeping() && !this.player.isCreative() && !this.player.isSpectator() && !this.player.isInPostImpulseGraceTime()) {
 +                                if (!this.player.isChangingDimension() && d10 > org.spigotmc.SpigotConfig.movedWronglyThreshold && !this.player.isSleeping() && !this.player.isCreative() && !this.player.isSpectator() && !this.player.isInPostImpulseGraceTime()) { // Spigot
                                      flag3 = true;
-                                     PlayerConnection.LOGGER.warn("{} moved wrongly!", this.player.getPlainTextName());
+                                     ServerGamePacketListenerImpl.LOGGER.warn("{} moved wrongly!", this.player.getPlainTextName());
                                  }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 6dfa89f6f..64156e8c6 100644
+index d830925dbb..37bb28c984 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -326,4 +326,10 @@ public class SpigotConfig
