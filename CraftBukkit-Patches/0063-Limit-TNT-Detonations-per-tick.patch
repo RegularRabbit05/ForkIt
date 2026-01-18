@@ -1,4 +1,4 @@
-From 8126b9b7413b148c9dd4c4384aeee87515ac5cac Mon Sep 17 00:00:00 2001
+From 3a75602eb29f520c83862fee8e444214c02208cd Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Wed, 20 Aug 2014 18:12:32 -0400
 Subject: [PATCH] Limit TNT Detonations per tick
@@ -7,7 +7,7 @@ This gives a per-world control on how much TNT will be processed per-tick,
 preventing a massive TNT detonation from lagging out the server.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java b/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java
-index 8a5b4f3b38..130b81f873 100644
+index 9269eb58b..032e80c1b 100644
 --- a/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java
 +++ b/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java
 @@ -102,6 +102,7 @@ public class PrimedTnt extends Entity implements TraceableEntity {
@@ -19,7 +19,7 @@ index 8a5b4f3b38..130b81f873 100644
          this.applyGravity();
          this.move(MoverType.SELF, this.getDeltaMovement());
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 8d4d2d49ac..bb3fa96938 100644
+index 1753d88d1..e8295a330 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -597,6 +597,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -29,9 +29,9 @@ index 8d4d2d49ac..bb3fa96938 100644
 +        spigotConfig.currentPrimedTnt = 0; // Spigot
      }
  
-     public <T extends Entity> void guardEntityTick(Consumer<T> consumer, T t0) {
+     public <T extends Entity> void guardEntityTick(Consumer<T> tick, T entity) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 1b5d1e2837..8411f9e573 100644
+index 1b5d1e283..8411f9e57 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -356,4 +356,15 @@ public class SpigotWorldConfig

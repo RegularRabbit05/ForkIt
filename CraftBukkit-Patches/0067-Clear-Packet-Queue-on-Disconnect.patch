@@ -1,11 +1,11 @@
-From b3d7f030c636ad7939141fafeedd37bc0d84eb8d Mon Sep 17 00:00:00 2001
+From 6351319e1cd78e6ce0716228d631e3334b7c9693 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Wed, 22 Jul 2015 19:04:37 +1000
 Subject: [PATCH] Clear Packet Queue on Disconnect
 
 
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index fafa7c9544..8d3e452347 100644
+index 735859b05..1f77bbb4c 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -624,6 +624,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
@@ -17,12 +17,12 @@ index fafa7c9544..8d3e452347 100644
              }
          }
 diff --git a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
-index 56911d0ad4..c80c6b5482 100644
+index cfb465ef3..458be83aa 100644
 --- a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
 @@ -269,7 +269,7 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
  
-     public void send(Packet<?> packet, @Nullable ChannelFutureListener channelfuturelistener) {
+     public void send(Packet<?> packet, @Nullable ChannelFutureListener listener) {
          // CraftBukkit start
 -        if (packet == null) {
 +        if (packet == null || this.processedDisconnect) { // Spigot

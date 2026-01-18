@@ -1,17 +1,17 @@
-From fef25c44790e7d494a3e4b7411828d2dd6db94a3 Mon Sep 17 00:00:00 2001
+From b4d3f377450083fe88517b30f3c2166acb7d48f9 Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thethinkofdeath@gmail.com>
 Date: Tue, 7 Jan 2014 15:56:26 +0000
 Subject: [PATCH] Allow statistics to be disabled/forced
 
 
 diff --git a/src/main/java/net/minecraft/stats/ServerStatsCounter.java b/src/main/java/net/minecraft/stats/ServerStatsCounter.java
-index 58f6bd44ef..d7a20b92a3 100644
+index 87573c271..9638f36e6 100644
 --- a/src/main/java/net/minecraft/stats/ServerStatsCounter.java
 +++ b/src/main/java/net/minecraft/stats/ServerStatsCounter.java
 @@ -77,6 +77,13 @@ public class ServerStatsCounter extends StatsCounter {
  
-     public ServerStatsCounter(MinecraftServer minecraftserver, Path path) {
-         this.file = path;
+     public ServerStatsCounter(MinecraftServer server, Path file) {
+         this.file = file;
 +        // Spigot start
 +        for ( Map.Entry<net.minecraft.resources.Identifier, Integer> entry : org.spigotmc.SpigotConfig.forcedStats.entrySet() )
 +        {
@@ -19,8 +19,8 @@ index 58f6bd44ef..d7a20b92a3 100644
 +            this.stats.put( wrapper, entry.getValue().intValue() );
 +        }
 +        // Spigot end
-         if (Files.isRegularFile(path, new LinkOption[0])) {
-             try (Reader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+         if (Files.isRegularFile(file, new LinkOption[0])) {
+             try (Reader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
                  JsonElement jsonelement = StrictJsonParser.parse(reader);
 @@ -92,6 +99,7 @@ public class ServerStatsCounter extends StatsCounter {
      }
@@ -33,13 +33,13 @@ index 58f6bd44ef..d7a20b92a3 100644
 @@ -106,6 +114,7 @@ public class ServerStatsCounter extends StatsCounter {
  
      @Override
-     public void setValue(Player player, Stat<?> stat, int i) {
+     public void setValue(Player player, Stat<?> stat, int count) {
 +        if ( org.spigotmc.SpigotConfig.disableStatSaving ) return; // Spigot
-         super.setValue(player, stat, i);
+         super.setValue(player, stat, count);
          this.dirty.add(stat);
      }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 8091770655..09eb993123 100644
+index 809177065..09eb99312 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -10,10 +10,13 @@ import java.util.HashMap;

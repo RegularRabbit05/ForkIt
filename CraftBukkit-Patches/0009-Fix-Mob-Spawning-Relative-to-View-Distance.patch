@@ -1,4 +1,4 @@
-From 029d86f41a5d2bbe2424ba9e1efa3e0962e1747f Mon Sep 17 00:00:00 2001
+From c881b16f8a624637ef98d63dc0bb29b31cbd2c91 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 17:29:54 +1000
 Subject: [PATCH] Fix Mob Spawning Relative to View Distance
@@ -8,32 +8,32 @@ Changes the mob spawning algorithm to properly account for view distance and the
 Needs better documentation.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 0b0c39855c..dbdca5928c 100644
+index ec4d2d23e..4efa1d36b 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -1065,9 +1065,15 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
      }
  
-     boolean anyPlayerCloseEnoughForSpawning(ChunkPos chunkpos) {
+     boolean anyPlayerCloseEnoughForSpawning(ChunkPos pos) {
 +        // Spigot start
-+        return anyPlayerCloseEnoughForSpawning(chunkpos, false);
++        return anyPlayerCloseEnoughForSpawning(pos, false);
 +    }
 +
-+    boolean anyPlayerCloseEnoughForSpawning(ChunkPos chunkpos, boolean reducedRange) {
++    boolean anyPlayerCloseEnoughForSpawning(ChunkPos pos, boolean reducedRange) {
 +        // Spigot end
-         TriState tristate = this.distanceManager.hasPlayersNearby(chunkpos.toLong());
+         TriState tristate = this.distanceManager.hasPlayersNearby(pos.toLong());
  
--        return tristate == TriState.DEFAULT ? this.anyPlayerCloseEnoughForSpawningInternal(chunkpos) : tristate.toBoolean(true);
-+        return tristate == TriState.DEFAULT ? this.anyPlayerCloseEnoughForSpawningInternal(chunkpos, reducedRange) : tristate.toBoolean(true); // Spigot
+-        return tristate == TriState.DEFAULT ? this.anyPlayerCloseEnoughForSpawningInternal(pos) : tristate.toBoolean(true);
++        return tristate == TriState.DEFAULT ? this.anyPlayerCloseEnoughForSpawningInternal(pos, reducedRange) : tristate.toBoolean(true); // Spigot
      }
  
-     boolean anyPlayerCloseEnoughTo(BlockPos blockpos, int i) {
+     boolean anyPlayerCloseEnoughTo(BlockPos pos, int maxDistance) {
 @@ -1083,8 +1089,19 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
      }
  
-     private boolean anyPlayerCloseEnoughForSpawningInternal(ChunkPos chunkpos) {
+     private boolean anyPlayerCloseEnoughForSpawningInternal(ChunkPos pos) {
 +        // Spigot start
-+        return anyPlayerCloseEnoughForSpawningInternal(chunkpos, false);
++        return anyPlayerCloseEnoughForSpawningInternal(pos, false);
 +    }
 +
 +    private boolean anyPlayerCloseEnoughForSpawningInternal(ChunkPos chunkpos, boolean reducedRange) {
@@ -44,7 +44,7 @@ index 0b0c39855c..dbdca5928c 100644
 +        double blockRange = (reducedRange) ? Math.pow(chunkRange << 4, 2) : 16384.0D;
 +        // Spigot end
          for (ServerPlayer serverplayer : this.playerMap.getAllPlayers()) {
--            if (this.playerIsCloseEnoughForSpawning(serverplayer, chunkpos)) {
+-            if (this.playerIsCloseEnoughForSpawning(serverplayer, pos)) {
 +            if (this.playerIsCloseEnoughForSpawning(serverplayer, chunkpos, blockRange)) { // Spigot
                  return true;
              }
@@ -53,8 +53,8 @@ index 0b0c39855c..dbdca5928c 100644
              ImmutableList.Builder<ServerPlayer> immutablelist_builder = ImmutableList.builder();
  
              for (ServerPlayer serverplayer : this.playerMap.getAllPlayers()) {
--                if (this.playerIsCloseEnoughForSpawning(serverplayer, chunkpos)) {
-+                if (this.playerIsCloseEnoughForSpawning(serverplayer, chunkpos, 16384.0D)) { // Spigot
+-                if (this.playerIsCloseEnoughForSpawning(serverplayer, pos)) {
++                if (this.playerIsCloseEnoughForSpawning(serverplayer, pos, 16384.0D)) { // Spigot
                      immutablelist_builder.add(serverplayer);
                  }
              }
@@ -62,12 +62,12 @@ index 0b0c39855c..dbdca5928c 100644
          }
      }
  
--    private boolean playerIsCloseEnoughForSpawning(ServerPlayer serverplayer, ChunkPos chunkpos) {
-+    private boolean playerIsCloseEnoughForSpawning(ServerPlayer serverplayer, ChunkPos chunkpos, double range) { // Spigot
-         if (serverplayer.isSpectator()) {
+-    private boolean playerIsCloseEnoughForSpawning(ServerPlayer player, ChunkPos pos) {
++    private boolean playerIsCloseEnoughForSpawning(ServerPlayer player, ChunkPos pos, double range) { // Spigot
+         if (player.isSpectator()) {
              return false;
          } else {
-             double d0 = euclideanDistanceSquared(chunkpos, serverplayer.position());
+             double d0 = euclideanDistanceSquared(pos, player.position());
  
 -            return d0 < 16384.0D;
 +            return d0 < range; // Spigot
@@ -75,20 +75,20 @@ index 0b0c39855c..dbdca5928c 100644
      }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index a6d528e683..3aff16c92d 100644
+index df4b3f5bd..539ee19d8 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 @@ -471,7 +471,7 @@ public class ServerChunkCache extends ChunkSource {
          }
  
-         if (!list.isEmpty()) {
+         if (!spawningCategories.isEmpty()) {
 -            if (this.level.canSpawnEntitiesInChunk(chunkpos)) {
 +            if (this.level.canSpawnEntitiesInChunk(chunkpos) && this.chunkMap.anyPlayerCloseEnoughForSpawning(chunkpos, true)) { // Spigot
-                 NaturalSpawner.spawnForChunk(this.level, levelchunk, naturalspawner_spawnstate, list);
+                 NaturalSpawner.spawnForChunk(this.level, chunk, spawnCookie, spawningCategories);
              }
  
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index acaf903011..0c0c29efe5 100644
+index acaf90301..0c0c29efe 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -180,4 +180,11 @@ public class SpigotWorldConfig

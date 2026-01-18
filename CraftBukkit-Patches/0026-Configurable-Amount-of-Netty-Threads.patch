@@ -1,4 +1,4 @@
-From e1bb9e656ba59224b1b508057d71c0491798886e Mon Sep 17 00:00:00 2001
+From 4b51e5ce335150203a48432bb17c214a6ad820c3 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 13 Dec 2013 11:58:58 +1100
 Subject: [PATCH] Configurable Amount of Netty Threads
@@ -6,18 +6,18 @@ Subject: [PATCH] Configurable Amount of Netty Threads
 This brings back the option that the Spigot version of netty saw. By default Netty will try and use cores*2 threads, however if running multiple servers on the same machine, this can be too many threads. Additionally some people have 16 core servers. If 32 Netty threads are allowed in this setup, then the lock contention, and thus blocking between threads becomes much greater, leading to decreased performance.
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index f46072a835..adfc8717dc 100644
+index 66e95b2f8..765281e1b 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -380,7 +380,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-             this.packRepository = packrepository;
-             this.resources = new MinecraftServer.ReloadableResources(worldstem.resourceManager(), worldstem.dataPackResources());
+             this.packRepository = packRepository;
+             this.resources = new MinecraftServer.ReloadableResources(worldStem.resourceManager(), worldStem.dataPackResources());
              this.services = services;
 -            this.connection = new ServerConnectionListener(this);
 +            // this.connection = new ServerConnection(this); // Spigot
              this.tickRateManager = new ServerTickRateManager(this);
-             this.levelLoadListener = levelloadlistener;
-             this.storageSource = levelstoragesource_levelstorageaccess;
+             this.levelLoadListener = levelLoadListener;
+             this.storageSource = storageSource;
 @@ -1900,7 +1900,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
@@ -28,7 +28,7 @@ index f46072a835..adfc8717dc 100644
  
      public boolean isReady() {
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 1e6b13103a..8091770655 100644
+index 1e6b13103..809177065 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -224,4 +224,11 @@ public class SpigotConfig

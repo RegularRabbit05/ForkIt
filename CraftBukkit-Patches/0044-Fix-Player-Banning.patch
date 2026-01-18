@@ -1,4 +1,4 @@
-From 6ef7d07460e68d620623648be2a53864bb8c4b6b Mon Sep 17 00:00:00 2001
+From 62a6b333be0ea67c78d4eb65c0eaf9e90f9c5348 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 15 Apr 2014 10:32:48 +1000
 Subject: [PATCH] Fix Player Banning
@@ -6,20 +6,20 @@ Subject: [PATCH] Fix Player Banning
 This issue stems from the fact that Bukkit's API only allows a UUID to be banned, but Minecraft requires both a UUID and name. To fix this we modify the code to require a UUID or a name, or both. The correct fix would be expanding the API to be able to provide a name, however this would require plugin changes.
 
 diff --git a/src/main/java/net/minecraft/server/players/NameAndId.java b/src/main/java/net/minecraft/server/players/NameAndId.java
-index b9c21fb73..07161b61a 100644
+index 7df393b14..9a82a88dd 100644
 --- a/src/main/java/net/minecraft/server/players/NameAndId.java
 +++ b/src/main/java/net/minecraft/server/players/NameAndId.java
 @@ -24,21 +24,30 @@ public record NameAndId(UUID id, String name) {
      }
  
-     public static @Nullable NameAndId fromJson(JsonObject jsonobject) {
--        if (jsonobject.has("uuid") && jsonobject.has("name")) {
+     public static @Nullable NameAndId fromJson(JsonObject object) {
+-        if (object.has("uuid") && object.has("name")) {
 +        // Spigot start
 +        // this whole method has to be reworked to account for the fact Bukkit only accepts UUID bans and gives no way for usernames to be stored!
 +        UUID uuid = null;
 +        String name = null;
-+        if (jsonobject.has("uuid")) {
-             String s = jsonobject.get("uuid").getAsString();
++        if (object.has("uuid")) {
+             String s = object.get("uuid").getAsString();
  
 -            UUID uuid;
 -
@@ -29,11 +29,11 @@ index b9c21fb73..07161b61a 100644
 -                return null;
              }
  
--            return new NameAndId(uuid, jsonobject.get("name").getAsString());
+-            return new NameAndId(uuid, object.get("name").getAsString());
 +        }
-+        if ( jsonobject.has("name"))
++        if ( object.has("name"))
 +        {
-+            name = jsonobject.get("name").getAsString();
++            name = object.get("name").getAsString();
 +        }
 +        if ( uuid != null || name != null )
 +        {
@@ -44,7 +44,7 @@ index b9c21fb73..07161b61a 100644
 +        // Spigot End
      }
  
-     public void appendTo(JsonObject jsonobject) {
+     public void appendTo(JsonObject output) {
 -- 
 2.52.0
 

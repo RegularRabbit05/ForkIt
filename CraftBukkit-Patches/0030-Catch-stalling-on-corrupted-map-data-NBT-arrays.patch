@@ -1,32 +1,32 @@
-From f43625fbd4861bc7d28649ba34f714751ee4b756 Mon Sep 17 00:00:00 2001
+From 9a916be65eb175ab5dbb27daa92578085504f684 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 20 Jan 2014 13:44:07 +1100
 Subject: [PATCH] Catch stalling on corrupted map data / NBT arrays.
 
 
 diff --git a/src/main/java/net/minecraft/nbt/ByteArrayTag.java b/src/main/java/net/minecraft/nbt/ByteArrayTag.java
-index 1831316ae0..c2b6fc457d 100644
+index 955239974..7d7a52155 100644
 --- a/src/main/java/net/minecraft/nbt/ByteArrayTag.java
 +++ b/src/main/java/net/minecraft/nbt/ByteArrayTag.java
 @@ -25,6 +25,7 @@ public final class ByteArrayTag implements CollectionTag {
-         private static byte[] readAccounted(DataInput datainput, NbtAccounter nbtaccounter) throws IOException {
-             nbtaccounter.accountBytes(24L);
-             int i = datainput.readInt();
+         private static byte[] readAccounted(DataInput input, NbtAccounter accounter) throws IOException {
+             accounter.accountBytes(24L);
+             int i = input.readInt();
 +            com.google.common.base.Preconditions.checkArgument( i < 1 << 24); // Spigot
  
-             nbtaccounter.accountBytes(1L, (long) i);
+             accounter.accountBytes(1L, (long) i);
              byte[] abyte = new byte[i];
 diff --git a/src/main/java/net/minecraft/nbt/IntArrayTag.java b/src/main/java/net/minecraft/nbt/IntArrayTag.java
-index 39fbdbe27a..8b4b49a0db 100644
+index f0444b12b..d1dd80756 100644
 --- a/src/main/java/net/minecraft/nbt/IntArrayTag.java
 +++ b/src/main/java/net/minecraft/nbt/IntArrayTag.java
 @@ -25,6 +25,7 @@ public final class IntArrayTag implements CollectionTag {
-         private static int[] readAccounted(DataInput datainput, NbtAccounter nbtaccounter) throws IOException {
-             nbtaccounter.accountBytes(24L);
-             int i = datainput.readInt();
+         private static int[] readAccounted(DataInput input, NbtAccounter accounter) throws IOException {
+             accounter.accountBytes(24L);
+             int i = input.readInt();
 +            com.google.common.base.Preconditions.checkArgument( i < 1 << 24); // Spigot
  
-             nbtaccounter.accountBytes(4L, (long) i);
+             accounter.accountBytes(4L, (long) i);
              int[] aint = new int[i];
 -- 
 2.52.0

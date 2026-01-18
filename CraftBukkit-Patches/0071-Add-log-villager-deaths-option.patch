@@ -1,11 +1,11 @@
-From 1e72d210dd3b4c39cfbf4dc052e7d5e5419adb63 Mon Sep 17 00:00:00 2001
+From 8d7aebaf28f8d9e9d67240cad33c7ce81a11e538 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 14 Dec 2019 10:26:52 +1100
 Subject: [PATCH] Add log-villager-deaths option
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 169142e8bb..3e518258ff 100644
+index 1f4c55fb9..4ffcaee87 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -1859,7 +1859,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
@@ -18,20 +18,20 @@ index 169142e8bb..3e518258ff 100644
  
              this.dead = true;
 diff --git a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
-index bda15bdbfb..c85be4ca67 100644
+index 72a11736a..bdae77eb2 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
 @@ -616,7 +616,7 @@ public class Villager extends AbstractVillager implements VillagerDataHolder, Re
  
      @Override
-     public void die(DamageSource damagesource) {
--        Villager.LOGGER.info("Villager {} died, message: '{}'", this, damagesource.getLocalizedDeathMessage(this).getString());
-+        if (org.spigotmc.SpigotConfig.logVillagerDeaths) Villager.LOGGER.info("Villager {} died, message: '{}'", this, damagesource.getLocalizedDeathMessage(this).getString()); // Spigot
-         Entity entity = damagesource.getEntity();
+     public void die(DamageSource source) {
+-        Villager.LOGGER.info("Villager {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString());
++        if (org.spigotmc.SpigotConfig.logVillagerDeaths) Villager.LOGGER.info("Villager {} died, message: '{}'", this, source.getLocalizedDeathMessage(this).getString()); // Spigot
+         Entity entity = source.getEntity();
  
          if (entity != null) {
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 3a42829eeb..8649678902 100644
+index 3a42829ee..864967890 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -389,4 +389,11 @@ public class SpigotConfig

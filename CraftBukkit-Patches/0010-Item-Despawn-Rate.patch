@@ -1,11 +1,11 @@
-From 6f3ca1d05daab8291bd3539efb739fd13ec10dbc Mon Sep 17 00:00:00 2001
+From 45c26fb86d23019d758f28a5a398edf5ae91dc94 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 22 Sep 2013 19:10:53 +1000
 Subject: [PATCH] Item Despawn Rate
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index dfc9de5422..1927192f61 100644
+index 0b1a2ce62..0d8fa8395 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -192,7 +192,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
@@ -25,9 +25,9 @@ index dfc9de5422..1927192f61 100644
 +        this.age = this.level().spigotConfig.itemDespawnRate - 1; // Spigot
      }
  
-     public static float getSpin(float f, float f1) {
+     public static float getSpin(float ageInTicks, float bobOffset) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 0c0c29efe5..e3682d28ca 100644
+index 0c0c29efe..e3682d28c 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -187,4 +187,11 @@ public class SpigotWorldConfig

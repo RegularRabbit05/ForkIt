@@ -1,11 +1,11 @@
-From 564de003bbb0270adb63c6e15f6e26a9d9ccd749 Mon Sep 17 00:00:00 2001
+From aea631a9465c5d8118759b1125e3f4488f9719b5 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Thu, 26 Jan 2017 21:50:51 +0000
 Subject: [PATCH] Highly Optimized Tick Loop
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index adfc8717dc..3068a2545b 100644
+index 765281e1b..8a177c9b2 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -326,6 +326,12 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -19,7 +19,7 @@ index adfc8717dc..3068a2545b 100644
 +    public final double[] recentTps = new double[ 3 ];
 +    // Spigot end
  
-     public static <S extends MinecraftServer> S spin(Function<Thread, S> function) {
+     public static <S extends MinecraftServer> S spin(Function<Thread, S> factory) {
          AtomicReference<S> atomicreference = new AtomicReference();
 @@ -1040,6 +1046,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
@@ -64,7 +64,7 @@ index adfc8717dc..3068a2545b 100644
                  boolean flag = i == 0L;
  
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 09eb993123..418e99b407 100644
+index 09eb99312..418e99b40 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -266,4 +266,9 @@ public class SpigotConfig
@@ -79,7 +79,7 @@ index 09eb993123..418e99b407 100644
  }
 diff --git a/src/main/java/org/spigotmc/TicksPerSecondCommand.java b/src/main/java/org/spigotmc/TicksPerSecondCommand.java
 new file mode 100644
-index 0000000000..f5b6dec1cb
+index 000000000..f5b6dec1c
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/TicksPerSecondCommand.java
 @@ -0,0 +1,45 @@

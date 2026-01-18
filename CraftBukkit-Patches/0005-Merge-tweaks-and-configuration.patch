@@ -1,4 +1,4 @@
-From f0c139d45532edf11ef466e17e4a2c7c7fa76fb7 Mon Sep 17 00:00:00 2001
+From 898dbbeb8dc5fabd823bbd25927bfef33d04dfae Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 23 Mar 2013 09:46:33 +1100
 Subject: [PATCH] Merge tweaks and configuration
@@ -6,7 +6,7 @@ Subject: [PATCH] Merge tweaks and configuration
 This allows the merging of Experience orbs, as well as the configuration of the merge radius of items. Additionally it refactors the merge algorithm to be a better experience for players.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 54f137d495..dfc9de5422 100644
+index c49d0fc6a..0b1a2ce62 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -226,7 +226,10 @@ public class ItemEntity extends Entity implements TraceableEntity {
@@ -22,16 +22,16 @@ index 54f137d495..dfc9de5422 100644
              })) {
                  if (itementity.isMergable()) {
 @@ -251,7 +254,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
-         ItemStack itemstack1 = itementity.getItem();
+         ItemStack itemstack1 = other.getItem();
  
-         if (Objects.equals(this.target, itementity.target) && areMergable(itemstack, itemstack1)) {
+         if (Objects.equals(this.target, other.target) && areMergable(itemstack, itemstack1)) {
 -            if (itemstack1.getCount() < itemstack.getCount()) {
 +            if (true || itemstack1.getCount() < itemstack.getCount()) { // Spigot
-                 merge(this, itemstack, itementity, itemstack1);
+                 merge(this, itemstack, other, itemstack1);
              } else {
-                 merge(itementity, itemstack1, this, itemstack);
+                 merge(other, itemstack1, this, itemstack);
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 5795e1eb35..b5e2c1e6c8 100644
+index 5795e1eb3..b5e2c1e6c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 @@ -692,6 +692,23 @@ public class CraftEventFactory {
@@ -59,7 +59,7 @@ index 5795e1eb35..b5e2c1e6c8 100644
      }
  
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index f42972427b..5ff085b9e6 100644
+index f42972427..5ff085b9e 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -134,4 +134,18 @@ public class SpigotWorldConfig

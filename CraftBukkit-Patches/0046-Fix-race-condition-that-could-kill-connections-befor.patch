@@ -1,4 +1,4 @@
-From f2fd4a721c2f47d10f7fe8210a505a0d941916b8 Mon Sep 17 00:00:00 2001
+From d8e76e28e1185c75c81b47b72654684153c6707a Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Fri, 25 Apr 2014 23:46:46 +0200
 Subject: [PATCH] Fix race condition that could kill connections before they
@@ -12,7 +12,7 @@ initialized. The ServerConnection does not remove NetworkManagers with
 this flag.
 
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index 5ccd95f96f..fafa7c9544 100644
+index b923930a9..735859b05 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
 @@ -78,6 +78,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
@@ -24,8 +24,8 @@ index 5ccd95f96f..fafa7c9544 100644
      private volatile @Nullable PacketListener disconnectListener;
      private volatile @Nullable PacketListener packetListener;
 @@ -102,6 +103,9 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
-         super.channelActive(channelhandlercontext);
-         this.channel = channelhandlercontext.channel();
+         super.channelActive(ctx);
+         this.channel = ctx.channel();
          this.address = this.channel.remoteAddress();
 +        // Spigot Start
 +        this.preparing = false;
@@ -36,15 +36,15 @@ index 5ccd95f96f..fafa7c9544 100644
 @@ -433,6 +437,9 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
      }
  
-     public void disconnect(DisconnectionDetails disconnectiondetails) {
+     public void disconnect(DisconnectionDetails details) {
 +        // Spigot Start
 +        this.preparing = false;
 +        // Spigot End
          if (this.channel == null) {
-             this.delayedDisconnect = disconnectiondetails;
+             this.delayedDisconnect = details;
          }
 diff --git a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
-index c0c1df0bb6..20e4ebd379 100644
+index c8c491c46..8601eecd1 100644
 --- a/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
 +++ b/src/main/java/net/minecraft/server/network/ServerConnectionListener.java
 @@ -161,6 +161,10 @@ public class ServerConnectionListener {

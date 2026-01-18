@@ -1,11 +1,11 @@
-From 94d21d47c3f2c22109be03ae7a5b088cca955bc2 Mon Sep 17 00:00:00 2001
+From 82c3f3cf9a08bef6c993e00bc7f020776b71fe54 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 5 Aug 2014 17:20:19 +0100
 Subject: [PATCH] Watchdog Thread.
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 7c171c5ff7..f46072a835 100644
+index dfb8428bf..66e95b2f8 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1143,6 +1143,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -19,13 +19,13 @@ index 7c171c5ff7..f46072a835 100644
 @@ -1357,6 +1358,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
-     protected void tickServer(BooleanSupplier booleansupplier) {
+     protected void tickServer(BooleanSupplier haveTime) {
 +        org.spigotmc.WatchdogThread.tick(); // Spigot
          long i = Util.getNanos();
          int j = this.pauseWhenEmptySeconds() * 20;
  
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index d9c59c7c55..db4fe7cce4 100644
+index b719e570b..3e193b191 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -374,7 +374,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -38,7 +38,7 @@ index d9c59c7c55..db4fe7cce4 100644
  
                  thread1.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandlerWithName(DedicatedServer.LOGGER));
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 083f46c96b..09773f43c7 100644
+index 083f46c96..09773f43c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2142,7 +2142,7 @@ public final class CraftServer implements Server {
@@ -64,7 +64,7 @@ index 083f46c96b..09773f43c7 100644
      public org.bukkit.Server.Spigot spigot()
 diff --git a/src/main/java/org/spigotmc/RestartCommand.java b/src/main/java/org/spigotmc/RestartCommand.java
 new file mode 100644
-index 0000000000..f4121afebb
+index 000000000..f4121afeb
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/RestartCommand.java
 @@ -0,0 +1,139 @@
@@ -208,7 +208,7 @@ index 0000000000..f4121afebb
 +    }
 +}
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 8ad8b25894..130016282a 100644
+index 8ad8b2589..130016282 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -200,4 +200,18 @@ public class SpigotConfig
@@ -232,7 +232,7 @@ index 8ad8b25894..130016282a 100644
  }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
 new file mode 100644
-index 0000000000..4734d4ae83
+index 000000000..4734d4ae8
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -0,0 +1,131 @@

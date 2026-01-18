@@ -1,4 +1,4 @@
-From 68d631500b131181da5da622a54f068ee97936cd Mon Sep 17 00:00:00 2001
+From 99de216dd551243b63e0727656e9020d9c3b95ae Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 4 Jul 2014 13:28:45 +1000
 Subject: [PATCH] Further Seed Customisation
@@ -6,48 +6,48 @@ Subject: [PATCH] Further Seed Customisation
 Allow server admins that really want to to customise the seeds used in world generation even further.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 7d353ffb79..ff0736c10c 100644
+index a7b3ed8be..9ea609fe5 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -212,7 +212,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
              this.randomState = RandomState.create(NoiseGeneratorSettings.dummy(), registryaccess.lookupOrThrow(Registries.NOISE), j);
          }
  
--        this.chunkGeneratorState = chunkgenerator.createState(registryaccess.lookupOrThrow(Registries.STRUCTURE_SET), this.randomState, j);
-+        this.chunkGeneratorState = chunkgenerator.createState(registryaccess.lookupOrThrow(Registries.STRUCTURE_SET), this.randomState, j, serverlevel.spigotConfig); // Spigot
-         this.mainThreadExecutor = blockableeventloop;
+-        this.chunkGeneratorState = generator.createState(registryaccess.lookupOrThrow(Registries.STRUCTURE_SET), this.randomState, j);
++        this.chunkGeneratorState = generator.createState(registryaccess.lookupOrThrow(Registries.STRUCTURE_SET), this.randomState, j, level.spigotConfig); // Spigot
+         this.mainThreadExecutor = mainThreadExecutor;
          ConsecutiveExecutor consecutiveexecutor = new ConsecutiveExecutor(executor, "worldgen");
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-index 98799df234..3a45781c1e 100644
+index 6ae69ae7b..ed70b1351 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Slime.java
 @@ -345,7 +345,7 @@ public class Slime extends Mob implements Enemy {
              }
  
-             ChunkPos chunkpos = new ChunkPos(blockpos);
--            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x, chunkpos.z, ((WorldGenLevel) levelaccessor).getSeed(), 987234911L).nextInt(10) == 0;
-+            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x, chunkpos.z, ((WorldGenLevel) levelaccessor).getSeed(), levelaccessor.getMinecraftWorld().spigotConfig.slimeSeed).nextInt(10) == 0; // Spigot
+             ChunkPos chunkpos = new ChunkPos(pos);
+-            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x, chunkpos.z, ((WorldGenLevel) level).getSeed(), 987234911L).nextInt(10) == 0;
++            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x, chunkpos.z, ((WorldGenLevel) level).getSeed(), level.getMinecraftWorld().spigotConfig.slimeSeed).nextInt(10) == 0; // Spigot
  
-             if (randomsource.nextInt(10) == 0 && flag && blockpos.getY() < 40) {
-                 return checkMobSpawnRules(entitytype, levelaccessor, entityspawnreason, blockpos, randomsource);
+             if (random.nextInt(10) == 0 && flag && pos.getY() < 40) {
+                 return checkMobSpawnRules(type, level, spawnReason, pos, random);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-index 0ba9aadeab..73f9d23a12 100644
+index 0b51f6ab0..b0d28d924 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 @@ -108,8 +108,8 @@ public abstract class ChunkGenerator {
  
      protected abstract MapCodec<? extends ChunkGenerator> codec();
  
--    public ChunkGeneratorStructureState createState(HolderLookup<StructureSet> holderlookup, RandomState randomstate, long i) {
--        return ChunkGeneratorStructureState.createForNormal(randomstate, i, this.biomeSource, holderlookup);
-+    public ChunkGeneratorStructureState createState(HolderLookup<StructureSet> holderlookup, RandomState randomstate, long i, org.spigotmc.SpigotWorldConfig conf) { // Spigot
-+        return ChunkGeneratorStructureState.createForNormal(randomstate, i, this.biomeSource, holderlookup, conf); // Spigot
+-    public ChunkGeneratorStructureState createState(HolderLookup<StructureSet> structureSets, RandomState randomState, long legacyLevelSeed) {
+-        return ChunkGeneratorStructureState.createForNormal(randomState, legacyLevelSeed, this.biomeSource, structureSets);
++    public ChunkGeneratorStructureState createState(HolderLookup<StructureSet> structureSets, RandomState randomState, long levelSeed, org.spigotmc.SpigotWorldConfig conf) { // Spigot
++        return ChunkGeneratorStructureState.createForNormal(randomState, levelSeed, this.biomeSource, structureSets, conf); // Spigot
      }
  
      public Optional<ResourceKey<MapCodec<? extends ChunkGenerator>>> getTypeNameForDataFixer() {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
-index 6f4cfe651b..12059f6daf 100644
+index c5451dcc3..612f71559 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
 @@ -33,6 +33,11 @@ import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement
@@ -66,24 +66,24 @@ index 6f4cfe651b..12059f6daf 100644
      private boolean hasGeneratedPositions;
      private final List<Holder<StructureSet>> possibleStructureSets;
  
--    public static ChunkGeneratorStructureState createForFlat(RandomState randomstate, long i, BiomeSource biomesource, Stream<Holder<StructureSet>> stream) {
-+    public static ChunkGeneratorStructureState createForFlat(RandomState randomstate, long i, BiomeSource biomesource, Stream<Holder<StructureSet>> stream, SpigotWorldConfig conf) { // Spigot
-         List<Holder<StructureSet>> list = stream.filter((holder) -> {
-             return hasBiomesForStructureSet((StructureSet) holder.value(), biomesource);
+-    public static ChunkGeneratorStructureState createForFlat(RandomState randomState, long levelSeed, BiomeSource biomeSource, Stream<Holder<StructureSet>> structureOverrides) {
++    public static ChunkGeneratorStructureState createForFlat(RandomState randomState, long levelSeed, BiomeSource biomeSource, Stream<Holder<StructureSet>> structureOverrides, SpigotWorldConfig conf) { // Spigot
+         List<Holder<StructureSet>> list = structureOverrides.filter((holder) -> {
+             return hasBiomesForStructureSet((StructureSet) holder.value(), biomeSource);
          }).toList();
  
--        return new ChunkGeneratorStructureState(randomstate, biomesource, i, 0L, list);
-+        return new ChunkGeneratorStructureState(randomstate, biomesource, i, 0L, injectSpigot(list, conf)); // Spigot
+-        return new ChunkGeneratorStructureState(randomState, biomeSource, levelSeed, 0L, list);
++        return new ChunkGeneratorStructureState(randomState, biomeSource, levelSeed, 0L, injectSpigot(list, conf)); // Spigot
      }
  
--    public static ChunkGeneratorStructureState createForNormal(RandomState randomstate, long i, BiomeSource biomesource, HolderLookup<StructureSet> holderlookup) {
-+    public static ChunkGeneratorStructureState createForNormal(RandomState randomstate, long i, BiomeSource biomesource, HolderLookup<StructureSet> holderlookup, SpigotWorldConfig conf) { // Spigot
-         List<Holder<StructureSet>> list = (List) holderlookup.listElements().filter((holder_reference) -> {
-             return hasBiomesForStructureSet((StructureSet) holder_reference.value(), biomesource);
+-    public static ChunkGeneratorStructureState createForNormal(RandomState randomState, long levelSeed, BiomeSource biomeSource, HolderLookup<StructureSet> allStructures) {
++    public static ChunkGeneratorStructureState createForNormal(RandomState randomState, long levelSeed, BiomeSource biomeSource, HolderLookup<StructureSet> allStructures, SpigotWorldConfig conf) { // Spigot
+         List<Holder<StructureSet>> list = (List) allStructures.listElements().filter((holder_reference) -> {
+             return hasBiomesForStructureSet((StructureSet) holder_reference.value(), biomeSource);
          }).collect(Collectors.toUnmodifiableList());
  
--        return new ChunkGeneratorStructureState(randomstate, biomesource, i, i, list);
-+        return new ChunkGeneratorStructureState(randomstate, biomesource, i, i, injectSpigot(list, conf)); // Spigot
+-        return new ChunkGeneratorStructureState(randomState, biomeSource, levelSeed, levelSeed, list);
++        return new ChunkGeneratorStructureState(randomState, biomeSource, levelSeed, levelSeed, injectSpigot(list, conf)); // Spigot
 +    }
 +
 +    // Spigot start
@@ -146,31 +146,31 @@ index 6f4cfe651b..12059f6daf 100644
      }
 +    // Spigot end
  
-     private static boolean hasBiomesForStructureSet(StructureSet structureset, BiomeSource biomesource) {
-         Stream<Holder<Biome>> stream = structureset.structures().stream().flatMap((structureset_structureselectionentry) -> {
+     private static boolean hasBiomesForStructureSet(StructureSet structureSet, BiomeSource biomeSource) {
+         Stream<Holder<Biome>> stream = structureSet.structures().stream().flatMap((structureset_structureselectionentry) -> {
 diff --git a/src/main/java/net/minecraft/world/level/levelgen/FlatLevelSource.java b/src/main/java/net/minecraft/world/level/levelgen/FlatLevelSource.java
-index e69f158c56..88c6c03d24 100644
+index fafee23ed..0b59b531d 100644
 --- a/src/main/java/net/minecraft/world/level/levelgen/FlatLevelSource.java
 +++ b/src/main/java/net/minecraft/world/level/levelgen/FlatLevelSource.java
 @@ -48,14 +48,14 @@ public class FlatLevelSource extends ChunkGenerator {
      }
  
      @Override
--    public ChunkGeneratorStructureState createState(HolderLookup<StructureSet> holderlookup, RandomState randomstate, long i) {
-+    public ChunkGeneratorStructureState createState(HolderLookup<StructureSet> holderlookup, RandomState randomstate, long i, org.spigotmc.SpigotWorldConfig conf) { // Spigot
+-    public ChunkGeneratorStructureState createState(HolderLookup<StructureSet> structureSets, RandomState randomState, long levelSeed) {
++    public ChunkGeneratorStructureState createState(HolderLookup<StructureSet> structureSets, RandomState randomState, long levelSeed, org.spigotmc.SpigotWorldConfig conf) { // Spigot
          Stream<Holder<StructureSet>> stream = (Stream) this.settings.structureOverrides().map(HolderSet::stream).orElseGet(() -> {
-             return holderlookup.listElements().map((holder_reference) -> {
+             return structureSets.listElements().map((holder_reference) -> {
                  return holder_reference;
              });
          });
  
--        return ChunkGeneratorStructureState.createForFlat(randomstate, i, this.biomeSource, stream);
-+        return ChunkGeneratorStructureState.createForFlat(randomstate, i, this.biomeSource, stream, conf); // Spigot
+-        return ChunkGeneratorStructureState.createForFlat(randomState, levelSeed, this.biomeSource, stream);
++        return ChunkGeneratorStructureState.createForFlat(randomState, levelSeed, this.biomeSource, stream, conf); // Spigot
      }
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-index d7e9056f70..71a6a79bab 100644
+index d7e9056f7..71a6a79ba 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 @@ -217,7 +217,7 @@ public class CraftChunk implements Chunk {
@@ -183,7 +183,7 @@ index d7e9056f70..71a6a79bab 100644
  
      @Override
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 7f5f97defc..7882c95f4c 100644
+index 7f5f97def..7882c95f4 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -294,4 +294,40 @@ public class SpigotWorldConfig

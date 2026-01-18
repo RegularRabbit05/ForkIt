@@ -1,4 +1,4 @@
-From b8d9578c31248efd6f40e25013d9b9987920f1f9 Mon Sep 17 00:00:00 2001
+From 2c97d118664a8aff0512ac4f55f8a265d3c186cc Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thethinkofdeath@gmail.com>
 Date: Fri, 11 Apr 2014 11:16:34 +0100
 Subject: [PATCH] Display 'Spigot' in client crashes, server lists and Mojang
@@ -6,7 +6,7 @@ Subject: [PATCH] Display 'Spigot' in client crashes, server lists and Mojang
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3068a2545b..373bb2eaa2 100644
+index 8a177c9b2..22509226f 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1719,7 +1719,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -17,7 +17,7 @@ index 3068a2545b..373bb2eaa2 100644
 +        return "Spigot"; // Spigot - Spigot > // CraftBukkit - cb > vanilla!
      }
  
-     public SystemReport fillSystemReport(SystemReport systemreport) {
+     public SystemReport fillSystemReport(SystemReport systemReport) {
 -- 
 2.52.0
 

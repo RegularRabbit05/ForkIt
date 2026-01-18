@@ -1,4 +1,4 @@
-From a978c8bb465a52f08be52e4d7e9df1639e84ac5a Mon Sep 17 00:00:00 2001
+From 0e67841d58e24d244c8ac094af6658b8f2ba2ae6 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Thu, 27 Jun 2013 17:26:09 +1000
 Subject: [PATCH] Properly Close Inventories
@@ -6,15 +6,15 @@ Subject: [PATCH] Properly Close Inventories
 Properly close inventories when unloading and switching worlds.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 9619654006..c9e1aa1247 100644
+index 0e43e7aa5..1e600c0cf 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1203,6 +1203,15 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      }
  
-     public void unload(LevelChunk levelchunk) {
+     public void unload(LevelChunk levelChunk) {
 +        // Spigot Start
-+        for (net.minecraft.world.level.block.entity.BlockEntity blockentity : levelchunk.getBlockEntities().values()) {
++        for (net.minecraft.world.level.block.entity.BlockEntity blockentity : levelChunk.getBlockEntities().values()) {
 +            if (blockentity instanceof net.minecraft.world.Container) {
 +                for (org.bukkit.entity.HumanEntity h : Lists.newArrayList(((net.minecraft.world.Container) blockentity).getViewers())) {
 +                    h.closeInventory();
@@ -22,9 +22,9 @@ index 9619654006..c9e1aa1247 100644
 +            }
 +        }
 +        // Spigot End
-         levelchunk.clearAllBlockEntities();
-         levelchunk.unregisterTickContainerFromLevel(this);
-         this.debugSynchronizers.dropChunk(levelchunk.getPos());
+         levelChunk.clearAllBlockEntities();
+         levelChunk.unregisterTickContainerFromLevel(this);
+         this.debugSynchronizers.dropChunk(levelChunk.getPos());
 @@ -2171,6 +2180,13 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
          public void onTrackingEnd(Entity entity) {

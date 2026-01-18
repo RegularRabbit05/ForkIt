@@ -1,11 +1,11 @@
-From 4db798e72e9f7215494d7e7a3e225fd6720bbe79 Mon Sep 17 00:00:00 2001
+From 6369f60dd8e76b1820c2e94efb99369e522c2003 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 03:06:05 +0100
 Subject: [PATCH] BungeeCord API
 
 
 diff --git a/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java b/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java
-index dfeccaed80..ac5862fa1b 100644
+index c5e3a9a1b..dda8a5df9 100644
 --- a/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java
 +++ b/src/main/java/net/minecraft/network/protocol/game/ClientboundSystemChatPacket.java
 @@ -13,6 +13,12 @@ public record ClientboundSystemChatPacket(Component content, boolean overlay) im
@@ -22,7 +22,7 @@ index dfeccaed80..ac5862fa1b 100644
      public PacketType<ClientboundSystemChatPacket> type() {
          return GamePacketTypes.CLIENTBOUND_SYSTEM_CHAT;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 38238bea90..3e491a37f2 100644
+index 38238bea9..3e491a37f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -268,6 +268,8 @@ import org.yaml.snakeyaml.Yaml;
@@ -56,7 +56,7 @@ index 38238bea90..3e491a37f2 100644
  
      public org.bukkit.Server.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/command/NullCommandSender.java b/src/main/java/org/bukkit/craftbukkit/command/NullCommandSender.java
-index b434978876..58b23d329d 100644
+index b43497887..58b23d329 100644
 --- a/src/main/java/org/bukkit/craftbukkit/command/NullCommandSender.java
 +++ b/src/main/java/org/bukkit/craftbukkit/command/NullCommandSender.java
 @@ -111,6 +111,25 @@ public final class NullCommandSender implements CommandSender {
@@ -86,7 +86,7 @@ index b434978876..58b23d329d 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java b/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java
-index 861739d4c4..6b36321091 100644
+index 861739d4c..6b3632109 100644
 --- a/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java
 +++ b/src/main/java/org/bukkit/craftbukkit/command/ServerCommandSender.java
 @@ -99,6 +99,29 @@ public abstract class ServerCommandSender implements CommandSender {
@@ -120,7 +120,7 @@ index 861739d4c4..6b36321091 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index 509700fa44..dd0ca5f3e7 100644
+index 509700fa4..dd0ca5f3e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 @@ -63,6 +63,8 @@ import org.bukkit.util.BoundingBox;
@@ -160,7 +160,7 @@ index 509700fa44..dd0ca5f3e7 100644
  
      public org.bukkit.entity.Entity.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 28fddc1363..7f8602a6c9 100644
+index 28fddc136..7f8602a6c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -204,6 +204,8 @@ import org.bukkit.profile.PlayerProfile;
@@ -243,7 +243,7 @@ index 28fddc1363..7f8602a6c9 100644
  
      public Player.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
-index ed599634a1..df9409d783 100644
+index ed599634a..df9409d78 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBook.java
 @@ -20,6 +20,13 @@ import org.bukkit.craftbukkit.util.CraftChatMessage;
@@ -346,7 +346,7 @@ index ed599634a1..df9409d783 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java
-index c2654f056f..9e78e94f32 100644
+index c2654f056..9e78e94f3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftMetaBookSigned.java
 @@ -21,6 +21,11 @@ import org.bukkit.configuration.serialization.DelegateDeserialization;
@@ -446,7 +446,7 @@ index c2654f056f..9e78e94f32 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java b/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
-index 07b8f04d0c..e4540b5802 100644
+index 07b8f04d0..e4540b580 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
 @@ -44,6 +44,12 @@ public final class CraftChatMessage {

@@ -1,4 +1,4 @@
-From 63563e2ff5df95a43a418172bc1437b290d48132 Mon Sep 17 00:00:00 2001
+From ba16a77a20fbf98fcf76d285917057171ba001ea Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 20 Feb 2015 21:39:31 +1100
 Subject: [PATCH] Allow Capping (Tile)Entity Tick Time.
@@ -10,7 +10,7 @@ For tiles there is very little tradeoff for this option, as tile ticks are based
 This feature was commisioned by Chunkr.
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index bb3fa96938..dbe1726287 100644
+index e8295a330..1c60249fe 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -160,6 +160,9 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -24,8 +24,8 @@ index bb3fa96938..dbe1726287 100644
      public CraftWorld getWorld() {
          return this.world;
 @@ -196,6 +199,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
-         this.palettedContainerFactory = PalettedContainerFactory.create(registryaccess);
-         this.damageSources = new DamageSources(registryaccess);
+         this.palettedContainerFactory = PalettedContainerFactory.create(registryAccess);
+         this.damageSources = new DamageSources(registryAccess);
          timings = new SpigotTimings.WorldTimingsHandler(this); // Spigot - code below can generate new world and access timings
 +        this.entityLimiter = new org.spigotmc.TickLimiter(spigotConfig.entityMaxTickTime);
 +        this.tileLimiter = new org.spigotmc.TickLimiter(spigotConfig.tileMaxTickTime);
@@ -61,7 +61,7 @@ index bb3fa96938..dbe1726287 100644
                  tickingblockentity.tick();
              }
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 76aeff3324..68cf01386e 100644
+index 76aeff332..68cf01386 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -373,4 +373,13 @@ public class SpigotWorldConfig
@@ -80,7 +80,7 @@ index 76aeff3324..68cf01386e 100644
  }
 diff --git a/src/main/java/org/spigotmc/TickLimiter.java b/src/main/java/org/spigotmc/TickLimiter.java
 new file mode 100644
-index 0000000000..23a39382be
+index 000000000..23a39382b
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/TickLimiter.java
 @@ -0,0 +1,20 @@

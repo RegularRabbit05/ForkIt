@@ -1,31 +1,31 @@
-From e7b99d101376ed3adc19fc6b0140683f3757c02b Mon Sep 17 00:00:00 2001
+From 91a2cbb9a392afab4582050c8eac3fdb8c0462a7 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 18:05:54 +1000
 Subject: [PATCH] Allow Disabling of Command TabComplete
 
 
 diff --git a/src/main/java/net/minecraft/commands/Commands.java b/src/main/java/net/minecraft/commands/Commands.java
-index 3ac722db3f..e058882bb0 100644
+index 94ebd9cf1..1e97f39d6 100644
 --- a/src/main/java/net/minecraft/commands/Commands.java
 +++ b/src/main/java/net/minecraft/commands/Commands.java
 @@ -496,6 +496,7 @@ public class Commands {
      }
  
-     public void sendCommands(ServerPlayer serverplayer) {
+     public void sendCommands(ServerPlayer player) {
 +        if ( org.spigotmc.SpigotConfig.tabComplete < 0 ) return; // Spigot
          // CraftBukkit start
          // Register Vanilla commands into builtRoot as before
          Map<CommandNode<CommandSourceStack>, CommandNode<CommandSourceStack>> map = new IdentityHashMap<>(); // Use identity to prevent aliasing issues
 @@ -531,6 +532,7 @@ public class Commands {
  
-     private static <S> void fillUsableCommands(CommandNode<S> commandnode, CommandNode<S> commandnode1, S s0, Map<CommandNode<S>, CommandNode<S>> map) {
-         for (CommandNode<S> commandnode2 : commandnode.getChildren()) {
+     private static <S> void fillUsableCommands(CommandNode<S> source, CommandNode<S> target, S commandFilter, Map<CommandNode<S>, CommandNode<S>> converted) {
+         for (CommandNode<S> commandnode2 : source.getChildren()) {
 +            if ( !org.spigotmc.SpigotConfig.sendNamespaced && commandnode2.getName().contains( ":" ) ) continue; // Spigot
-             if (commandnode2.canUse(s0)) {
+             if (commandnode2.canUse(commandFilter)) {
                  ArgumentBuilder<S, ?> argumentbuilder = commandnode2.createBuilder();
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3323437258..f7b5fc31fb 100644
+index 332343725..f7b5fc31f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2185,6 +2185,13 @@ public final class CraftServer implements Server {
@@ -43,7 +43,7 @@ index 3323437258..f7b5fc31fb 100644
          try {
              if (message.startsWith("/")) {
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index bc9fbcc584..fc352ecf10 100644
+index bc9fbcc58..fc352ecf1 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -156,4 +156,23 @@ public class SpigotConfig

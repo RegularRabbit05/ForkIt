@@ -1,11 +1,11 @@
-From 0d5a6fe3e979b9eb2f2a0c471863b42167f0567f Mon Sep 17 00:00:00 2001
+From 35f73d459399642a30ecfa3af9d08b383784adc8 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 25 Feb 2019 19:26:56 +1100
 Subject: [PATCH] Add creative mode NBT permissions
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
-index 9352b2f272..c240786b64 100644
+index 23d5a7e24..d45702ed5 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
 @@ -230,6 +230,14 @@ public class ServerPlayerGameMode {
@@ -14,17 +14,17 @@ index 9352b2f272..c240786b64 100644
  
 +                // Spigot start - handle debug stick left click for non-creative
 +                if (this.player.getMainHandItem().is(net.minecraft.world.item.Items.DEBUG_STICK)
-+                        && ((net.minecraft.world.item.DebugStickItem) net.minecraft.world.item.Items.DEBUG_STICK).handleInteraction(this.player, this.level.getBlockState(blockpos), this.level, blockpos, false, this.player.getMainHandItem())) {
-+                    this.player.connection.send(new ClientboundBlockUpdatePacket(this.level, blockpos));
++                        && ((net.minecraft.world.item.DebugStickItem) net.minecraft.world.item.Items.DEBUG_STICK).handleInteraction(this.player, this.level.getBlockState(pos), this.level, pos, false, this.player.getMainHandItem())) {
++                    this.player.connection.send(new ClientboundBlockUpdatePacket(this.level, pos));
 +                    return;
 +                }
 +                // Spigot end
 +
-                 if (this.player.blockActionRestricted(this.level, blockpos, this.gameModeForPlayer)) {
-                     this.player.connection.send(new ClientboundBlockUpdatePacket(blockpos, this.level.getBlockState(blockpos)));
-                     this.debugLogging(blockpos, false, j, "block action restricted");
+                 if (this.player.blockActionRestricted(this.level, pos, this.gameModeForPlayer)) {
+                     this.player.connection.send(new ClientboundBlockUpdatePacket(pos, this.level.getBlockState(pos)));
+                     this.debugLogging(pos, false, sequence, "block action restricted");
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index da548db8bb..3351782b3c 100644
+index f02f196dc..40c005aff 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -909,7 +909,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
@@ -37,7 +37,7 @@ index da548db8bb..3351782b3c 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/BlockItem.java b/src/main/java/net/minecraft/world/item/BlockItem.java
-index bc1de57a67..7bcdedc18b 100644
+index b1191d32d..027fdb148 100644
 --- a/src/main/java/net/minecraft/world/item/BlockItem.java
 +++ b/src/main/java/net/minecraft/world/item/BlockItem.java
 @@ -200,7 +200,7 @@ public class BlockItem extends Item {
@@ -50,20 +50,20 @@ index bc1de57a67..7bcdedc18b 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/DebugStickItem.java b/src/main/java/net/minecraft/world/item/DebugStickItem.java
-index d5c17be758..8f3758a89a 100644
+index 6c7466410..0bd58eef5 100644
 --- a/src/main/java/net/minecraft/world/item/DebugStickItem.java
 +++ b/src/main/java/net/minecraft/world/item/DebugStickItem.java
 @@ -53,7 +53,7 @@ public class DebugStickItem extends Item {
      }
  
-     public boolean handleInteraction(Player player, BlockState blockstate, LevelAccessor levelaccessor, BlockPos blockpos, boolean flag, ItemStack itemstack) {
+     public boolean handleInteraction(Player player, BlockState state, LevelAccessor level, BlockPos pos, boolean cycle, ItemStack itemStackInHand) {
 -        if (!player.canUseGameMasterBlocks()) {
 +        if (!player.canUseGameMasterBlocks() && !(player.getAbilities().instabuild && player.getBukkitEntity().hasPermission("minecraft.debugstick")) && !player.getBukkitEntity().hasPermission("minecraft.debugstick.always")) { // Spigot
              return false;
          } else {
-             Holder<Block> holder = blockstate.getBlockHolder();
+             Holder<Block> holder = state.getBlockHolder();
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java b/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
-index 75f8d47a20..525ebf961e 100644
+index 75f8d47a2..525ebf961 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
 @@ -11,6 +11,12 @@ public final class CraftDefaultPermissions {

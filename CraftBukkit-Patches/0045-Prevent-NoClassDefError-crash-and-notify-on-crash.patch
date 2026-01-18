@@ -1,11 +1,11 @@
-From 817acf118168b6d8eb94090f178102ccdeb486cb Mon Sep 17 00:00:00 2001
+From fa297f7cf574784b1ba4ca20c5d8aa0c79d7f0d1 Mon Sep 17 00:00:00 2001
 From: David <dmck2b@gmail.com>
 Date: Mon, 21 Apr 2014 12:43:08 +0100
 Subject: [PATCH] Prevent NoClassDefError crash and notify on crash
 
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index c0ec077ea9..8d4d2d49ac 100644
+index dab7248bc..1753d88d1 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -159,6 +159,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -20,34 +20,34 @@ index c0ec077ea9..8d4d2d49ac 100644
                  // CraftBukkit start
                  if (!this.captureBlockStates) { // Don't notify clients or update physics while capturing blockstates
                      // Modularize client and physic updates
--                    notifyAndUpdatePhysics(blockpos, levelchunk, blockstate1, blockstate, blockstate2, i, j);
+-                    notifyAndUpdatePhysics(pos, levelchunk, blockstate1, blockState, blockstate2, updateFlags, updateLimit);
 +                    // Spigot start
 +                    try {
-+                        notifyAndUpdatePhysics(blockpos, levelchunk, blockstate1, blockstate, blockstate2, i, j);
++                        notifyAndUpdatePhysics(pos, levelchunk, blockstate1, blockState, blockstate2, updateFlags, updateLimit);
 +                    } catch (StackOverflowError ex) {
-+                        lastPhysicsProblem = new BlockPos(blockpos);
++                        lastPhysicsProblem = new BlockPos(pos);
 +                    }
 +                    // Spigot end
                  }
                  // CraftBukkit end
  
 diff --git a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
-index 66be8a90b2..00162c8860 100644
+index adec36423..a401bea0f 100644
 --- a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
 +++ b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
 @@ -70,6 +70,10 @@ public interface NeighborUpdater {
              }
              // CraftBukkit end
-             blockstate.handleNeighborChanged(level, blockpos, block, orientation, flag);
+             state.handleNeighborChanged(level, pos, changedBlock, orientation, movedByPiston);
 +            // Spigot Start
 +        } catch (StackOverflowError ex) {
-+            level.lastPhysicsProblem = new BlockPos(blockpos);
++            level.lastPhysicsProblem = new BlockPos(pos);
 +            // Spigot End
          } catch (Throwable throwable) {
              CrashReport crashreport = CrashReport.forThrowable(throwable, "Exception while updating neighbours");
              CrashReportCategory crashreportcategory = crashreport.addCategory("Block being updated");
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index 4734d4ae83..9a695b80ef 100644
+index 4734d4ae8..9a695b80e 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -74,6 +74,13 @@ public class WatchdogThread extends Thread

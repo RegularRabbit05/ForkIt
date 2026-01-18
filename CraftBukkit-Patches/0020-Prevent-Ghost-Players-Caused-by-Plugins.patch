@@ -1,4 +1,4 @@
-From 4409f465748c0f61dcc912b245f800d23d0949b3 Mon Sep 17 00:00:00 2001
+From bccf0fafee1c6d46cebc14dc6880467d06b24ab0 Mon Sep 17 00:00:00 2001
 From: Alex Ciuba <alexciuba@gmail.com>
 Date: Tue, 11 Jun 2013 15:23:03 -0400
 Subject: [PATCH] Prevent Ghost Players Caused by Plugins
@@ -6,7 +6,7 @@ Subject: [PATCH] Prevent Ghost Players Caused by Plugins
 Check if the player is still connected after firing event. Fixes BUKKIT-4327
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 1993b24bc5..9d3b941624 100644
+index 514c58d9c..7a286494f 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -1311,6 +1311,11 @@ public class ServerPlayer extends Player {
@@ -22,7 +22,7 @@ index 1993b24bc5..9d3b941624 100644
          location = respawnEvent.getRespawnLocation();
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 6f78544706..484240b4b5 100644
+index 582a2317c..ec9a08bff 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -590,6 +590,11 @@ public abstract class PlayerList {
@@ -31,11 +31,11 @@ index 6f78544706..484240b4b5 100644
          }
 +        // Spigot Start
 +        if (teleporttransition == null) {
-+            return serverplayer;
++            return serverPlayer;
 +        }
 +        // Spigot End
          ServerLevel serverlevel = teleporttransition.newLevel();
-         serverplayer1.spawnIn(serverlevel, flag);
+         serverplayer1.spawnIn(serverlevel, keepAllPlayerData);
          serverplayer1.unsetRemoved();
 -- 
 2.52.0

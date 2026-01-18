@@ -1,20 +1,20 @@
-From 0f885b3471bb3185bbb1a57b5359a0c04a0ac1e1 Mon Sep 17 00:00:00 2001
+From c8d1beb25a6badb1efa53ab6c4b7afcdf872a068 Mon Sep 17 00:00:00 2001
 From: DerFlash <bte@freenet.de>
 Date: Tue, 9 Jul 2013 00:11:12 +0200
 Subject: [PATCH] Save ticks lived to nbttag
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 653b2531bb..12fdc7c265 100644
+index 695181024..1320a8b0a 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -2412,6 +2412,7 @@ public abstract class Entity implements Nameable, EntityAccess, ScoreHolder, Syn
              if (maxAirTicks != getDefaultMaxAirSupply()) {
-                 valueoutput.putInt("Bukkit.MaxAirSupply", getMaxAirSupply());
+                 output.putInt("Bukkit.MaxAirSupply", getMaxAirSupply());
              }
-+            valueoutput.putInt("Spigot.ticksLived", this.tickCount);
++            output.putInt("Spigot.ticksLived", this.tickCount);
              // CraftBukkit end
-             valueoutput.storeNullable("CustomName", ComponentSerialization.CODEC, this.getCustomName());
+             output.storeNullable("CustomName", ComponentSerialization.CODEC, this.getCustomName());
              if (this.isCustomNameVisible()) {
 @@ -2536,6 +2537,11 @@ public abstract class Entity implements Nameable, EntityAccess, ScoreHolder, Syn
              }
@@ -22,11 +22,11 @@ index 653b2531bb..12fdc7c265 100644
              // CraftBukkit start
 +            // Spigot start
 +            if (this instanceof LivingEntity) {
-+                this.tickCount = valueinput.getIntOr("Spigot.ticksLived", this.tickCount);
++                this.tickCount = input.getIntOr("Spigot.ticksLived", this.tickCount);
 +            }
 +            // Spigot end
-             this.persist = valueinput.getBooleanOr("Bukkit.persist", this.persist);
-             this.visibleByDefault = valueinput.getBooleanOr("Bukkit.visibleByDefault", this.visibleByDefault);
+             this.persist = input.getBooleanOr("Bukkit.persist", this.persist);
+             this.visibleByDefault = input.getBooleanOr("Bukkit.visibleByDefault", this.visibleByDefault);
              // SPIGOT-6907: re-implement LivingEntity#setMaximumAir()
 -- 
 2.52.0

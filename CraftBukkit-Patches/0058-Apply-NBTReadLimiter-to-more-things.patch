@@ -1,29 +1,29 @@
-From 154b430c39b74de685d6d7fa8391d99835ffc201 Mon Sep 17 00:00:00 2001
+From 7bf446c4f5aebf6868fbcf8d0ad50d2d644a0d2d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 27 Jul 2014 20:46:04 +1000
 Subject: [PATCH] Apply NBTReadLimiter to more things.
 
 
 diff --git a/src/main/java/net/minecraft/nbt/NbtIo.java b/src/main/java/net/minecraft/nbt/NbtIo.java
-index 2735e31547..c780040a5a 100644
+index 677955f83..b3bd26d71 100644
 --- a/src/main/java/net/minecraft/nbt/NbtIo.java
 +++ b/src/main/java/net/minecraft/nbt/NbtIo.java
 @@ -109,6 +109,12 @@ public class NbtIo {
      }
  
-     public static CompoundTag read(DataInput datainput, NbtAccounter nbtaccounter) throws IOException {
+     public static CompoundTag read(DataInput input, NbtAccounter accounter) throws IOException {
 +        // Spigot start
-+        if ( datainput instanceof io.netty.buffer.ByteBufInputStream )
++        if ( input instanceof io.netty.buffer.ByteBufInputStream )
 +        {
-+            datainput = new DataInputStream(new org.spigotmc.LimitStream((InputStream) datainput, nbtaccounter));
++            input = new DataInputStream(new org.spigotmc.LimitStream((InputStream) input, accounter));
 +        }
 +        // Spigot end
-         Tag tag = readUnnamedTag(datainput, nbtaccounter);
+         Tag tag = readUnnamedTag(input, accounter);
  
          if (tag instanceof CompoundTag) {
 diff --git a/src/main/java/org/spigotmc/LimitStream.java b/src/main/java/org/spigotmc/LimitStream.java
 new file mode 100644
-index 0000000000..b98b5239ed
+index 000000000..b98b5239e
 --- /dev/null
 +++ b/src/main/java/org/spigotmc/LimitStream.java
 @@ -0,0 +1,39 @@

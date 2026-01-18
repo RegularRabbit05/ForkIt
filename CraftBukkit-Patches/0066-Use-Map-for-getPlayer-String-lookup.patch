@@ -1,11 +1,11 @@
-From 5e1144f3d275707e63d536474aa310884272374c Mon Sep 17 00:00:00 2001
+From bc2b1eaf061b760fd406041ea23bf86f70bd012b Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 13 Jul 2015 19:05:15 +1000
 Subject: [PATCH] Use Map for getPlayer(String) lookup.
 
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 3e6d9cdf74..27ff1e3ff0 100644
+index cf67289bf..5cfa081da 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -156,6 +156,7 @@ public abstract class PlayerList {
@@ -14,34 +14,34 @@ index 3e6d9cdf74..27ff1e3ff0 100644
      private CraftServer cserver;
 +    private final Map<String,ServerPlayer> playersByName = new java.util.HashMap<>();
  
-     public PlayerList(MinecraftServer minecraftserver, LayeredRegistryAccess<RegistryLayer> layeredregistryaccess, PlayerDataStorage playerdatastorage, NotificationService notificationservice) {
-         this.cserver = minecraftserver.server = new CraftServer((DedicatedServer) minecraftserver, this);
+     public PlayerList(MinecraftServer server, LayeredRegistryAccess<RegistryLayer> registries, PlayerDataStorage playerIo, NotificationService notificationService) {
+         this.cserver = server.server = new CraftServer((DedicatedServer) server, this);
 @@ -233,6 +234,7 @@ public abstract class PlayerList {
  
          // entityplayer.connection.send(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(this.players)); // CraftBukkit - replaced with loop below
-         this.players.add(serverplayer);
-+        this.playersByName.put(serverplayer.getScoreboardName().toLowerCase(java.util.Locale.ROOT), serverplayer); // Spigot
-         this.playersByUUID.put(serverplayer.getUUID(), serverplayer);
+         this.players.add(player);
++        this.playersByName.put(player.getScoreboardName().toLowerCase(java.util.Locale.ROOT), player); // Spigot
+         this.playersByUUID.put(player.getUUID(), player);
          // this.broadcastAll(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(entityplayer))); // CraftBukkit - replaced with loop below
  
 @@ -421,6 +423,7 @@ public abstract class PlayerList {
-         serverlevel.removePlayerImmediately(serverplayer, Entity.RemovalReason.UNLOADED_WITH_PLAYER);
-         serverplayer.getAdvancements().stopListening();
-         this.players.remove(serverplayer);
-+        this.playersByName.remove(serverplayer.getScoreboardName().toLowerCase(java.util.Locale.ROOT)); // Spigot
-         this.server.getCustomBossEvents().onPlayerDisconnect(serverplayer);
-         UUID uuid = serverplayer.getUUID();
+         serverlevel.removePlayerImmediately(player, Entity.RemovalReason.UNLOADED_WITH_PLAYER);
+         player.getAdvancements().stopListening();
+         this.players.remove(player);
++        this.playersByName.remove(player.getScoreboardName().toLowerCase(java.util.Locale.ROOT)); // Spigot
+         this.server.getCustomBossEvents().onPlayerDisconnect(player);
+         UUID uuid = player.getUUID();
          ServerPlayer serverplayer1 = (ServerPlayer) this.playersByUUID.get(uuid);
 @@ -555,6 +558,7 @@ public abstract class PlayerList {
  
-         serverplayer.stopRiding(); // CraftBukkit
-         this.players.remove(serverplayer);
-+        this.playersByName.remove(serverplayer.getScoreboardName().toLowerCase(java.util.Locale.ROOT)); // Spigot
-         serverplayer.level().removePlayerImmediately(serverplayer, entity_removalreason);
+         serverPlayer.stopRiding(); // CraftBukkit
+         this.players.remove(serverPlayer);
++        this.playersByName.remove(serverPlayer.getScoreboardName().toLowerCase(java.util.Locale.ROOT)); // Spigot
+         serverPlayer.level().removePlayerImmediately(serverPlayer, removalReason);
          /* CraftBukkit start
          ServerLevel serverlevel = teleporttransition.newLevel();
 @@ -625,6 +629,7 @@ public abstract class PlayerList {
-         if (!serverplayer.connection.isDisconnected()) {
+         if (!serverPlayer.connection.isDisconnected()) {
              serverlevel.addRespawnedPlayer(serverplayer1);
              this.players.add(serverplayer1);
 +            this.playersByName.put(serverplayer1.getScoreboardName().toLowerCase(java.util.Locale.ROOT), serverplayer1); // Spigot
@@ -51,22 +51,22 @@ index 3e6d9cdf74..27ff1e3ff0 100644
 @@ -857,17 +862,7 @@ public abstract class PlayerList {
      }
  
-     public @Nullable ServerPlayer getPlayerByName(String s) {
+     public @Nullable ServerPlayer getPlayerByName(String name) {
 -        int i = this.players.size();
 -
 -        for (int j = 0; j < i; ++j) {
 -            ServerPlayer serverplayer = (ServerPlayer) this.players.get(j);
 -
--            if (serverplayer.getGameProfile().name().equalsIgnoreCase(s)) {
+-            if (serverplayer.getGameProfile().name().equalsIgnoreCase(name)) {
 -                return serverplayer;
 -            }
 -        }
 -
 -        return null;
-+        return this.playersByName.get(s.toLowerCase(java.util.Locale.ROOT)); // Spigot
++        return this.playersByName.get(name.toLowerCase(java.util.Locale.ROOT)); // Spigot
      }
  
-     public void broadcast(@Nullable Player player, double d0, double d1, double d2, double d3, ResourceKey<Level> resourcekey, Packet<?> packet) {
+     public void broadcast(@Nullable Player except, double x, double y, double z, double range, ResourceKey<Level> dimension, Packet<?> packet) {
 -- 
 2.52.0
 

@@ -1,23 +1,23 @@
-From efeb71cdf87783148a35477ca49627dbcdacc621 Mon Sep 17 00:00:00 2001
+From 4768255300bce1cadacbf212b517bf9da3395468 Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thinkofdeath@spigotmc.org>
 Date: Wed, 2 Jul 2014 23:35:51 +0100
 Subject: [PATCH] Better item validation
 
 
 diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
-index b3c6e49dc5..eeea5eaaaa 100644
+index f07a7d3ba..f23c8510b 100644
 --- a/src/main/java/net/minecraft/world/item/ItemStack.java
 +++ b/src/main/java/net/minecraft/world/item/ItemStack.java
 @@ -201,6 +201,10 @@ public final class ItemStack implements DataComponentHolder {
-                     registryfriendlybytebuf.writeVarInt(0);
+                     output.writeVarInt(0);
                  } else {
-                     registryfriendlybytebuf.writeVarInt(itemstack.getCount());
+                     output.writeVarInt(itemStack.getCount());
 +                    // Spigot start - filter
-+                    itemstack = itemstack.copy();
-+                    CraftItemStack.setItemMeta(itemstack, CraftItemStack.getItemMeta(itemstack));
++                    itemStack = itemStack.copy();
++                    CraftItemStack.setItemMeta(itemStack, CraftItemStack.getItemMeta(itemStack));
 +                    // Spigot end
-                     Item.STREAM_CODEC.encode(registryfriendlybytebuf, itemstack.getItemHolder());
-                     streamcodec.encode(registryfriendlybytebuf, itemstack.components.asPatch());
+                     Item.STREAM_CODEC.encode(output, itemStack.getItemHolder());
+                     patchCodec.encode(output, itemStack.components.asPatch());
                  }
 -- 
 2.52.0

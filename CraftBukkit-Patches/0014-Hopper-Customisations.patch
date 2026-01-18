@@ -1,4 +1,4 @@
-From cabb951b996a0d4a9f26427158144c2bdaba81fc Mon Sep 17 00:00:00 2001
+From 92cabdbfa9ec25b749c0f5cb03d82eeeedc0b35e Mon Sep 17 00:00:00 2001
 From: erocs <github@erocs.org>
 Date: Sun, 8 Sep 2013 12:06:15 -0700
 Subject: [PATCH] Hopper Customisations
@@ -6,20 +6,20 @@ Subject: [PATCH] Hopper Customisations
 Allows editing hopper cooldowns and amount transferred per tick.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java
-index 6298aa549d..73cba31650 100644
+index 34ab80498..5d4a0dfb1 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java
 @@ -147,9 +147,14 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
-         hopperblockentity.tickedGameTime = level.getGameTime();
-         if (!hopperblockentity.isOnCooldown()) {
-             hopperblockentity.setCooldown(0);
--            tryMoveItems(level, blockpos, blockstate, hopperblockentity, () -> {
+         entity.tickedGameTime = level.getGameTime();
+         if (!entity.isOnCooldown()) {
+             entity.setCooldown(0);
+-            tryMoveItems(level, pos, state, entity, () -> {
 +            // Spigot start
-+            boolean result = tryMoveItems(level, blockpos, blockstate, hopperblockentity, () -> {
-                 return suckInItems(level, hopperblockentity);
++            boolean result = tryMoveItems(level, pos, state, entity, () -> {
+                 return suckInItems(level, entity);
              });
-+            if (!result && hopperblockentity.level.spigotConfig.hopperCheck > 1) {
-+                hopperblockentity.setCooldown(hopperblockentity.level.spigotConfig.hopperCheck);
++            if (!result && entity.level.spigotConfig.hopperCheck > 1) {
++                entity.setCooldown(entity.level.spigotConfig.hopperCheck);
 +            }
 +            // Spigot end
          }
@@ -29,30 +29,30 @@ index 6298aa549d..73cba31650 100644
                  }
  
                  if (flag) {
--                    hopperblockentity.setCooldown(8);
-+                    hopperblockentity.setCooldown(level.spigotConfig.hopperTransfer); // Spigot
-                     setChanged(level, blockpos, blockstate);
+-                    entity.setCooldown(8);
++                    entity.setCooldown(level.spigotConfig.hopperTransfer); // Spigot
+                     setChanged(level, pos, state);
                      return true;
                  }
 @@ -208,7 +213,7 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
                          int j = itemstack.getCount();
                          // CraftBukkit start - Call event when pushing items into other inventories
                          ItemStack original = itemstack.copy();
--                        CraftItemStack oitemstack = CraftItemStack.asCraftMirror(hopperblockentity.removeItem(i, 1));
-+                        CraftItemStack oitemstack = CraftItemStack.asCraftMirror(hopperblockentity.removeItem(i, level.spigotConfig.hopperAmount)); // Spigot
+-                        CraftItemStack oitemstack = CraftItemStack.asCraftMirror(self.removeItem(i, 1));
++                        CraftItemStack oitemstack = CraftItemStack.asCraftMirror(self.removeItem(i, level.spigotConfig.hopperAmount)); // Spigot
  
                          org.bukkit.inventory.Inventory destinationInventory;
                          // Have to special case large chests as they work oddly
 @@ -224,9 +229,10 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
                          level.getCraftServer().getPluginManager().callEvent(event);
                          if (event.isCancelled()) {
-                             hopperblockentity.setItem(i, original);
--                            hopperblockentity.setCooldown(8); // Delay hopper checks
-+                            hopperblockentity.setCooldown(level.spigotConfig.hopperTransfer); // Delay hopper checks // Spigot
+                             self.setItem(i, original);
+-                            self.setCooldown(8); // Delay hopper checks
++                            self.setCooldown(level.spigotConfig.hopperTransfer); // Delay hopper checks // Spigot
                              return false;
                          }
 +                        int origCount = event.getItem().getAmount(); // Spigot
-                         ItemStack itemstack1 = addItem(hopperblockentity, container, CraftItemStack.asNMSCopy(event.getItem()), direction);
+                         ItemStack itemstack1 = addItem(self, container, CraftItemStack.asNMSCopy(event.getItem()), direction);
                          // CraftBukkit end
  
 @@ -236,7 +242,10 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
@@ -64,7 +64,7 @@ index 6298aa549d..73cba31650 100644
 +                        itemstack.shrink(origCount - itemstack1.getCount());
 +                        if (j <= level.spigotConfig.hopperAmount) {
 +                            // Spigot end
-                             hopperblockentity.setItem(i, itemstack);
+                             self.setItem(i, itemstack);
                          }
                      }
 @@ -303,7 +312,7 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
@@ -80,21 +80,21 @@ index 6298aa549d..73cba31650 100644
          }
      }
  
--    private static boolean tryTakeInItemFromSlot(Hopper hopper, Container container, int i, Direction direction) {
-+    private static boolean tryTakeInItemFromSlot(Hopper hopper, Container container, int i, Direction direction, Level level) { // Spigot
-         ItemStack itemstack = container.getItem(i);
+-    private static boolean tryTakeInItemFromSlot(Hopper hopper, Container container, int slot, Direction direction) {
++    private static boolean tryTakeInItemFromSlot(Hopper hopper, Container container, int slot, Direction direction, Level level) { // Spigot
+         ItemStack itemstack = container.getItem(slot);
  
-         if (!itemstack.isEmpty() && canTakeItemFromContainer(hopper, container, itemstack, i, direction)) {
+         if (!itemstack.isEmpty() && canTakeItemFromContainer(hopper, container, itemstack, slot, direction)) {
              int j = itemstack.getCount();
              // CraftBukkit start - Call event on collection of items from inventories into the hopper
              ItemStack original = itemstack.copy();
--            CraftItemStack oitemstack = CraftItemStack.asCraftMirror(container.removeItem(i, 1));
-+            CraftItemStack oitemstack = CraftItemStack.asCraftMirror(container.removeItem(i, level.spigotConfig.hopperAmount)); // Spigot
+-            CraftItemStack oitemstack = CraftItemStack.asCraftMirror(container.removeItem(slot, 1));
++            CraftItemStack oitemstack = CraftItemStack.asCraftMirror(container.removeItem(slot, level.spigotConfig.hopperAmount)); // Spigot
  
              org.bukkit.inventory.Inventory sourceInventory;
              // Have to special case large chests as they work oddly
 @@ -350,11 +359,12 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
-                 container.setItem(i, original);
+                 container.setItem(slot, original);
  
                  if (hopper instanceof HopperBlockEntity) {
 -                    ((HopperBlockEntity) hopper).setCooldown(8); // Delay hopper checks
@@ -116,20 +116,20 @@ index 6298aa549d..73cba31650 100644
 +            itemstack.shrink(origCount - itemstack1.getCount());
 +            if (j <= level.spigotConfig.hopperAmount) {
 +                // Spigot end
-                 container.setItem(i, itemstack);
+                 container.setItem(slot, itemstack);
              }
          }
 @@ -465,6 +478,11 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
-             boolean flag1 = container1.isEmpty();
+             boolean flag1 = container.isEmpty();
  
              if (itemstack1.isEmpty()) {
 +                // Spigot start - SPIGOT-6693, InventorySubcontainer#setItem
-+                if (!itemstack.isEmpty() && itemstack.getCount() > container1.getMaxStackSize()) {
-+                    itemstack = itemstack.split(container1.getMaxStackSize());
++                if (!itemStack.isEmpty() && itemStack.getCount() > container.getMaxStackSize()) {
++                    itemStack = itemStack.split(container.getMaxStackSize());
 +                }
 +                // Spigot end
-                 container1.setItem(i, itemstack);
-                 itemstack = ItemStack.EMPTY;
+                 container.setItem(slot, itemStack);
+                 itemStack = ItemStack.EMPTY;
                  flag = true;
 @@ -492,7 +510,7 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
                              }
@@ -143,13 +143,13 @@ index 6298aa549d..73cba31650 100644
 @@ -555,6 +573,7 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
      }
  
-     private static @Nullable Container getBlockContainer(Level level, BlockPos blockpos, BlockState blockstate) {
-+        if ( !level.spigotConfig.hopperCanLoadChunks && !level.hasChunkAt( blockpos ) ) return null; // Spigot
-         Block block = blockstate.getBlock();
+     private static @Nullable Container getBlockContainer(Level level, BlockPos pos, BlockState state) {
++        if ( !level.spigotConfig.hopperCanLoadChunks && !level.hasChunkAt( pos ) ) return null; // Spigot
+         Block block = state.getBlock();
  
          if (block instanceof WorldlyContainerHolder) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index ab984b2109..cec948a055 100644
+index ab984b210..cec948a05 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -228,4 +228,22 @@ public class SpigotWorldConfig
