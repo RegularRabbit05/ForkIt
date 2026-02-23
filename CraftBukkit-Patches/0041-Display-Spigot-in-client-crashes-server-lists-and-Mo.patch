@@ -14,7 +14,7 @@ index 8a177c9b2..22509226f 100644
  
      public String getServerModName() {
 -        return server.getName(); // CraftBukkit - cb > vanilla!
-+        return "Spigot"; // Spigot - Spigot > // CraftBukkit - cb > vanilla!
++        return "Forkit"; // Forkit - Spigot > // CraftBukkit - cb > vanilla!
      }
  
      public SystemReport fillSystemReport(SystemReport systemReport) {
