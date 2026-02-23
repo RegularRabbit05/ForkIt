@@ -1,7 +1,7 @@
 From 2c97d118664a8aff0512ac4f55f8a265d3c186cc Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thethinkofdeath@gmail.com>
 Date: Fri, 11 Apr 2014 11:16:34 +0100
-Subject: [PATCH] Display 'Spigot' in client crashes, server lists and Mojang
+Subject: [PATCH] Display 'Forkit' in client crashes, server lists and Mojang
  stats
 
 
