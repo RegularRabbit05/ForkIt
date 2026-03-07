@@ -1,4 +1,4 @@
-From 3542be9a86f92d0e3ba95984ba592d8c107f14e0 Mon Sep 17 00:00:00 2001
+From 99a637cea5e4117100907e5b048377cad8d26f93 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 12 Apr 2014 21:23:58 +1000
 Subject: [PATCH] BungeeCord Support
@@ -217,7 +217,7 @@ index 11e25fb55..f05a63206 100644
          } else {
              for (String s : astring) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 53504787f..cf67289bf 100644
+index ec9a08bff..7a807ca82 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -479,7 +479,7 @@ public abstract class PlayerList {
@@ -230,10 +230,10 @@ index 53504787f..cf67289bf 100644
          if (this.bans.isBanned(nameAndId)) {
              UserBanListEntry userbanlistentry = (UserBanListEntry) this.bans.get(nameAndId);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 09773f43c..51a29d2d4 100644
+index 012b52ba0..eab8efd7a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -810,7 +810,13 @@ public final class CraftServer implements Server {
+@@ -808,7 +808,13 @@ public final class CraftServer implements Server {
  
      @Override
      public long getConnectionThrottle() {
@@ -248,7 +248,7 @@ index 09773f43c..51a29d2d4 100644
      }
  
      @Override
-@@ -1813,7 +1819,7 @@ public final class CraftServer implements Server {
+@@ -1806,7 +1812,7 @@ public final class CraftServer implements Server {
          if (result == null) {
              NameAndId profile = null;
              // Only fetch an online UUID in online mode
@@ -258,7 +258,7 @@ index 09773f43c..51a29d2d4 100644
                  profile = console.services().nameToIdCache().get(name).orElse(null);
              }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 450b5731c..31a680433 100644
+index 49b70ea38..9966fb258 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -2389,6 +2389,12 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -294,5 +294,5 @@ index 130016282..1e6b13103 100644
 +    }
  }
 -- 
-2.52.0
+2.53.0
 

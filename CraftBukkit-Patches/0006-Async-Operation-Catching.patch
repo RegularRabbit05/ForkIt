@@ -1,4 +1,4 @@
-From 45bb3ea1a2ba1ef44b7ddbb1ce777b87c3240ed0 Mon Sep 17 00:00:00 2001
+From 0b39ae74c0335b2cc0756ede834669cb5c772517 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 25 Mar 2014 16:10:01 +1100
 Subject: [PATCH] Async Operation Catching
@@ -98,7 +98,7 @@ index fe38bed60..d1a91050e 100644
              if (entity instanceof ServerPlayer serverplayer) {
                  ServerLevel.this.players.remove(serverplayer);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index fd788366b..0e81eee8a 100644
+index f94f1d8df..2a809b75a 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -1196,6 +1196,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
@@ -137,10 +137,10 @@ index 57170f9e1..4b362d743 100644
      // CraftBukkit start
      protected void onPlace(BlockState blockstate, Level level, BlockPos blockpos, BlockState blockstate1, boolean flag, @Nullable UseOnContext context) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index a988a7775..2cb98d9a0 100644
+index 789515e3d..3f4383eab 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -905,6 +905,7 @@ public final class CraftServer implements Server {
+@@ -903,6 +903,7 @@ public final class CraftServer implements Server {
      public boolean dispatchCommand(CommandSender sender, String commandLine) {
          Preconditions.checkArgument(sender != null, "sender cannot be null");
          Preconditions.checkArgument(commandLine != null, "commandLine cannot be null");
@@ -213,7 +213,7 @@ index c183972bb..509700fa4 100644
          List<Entity> notchEntityList = entity.level().getEntities(entity, entity.getBoundingBox().inflate(x, y, z), Predicates.alwaysTrue());
          List<org.bukkit.entity.Entity> bukkitEntityList = new java.util.ArrayList<org.bukkit.entity.Entity>(notchEntityList.size());
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 572d33440..d315d1222 100644
+index 1401dd39b..974e61679 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -505,6 +505,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -272,5 +272,5 @@ index 000000000..aeed76972
 +    }
 +}
 -- 
-2.52.0
+2.53.0
 
