@@ -1,14 +1,14 @@
-From 35f73d459399642a30ecfa3af9d08b383784adc8 Mon Sep 17 00:00:00 2001
+From ffaddb2ad3014e5791b5dd3e7baae2b505af7787 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 25 Feb 2019 19:26:56 +1100
 Subject: [PATCH] Add creative mode NBT permissions
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
-index 23d5a7e24..d45702ed5 100644
+index 37f714659..5815afc62 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
-@@ -230,6 +230,14 @@ public class ServerPlayerGameMode {
+@@ -236,6 +236,14 @@ public class ServerPlayerGameMode {
                      return;
                  }
  
@@ -24,10 +24,10 @@ index 23d5a7e24..d45702ed5 100644
                      this.player.connection.send(new ClientboundBlockUpdatePacket(pos, this.level.getBlockState(pos)));
                      this.debugLogging(pos, false, sequence, "block action restricted");
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index f02f196dc..40c005aff 100644
+index d53abd8a5..411b6d2fc 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -909,7 +909,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -917,7 +917,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  ItemStack itemstack = blockstate.getCloneItemStack(serverlevel, blockpos, flag);
  
                  if (!itemstack.isEmpty()) {
@@ -37,10 +37,10 @@ index f02f196dc..40c005aff 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/BlockItem.java b/src/main/java/net/minecraft/world/item/BlockItem.java
-index b1191d32d..027fdb148 100644
+index e24073bbb..4fe053c19 100644
 --- a/src/main/java/net/minecraft/world/item/BlockItem.java
 +++ b/src/main/java/net/minecraft/world/item/BlockItem.java
-@@ -200,7 +200,7 @@ public class BlockItem extends Item {
+@@ -199,7 +199,7 @@ public class BlockItem extends Item {
                          return false;
                      }
  
@@ -50,18 +50,18 @@ index b1191d32d..027fdb148 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/DebugStickItem.java b/src/main/java/net/minecraft/world/item/DebugStickItem.java
-index 6c7466410..0bd58eef5 100644
+index 8d47e114b..817ee971b 100644
 --- a/src/main/java/net/minecraft/world/item/DebugStickItem.java
 +++ b/src/main/java/net/minecraft/world/item/DebugStickItem.java
 @@ -53,7 +53,7 @@ public class DebugStickItem extends Item {
      }
  
-     public boolean handleInteraction(Player player, BlockState state, LevelAccessor level, BlockPos pos, boolean cycle, ItemStack itemStackInHand) {
+     public boolean handleInteraction(ServerPlayer player, BlockState state, LevelAccessor level, BlockPos pos, boolean cycle, ItemStack itemStackInHand) {
 -        if (!player.canUseGameMasterBlocks()) {
 +        if (!player.canUseGameMasterBlocks() && !(player.getAbilities().instabuild && player.getBukkitEntity().hasPermission("minecraft.debugstick")) && !player.getBukkitEntity().hasPermission("minecraft.debugstick.always")) { // Spigot
              return false;
          } else {
-             Holder<Block> holder = state.getBlockHolder();
+             Holder<Block> holder = state.typeHolder();
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java b/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
 index 75f8d47a2..525ebf961 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
@@ -80,5 +80,5 @@ index 75f8d47a2..525ebf961 100644
      }
  }
 -- 
-2.52.0
+2.53.0
 

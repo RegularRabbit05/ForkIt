@@ -1,14 +1,14 @@
-From 8f9c26553f2ff936ce0650b2c5d387141028d464 Mon Sep 17 00:00:00 2001
+From d6dc4a813a66b858f4c36b00b3749081300b728d Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Fri, 4 Jul 2014 23:03:13 +0200
 Subject: [PATCH] Make "moved wrongly" limit configurable
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index fd2f2da9bd..d17b50ed4c 100644
+index 29aaa4487..a7e83c06c 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -619,7 +619,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -627,7 +627,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                  boolean flag1 = false;
  
@@ -17,7 +17,7 @@ index fd2f2da9bd..d17b50ed4c 100644
                      flag1 = true;
                      ServerGamePacketListenerImpl.LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", new Object[]{entity.getPlainTextName(), this.player.getPlainTextName(), Math.sqrt(d10)});
                  }
-@@ -1452,7 +1452,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1505,7 +1505,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                                  boolean flag3 = false;
  
@@ -27,7 +27,7 @@ index fd2f2da9bd..d17b50ed4c 100644
                                      ServerGamePacketListenerImpl.LOGGER.warn("{} moved wrongly!", this.player.getPlainTextName());
                                  }
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index d830925dbb..37bb28c984 100644
+index d830925db..37bb28c98 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -326,4 +326,10 @@ public class SpigotConfig
@@ -42,5 +42,5 @@ index d830925dbb..37bb28c984 100644
 +    }
  }
 -- 
-2.52.0
+2.53.0
 

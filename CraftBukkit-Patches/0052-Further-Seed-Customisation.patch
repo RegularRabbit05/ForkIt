@@ -1,4 +1,4 @@
-From 99de216dd551243b63e0727656e9020d9c3b95ae Mon Sep 17 00:00:00 2001
+From 840a474b19472c8228932de0f13089c85d361826 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 4 Jul 2014 13:28:45 +1000
 Subject: [PATCH] Further Seed Customisation
@@ -6,7 +6,7 @@ Subject: [PATCH] Further Seed Customisation
 Allow server admins that really want to to customise the seeds used in world generation even further.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index a7b3ed8be..9ea609fe5 100644
+index e5c9c48cf..cdfd76322 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -212,7 +212,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
@@ -19,23 +19,23 @@ index a7b3ed8be..9ea609fe5 100644
          ConsecutiveExecutor consecutiveexecutor = new ConsecutiveExecutor(executor, "worldgen");
  
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-index 6ae69ae7b..ed70b1351 100644
+index b35be6d2a..96ddbe4da 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Slime.java
 @@ -345,7 +345,7 @@ public class Slime extends Mob implements Enemy {
              }
  
-             ChunkPos chunkpos = new ChunkPos(pos);
--            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x, chunkpos.z, ((WorldGenLevel) level).getSeed(), 987234911L).nextInt(10) == 0;
-+            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x, chunkpos.z, ((WorldGenLevel) level).getSeed(), level.getMinecraftWorld().spigotConfig.slimeSeed).nextInt(10) == 0; // Spigot
+             ChunkPos chunkpos = ChunkPos.containing(pos);
+-            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x(), chunkpos.z(), ((WorldGenLevel) level).getSeed(), 987234911L).nextInt(10) == 0;
++            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x(), chunkpos.z(), ((WorldGenLevel) level).getSeed(), level.getMinecraftWorld().spigotConfig.slimeSeed).nextInt(10) == 0; // Spigot
  
              if (random.nextInt(10) == 0 && flag && pos.getY() < 40) {
                  return checkMobSpawnRules(type, level, spawnReason, pos, random);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-index 0b51f6ab0..b0d28d924 100644
+index 189161166..35ecf3637 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-@@ -108,8 +108,8 @@ public abstract class ChunkGenerator {
+@@ -109,8 +109,8 @@ public abstract class ChunkGenerator {
  
      protected abstract MapCodec<? extends ChunkGenerator> codec();
  
@@ -45,7 +45,7 @@ index 0b51f6ab0..b0d28d924 100644
 +        return ChunkGeneratorStructureState.createForNormal(randomState, levelSeed, this.biomeSource, structureSets, conf); // Spigot
      }
  
-     public Optional<ResourceKey<MapCodec<? extends ChunkGenerator>>> getTypeNameForDataFixer() {
+     public Optional<Identifier> getTypeNameForDataFixer() {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
 index c5451dcc3..612f71559 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGeneratorStructureState.java
@@ -170,7 +170,7 @@ index fafee23ed..0b59b531d 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-index d7e9056f7..71a6a79ba 100644
+index 0c2b83f88..92ab1ee63 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 @@ -217,7 +217,7 @@ public class CraftChunk implements Chunk {
@@ -228,5 +228,5 @@ index 7f5f97def..7882c95f4 100644
 +    }
  }
 -- 
-2.52.0
+2.53.0
 

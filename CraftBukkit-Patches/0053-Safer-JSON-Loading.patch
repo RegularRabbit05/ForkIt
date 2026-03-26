@@ -1,11 +1,11 @@
-From a044ba2a7718e73e7a4f7457ce80d64a73a03472 Mon Sep 17 00:00:00 2001
+From a7860b2c8b56e8ce0fe1a7ec6b1cd4aac48d8c47 Mon Sep 17 00:00:00 2001
 From: Suddenly <suddenly@suddenly.coffee>
 Date: Tue, 8 Jul 2014 09:44:18 +1000
 Subject: [PATCH] Safer JSON Loading
 
 
 diff --git a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
-index b3cf5e271a..e49be6cafb 100644
+index 9956189e9..d019201ae 100644
 --- a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
 +++ b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
 @@ -176,6 +176,11 @@ public class CachedUserNameToIdResolver implements UserNameToIdResolver {
@@ -21,7 +21,7 @@ index b3cf5e271a..e49be6cafb 100644
              CachedUserNameToIdResolver.LOGGER.warn("Failed to load profile cache {}", this.file, ioexception);
          }
 diff --git a/src/main/java/net/minecraft/server/players/StoredUserList.java b/src/main/java/net/minecraft/server/players/StoredUserList.java
-index ad82e7c0a9..044c85bcab 100644
+index 2acff86fe..33052ee3a 100644
 --- a/src/main/java/net/minecraft/server/players/StoredUserList.java
 +++ b/src/main/java/net/minecraft/server/players/StoredUserList.java
 @@ -171,6 +171,14 @@ public abstract class StoredUserList<K, V extends StoredUserEntry<K>> {
@@ -40,5 +40,5 @@ index ad82e7c0a9..044c85bcab 100644
  
          }
 -- 
-2.52.0
+2.53.0
 

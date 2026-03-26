@@ -1,14 +1,14 @@
-From fa297f7cf574784b1ba4ca20c5d8aa0c79d7f0d1 Mon Sep 17 00:00:00 2001
+From 192f67947e188904302e258c19bbc56134ea6da3 Mon Sep 17 00:00:00 2001
 From: David <dmck2b@gmail.com>
 Date: Mon, 21 Apr 2014 12:43:08 +0100
 Subject: [PATCH] Prevent NoClassDefError crash and notify on crash
 
 
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index dab7248bc..1753d88d1 100644
+index 174c504b7..e0bde3d4e 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -159,6 +159,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -164,6 +164,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      public final org.spigotmc.SpigotWorldConfig spigotConfig; // Spigot
  
      public final SpigotTimings.WorldTimingsHandler timings; // Spigot
@@ -16,7 +16,7 @@ index dab7248bc..1753d88d1 100644
  
      public CraftWorld getWorld() {
          return this.world;
-@@ -334,7 +335,13 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -339,7 +340,13 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
                  // CraftBukkit start
                  if (!this.captureBlockStates) { // Don't notify clients or update physics while capturing blockstates
                      // Modularize client and physic updates
@@ -32,10 +32,10 @@ index dab7248bc..1753d88d1 100644
                  // CraftBukkit end
  
 diff --git a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
-index adec36423..a401bea0f 100644
+index 2d38b6084..fc5b423f7 100644
 --- a/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
 +++ b/src/main/java/net/minecraft/world/level/redstone/NeighborUpdater.java
-@@ -70,6 +70,10 @@ public interface NeighborUpdater {
+@@ -81,6 +81,10 @@ public interface NeighborUpdater {
              }
              // CraftBukkit end
              state.handleNeighborChanged(level, pos, changedBlock, orientation, movedByPiston);
@@ -65,5 +65,5 @@ index 4734d4ae8..9a695b80e 100644
                  log.log( Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Spigot!):" );
                  dumpThread( ManagementFactory.getThreadMXBean().getThreadInfo( MinecraftServer.getServer().serverThread.getId(), Integer.MAX_VALUE ), log );
 -- 
-2.52.0
+2.53.0
 

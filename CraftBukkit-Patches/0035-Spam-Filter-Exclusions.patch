@@ -1,14 +1,14 @@
-From d7ac42578415c225621a3c3e3d058ca7f2f17e24 Mon Sep 17 00:00:00 2001
+From a3bdeca807e8d4bf59e53e8e242f0b3a23aec2d9 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 8 Feb 2014 08:13:40 +0000
 Subject: [PATCH] Spam Filter Exclusions
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index ce0a83628..e7a85f8de 100644
+index a18c824b1..3709e06f1 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2073,7 +2073,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -2143,7 +2143,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
              }
              // CraftBukkit end
              this.performUnsignedChatCommand(packet.command());
@@ -17,7 +17,7 @@ index ce0a83628..e7a85f8de 100644
          }, true); // CraftBukkit - sync commands
      }
  
-@@ -2112,7 +2112,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -2182,7 +2182,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  }
                  // CraftBukkit end
                  this.performSignedChatCommand(packet, (LastSeenMessages) optional.get());
@@ -26,7 +26,7 @@ index ce0a83628..e7a85f8de 100644
              }, true); // CraftBukkit - sync commands
          }
      }
-@@ -2399,11 +2399,20 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -2469,11 +2469,20 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
          }
          // this.server.getPlayerList().broadcastChatMessage(playerchatmessage, this.player, ChatType.bind(ChatType.CHAT, (Entity) this.player));
          // CraftBukkit end
@@ -76,5 +76,5 @@ index 9744e9456..d53c089eb 100644
 +    }
  }
 -- 
-2.52.0
+2.53.0
 

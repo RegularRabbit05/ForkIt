@@ -1,4 +1,4 @@
-From 62a6b333be0ea67c78d4eb65c0eaf9e90f9c5348 Mon Sep 17 00:00:00 2001
+From b565ff061b203f5987dcf3b583f7e8a26350d115 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 15 Apr 2014 10:32:48 +1000
 Subject: [PATCH] Fix Player Banning
@@ -46,5 +46,5 @@ index 7df393b14..9a82a88dd 100644
  
      public void appendTo(JsonObject output) {
 -- 
-2.52.0
+2.53.0
 

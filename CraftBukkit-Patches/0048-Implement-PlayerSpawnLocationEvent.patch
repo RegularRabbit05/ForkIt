@@ -1,11 +1,11 @@
-From bb3ae9f0a9d6a71fc61041a9ec4575263f00d226 Mon Sep 17 00:00:00 2001
+From 081b838eb75efda9e04099545b9e3302b6982bba Mon Sep 17 00:00:00 2001
 From: ninja <xninja@openmailbox.org>
 Date: Tue, 8 Apr 2014 14:05:19 +0200
 Subject: [PATCH] Implement PlayerSpawnLocationEvent.
 
 
 diff --git a/src/main/java/net/minecraft/server/network/config/PrepareSpawnTask.java b/src/main/java/net/minecraft/server/network/config/PrepareSpawnTask.java
-index 8e4b55af6..a459a1895 100644
+index 5575ff12c..01cf12024 100644
 --- a/src/main/java/net/minecraft/server/network/config/PrepareSpawnTask.java
 +++ b/src/main/java/net/minecraft/server/network/config/PrepareSpawnTask.java
 @@ -32,6 +32,11 @@ import org.slf4j.Logger;
@@ -20,7 +20,7 @@ index 8e4b55af6..a459a1895 100644
  
  public class PrepareSpawnTask implements ConfigurationTask {
  
-@@ -221,6 +226,18 @@ public class PrepareSpawnTask implements ConfigurationTask {
+@@ -226,6 +231,18 @@ public class PrepareSpawnTask implements ConfigurationTask {
                  Objects.requireNonNull(serverplayer);
                  optional.ifPresent(serverplayer::load);
                  serverplayer.snapTo(this.spawnPosition, this.spawnAngle.x, this.spawnAngle.y);
@@ -40,5 +40,5 @@ index 8e4b55af6..a459a1895 100644
                  optional.ifPresent((valueinput) -> {
                      serverplayer.loadAndSpawnEnderPearls(valueinput);
 -- 
-2.52.0
+2.53.0
 

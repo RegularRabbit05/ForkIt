@@ -1,4 +1,4 @@
-From 86095875478aa02fc7e6ced6032d0b40785f54ef Mon Sep 17 00:00:00 2001
+From 7f3e4f31e9d28f0b06743cd8a13f1a064c0d52e3 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 28 Jul 2014 16:55:51 +1000
 Subject: [PATCH] Allow Attribute Capping.
@@ -6,7 +6,7 @@ Subject: [PATCH] Allow Attribute Capping.
 Apply some sensible defaults and allow server owners to customize the maximum values of selected common attributes.
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/Attributes.java b/src/main/java/net/minecraft/world/entity/ai/attributes/Attributes.java
-index 0dd5b6446b..bbe80eecfc 100644
+index 9c3bba31b..317a60a7a 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/attributes/Attributes.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/attributes/Attributes.java
 @@ -11,7 +11,7 @@ public class Attributes {
@@ -34,7 +34,7 @@ index 0dd5b6446b..bbe80eecfc 100644
      public static final Holder<Attribute> SAFE_FALL_DISTANCE = register("safe_fall_distance", (new RangedAttribute("attribute.name.safe_fall_distance", 3.0D, -1024.0D, 1024.0D)).setSyncable(true));
      public static final Holder<Attribute> SCALE = register("scale", (new RangedAttribute("attribute.name.scale", 1.0D, 0.0625D, 16.0D)).setSyncable(true).setSentiment(Attribute.Sentiment.NEUTRAL));
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index f276966f89..a955d40851 100644
+index f276966f8..a955d4085 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -16,6 +16,8 @@ import java.util.logging.Level;
@@ -68,5 +68,5 @@ index f276966f89..a955d40851 100644
 +    }
  }
 -- 
-2.52.0
+2.53.0
 

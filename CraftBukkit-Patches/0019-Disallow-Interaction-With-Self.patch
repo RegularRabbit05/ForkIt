@@ -1,17 +1,17 @@
-From f10c6b848a2dbb5232a2e587d763c310ba20406f Mon Sep 17 00:00:00 2001
+From ca52145556e1eb31071ba5ad5f10a654c9b94ed0 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 28 Jun 2013 19:52:54 +1000
 Subject: [PATCH] Disallow Interaction With Self
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index adbd4955f..73dca19e4 100644
+index 71ab8d4af..198dadf7c 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2591,6 +2591,13 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -2714,6 +2714,13 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
          if (this.hasClientLoaded()) {
-             final ServerLevel serverlevel = this.player.level();
-             final Entity entity = packet.getTarget(serverlevel);
+             ServerLevel serverlevel = this.player.level();
+             Entity entity = serverlevel.getEntityOrPart(packet.entityId());
 +            // Spigot Start
 +            if ( entity == player && !player.isSpectator() )
 +            {
@@ -21,7 +21,7 @@ index adbd4955f..73dca19e4 100644
 +            // Spigot End
  
              this.player.resetLastActionTime();
-             this.player.setShiftKeyDown(packet.isUsingSecondaryAction());
+             this.player.setShiftKeyDown(packet.usingSecondaryAction());
 -- 
-2.52.0
+2.53.0
 

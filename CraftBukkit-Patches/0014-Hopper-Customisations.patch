@@ -1,4 +1,4 @@
-From 92cabdbfa9ec25b749c0f5cb03d82eeeedc0b35e Mon Sep 17 00:00:00 2001
+From 27a5d79e63e739b9bf473a1a48fbfdb4af53763d Mon Sep 17 00:00:00 2001
 From: erocs <github@erocs.org>
 Date: Sun, 8 Sep 2013 12:06:15 -0700
 Subject: [PATCH] Hopper Customisations
@@ -6,7 +6,7 @@ Subject: [PATCH] Hopper Customisations
 Allows editing hopper cooldowns and amount transferred per tick.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java
-index 34ab80498..5d4a0dfb1 100644
+index 68a7c7e5c..0e2a7ffef 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java
 @@ -147,9 +147,14 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
@@ -176,5 +176,5 @@ index ab984b210..cec948a05 100644
 +    }
  }
 -- 
-2.52.0
+2.53.0
 

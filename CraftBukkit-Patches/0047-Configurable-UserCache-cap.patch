@@ -1,11 +1,11 @@
-From 0dcbddde613f21fae79f3224c8d761a4fea8bc16 Mon Sep 17 00:00:00 2001
+From 18d87acd0ab51ec686cc220a95a838b4afdc420c Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Fri, 25 Apr 2014 18:17:30 -0400
 Subject: [PATCH] Configurable UserCache cap
 
 
 diff --git a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
-index 8537dbb7e3..df72f195e6 100644
+index 6385d83d5..851d726ed 100644
 --- a/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
 +++ b/src/main/java/net/minecraft/server/players/CachedUserNameToIdResolver.java
 @@ -188,7 +188,7 @@ public class CachedUserNameToIdResolver implements UserNameToIdResolver {
@@ -18,7 +18,7 @@ index 8537dbb7e3..df72f195e6 100644
          });
          String s = this.gson.toJson(jsonarray);
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 87fbd498cb..c85de31677 100644
+index 87fbd498c..c85de3167 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -314,4 +314,10 @@ public class SpigotConfig
@@ -33,5 +33,5 @@ index 87fbd498cb..c85de31677 100644
 +    }
  }
 -- 
-2.52.0
+2.53.0
 

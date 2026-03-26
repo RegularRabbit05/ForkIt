@@ -1,11 +1,11 @@
-From 6c6732f0f07db6f8106cc3ddeb4884a3dcbfd70a Mon Sep 17 00:00:00 2001
+From 0aef4af8f7c4b26121123d00f1ae0f7775605567 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 26 Jan 2014 21:48:34 +1100
 Subject: [PATCH] Configurable Ping Sample Size
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
-index 61b319ee56..13bc59ebde 100644
+index c21d792e0..deba6a746 100644
 --- a/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerStatusPacketListenerImpl.java
 @@ -133,6 +133,13 @@ public class ServerStatusPacketListenerImpl implements ServerStatusPacketListene
@@ -23,7 +23,7 @@ index 61b319ee56..13bc59ebde 100644
  
              ServerStatus ping = new ServerStatus(
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
-index 418e99b407..cabfecd2a4 100644
+index 418e99b40..cabfecd2a 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotConfig.java
 @@ -271,4 +271,11 @@ public class SpigotConfig
@@ -39,5 +39,5 @@ index 418e99b407..cabfecd2a4 100644
 +    }
  }
 -- 
-2.52.0
+2.53.0
 

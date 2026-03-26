@@ -1,14 +1,14 @@
-From 69d0142be99aa28ee4a8bb90fa80828070d1c557 Mon Sep 17 00:00:00 2001
+From 6cf064976e2d9e2de71e7855de64b98ad473b8f4 Mon Sep 17 00:00:00 2001
 From: lazertester <austin.techhead@gmail.com>
 Date: Sun, 17 Aug 2014 19:56:17 +1000
 Subject: [PATCH] Add Hunger Config Values
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index e11e8f3a4..d06efdb24 100644
+index ca5c4ff01..ac7a08330 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -1888,21 +1888,21 @@ public class ServerPlayer extends Player {
+@@ -1902,21 +1902,21 @@ public class ServerPlayer extends Player {
  
                  if (i > 0) {
                      this.awardStat(Stats.SWIM_ONE_CM, i);
@@ -33,7 +33,7 @@ index e11e8f3a4..d06efdb24 100644
                  }
              } else if (this.onClimbable()) {
                  if (dy > 0.0D) {
-@@ -1914,13 +1914,13 @@ public class ServerPlayer extends Player {
+@@ -1928,13 +1928,13 @@ public class ServerPlayer extends Player {
                  if (l > 0) {
                      if (this.isSprinting()) {
                          this.awardStat(Stats.SPRINT_ONE_CM, l);
@@ -50,7 +50,7 @@ index e11e8f3a4..d06efdb24 100644
                      }
                  }
              } else if (this.isFallFlying()) {
-@@ -2009,9 +2009,9 @@ public class ServerPlayer extends Player {
+@@ -2023,9 +2023,9 @@ public class ServerPlayer extends Player {
          super.jumpFromGround();
          this.awardStat(Stats.JUMP);
          if (this.isSprinting()) {
@@ -63,10 +63,10 @@ index e11e8f3a4..d06efdb24 100644
  
      }
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 86cacb6b3..2217e6e27 100644
+index 1cfd0e95c..5ac720114 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -1314,7 +1314,7 @@ public abstract class Player extends Avatar implements ContainerUser {
+@@ -1296,7 +1296,7 @@ public abstract class Player extends Avatar implements ContainerUser {
                      this.setLastHurtMob(target);
                      this.itemAttackInteraction(target, itemstack, damagesource, flag3);
                      this.damageStatsAndHearts(target, f3);
@@ -124,5 +124,5 @@ index 7882c95f4..1b5d1e283 100644
 +    }
  }
 -- 
-2.52.0
+2.53.0
 

@@ -1,4 +1,4 @@
-From 19d15af114469703a66770ee8359383e3de0ec89 Mon Sep 17 00:00:00 2001
+From 91ec3ea8a50029c01f018afd89c93b8dbcbf7a08 Mon Sep 17 00:00:00 2001
 From: Thinkofdeath <thinkofdeath@spigotmc.org>
 Date: Sun, 29 Jun 2014 21:10:34 +0100
 Subject: [PATCH] Limit block placement/interaction packets
@@ -45,10 +45,10 @@ index 6b027df2f..c20df0ac5 100644
          this.sequence = input.readVarInt();
          this.yRot = input.readFloat();
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index e7a85f8de..e39851b6d 100644
+index 3709e06f1..29aaa4487 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1804,10 +1804,30 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1857,10 +1857,30 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
          }
      }
  
@@ -79,7 +79,7 @@ index e7a85f8de..e39851b6d 100644
          if (this.hasClientLoaded()) {
              this.ackBlockChangesUpTo(packet.getSequence());
              ServerLevel serverlevel = this.player.level();
-@@ -1870,6 +1890,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1940,6 +1960,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
      public void handleUseItem(ServerboundUseItemPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.level());
          if (this.player.isImmobile()) return; // CraftBukkit
@@ -88,5 +88,5 @@ index e7a85f8de..e39851b6d 100644
              this.ackBlockChangesUpTo(packet.getSequence());
              ServerLevel serverlevel = this.player.level();
 -- 
-2.52.0
+2.53.0
 

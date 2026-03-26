@@ -1,14 +1,14 @@
-From 8d7aebaf28f8d9e9d67240cad33c7ce81a11e538 Mon Sep 17 00:00:00 2001
+From 0a82811a5e8ae052b1dc69845db499d35fb9af3c Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 14 Dec 2019 10:26:52 +1100
 Subject: [PATCH] Add log-villager-deaths option
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 1f4c55fb9..4ffcaee87 100644
+index fec541a31..f826c2235 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -1859,7 +1859,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -1846,7 +1846,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
  
              this.stopUsingItem();
              if (!this.level().isClientSide() && this.hasCustomName()) {
@@ -18,10 +18,10 @@ index 1f4c55fb9..4ffcaee87 100644
  
              this.dead = true;
 diff --git a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
-index 72a11736a..bdae77eb2 100644
+index 910f08bd4..42e44b8f6 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
-@@ -616,7 +616,7 @@ public class Villager extends AbstractVillager implements VillagerDataHolder, Re
+@@ -633,7 +633,7 @@ public class Villager extends AbstractVillager implements VillagerDataHolder, Re
  
      @Override
      public void die(DamageSource source) {
@@ -47,5 +47,5 @@ index 3a42829ee..864967890 100644
 +    }
  }
 -- 
-2.52.0
+2.53.0
 
