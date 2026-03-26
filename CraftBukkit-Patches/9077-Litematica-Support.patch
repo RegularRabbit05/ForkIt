@@ -1,0 +1,24 @@
+From 3626683b4265f6a4c0a846e0b1f95f3a9efeb7ad Mon Sep 17 00:00:00 2001
+From: Reg <69511985+RegularRabbit05@users.noreply.github.com>
+Date: Wed, 25 Feb 2026 00:43:21 +0000
+Subject: [PATCH] Litematica Support
+
+
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index 40c005aff..0755522d9 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -1843,7 +1843,9 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+                     Vec3 vec31 = vec3.subtract(Vec3.atCenterOf(blockpos));
+                     double d0 = 1.0000001D;
+ 
+-                    if (Math.abs(vec31.x()) < 1.0000001D && Math.abs(vec31.y()) < 1.0000001D && Math.abs(vec31.z()) < 1.0000001D) {
++                    // Forkit start - Fix block placement for Litematica
++                    if (true || Math.abs(vec31.x()) < 1.0000001D && Math.abs(vec31.y()) < 1.0000001D && Math.abs(vec31.z()) < 1.0000001D) {
++                    // Forkit end
+                         Direction direction = blockhitresult.getDirection();
+ 
+                         this.player.resetLastActionTime();
+-- 
+2.52.0
+
