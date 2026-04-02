@@ -1,4 +1,4 @@
-From a5ccaaabf89d9053794c5bc2b22d1693be0141db Mon Sep 17 00:00:00 2001
+From e13f99af37ec0b1101566dc0f5a7addcc69d02aa Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 25 Mar 2014 16:10:01 +1100
 Subject: [PATCH] Async Operation Catching
@@ -62,7 +62,7 @@ index e8ce8c658..9cde9f572 100644
  
              if (level > this.maxDistance) {
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 63a9d7e1a..bad81d874 100644
+index d11523f32..157758a79 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1219,6 +1219,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
@@ -73,7 +73,7 @@ index 63a9d7e1a..bad81d874 100644
          if (entity.isRemoved()) {
              // ServerLevel.LOGGER.warn("Tried to add entity {} but it was marked as removed already", entity.typeHolder().getRegisteredName()); // CraftBukkit
              return false;
-@@ -1992,6 +1993,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1998,6 +1999,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
      @Override
      public LevelEntityGetter<Entity> getEntities() {
@@ -81,7 +81,7 @@ index 63a9d7e1a..bad81d874 100644
          return this.entityManager.getEntityGetter();
      }
  
-@@ -2182,6 +2184,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2188,6 +2190,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          }
  
          public void onTrackingStart(Entity entity) {
@@ -89,7 +89,7 @@ index 63a9d7e1a..bad81d874 100644
              ServerLevel.this.getChunkSource().addEntity(entity);
              if (entity instanceof ServerPlayer serverplayer) {
                  ServerLevel.this.players.add(serverplayer);
-@@ -2219,6 +2222,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2225,6 +2228,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          }
  
          public void onTrackingEnd(Entity entity) {
@@ -137,10 +137,10 @@ index b115e42eb..0f0cd6cbc 100644
      // CraftBukkit start
      protected void onPlace(BlockState blockstate, Level level, BlockPos blockpos, BlockState blockstate1, boolean flag, @Nullable UseOnContext context) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index a73123877..cf7143e17 100644
+index a25a3a4cc..6d41446a1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -907,6 +907,7 @@ public final class CraftServer implements Server {
+@@ -910,6 +910,7 @@ public final class CraftServer implements Server {
      public boolean dispatchCommand(CommandSender sender, String commandLine) {
          Preconditions.checkArgument(sender != null, "sender cannot be null");
          Preconditions.checkArgument(commandLine != null, "commandLine cannot be null");

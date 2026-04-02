@@ -1,4 +1,4 @@
-From 7aea53ee24e3bc3e923c6ee9150fc73c63bd10b5 Mon Sep 17 00:00:00 2001
+From 9e1c9bf4a652d027c86f6154da4a8e9190c755f5 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Thu, 10 Jan 2013 00:18:11 -0500
 Subject: [PATCH] Spigot Timings
@@ -6,7 +6,7 @@ Subject: [PATCH] Spigot Timings
 Overhauls the Timings System adding performance tracking all around the Minecraft Server
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index e43c2ebc3..480539b98 100644
+index d3ac15245..4c42de1c4 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -226,6 +226,8 @@ import org.jline.terminal.Terminal;
@@ -205,7 +205,7 @@ index 9f3d7529f..295d8c374 100644
          if (flag) {
              profiler.popPush("customSpawners");
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 5e4b86255..c7c0b8798 100644
+index cc8a9a08e..426972e94 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -201,6 +201,7 @@ import net.minecraft.world.level.storage.PrimaryLevelData;
@@ -593,10 +593,10 @@ index ae4e92319..f85eb3452 100644
          };
      }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index cf7143e17..a4ab25da0 100644
+index 6d41446a1..9988ac727 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2563,6 +2563,11 @@ public final class CraftServer implements Server {
+@@ -2570,6 +2570,11 @@ public final class CraftServer implements Server {
      private final org.bukkit.Server.Spigot spigot = new org.bukkit.Server.Spigot()
      {
  

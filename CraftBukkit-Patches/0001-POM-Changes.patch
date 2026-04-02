@@ -46,7 +46,7 @@ index 3ce0d07f3..69b56c5ee 100644
 +    <groupId>org.spigotmc</groupId>
 +    <artifactId>spigot</artifactId>
      <packaging>jar</packaging>
-     <version>26.1-R0.1-SNAPSHOT</version>
+     <version>26.1.1-R0.1-SNAPSHOT</version>
 -    <name>CraftBukkit</name>
 +    <name>Spigot</name>
      <url>https://www.spigotmc.org/</url>

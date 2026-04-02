@@ -1,14 +1,14 @@
-From 0ca57e48d66288046cc85be19cf8a530776dd50e Mon Sep 17 00:00:00 2001
+From 17d410f795b8a4d65a55ec7ba85f20a27ddb76e5 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 8 Aug 2014 19:57:03 +1000
 Subject: [PATCH] Plug WorldMap Memory Leak
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 771e8492d..4384171e6 100644
+index c48b60273..9779d276f 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -2251,6 +2251,29 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2257,6 +2257,29 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
          public void onTrackingEnd(Entity entity) {
              org.spigotmc.AsyncCatcher.catchOp("entity unregister"); // Spigot

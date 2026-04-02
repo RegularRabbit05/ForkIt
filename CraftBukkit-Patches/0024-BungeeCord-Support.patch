@@ -1,4 +1,4 @@
-From bf871227d0f4be0b62c2b8f55ea19c4552de5be3 Mon Sep 17 00:00:00 2001
+From 217bb2e9575e069dbf70c63e69093710a4c139e9 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 12 Apr 2014 21:23:58 +1000
 Subject: [PATCH] BungeeCord Support
@@ -230,10 +230,10 @@ index f015d0a96..feb6cf670 100644
          if (this.bans.isBanned(nameAndId)) {
              UserBanListEntry userbanlistentry = (UserBanListEntry) this.bans.get(nameAndId);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 857b532bb..31377c6bb 100644
+index 1ae2ebb48..236590ab7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -812,7 +812,13 @@ public final class CraftServer implements Server {
+@@ -815,7 +815,13 @@ public final class CraftServer implements Server {
  
      @Override
      public long getConnectionThrottle() {
@@ -248,7 +248,7 @@ index 857b532bb..31377c6bb 100644
      }
  
      @Override
-@@ -1805,7 +1811,7 @@ public final class CraftServer implements Server {
+@@ -1812,7 +1818,7 @@ public final class CraftServer implements Server {
          if (result == null) {
              NameAndId profile = null;
              // Only fetch an online UUID in online mode
