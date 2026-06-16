@@ -1,14 +1,14 @@
-From 513c079e2649a62cbf6f84a176e1e4f209729ca8 Mon Sep 17 00:00:00 2001
+From 562014d86df2551d9ffe8fac04c2c502a063be4d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 24 Oct 2021 20:29:25 +1100
 Subject: [PATCH] Configurable Thunder Chance
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 4384171e6..a0dc9cbbf 100644
+index bfd872966..539702a02 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -648,7 +648,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -662,7 +662,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          ProfilerFiller profilerfiller = Profiler.get();
  
          profilerfiller.push("thunder");
@@ -33,5 +33,5 @@ index 68cf01386..b6ac09ee9 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

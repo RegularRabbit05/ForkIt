@@ -1,4 +1,4 @@
-From a7860b2c8b56e8ce0fe1a7ec6b1cd4aac48d8c47 Mon Sep 17 00:00:00 2001
+From a0e2f43117fb533cba6df54c4c2493b0bbb83941 Mon Sep 17 00:00:00 2001
 From: Suddenly <suddenly@suddenly.coffee>
 Date: Tue, 8 Jul 2014 09:44:18 +1000
 Subject: [PATCH] Safer JSON Loading
@@ -40,5 +40,5 @@ index 2acff86fe..33052ee3a 100644
  
          }
 -- 
-2.53.0
+2.54.0
 

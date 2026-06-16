@@ -1,4 +1,4 @@
-From 1ae0f4b4aac20826f9cf751a730f54e4bd3d4ac9 Mon Sep 17 00:00:00 2001
+From 7448f81b188b1f9d217f207938271ce40f01d3c4 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 7 Jul 2013 09:32:53 +1000
 Subject: [PATCH] Spigot Configuration
@@ -6,10 +6,10 @@ Subject: [PATCH] Spigot Configuration
 Provides the basic infrastructure to load and save the Spigot configuration file, spigot.yml
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index ba5a955d4..18308f6ce 100644
+index 02a6685fa..dd9134128 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -306,6 +306,11 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -261,6 +261,11 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              this.setPreventProxyConnections(dedicatedserverproperties.preventProxyConnections);
              this.setLocalIp(dedicatedserverproperties.serverIp);
          }
@@ -21,7 +21,7 @@ index ba5a955d4..18308f6ce 100644
  
          // this.worldData.setGameType(dedicatedserverproperties.gameMode.get()); // CraftBukkit - moved to world loading
          DedicatedServer.LOGGER.info("Default game type: {}", dedicatedserverproperties.gameMode.get());
-@@ -332,7 +337,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -287,7 +292,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          }
  
          // CraftBukkit start
@@ -31,10 +31,10 @@ index ba5a955d4..18308f6ce 100644
          server.enablePlugins(org.bukkit.plugin.PluginLoadOrder.STARTUP);
          // CraftBukkit end
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 9065c6b9b..54d09d810 100644
+index 5f2c8e551..91ceb9697 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -160,6 +160,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -161,6 +161,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      public List<ItemEntity> captureDrops;
      public final it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<SpawnCategory> ticksPerSpawnCategory = new it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap<>();
      public boolean populating;
@@ -42,7 +42,7 @@ index 9065c6b9b..54d09d810 100644
  
      public CraftWorld getWorld() {
          return this.world;
-@@ -172,6 +173,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -173,6 +174,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      public abstract ResourceKey<LevelStem> getTypeKey();
  
      protected Level(WritableLevelData levelData, ResourceKey<Level> dimension, RegistryAccess registryAccess, Holder<DimensionType> dimensionTypeRegistration, boolean isClientSide, boolean isDebug, long biomeZoomSeed, int maxChainedNeighborUpdates, org.bukkit.generator.ChunkGenerator gen, org.bukkit.generator.BiomeProvider biomeProvider, org.bukkit.World.Environment env) {
@@ -77,7 +77,7 @@ index 28bc8ccb1..a25a3a4cc 100644
          ignoreVanillaPermissions = commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 3f6a93515..3913bd79d 100644
+index 4499053d2..f6789fcb1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -136,6 +136,14 @@ public class Main {
@@ -380,5 +380,5 @@ index 000000000..1cce14866
 +    }
 +}
 -- 
-2.53.0
+2.54.0
 

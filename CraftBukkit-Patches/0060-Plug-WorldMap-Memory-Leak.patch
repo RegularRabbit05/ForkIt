@@ -1,14 +1,14 @@
-From 17d410f795b8a4d65a55ec7ba85f20a27ddb76e5 Mon Sep 17 00:00:00 2001
+From 236fa0f640f7b3a91c488261c6c938b2c01e2c4d Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 8 Aug 2014 19:57:03 +1000
 Subject: [PATCH] Plug WorldMap Memory Leak
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index c48b60273..9779d276f 100644
+index e96011e6b..bfd872966 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -2257,6 +2257,29 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2265,6 +2265,29 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
          public void onTrackingEnd(Entity entity) {
              org.spigotmc.AsyncCatcher.catchOp("entity unregister"); // Spigot
@@ -39,5 +39,5 @@ index c48b60273..9779d276f 100644
              if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof ServerPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  for (org.bukkit.entity.HumanEntity h : Lists.newArrayList(((org.bukkit.inventory.InventoryHolder) entity.getBukkitEntity()).getInventory().getViewers())) {
 -- 
-2.53.0
+2.54.0
 

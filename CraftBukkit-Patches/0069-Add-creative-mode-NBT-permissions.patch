@@ -1,11 +1,11 @@
-From ffaddb2ad3014e5791b5dd3e7baae2b505af7787 Mon Sep 17 00:00:00 2001
+From d3fdbd4e9b7f8326b629ab1c341b17a239b2da2f Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 25 Feb 2019 19:26:56 +1100
 Subject: [PATCH] Add creative mode NBT permissions
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
-index 37f714659..5815afc62 100644
+index e7bac3032..433aef7c6 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayerGameMode.java
 @@ -236,6 +236,14 @@ public class ServerPlayerGameMode {
@@ -24,10 +24,10 @@ index 37f714659..5815afc62 100644
                      this.player.connection.send(new ClientboundBlockUpdatePacket(pos, this.level.getBlockState(pos)));
                      this.debugLogging(pos, false, sequence, "block action restricted");
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index d53abd8a5..411b6d2fc 100644
+index 82b0715b4..b09e80ba4 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -917,7 +917,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -921,7 +921,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  ItemStack itemstack = blockstate.getCloneItemStack(serverlevel, blockpos, flag);
  
                  if (!itemstack.isEmpty()) {
@@ -37,10 +37,10 @@ index d53abd8a5..411b6d2fc 100644
                      }
  
 diff --git a/src/main/java/net/minecraft/world/item/BlockItem.java b/src/main/java/net/minecraft/world/item/BlockItem.java
-index e24073bbb..4fe053c19 100644
+index 3a4654dd3..c6c181b94 100644
 --- a/src/main/java/net/minecraft/world/item/BlockItem.java
 +++ b/src/main/java/net/minecraft/world/item/BlockItem.java
-@@ -199,7 +199,7 @@ public class BlockItem extends Item {
+@@ -201,7 +201,7 @@ public class BlockItem extends Item {
                          return false;
                      }
  
@@ -80,5 +80,5 @@ index 75f8d47a2..525ebf961 100644
      }
  }
 -- 
-2.53.0
+2.54.0
 

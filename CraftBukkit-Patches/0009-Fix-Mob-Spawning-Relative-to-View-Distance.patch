@@ -1,4 +1,4 @@
-From 353524de49f74733f288d3696d33d64391aee3a4 Mon Sep 17 00:00:00 2001
+From 4de7ab7f51423c15b632765a39f226884196ad67 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 17:29:54 +1000
 Subject: [PATCH] Fix Mob Spawning Relative to View Distance
@@ -8,18 +8,18 @@ Changes the mob spawning algorithm to properly account for view distance and the
 Needs better documentation.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 59e33c9da..184bb78ab 100644
+index 0165a8908..fd4b63e4d 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -1062,9 +1062,15 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+@@ -1070,9 +1070,15 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
      }
  
-     boolean anyPlayerCloseEnoughForSpawning(ChunkPos pos) {
+     public boolean anyPlayerCloseEnoughForSpawning(ChunkPos pos) {
 +        // Spigot start
 +        return anyPlayerCloseEnoughForSpawning(pos, false);
 +    }
 +
-+    boolean anyPlayerCloseEnoughForSpawning(ChunkPos pos, boolean reducedRange) {
++    public boolean anyPlayerCloseEnoughForSpawning(ChunkPos pos, boolean reducedRange) {
 +        // Spigot end
          TriState tristate = this.distanceManager.hasPlayersNearby(pos.pack());
  
@@ -27,8 +27,8 @@ index 59e33c9da..184bb78ab 100644
 +        return tristate == TriState.DEFAULT ? this.anyPlayerCloseEnoughForSpawningInternal(pos, reducedRange) : tristate.toBoolean(true); // Spigot
      }
  
-     boolean anyPlayerCloseEnoughTo(BlockPos pos, int maxDistance) {
-@@ -1080,8 +1086,19 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+     public boolean anyPlayerCloseEnoughTo(BlockPos pos, int maxDistance) {
+@@ -1088,8 +1094,19 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
      }
  
      private boolean anyPlayerCloseEnoughForSpawningInternal(ChunkPos pos) {
@@ -49,7 +49,7 @@ index 59e33c9da..184bb78ab 100644
                  return true;
              }
          }
-@@ -1098,7 +1115,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+@@ -1106,7 +1123,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
              ImmutableList.Builder<ServerPlayer> immutablelist_builder = ImmutableList.builder();
  
              for (ServerPlayer serverplayer : this.playerMap.getAllPlayers()) {
@@ -58,7 +58,7 @@ index 59e33c9da..184bb78ab 100644
                      immutablelist_builder.add(serverplayer);
                  }
              }
-@@ -1107,13 +1124,13 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+@@ -1115,13 +1132,13 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
          }
      }
  
@@ -75,10 +75,10 @@ index 59e33c9da..184bb78ab 100644
      }
  
 diff --git a/src/main/java/net/minecraft/server/level/ServerChunkCache.java b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-index 295d8c374..748d09e2d 100644
+index a78bb3fae..7c3b98644 100644
 --- a/src/main/java/net/minecraft/server/level/ServerChunkCache.java
 +++ b/src/main/java/net/minecraft/server/level/ServerChunkCache.java
-@@ -470,7 +470,7 @@ public class ServerChunkCache extends ChunkSource {
+@@ -481,7 +481,7 @@ public class ServerChunkCache extends ChunkSource {
          }
  
          if (!spawningCategories.isEmpty()) {
@@ -104,5 +104,5 @@ index acaf90301..0c0c29efe 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

@@ -1,14 +1,14 @@
-From d6dc4a813a66b858f4c36b00b3749081300b728d Mon Sep 17 00:00:00 2001
+From a74a14abb6784d6b48503d2ac93c5214c14d0acf Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Fri, 4 Jul 2014 23:03:13 +0200
 Subject: [PATCH] Make "moved wrongly" limit configurable
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 29aaa4487..a7e83c06c 100644
+index 0d503766f..ff64be11c 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -627,7 +627,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -631,7 +631,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                  boolean flag1 = false;
  
@@ -17,7 +17,7 @@ index 29aaa4487..a7e83c06c 100644
                      flag1 = true;
                      ServerGamePacketListenerImpl.LOGGER.warn("{} (vehicle of {}) moved wrongly! {}", new Object[]{entity.getPlainTextName(), this.player.getPlainTextName(), Math.sqrt(d10)});
                  }
-@@ -1505,7 +1505,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -1512,7 +1512,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                                  d10 = d6 * d6 + d7 * d7 + d8 * d8;
                                  boolean flag3 = false;
  
@@ -42,5 +42,5 @@ index d830925db..37bb28c98 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

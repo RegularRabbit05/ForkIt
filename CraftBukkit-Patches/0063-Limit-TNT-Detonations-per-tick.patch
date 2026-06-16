@@ -1,4 +1,4 @@
-From dab1154835d79dae07273e9e7e4952ab370daf3d Mon Sep 17 00:00:00 2001
+From 06246511b4ead396db1d392a9e586fb0ac8e17f8 Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Wed, 20 Aug 2014 18:12:32 -0400
 Subject: [PATCH] Limit TNT Detonations per tick
@@ -7,10 +7,10 @@ This gives a per-world control on how much TNT will be processed per-tick,
 preventing a massive TNT detonation from lagging out the server.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java b/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java
-index aaee2e9e1..9eccc7744 100644
+index ce316bd95..7e5a5c4d5 100644
 --- a/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java
 +++ b/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java
-@@ -102,6 +102,7 @@ public class PrimedTnt extends Entity implements TraceableEntity {
+@@ -105,6 +105,7 @@ public class PrimedTnt extends Entity implements TraceableEntity {
  
      @Override
      public void tick() {
@@ -19,10 +19,10 @@ index aaee2e9e1..9eccc7744 100644
          this.applyGravity();
          this.move(MoverType.SELF, this.getDeltaMovement());
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index e0bde3d4e..a32f2adbc 100644
+index 5b5e68d24..c8cf4da59 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -602,6 +602,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -607,6 +607,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
  
          timings.tileEntityTick.stopTiming(); // Spigot
          this.tickingBlockEntities = false;
@@ -51,5 +51,5 @@ index 1b5d1e283..8411f9e57 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

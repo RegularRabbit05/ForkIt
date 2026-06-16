@@ -1,14 +1,14 @@
-From 47ca3662fbbf6305c26ccc1ac3e879bdfe8c9ffa Mon Sep 17 00:00:00 2001
+From 1024849a6de49be89db48d8fb8c7d58935312b78 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Wed, 22 Jul 2015 19:04:37 +1000
 Subject: [PATCH] Clear Packet Queue on Disconnect
 
 
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index a7355d72a..abf4b847e 100644
+index 065d2a774..24c6be8f1 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
-@@ -628,6 +628,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -639,6 +639,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
  
                      packetlistener1.onDisconnect(disconnectiondetails);
                  }
@@ -30,5 +30,5 @@ index cfb465ef3..458be83aa 100644
          } else if (packet instanceof ClientboundSetDefaultSpawnPositionPacket) {
              ClientboundSetDefaultSpawnPositionPacket packet6 = (ClientboundSetDefaultSpawnPositionPacket) packet;
 -- 
-2.53.0
+2.54.0
 

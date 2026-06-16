@@ -1,4 +1,4 @@
-From 27a5d79e63e739b9bf473a1a48fbfdb4af53763d Mon Sep 17 00:00:00 2001
+From f536567b2ba15595d6c161c39b2785b04cc79d8f Mon Sep 17 00:00:00 2001
 From: erocs <github@erocs.org>
 Date: Sun, 8 Sep 2013 12:06:15 -0700
 Subject: [PATCH] Hopper Customisations
@@ -6,7 +6,7 @@ Subject: [PATCH] Hopper Customisations
 Allows editing hopper cooldowns and amount transferred per tick.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java
-index 68a7c7e5c..0e2a7ffef 100644
+index 16f32988f..8d566cd31 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/HopperBlockEntity.java
 @@ -147,9 +147,14 @@ public class HopperBlockEntity extends RandomizableContainerBlockEntity implemen
@@ -147,7 +147,7 @@ index 68a7c7e5c..0e2a7ffef 100644
 +        if ( !level.spigotConfig.hopperCanLoadChunks && !level.hasChunkAt( pos ) ) return null; // Spigot
          Block block = state.getBlock();
  
-         if (block instanceof WorldlyContainerHolder) {
+         if (block instanceof WorldlyContainerHolder worldlycontainerholder) {
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 index ab984b210..cec948a05 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
@@ -176,5 +176,5 @@ index ab984b210..cec948a05 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

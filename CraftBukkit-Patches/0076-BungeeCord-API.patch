@@ -1,4 +1,4 @@
-From 386f9220a63d7d4f3245b72234c001894f38f98e Mon Sep 17 00:00:00 2001
+From b93c48754cfa6c1a822c4bd59977787beebcecd7 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 03:06:05 +0100
 Subject: [PATCH] BungeeCord API
@@ -120,10 +120,10 @@ index 861739d4c..6b3632109 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index dadc4ffc6..3b8998b54 100644
+index 19e79b704..330ef2fe0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-@@ -63,6 +63,8 @@ import org.bukkit.util.BoundingBox;
+@@ -64,6 +64,8 @@ import org.bukkit.util.BoundingBox;
  import org.bukkit.util.NumberConversions;
  import org.bukkit.util.Vector;
  
@@ -132,7 +132,7 @@ index dadc4ffc6..3b8998b54 100644
  public abstract class CraftEntity implements org.bukkit.entity.Entity {
      private static PermissibleBase perm;
      private static final CraftPersistentDataTypeRegistry DATA_TYPE_REGISTRY = new CraftPersistentDataTypeRegistry();
-@@ -898,6 +900,26 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+@@ -899,6 +901,26 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
      // Spigot start
      private final org.bukkit.entity.Entity.Spigot spigot = new org.bukkit.entity.Entity.Spigot()
      {
@@ -160,7 +160,7 @@ index dadc4ffc6..3b8998b54 100644
  
      public org.bukkit.entity.Entity.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 00ee83916..c7ab6b076 100644
+index 3c8d1d365..54b7cdb36 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -204,6 +204,8 @@ import org.bukkit.scoreboard.Scoreboard;
@@ -446,7 +446,7 @@ index c2654f056..9e78e94f3 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java b/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
-index 9d810c191..0f34af030 100644
+index 4b2a5394a..6807f429f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
 @@ -44,6 +44,12 @@ public final class CraftChatMessage {
@@ -463,5 +463,5 @@ index 9d810c191..0f34af030 100644
          return formatMap.get(color.getChar());
      }
 -- 
-2.53.0
+2.54.0
 

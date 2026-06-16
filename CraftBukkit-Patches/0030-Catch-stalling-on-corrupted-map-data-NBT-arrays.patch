@@ -1,11 +1,11 @@
-From a4214d0f43feb27de033730dd9c76a9e669700c0 Mon Sep 17 00:00:00 2001
+From eed0239db480fba35809d5ad7a176b0e443c0bfe Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 20 Jan 2014 13:44:07 +1100
 Subject: [PATCH] Catch stalling on corrupted map data / NBT arrays.
 
 
 diff --git a/src/main/java/net/minecraft/nbt/ByteArrayTag.java b/src/main/java/net/minecraft/nbt/ByteArrayTag.java
-index 955239974..7d7a52155 100644
+index fb0462ab6..c63678ea6 100644
 --- a/src/main/java/net/minecraft/nbt/ByteArrayTag.java
 +++ b/src/main/java/net/minecraft/nbt/ByteArrayTag.java
 @@ -25,6 +25,7 @@ public final class ByteArrayTag implements CollectionTag {
@@ -17,7 +17,7 @@ index 955239974..7d7a52155 100644
              accounter.accountBytes(1L, (long) i);
              byte[] abyte = new byte[i];
 diff --git a/src/main/java/net/minecraft/nbt/IntArrayTag.java b/src/main/java/net/minecraft/nbt/IntArrayTag.java
-index f0444b12b..d1dd80756 100644
+index de616928b..fde855338 100644
 --- a/src/main/java/net/minecraft/nbt/IntArrayTag.java
 +++ b/src/main/java/net/minecraft/nbt/IntArrayTag.java
 @@ -25,6 +25,7 @@ public final class IntArrayTag implements CollectionTag {
@@ -29,5 +29,5 @@ index f0444b12b..d1dd80756 100644
              accounter.accountBytes(4L, (long) i);
              int[] aint = new int[i];
 -- 
-2.53.0
+2.54.0
 

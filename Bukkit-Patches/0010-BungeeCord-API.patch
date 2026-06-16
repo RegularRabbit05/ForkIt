@@ -1,11 +1,11 @@
-From 7d1c55614e79b66b96e420493eaa1186354e3dbd Mon Sep 17 00:00:00 2001
+From 7b6f3560e6c6c3857f7f969fbe1e4db7365ba77c Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 02:59:14 +0100
 Subject: [PATCH] BungeeCord API
 
 
 diff --git a/pom.xml b/pom.xml
-index 2da60d6a..fa70fc7c 100644
+index 856d55d2..df21b12f 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -51,6 +51,13 @@
@@ -523,5 +523,5 @@ index 8a01c92d..9bab73c3 100644
  
      @NotNull
 -- 
-2.53.0
+2.54.0
 
