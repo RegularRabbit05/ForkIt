@@ -1,4 +1,4 @@
-From 14f2068f903d5b806e5586d63d4ca2f0671347df Mon Sep 17 00:00:00 2001
+From 247dc2b3808973883c239031f67e4b4e8f08593d Mon Sep 17 00:00:00 2001
 From: Sander Knauff <sanderknauff@hotmail.com>
 Date: Sat, 7 Nov 2020 18:23:42 +1100
 Subject: [PATCH] Allow Disabling Player Data Saving
@@ -31,5 +31,5 @@ index 864967890..898b379e2 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

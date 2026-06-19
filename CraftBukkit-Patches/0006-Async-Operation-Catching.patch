@@ -1,4 +1,4 @@
-From e13f99af37ec0b1101566dc0f5a7addcc69d02aa Mon Sep 17 00:00:00 2001
+From ea7b6cd42c2411a2804e77396019e72127d89c64 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 25 Mar 2014 16:10:01 +1100
 Subject: [PATCH] Async Operation Catching
@@ -6,10 +6,10 @@ Subject: [PATCH] Async Operation Catching
 Catch and throw an exception when a potentially unsafe operation occurs on a thread other than the main server thread.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index d240ab9ea..59e33c9da 100644
+index ce928608e..0165a8908 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -1273,6 +1273,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+@@ -1285,6 +1285,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
      }
  
      protected void addEntity(Entity entity) {
@@ -17,7 +17,7 @@ index d240ab9ea..59e33c9da 100644
          if (!(entity instanceof EnderDragonPart)) {
              EntityType<?> entitytype = entity.getType();
              int i = entitytype.clientTrackingRange() * 16;
-@@ -1308,6 +1309,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+@@ -1320,6 +1321,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
      }
  
      protected void removeEntity(Entity entity) {
@@ -25,7 +25,7 @@ index d240ab9ea..59e33c9da 100644
          if (entity instanceof ServerPlayer serverplayer) {
              this.updatePlayerStatus(serverplayer, false);
              ObjectIterator objectiterator = this.entityMap.values().iterator();
-@@ -1577,6 +1579,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+@@ -1595,6 +1597,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
          }
  
          public void removePlayer(ServerPlayer player) {
@@ -33,7 +33,7 @@ index d240ab9ea..59e33c9da 100644
              if (this.seenBy.remove(player.connection)) {
                  this.serverEntity.removePairing(player);
                  if (this.seenBy.isEmpty()) {
-@@ -1587,6 +1590,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
+@@ -1605,6 +1608,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
          }
  
          public void updatePlayer(ServerPlayer player) {
@@ -62,10 +62,10 @@ index e8ce8c658..9cde9f572 100644
  
              if (level > this.maxDistance) {
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index d11523f32..157758a79 100644
+index e08a2eed4..0291d073f 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1219,6 +1219,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1231,6 +1231,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
      // CraftBukkit start
      private boolean addEntity(Entity entity, CreatureSpawnEvent.SpawnReason spawnReason) {
@@ -73,7 +73,7 @@ index d11523f32..157758a79 100644
          if (entity.isRemoved()) {
              // ServerLevel.LOGGER.warn("Tried to add entity {} but it was marked as removed already", entity.typeHolder().getRegisteredName()); // CraftBukkit
              return false;
-@@ -1998,6 +1999,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2006,6 +2007,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
      @Override
      public LevelEntityGetter<Entity> getEntities() {
@@ -81,7 +81,7 @@ index d11523f32..157758a79 100644
          return this.entityManager.getEntityGetter();
      }
  
-@@ -2188,6 +2190,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2196,6 +2198,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          }
  
          public void onTrackingStart(Entity entity) {
@@ -89,7 +89,7 @@ index d11523f32..157758a79 100644
              ServerLevel.this.getChunkSource().addEntity(entity);
              if (entity instanceof ServerPlayer serverplayer) {
                  ServerLevel.this.players.add(serverplayer);
-@@ -2225,6 +2228,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2233,6 +2236,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
          }
  
          public void onTrackingEnd(Entity entity) {
@@ -98,10 +98,10 @@ index d11523f32..157758a79 100644
              if (entity instanceof ServerPlayer serverplayer) {
                  ServerLevel.this.players.remove(serverplayer);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 5f9eb1e76..23e7a3c80 100644
+index cb38347c5..fc10f7fbe 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -1185,6 +1185,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -1201,6 +1201,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
      }
  
      public boolean addEffect(MobEffectInstance newEffect, @Nullable Entity source, EntityPotionEffectEvent.Cause cause) {
@@ -122,10 +122,10 @@ index 6c2e62f7e..af0c40075 100644
          finalizeRecipeLoading();
      }
 diff --git a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
-index b115e42eb..0f0cd6cbc 100644
+index 1f2c5580d..1b59af6b9 100644
 --- a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
 +++ b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
-@@ -159,7 +159,9 @@ public abstract class BlockBehaviour implements FeatureElement {
+@@ -168,7 +168,9 @@ public abstract class BlockBehaviour implements FeatureElement {
  
      protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, @Nullable Orientation orientation, boolean movedByPiston) {}
  
@@ -149,7 +149,7 @@ index a25a3a4cc..6d41446a1 100644
          if (commandMap.dispatch(sender, commandLine)) {
              return true;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 39e8b6de1..ae7060fe7 100644
+index 2228f080c..8db46a0c4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -280,6 +280,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
@@ -201,10 +201,10 @@ index 39e8b6de1..ae7060fe7 100644
          boolean oldSave = world.noSave;
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index 52b8090d3..dadc4ffc6 100644
+index 48659708b..19e79b704 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-@@ -232,6 +232,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+@@ -233,6 +233,7 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
      @Override
      public List<org.bukkit.entity.Entity> getNearbyEntities(double x, double y, double z) {
          Preconditions.checkState(!entity.generation, "Cannot get nearby entities during world generation");
@@ -213,7 +213,7 @@ index 52b8090d3..dadc4ffc6 100644
          List<Entity> notchEntityList = entity.level().getEntities(entity, entity.getBoundingBox().inflate(x, y, z), Predicates.alwaysTrue());
          List<org.bukkit.entity.Entity> bukkitEntityList = new java.util.ArrayList<org.bukkit.entity.Entity>(notchEntityList.size());
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index fb2bcd63d..77508ed17 100644
+index 3c964b80d..465a04c10 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -505,6 +505,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -272,5 +272,5 @@ index 000000000..aeed76972
 +    }
 +}
 -- 
-2.53.0
+2.54.0
 

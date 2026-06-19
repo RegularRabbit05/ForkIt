@@ -1,4 +1,4 @@
-From 840a474b19472c8228932de0f13089c85d361826 Mon Sep 17 00:00:00 2001
+From ca080d8e117d4bcc12721831327350b8dcfff152 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 4 Jul 2014 13:28:45 +1000
 Subject: [PATCH] Further Seed Customisation
@@ -6,7 +6,7 @@ Subject: [PATCH] Further Seed Customisation
 Allow server admins that really want to to customise the seeds used in world generation even further.
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index e5c9c48cf..cdfd76322 100644
+index 0e27d9532..b3644ce3f 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
 @@ -212,7 +212,7 @@ public class ChunkMap extends SimpleRegionStorage implements ChunkHolder.PlayerP
@@ -18,21 +18,21 @@ index e5c9c48cf..cdfd76322 100644
          this.mainThreadExecutor = mainThreadExecutor;
          ConsecutiveExecutor consecutiveexecutor = new ConsecutiveExecutor(executor, "worldgen");
  
-diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-index b35be6d2a..96ddbe4da 100644
---- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
-+++ b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-@@ -345,7 +345,7 @@ public class Slime extends Mob implements Enemy {
-             }
+diff --git a/src/main/java/net/minecraft/world/entity/monster/cubemob/Slime.java b/src/main/java/net/minecraft/world/entity/monster/cubemob/Slime.java
+index 178d7e827..a4ded657c 100644
+--- a/src/main/java/net/minecraft/world/entity/monster/cubemob/Slime.java
++++ b/src/main/java/net/minecraft/world/entity/monster/cubemob/Slime.java
+@@ -93,7 +93,7 @@ public class Slime extends AbstractCubeMob implements Enemy {
  
+             WorldGenLevel worldgenlevel = (WorldGenLevel) level;
              ChunkPos chunkpos = ChunkPos.containing(pos);
--            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x(), chunkpos.z(), ((WorldGenLevel) level).getSeed(), 987234911L).nextInt(10) == 0;
-+            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x(), chunkpos.z(), ((WorldGenLevel) level).getSeed(), level.getMinecraftWorld().spigotConfig.slimeSeed).nextInt(10) == 0; // Spigot
+-            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x(), chunkpos.z(), worldgenlevel.getSeed(), 987234911L).nextInt(10) == 0;
++            boolean flag = WorldgenRandom.seedSlimeChunk(chunkpos.x(), chunkpos.z(), worldgenlevel.getSeed(), level.getMinecraftWorld().spigotConfig.slimeSeed).nextInt(10) == 0; // Spigot
  
              if (random.nextInt(10) == 0 && flag && pos.getY() < 40) {
                  return checkMobSpawnRules(type, level, spawnReason, pos, random);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-index 189161166..35ecf3637 100644
+index b62c1fba2..f3fe79e9e 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 @@ -109,8 +109,8 @@ public abstract class ChunkGenerator {
@@ -228,5 +228,5 @@ index 7f5f97def..7882c95f4 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

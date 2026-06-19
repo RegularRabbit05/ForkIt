@@ -1,11 +1,11 @@
-From 69339e3465f31b6843f3d32d148e4069afe03fd8 Mon Sep 17 00:00:00 2001
+From 6da9c2c2482ae1319bda63cd27155c78a7a95f61 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 13 Jul 2015 19:05:15 +1000
 Subject: [PATCH] Use Map for getPlayer(String) lookup.
 
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index feb6cf670..2aa6f163a 100644
+index a9f1c6c96..b6a88bdac 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -155,6 +155,7 @@ public abstract class PlayerList {
@@ -26,7 +26,7 @@ index feb6cf670..2aa6f163a 100644
  
 @@ -424,6 +426,7 @@ public abstract class PlayerList {
          serverlevel.removePlayerImmediately(player, Entity.RemovalReason.UNLOADED_WITH_PLAYER);
-         player.getAdvancements().stopListening();
+         player.getAdvancements().clearTriggers();
          this.players.remove(player);
 +        this.playersByName.remove(player.getScoreboardName().toLowerCase(java.util.Locale.ROOT)); // Spigot
          this.server.getCustomBossEvents().onPlayerDisconnect(player);
@@ -68,5 +68,5 @@ index feb6cf670..2aa6f163a 100644
  
      public void broadcast(@Nullable Player except, double x, double y, double z, double range, ResourceKey<Level> dimension, Packet<?> packet) {
 -- 
-2.53.0
+2.54.0
 

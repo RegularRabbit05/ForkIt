@@ -1,14 +1,14 @@
-From 0a82811a5e8ae052b1dc69845db499d35fb9af3c Mon Sep 17 00:00:00 2001
+From 053e8d203358d3eb52381c7348830adc0c127165 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 14 Dec 2019 10:26:52 +1100
 Subject: [PATCH] Add log-villager-deaths option
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index fec541a31..f826c2235 100644
+index 90f7fe95a..c7f1dd5a6 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -1846,7 +1846,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -1866,7 +1866,7 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
  
              this.stopUsingItem();
              if (!this.level().isClientSide() && this.hasCustomName()) {
@@ -16,12 +16,12 @@ index fec541a31..f826c2235 100644
 +                if (org.spigotmc.SpigotConfig.logNamedDeaths) LivingEntity.LOGGER.info("Named entity {} died: {}", this, this.getCombatTracker().getDeathMessage().getString()); // Spigot
              }
  
-             this.dead = true;
+             this.handleKillingBlow();
 diff --git a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
-index 910f08bd4..42e44b8f6 100644
+index ecd959241..0666d1041 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
-@@ -633,7 +633,7 @@ public class Villager extends AbstractVillager implements VillagerDataHolder, Re
+@@ -625,7 +625,7 @@ public class Villager extends AbstractVillager implements VillagerDataHolder, Re
  
      @Override
      public void die(DamageSource source) {
@@ -47,5 +47,5 @@ index 3a42829ee..864967890 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

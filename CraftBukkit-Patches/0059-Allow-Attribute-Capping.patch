@@ -1,4 +1,4 @@
-From 7f3e4f31e9d28f0b06743cd8a13f1a064c0d52e3 Mon Sep 17 00:00:00 2001
+From 7e6ccec161995029d6911549d2f1c1428c60c130 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 28 Jul 2014 16:55:51 +1000
 Subject: [PATCH] Allow Attribute Capping.
@@ -6,21 +6,21 @@ Subject: [PATCH] Allow Attribute Capping.
 Apply some sensible defaults and allow server owners to customize the maximum values of selected common attributes.
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/attributes/Attributes.java b/src/main/java/net/minecraft/world/entity/ai/attributes/Attributes.java
-index 9c3bba31b..317a60a7a 100644
+index d99ca0733..f05906d88 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/attributes/Attributes.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/attributes/Attributes.java
-@@ -11,7 +11,7 @@ public class Attributes {
-     public static final double DEFAULT_ATTACK_SPEED = 4.0D;
+@@ -12,7 +12,7 @@ public class Attributes {
+     public static final Holder<Attribute> AIR_DRAG_MODIFIER = register("air_drag_modifier", (new RangedAttribute("attribute.name.air_drag_modifier", 1.0D, 0.0D, 2048.0D)).setSyncable(true));
      public static final Holder<Attribute> ARMOR = register("armor", (new RangedAttribute("attribute.name.armor", 0.0D, 0.0D, 30.0D)).setSyncable(true));
      public static final Holder<Attribute> ARMOR_TOUGHNESS = register("armor_toughness", (new RangedAttribute("attribute.name.armor_toughness", 0.0D, 0.0D, 20.0D)).setSyncable(true));
 -    public static final Holder<Attribute> ATTACK_DAMAGE = register("attack_damage", new RangedAttribute("attribute.name.attack_damage", 2.0D, 0.0D, 2048.0D));
 +    public static final Holder<Attribute> ATTACK_DAMAGE = register("attack_damage", new RangedAttribute("attribute.name.attack_damage", 2.0D, 0.0D, org.spigotmc.SpigotConfig.attackDamage));
      public static final Holder<Attribute> ATTACK_KNOCKBACK = register("attack_knockback", new RangedAttribute("attribute.name.attack_knockback", 0.0D, 0.0D, 5.0D));
      public static final Holder<Attribute> ATTACK_SPEED = register("attack_speed", (new RangedAttribute("attribute.name.attack_speed", 4.0D, 0.0D, 1024.0D)).setSyncable(true));
-     public static final Holder<Attribute> BLOCK_BREAK_SPEED = register("block_break_speed", (new RangedAttribute("attribute.name.block_break_speed", 1.0D, 0.0D, 1024.0D)).setSyncable(true));
-@@ -27,11 +27,11 @@ public class Attributes {
+     public static final Holder<Attribute> BELOW_NAME_DISTANCE = register("below_name_distance", (new RangedAttribute("attribute.name.below_name_distance", 10.0D, 0.0D, 512.0D)).setSyncable(true));
+@@ -31,11 +31,11 @@ public class Attributes {
      public static final Holder<Attribute> JUMP_STRENGTH = register("jump_strength", (new RangedAttribute("attribute.name.jump_strength", (double) 0.42F, 0.0D, 32.0D)).setSyncable(true));
-     public static final Holder<Attribute> KNOCKBACK_RESISTANCE = register("knockback_resistance", new RangedAttribute("attribute.name.knockback_resistance", 0.0D, 0.0D, 1.0D));
+     public static final Holder<Attribute> KNOCKBACK_RESISTANCE = register("knockback_resistance", new RangedAttribute("attribute.name.knockback_resistance", 0.0D, -2.0D, 1.0D));
      public static final Holder<Attribute> LUCK = register("luck", (new RangedAttribute("attribute.name.luck", 0.0D, -1024.0D, 1024.0D)).setSyncable(true));
 -    public static final Holder<Attribute> MAX_ABSORPTION = register("max_absorption", (new RangedAttribute("attribute.name.max_absorption", 0.0D, 0.0D, 2048.0D)).setSyncable(true));
 -    public static final Holder<Attribute> MAX_HEALTH = register("max_health", (new RangedAttribute("attribute.name.max_health", 20.0D, 1.0D, 1024.0D)).setSyncable(true));
@@ -30,9 +30,9 @@ index 9c3bba31b..317a60a7a 100644
      public static final Holder<Attribute> MOVEMENT_EFFICIENCY = register("movement_efficiency", (new RangedAttribute("attribute.name.movement_efficiency", 0.0D, 0.0D, 1.0D)).setSyncable(true));
 -    public static final Holder<Attribute> MOVEMENT_SPEED = register("movement_speed", (new RangedAttribute("attribute.name.movement_speed", 0.7D, 0.0D, 1024.0D)).setSyncable(true));
 +    public static final Holder<Attribute> MOVEMENT_SPEED = register("movement_speed", (new RangedAttribute("attribute.name.movement_speed", 0.7D, 0.0D, org.spigotmc.SpigotConfig.movementSpeed)).setSyncable(true));
+     public static final Holder<Attribute> NAME_TAG_DISTANCE = register("name_tag_distance", (new RangedAttribute("attribute.name.name_tag_distance", 64.0D, 0.0D, 512.0D)).setSyncable(true));
      public static final Holder<Attribute> OXYGEN_BONUS = register("oxygen_bonus", (new RangedAttribute("attribute.name.oxygen_bonus", 0.0D, 0.0D, 1024.0D)).setSyncable(true));
      public static final Holder<Attribute> SAFE_FALL_DISTANCE = register("safe_fall_distance", (new RangedAttribute("attribute.name.safe_fall_distance", 3.0D, -1024.0D, 1024.0D)).setSyncable(true));
-     public static final Holder<Attribute> SCALE = register("scale", (new RangedAttribute("attribute.name.scale", 1.0D, 0.0625D, 16.0D)).setSyncable(true).setSentiment(Attribute.Sentiment.NEUTRAL));
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
 index f276966f8..a955d4085 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
@@ -68,5 +68,5 @@ index f276966f8..a955d4085 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

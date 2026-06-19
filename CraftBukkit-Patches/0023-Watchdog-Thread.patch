@@ -1,14 +1,14 @@
-From e9002b29d754ceaa74e7afeefe79a664d2dfd0aa Mon Sep 17 00:00:00 2001
+From e9c52c356a739729e2312a2d94284d7394a0f314 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 5 Aug 2014 17:20:19 +0100
 Subject: [PATCH] Watchdog Thread.
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 4c42de1c4..903fdc42f 100644
+index a7fa5132c..de4020219 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1170,6 +1170,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1169,6 +1169,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              } catch (Throwable throwable3) {
                  MinecraftServer.LOGGER.error("Exception stopping the server", throwable3);
              } finally {
@@ -16,7 +16,7 @@ index 4c42de1c4..903fdc42f 100644
                  // CraftBukkit start - Restore terminal to original settings
                  try {
                      terminal.close();
-@@ -1363,6 +1364,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1362,6 +1363,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      }
  
      protected void tickServer(BooleanSupplier haveTime) {
@@ -25,16 +25,16 @@ index 4c42de1c4..903fdc42f 100644
          int j = this.pauseWhenEmptySeconds() * 20;
  
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 90a430b60..0b4ea146c 100644
+index 78c4fcbe1..df056e89c 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -382,7 +382,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -337,7 +337,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
                  this.rconThread = RconThread.create(this);
              }
  
 -            if (this.getMaxTickLength() > 0L) {
 +            if (false && this.getMaxTickLength() > 0L) {  // Spigot - disable
-                 Thread thread1 = new Thread(new ServerWatchdog(this));
+                 Thread thread1 = new Thread(new ServerWatchdog(this), "Server Watchdog");
  
                  thread1.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandlerWithName(DedicatedServer.LOGGER));
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
@@ -368,5 +368,5 @@ index 000000000..4734d4ae8
 +    }
 +}
 -- 
-2.53.0
+2.54.0
 

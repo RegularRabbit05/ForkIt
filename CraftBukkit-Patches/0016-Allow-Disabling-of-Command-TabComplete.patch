@@ -1,14 +1,14 @@
-From 6a960e4a0f2df76affd97ccb43e214c95aeb2619 Mon Sep 17 00:00:00 2001
+From 27398e0c71ff5a4ff2f3a91c0529c9fec36d5c50 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 18:05:54 +1000
 Subject: [PATCH] Allow Disabling of Command TabComplete
 
 
 diff --git a/src/main/java/net/minecraft/commands/Commands.java b/src/main/java/net/minecraft/commands/Commands.java
-index a83046f01..983abaf1b 100644
+index 6b5f40676..0fac4c0a0 100644
 --- a/src/main/java/net/minecraft/commands/Commands.java
 +++ b/src/main/java/net/minecraft/commands/Commands.java
-@@ -499,6 +499,7 @@ public class Commands {
+@@ -501,6 +501,7 @@ public class Commands {
      }
  
      public void sendCommands(ServerPlayer player) {
@@ -16,7 +16,7 @@ index a83046f01..983abaf1b 100644
          // CraftBukkit start
          // Register Vanilla commands into builtRoot as before
          Map<CommandNode<CommandSourceStack>, CommandNode<CommandSourceStack>> map = new IdentityHashMap<>(); // Use identity to prevent aliasing issues
-@@ -534,6 +535,7 @@ public class Commands {
+@@ -536,6 +537,7 @@ public class Commands {
  
      private static <S> void fillUsableCommands(CommandNode<S> source, CommandNode<S> target, S commandFilter, Map<CommandNode<S>, CommandNode<S>> converted) {
          for (CommandNode<S> commandnode2 : source.getChildren()) {
@@ -71,5 +71,5 @@ index bc9fbcc58..fc352ecf1 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

@@ -1,4 +1,4 @@
-From a4ebcb7ed0eb29a76ad14bd0858344639b421c99 Mon Sep 17 00:00:00 2001
+From 99da73b395de791d49761082fb544c650468fa9a Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Thu, 27 Jun 2013 17:26:09 +1000
 Subject: [PATCH] Properly Close Inventories
@@ -6,10 +6,10 @@ Subject: [PATCH] Properly Close Inventories
 Properly close inventories when unloading and switching worlds.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 3e3cb81e0..c48b60273 100644
+index a9ac441f2..e96011e6b 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1273,6 +1273,15 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1285,6 +1285,15 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      }
  
      public void unload(LevelChunk levelChunk) {
@@ -25,7 +25,7 @@ index 3e3cb81e0..c48b60273 100644
          levelChunk.clearAllBlockEntities();
          levelChunk.unregisterTickContainerFromLevel(this);
          this.debugSynchronizers.dropChunk(levelChunk.getPos());
-@@ -2248,6 +2257,13 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -2256,6 +2265,13 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
  
          public void onTrackingEnd(Entity entity) {
              org.spigotmc.AsyncCatcher.catchOp("entity unregister"); // Spigot
@@ -40,5 +40,5 @@ index 3e3cb81e0..c48b60273 100644
              if (entity instanceof ServerPlayer serverplayer) {
                  ServerLevel.this.players.remove(serverplayer);
 -- 
-2.53.0
+2.54.0
 

@@ -1,4 +1,4 @@
-From 88e55deabdd2c27d7f1242263abce75ef33b868b Mon Sep 17 00:00:00 2001
+From 07d74e4bec4eed7ad2084b4494ffd088c626fda9 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 7 Mar 2016 22:14:13 +1100
 Subject: [PATCH] Crop Growth Rates
@@ -32,10 +32,10 @@ index 55df11d34..b658c10ee 100644
  
                  if (i < 16) {
 diff --git a/src/main/java/net/minecraft/world/level/block/Block.java b/src/main/java/net/minecraft/world/level/block/Block.java
-index e182632fe..51bd7ab9e 100644
+index 463264641..1acd7f54c 100644
 --- a/src/main/java/net/minecraft/world/level/block/Block.java
 +++ b/src/main/java/net/minecraft/world/level/block/Block.java
-@@ -610,6 +610,18 @@ public class Block extends BlockBehaviour implements ItemLike {
+@@ -614,6 +614,18 @@ public class Block extends BlockBehaviour implements ItemLike {
      }
      // CraftBukkit end
  
@@ -206,7 +206,7 @@ index 3da9bab36..6df7df2bc 100644
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/level/block/SweetBerryBushBlock.java b/src/main/java/net/minecraft/world/level/block/SweetBerryBushBlock.java
-index f91eb47f7..92bc584a9 100644
+index f558334ce..dda5cd578 100644
 --- a/src/main/java/net/minecraft/world/level/block/SweetBerryBushBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/SweetBerryBushBlock.java
 @@ -91,7 +91,7 @@ public class SweetBerryBushBlock extends VegetationBlock implements Bonemealable
@@ -219,7 +219,7 @@ index f91eb47f7..92bc584a9 100644
  
              if (!CraftEventFactory.handleBlockGrowEvent(level, pos, blockstate1, 2)) return; // CraftBukkit
 diff --git a/src/main/java/net/minecraft/world/level/block/VineBlock.java b/src/main/java/net/minecraft/world/level/block/VineBlock.java
-index 6dc3716da..cdac56c4b 100644
+index a482b7676..5bb68eaa4 100644
 --- a/src/main/java/net/minecraft/world/level/block/VineBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/VineBlock.java
 @@ -163,7 +163,7 @@ public class VineBlock extends Block {
@@ -296,5 +296,5 @@ index 1cce14866..f42972427 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 

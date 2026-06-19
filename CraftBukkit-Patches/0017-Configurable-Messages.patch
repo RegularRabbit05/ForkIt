@@ -1,4 +1,4 @@
-From b29b17c1321ce33f3d462c906ae98557b5aa289a Mon Sep 17 00:00:00 2001
+From 63c90b3da58855b5ed2899adf38172ff265eeefb Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 19:21:58 +1000
 Subject: [PATCH] Configurable Messages
@@ -23,7 +23,7 @@ index 4c8bb85fa..ab3ceca32 100644
  
              this.connection.send(new ClientboundLoginDisconnectPacket(component));
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 5fb6efaa0..29af91c4a 100644
+index 39985b7a4..ef5afaf0b 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -496,7 +496,7 @@ public abstract class PlayerList {
@@ -106,5 +106,5 @@ index fc352ecf1..8ad8b2589 100644
 +    }
  }
 -- 
-2.53.0
+2.54.0
 
