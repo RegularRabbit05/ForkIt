@@ -1,14 +1,14 @@
-From 89ddc86bbf0c4d9b75688e41aa42713d82827f61 Mon Sep 17 00:00:00 2001
+From 96ad8678901af3334ff492a6cceaf05a719e4b35 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 13 Apr 2014 09:00:59 +1000
 Subject: [PATCH] Print Stack on InternalException
 
 
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index 3af05c89f..1ea2d7676 100644
+index 4fbb55691..bc71bdbe5 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
-@@ -156,6 +156,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -154,6 +154,7 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
  
              }
          }
@@ -16,6 +16,3 @@ index 3af05c89f..1ea2d7676 100644
      }
  
      protected void channelRead0(ChannelHandlerContext ctx, Packet<?> packet) {
--- 
-2.54.0
-

@@ -1,14 +1,14 @@
-From 90c247f61021871033d2d669646f43d47f5bc463 Mon Sep 17 00:00:00 2001
+From 1c315dd425601a2080f73742650a19f1677889cc Mon Sep 17 00:00:00 2001
 From: Dmck2b <dmck2b+github@gmail.com>
 Date: Mon, 20 Jan 2014 20:18:23 +0000
 Subject: [PATCH] Allow toggling of ZombiePigmen spawning in portal blocks
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java b/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java
-index c5ac9859f..c339a87a3 100644
+index 17a900cda..f16a651f0 100644
 --- a/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java
-@@ -77,7 +77,7 @@ public class NetherPortalBlock extends Block implements Portal {
+@@ -70,7 +70,7 @@ public class NetherPortalBlock extends Block implements Portal {
  
      @Override
      protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
@@ -33,6 +33,3 @@ index 3e398c4e0..d4eb3ccda 100644
 +        log( "Allow Zombie Pigmen to spawn from portal blocks: " + enableZombiePigmenPortalSpawns );
 +    }
  }
--- 
-2.54.0
-

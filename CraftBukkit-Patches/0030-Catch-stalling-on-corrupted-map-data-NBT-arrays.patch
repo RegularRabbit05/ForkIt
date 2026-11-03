@@ -1,4 +1,4 @@
-From eed0239db480fba35809d5ad7a176b0e443c0bfe Mon Sep 17 00:00:00 2001
+From 0db9bc3964f4abaf9e9a6d71abd75f1398f9ee32 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 20 Jan 2014 13:44:07 +1100
 Subject: [PATCH] Catch stalling on corrupted map data / NBT arrays.
@@ -28,6 +28,3 @@ index de616928b..fde855338 100644
  
              accounter.accountBytes(4L, (long) i);
              int[] aint = new int[i];
--- 
-2.54.0
-

@@ -1,4 +1,4 @@
-From 584989b48044955c772da23e874acb63fb05a0a1 Mon Sep 17 00:00:00 2001
+From e52501cc6b5429d89f22c867bddc4605a78ff036 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 13 Apr 2014 14:41:23 +1000
 Subject: [PATCH] Use Offline Player Data Once if Required.
@@ -40,6 +40,3 @@ index 7ea21aafa..93c1b61d8 100644
              } catch (Exception exception) {
                  PlayerDataStorage.LOGGER.warn("Failed to load player data for {}", nameAndId.name());
              }
--- 
-2.54.0
-

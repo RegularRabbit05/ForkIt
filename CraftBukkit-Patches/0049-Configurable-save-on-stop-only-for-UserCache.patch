@@ -1,14 +1,14 @@
-From b00173a15bf0e69bb14438fc5b31163b11b5d95d Mon Sep 17 00:00:00 2001
+From 0668a0ba6cf3af5b7fac2ef06e05f2d5dc932a2f Mon Sep 17 00:00:00 2001
 From: drXor <mcyoungsota@gmail.com>
 Date: Fri, 23 May 2014 18:05:10 -0400
 Subject: [PATCH] Configurable save-on-stop-only for UserCache
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 2dd2b7aeb..0c4a6d43a 100644
+index c1042ae54..4545f039c 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1045,6 +1045,12 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1027,6 +1027,12 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          } catch (IOException ioexception1) {
              MinecraftServer.LOGGER.error("Failed to unlock level {}", this.storageSource.getLevelId(), ioexception1);
          }
@@ -58,6 +58,3 @@ index c85de3167..d830925db 100644
 +        saveUserCacheOnStopOnly = getBoolean( "settings.save-user-cache-on-stop-only", false );
 +    }
  }
--- 
-2.54.0
-

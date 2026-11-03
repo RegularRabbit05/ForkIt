@@ -1,4 +1,4 @@
-From b93c48754cfa6c1a822c4bd59977787beebcecd7 Mon Sep 17 00:00:00 2001
+From 9bbc21eae7a1fa32a3b3aaf6f45dda258439a73b Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 13 Dec 2014 03:06:05 +0100
 Subject: [PATCH] BungeeCord API
@@ -22,10 +22,10 @@ index c5e3a9a1b..dda8a5df9 100644
      public PacketType<ClientboundSystemChatPacket> type() {
          return GamePacketTypes.CLIENTBOUND_SYSTEM_CHAT;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index d9630cf01..8af120d3d 100644
+index af7418a10..fe998af97 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -274,6 +274,8 @@ import org.yaml.snakeyaml.Yaml;
+@@ -276,6 +276,8 @@ import org.yaml.snakeyaml.Yaml;
  import org.yaml.snakeyaml.constructor.SafeConstructor;
  import org.yaml.snakeyaml.error.MarkedYAMLException;
  
@@ -34,7 +34,7 @@ index d9630cf01..8af120d3d 100644
  public final class CraftServer implements Server {
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
-@@ -2605,6 +2607,20 @@ public final class CraftServer implements Server {
+@@ -2609,6 +2611,20 @@ public final class CraftServer implements Server {
          public void restart() {
              org.spigotmc.RestartCommand.restart();
          }
@@ -120,7 +120,7 @@ index 861739d4c..6b3632109 100644
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index 19e79b704..330ef2fe0 100644
+index 390e7c548..14dbe6a89 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 @@ -64,6 +64,8 @@ import org.bukkit.util.BoundingBox;
@@ -160,10 +160,10 @@ index 19e79b704..330ef2fe0 100644
  
      public org.bukkit.entity.Entity.Spigot spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 3c8d1d365..54b7cdb36 100644
+index 0cf2d445d..dc7719d96 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -204,6 +204,8 @@ import org.bukkit.scoreboard.Scoreboard;
+@@ -205,6 +205,8 @@ import org.bukkit.scoreboard.Scoreboard;
  import org.jetbrains.annotations.NotNull;
  import org.jetbrains.annotations.Nullable;
  
@@ -172,7 +172,7 @@ index 3c8d1d365..54b7cdb36 100644
  @DelegateDeserialization(CraftOfflinePlayer.class)
  public class CraftPlayer extends CraftHumanEntity implements Player {
      private long firstPlayed = 0;
-@@ -2381,6 +2383,20 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2386,6 +2388,20 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          showDialog(nms.orElseThrow(() -> new IllegalArgumentException("Dialog does not exist on server: " + dialog)));
      }
  
@@ -193,7 +193,7 @@ index 3c8d1d365..54b7cdb36 100644
      private void showDialog(Holder<net.minecraft.server.dialog.Dialog> dialog) {
          if (getHandle().connection == null) {
              return;
-@@ -2426,6 +2442,48 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2431,6 +2447,48 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
              return java.util.Collections.unmodifiableSet( ret );
          }
@@ -462,6 +462,3 @@ index 4b2a5394a..6807f429f 100644
      public static ChatFormatting getColor(ChatColor color) {
          return formatMap.get(color.getChar());
      }
--- 
-2.54.0
-

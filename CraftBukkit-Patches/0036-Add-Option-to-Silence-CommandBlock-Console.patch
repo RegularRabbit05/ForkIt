@@ -1,14 +1,14 @@
-From 696ba1369b9cf4e87cf1bcd4d0a783ddcbf0cac0 Mon Sep 17 00:00:00 2001
+From 6a7e3badeed90e91665cd077bc7b06b8d20a389b Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 9 Feb 2014 14:39:01 +1100
 Subject: [PATCH] Add Option to Silence CommandBlock Console
 
 
 diff --git a/src/main/java/net/minecraft/commands/CommandSourceStack.java b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-index 977670995..f14c0072d 100644
+index 1d766c75d..a5845a485 100644
 --- a/src/main/java/net/minecraft/commands/CommandSourceStack.java
 +++ b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-@@ -347,7 +347,7 @@ public class CommandSourceStack implements SharedSuggestionProvider, ExecutionCo
+@@ -353,7 +353,7 @@ public class CommandSourceStack implements SharedSuggestionProvider, ExecutionCo
              }
          }
  
@@ -32,6 +32,3 @@ index d53c089eb..12ffd7837 100644
 +        silentCommandBlocks = getBoolean( "commands.silent-commandblock-console", false );
 +    }
  }
--- 
-2.54.0
-

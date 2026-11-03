@@ -1,4 +1,4 @@
-From 4ea62befc669d0f7c0a03cee9f2cee7a2442caee Mon Sep 17 00:00:00 2001
+From 279b675b078aaf1537c8333e050073c7893c52d4 Mon Sep 17 00:00:00 2001
 From: ninja- <xninja@openmailbox.org>
 Date: Tue, 8 Oct 2013 14:35:58 +0200
 Subject: [PATCH] Add respawn API.
@@ -22,6 +22,3 @@ index 60751649..d135eba3 100644
      }
  
      @NotNull
--- 
-2.54.0
-

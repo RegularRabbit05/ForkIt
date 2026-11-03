@@ -1,14 +1,14 @@
-From 27398e0c71ff5a4ff2f3a91c0529c9fec36d5c50 Mon Sep 17 00:00:00 2001
+From 449f136d34d42bbe4d98f0361002212ec4468488 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 18:05:54 +1000
 Subject: [PATCH] Allow Disabling of Command TabComplete
 
 
 diff --git a/src/main/java/net/minecraft/commands/Commands.java b/src/main/java/net/minecraft/commands/Commands.java
-index 6b5f40676..0fac4c0a0 100644
+index a3792d964..bdedc0164 100644
 --- a/src/main/java/net/minecraft/commands/Commands.java
 +++ b/src/main/java/net/minecraft/commands/Commands.java
-@@ -501,6 +501,7 @@ public class Commands {
+@@ -514,6 +514,7 @@ public class Commands {
      }
  
      public void sendCommands(ServerPlayer player) {
@@ -16,7 +16,7 @@ index 6b5f40676..0fac4c0a0 100644
          // CraftBukkit start
          // Register Vanilla commands into builtRoot as before
          Map<CommandNode<CommandSourceStack>, CommandNode<CommandSourceStack>> map = new IdentityHashMap<>(); // Use identity to prevent aliasing issues
-@@ -536,6 +537,7 @@ public class Commands {
+@@ -549,6 +550,7 @@ public class Commands {
  
      private static <S> void fillUsableCommands(CommandNode<S> source, CommandNode<S> target, S commandFilter, Map<CommandNode<S>, CommandNode<S>> converted) {
          for (CommandNode<S> commandnode2 : source.getChildren()) {
@@ -25,10 +25,10 @@ index 6b5f40676..0fac4c0a0 100644
                  ArgumentBuilder<S, ?> argumentbuilder = commandnode2.createBuilder();
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 9988ac727..c2bfa48b3 100644
+index e66990721..4ac53d3b8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2184,6 +2184,13 @@ public final class CraftServer implements Server {
+@@ -2188,6 +2188,13 @@ public final class CraftServer implements Server {
      }
  
      public List<String> tabCompleteCommand(Player player, String message, ServerLevel world, Vec3 pos) {
@@ -70,6 +70,3 @@ index bc9fbcc58..fc352ecf1 100644
 +        sendNamespaced = getBoolean( "commands.send-namespaced", true );
 +    }
  }
--- 
-2.54.0
-

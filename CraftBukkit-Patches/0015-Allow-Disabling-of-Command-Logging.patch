@@ -1,14 +1,14 @@
-From 9a5b20284585f84fe1fc33de7a69522ce77f5b32 Mon Sep 17 00:00:00 2001
+From 8970fe025b8d121e38d2ab7c181ad63377f206e0 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 21 Jun 2013 18:01:29 +1000
 Subject: [PATCH] Allow Disabling of Command Logging
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 5267fc85d..274e308f6 100644
+index 3f60d6569..0cd19d4f8 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2423,6 +2423,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -2478,6 +2478,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
  
      private void handleCommand(String s) {
          org.bukkit.craftbukkit.SpigotTimings.playerCommandTimer.startTiming(); // Spigot
@@ -31,6 +31,3 @@ index 7f14cbc63..bc9fbcc58 100644
 +        logCommands = getBoolean( "commands.log", true );
 +    }
  }
--- 
-2.54.0
-

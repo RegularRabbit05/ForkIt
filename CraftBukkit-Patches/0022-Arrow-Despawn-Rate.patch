@@ -1,14 +1,14 @@
-From c9d2012a05475872f6c6d69aaee622fc35fd4f0a Mon Sep 17 00:00:00 2001
+From 02e841596ba2b022d8b843c1e76092f18755a38f Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 14 Oct 2013 19:20:10 +1100
 Subject: [PATCH] Arrow Despawn Rate
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java b/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
-index dbe51fe78..3225a0d1b 100644
+index cd9061527..ad9652faa 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
-@@ -412,7 +412,7 @@ public abstract class AbstractArrow extends Projectile {
+@@ -410,7 +410,7 @@ public abstract class AbstractArrow extends Projectile {
  
      protected void tickDespawn() {
          ++this.life;
@@ -35,6 +35,3 @@ index cec948a05..4894096ae 100644
 +        log( "Arrow Despawn Rate: " + arrowDespawnRate + " Trident Respawn Rate:" + tridentDespawnRate );
 +    }
  }
--- 
-2.54.0
-

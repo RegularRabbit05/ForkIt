@@ -1,4 +1,4 @@
-From 7e6ccec161995029d6911549d2f1c1428c60c130 Mon Sep 17 00:00:00 2001
+From ce38e33db327ca89419912dd8684d9dd53e22cf3 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 28 Jul 2014 16:55:51 +1000
 Subject: [PATCH] Allow Attribute Capping.
@@ -67,6 +67,3 @@ index f276966f8..a955d4085 100644
 +        ( (RangedAttribute) Attributes.ATTACK_DAMAGE.value() ).maxValue = attackDamage;
 +    }
  }
--- 
-2.54.0
-

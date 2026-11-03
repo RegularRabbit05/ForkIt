@@ -1,4 +1,4 @@
-From 578c496b5661d2b0c425da1f458180f8064579c3 Mon Sep 17 00:00:00 2001
+From aa733c703b835503a237bbe387a2192ebcc90e9a Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Tue, 2 Jul 2013 13:07:39 +1000
 Subject: [PATCH] POM Changes
@@ -6,7 +6,7 @@ Subject: [PATCH] POM Changes
 Basic changes to the build system which mark the artifact as Spigot, and the necessary code changes to ensure proper functionality. Also disables the auto updater provided by CraftBukkit as it is useless to us.
 
 diff --git a/checkstyle.xml b/checkstyle.xml
-index 12feab88b..3150fd744 100644
+index 854cd8ae7..ec33a5002 100644
 --- a/checkstyle.xml
 +++ b/checkstyle.xml
 @@ -34,6 +34,9 @@
@@ -34,7 +34,7 @@ index 12feab88b..3150fd744 100644
          <!-- See https://checkstyle.org/checks/imports/index.html -->
          <module name="AvoidStarImport">
 diff --git a/pom.xml b/pom.xml
-index d6a5825d9..2b76210c9 100644
+index 82e1f46cb..b7a575609 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -1,13 +1,20 @@
@@ -46,7 +46,7 @@ index d6a5825d9..2b76210c9 100644
 +    <groupId>org.spigotmc</groupId>
 +    <artifactId>spigot</artifactId>
      <packaging>jar</packaging>
-     <version>26.2-R0.1-SNAPSHOT</version>
+     <version>26.3-R0.1-SNAPSHOT</version>
 -    <name>CraftBukkit</name>
 +    <name>Spigot</name>
      <url>https://www.spigotmc.org/</url>
@@ -75,7 +75,7 @@ index d6a5825d9..2b76210c9 100644
 @@ -370,11 +377,26 @@
                  <groupId>net.md-5</groupId>
                  <artifactId>scriptus</artifactId>
-                 <version>0.5.0</version>
+                 <version>0.5.1</version>
 -                <configuration>
 -                    <format>${bt.name}-Bukkit-%s</format>
 -                </configuration>
@@ -102,7 +102,7 @@ index d6a5825d9..2b76210c9 100644
                          <phase>initialize</phase>
                          <goals>
                              <goal>describe</goal>
-@@ -407,7 +429,7 @@
+@@ -394,7 +416,7 @@
                          <manifestEntries>
                              <Main-Class>org.bukkit.craftbukkit.Main</Main-Class>
                              <Implementation-Title>CraftBukkit</Implementation-Title>
@@ -124,6 +124,3 @@ index f905d17b6..93046379d 100644
          Properties properties = new Properties();
  
          if (stream != null) {
--- 
-2.54.0
-

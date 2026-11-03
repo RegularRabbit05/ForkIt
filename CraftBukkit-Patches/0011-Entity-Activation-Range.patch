@@ -1,4 +1,4 @@
-From bd041a886787ffd9927f0c4b68b9eded81c9fc4a Mon Sep 17 00:00:00 2001
+From 3c011cd2d01523d1f5c14b45a709a8da3229309c Mon Sep 17 00:00:00 2001
 From: Aikar <aikar@aikar.co>
 Date: Sat, 2 Nov 2024 18:16:11 +1100
 Subject: [PATCH] Entity Activation Range
@@ -9,10 +9,10 @@ This will drastically cut down on tick timings for entities that are not in rang
 This change can have dramatic impact on gameplay if configured too low. Balance according to your servers desired gameplay.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 1c720e2d2..a9ac441f2 100644
+index 45fe1edd6..acd2b8e84 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -525,6 +525,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -530,6 +530,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
                  profilerfiller.pop();
              }
  
@@ -20,7 +20,7 @@ index 1c720e2d2..a9ac441f2 100644
              timings.entityTick.startTiming(); // Spigot
              this.entityTickList.forEach((entity) -> {
                  if (!entity.isRemoved()) {
-@@ -1005,6 +1006,13 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
+@@ -1011,6 +1012,13 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
      }
  
      public void tickNonPassenger(Entity entity) {
@@ -32,10 +32,10 @@ index 1c720e2d2..a9ac441f2 100644
 +        }
 +        // Spigot end
          entity.tickTimer.startTiming(); // Spigot
-         entity.setOldPosAndRot();
          ProfilerFiller profilerfiller = Profiler.get();
+         Holder holder = entity.typeHolder();
 diff --git a/src/main/java/net/minecraft/world/entity/AgeableMob.java b/src/main/java/net/minecraft/world/entity/AgeableMob.java
-index 8e5c47796..006fb7b69 100644
+index dfba0afe4..e825c2002 100644
 --- a/src/main/java/net/minecraft/world/entity/AgeableMob.java
 +++ b/src/main/java/net/minecraft/world/entity/AgeableMob.java
 @@ -45,6 +45,31 @@ public abstract class AgeableMob extends PathfinderMob {
@@ -71,7 +71,7 @@ index 8e5c47796..006fb7b69 100644
      public @Nullable SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData groupData) {
          if (groupData == null) {
 diff --git a/src/main/java/net/minecraft/world/entity/AreaEffectCloud.java b/src/main/java/net/minecraft/world/entity/AreaEffectCloud.java
-index 83cad5038..73d085093 100644
+index 4956945e4..aa13bc9c7 100644
 --- a/src/main/java/net/minecraft/world/entity/AreaEffectCloud.java
 +++ b/src/main/java/net/minecraft/world/entity/AreaEffectCloud.java
 @@ -162,6 +162,18 @@ public class AreaEffectCloud extends Entity implements TraceableEntity {
@@ -94,10 +94,10 @@ index 83cad5038..73d085093 100644
      public void tick() {
          super.tick();
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index ed5a6f842..3f15eeb33 100644
+index 736824c30..1a0a92ef7 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -373,6 +373,12 @@ public abstract class Entity implements Nameable, EntityAccess, ScoreHolder, Syn
+@@ -379,6 +379,12 @@ public abstract class Entity implements Nameable, EntityAccess, ScoreHolder, Syn
      // Main use case currently is for SPIGOT-7487, preventing dropping of leash when leash is removed
      public boolean pluginRemoved = false;
      public CustomTimingsHandler tickTimer = org.bukkit.craftbukkit.SpigotTimings.getEntityTimings(this); // Spigot
@@ -110,7 +110,7 @@ index ed5a6f842..3f15eeb33 100644
  
      public float getBukkitYaw() {
          return this.yRot;
-@@ -413,6 +419,13 @@ public abstract class Entity implements Nameable, EntityAccess, ScoreHolder, Syn
+@@ -419,6 +425,13 @@ public abstract class Entity implements Nameable, EntityAccess, ScoreHolder, Syn
          this.position = Vec3.ZERO;
          this.blockPosition = BlockPos.ZERO;
          this.chunkPosition = ChunkPos.ZERO;
@@ -125,10 +125,10 @@ index ed5a6f842..3f15eeb33 100644
  
          synchedentitydata_builder.define(Entity.DATA_SHARED_FLAGS_ID, (byte) 0);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 1f424efe4..90f7fe95a 100644
+index 5cdb06379..036bfc9da 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -318,6 +318,13 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
+@@ -320,6 +320,13 @@ public abstract class LivingEntity extends Entity implements Attackable, Waypoin
          return getYHeadRot();
      }
      // CraftBukkit end
@@ -143,10 +143,10 @@ index 1f424efe4..90f7fe95a 100644
      protected LivingEntity(EntityType<? extends LivingEntity> type, Level level) {
          super(type, level);
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 24e320503..cf57a8106 100644
+index 10e1c4000..02c7de688 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-@@ -212,6 +212,28 @@ public class ItemEntity extends Entity implements TraceableEntity {
+@@ -213,6 +213,28 @@ public class ItemEntity extends Entity implements TraceableEntity {
          }
      }
  
@@ -176,11 +176,11 @@ index 24e320503..cf57a8106 100644
      public BlockPos getBlockPosBelowThatAffectsMyMovement() {
          return this.getOnPos(0.999999F);
 diff --git a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
-index 3fea11d43..ecd959241 100644
+index 799322b23..04f33e885 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/villager/Villager.java
-@@ -224,6 +224,17 @@ public class Villager extends AbstractVillager implements VillagerDataHolder, Re
-         return this.assignProfessionWhenSpawned;
+@@ -219,6 +219,17 @@ public class Villager extends AbstractVillager implements VillagerDataHolder, Re
+         return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.5D);
      }
  
 +    // Spigot Start
@@ -198,10 +198,10 @@ index 3fea11d43..ecd959241 100644
      protected void customServerAiStep(ServerLevel level) {
          ProfilerFiller profilerfiller = Profiler.get();
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-index 0141537cf..aeb235de2 100644
+index bf234ab50..7e088bb81 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-@@ -95,6 +95,28 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
+@@ -96,6 +96,28 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
          this.setOwner(owner);
      }
  
@@ -231,10 +231,10 @@ index 0141537cf..aeb235de2 100644
      protected void defineSynchedData(SynchedEntityData.Builder entityData) {
          entityData.define(FireworkRocketEntity.DATA_ID_FIREWORKS_ITEM, getDefaultItem());
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java b/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
-index 4d5d19f8c..dbe51fe78 100644
+index af459e463..cd9061527 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/arrow/AbstractArrow.java
-@@ -89,6 +89,18 @@ public abstract class AbstractArrow extends Projectile {
+@@ -87,6 +87,18 @@ public abstract class AbstractArrow extends Projectile {
      public ItemStack pickupItemStack;
      public @Nullable ItemStack firedFromWeapon;
  
@@ -567,6 +567,3 @@ index e3682d28c..936279b5f 100644
 +        log( "Entity Activation Range: An " + animalActivationRange + " / Mo " + monsterActivationRange + " / Ra " + raiderActivationRange + " / Mi " + miscActivationRange + " / Tiv " + tickInactiveVillagers + " / Isa " + ignoreSpectatorActivation );
 +    }
  }
--- 
-2.54.0
-

@@ -1,4 +1,4 @@
-From 92021c694d4345f40abd10f16907f73640a6796d Mon Sep 17 00:00:00 2001
+From 62966d208f34207141dc029e0ad6cbf4bc507fef Mon Sep 17 00:00:00 2001
 From: DerFrZocker <derrieple@gmail.com>
 Date: Sun, 28 Nov 2021 12:09:29 +1100
 Subject: [PATCH] Configurable Below Zero Generation
@@ -58,6 +58,3 @@ index b6ac09ee9..ebddbf6d0 100644
 +        belowZeroGenerationInExistingChunks = getBoolean("below-zero-generation-in-existing-chunks", true);
 +    }
  }
--- 
-2.54.0
-

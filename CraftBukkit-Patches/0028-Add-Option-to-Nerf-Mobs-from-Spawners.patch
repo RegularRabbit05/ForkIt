@@ -1,14 +1,14 @@
-From 16becbb104eb5ebbd42eaeab4ae410adb8110960 Mon Sep 17 00:00:00 2001
+From 0e70790d076ee267f030357b275d1bc0c87cc725 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Feb 2014 16:55:46 +0000
 Subject: [PATCH] Add Option to Nerf Mobs from Spawners
 
 
 diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index 1078725ed..7b992f78e 100644
+index e95bae74c..0852120a2 100644
 --- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-@@ -173,6 +173,12 @@ public abstract class BaseSpawner {
+@@ -180,6 +180,12 @@ public abstract class BaseSpawner {
  
                                  Objects.requireNonNull(mob);
                                  optional1.ifPresent(mob::equip);
@@ -37,6 +37,3 @@ index 457a8e84b..3e398c4e0 100644
 +        log( "Nerfing mobs spawned from spawners: " + nerfSpawnerMobs );
 +    }
  }
--- 
-2.54.0
-

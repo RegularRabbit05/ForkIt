@@ -1,4 +1,4 @@
-From 39a552e41727a9ef437ab0f0cf4602ceeb1758ac Mon Sep 17 00:00:00 2001
+From fb0da661f6368be401ef00829c61a185af4c9174 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Fri, 9 Jun 2017 16:29:31 +1000
 Subject: [PATCH] Configurable Advancement Disabling
@@ -6,10 +6,10 @@ Subject: [PATCH] Configurable Advancement Disabling
 Allow disabling any (or all) inbuilt advancements with a configuration option.
 
 diff --git a/src/main/java/net/minecraft/server/PlayerAdvancements.java b/src/main/java/net/minecraft/server/PlayerAdvancements.java
-index 5b59db48c..d1fa63418 100644
+index e9cce25f7..427079671 100644
 --- a/src/main/java/net/minecraft/server/PlayerAdvancements.java
 +++ b/src/main/java/net/minecraft/server/PlayerAdvancements.java
-@@ -132,6 +132,7 @@ public class PlayerAdvancements {
+@@ -133,6 +133,7 @@ public class PlayerAdvancements {
      }
  
      public void save() {
@@ -18,20 +18,21 @@ index 5b59db48c..d1fa63418 100644
  
          try {
 diff --git a/src/main/java/net/minecraft/server/ServerAdvancementManager.java b/src/main/java/net/minecraft/server/ServerAdvancementManager.java
-index 40683b27c..b1f84674b 100644
+index edda7af8f..cbf1136e1 100644
 --- a/src/main/java/net/minecraft/server/ServerAdvancementManager.java
 +++ b/src/main/java/net/minecraft/server/ServerAdvancementManager.java
-@@ -39,6 +39,11 @@ public class ServerAdvancementManager extends SimpleJsonResourceReloadListener<A
+@@ -30,6 +30,12 @@ public class ServerAdvancementManager {
          ImmutableMap.Builder<Identifier, AdvancementHolder> immutablemap_builder = ImmutableMap.builder();
  
-         preparations.forEach((identifier, advancement) -> {
+         holderlookup_registrylookup.listElements().forEach((holder_reference) -> {
 +            // Spigot start
++            Identifier identifier = holder_reference.key().identifier();
 +            if (org.spigotmc.SpigotConfig.disabledAdvancements != null && (org.spigotmc.SpigotConfig.disabledAdvancements.contains("*") || org.spigotmc.SpigotConfig.disabledAdvancements.contains(identifier.toString()) || org.spigotmc.SpigotConfig.disabledAdvancements.contains(identifier.getNamespace()))) {
 +                return;
 +            }
 +            // Spigot end
-             this.validate(identifier, advancement);
-             immutablemap_builder.put(identifier, new AdvancementHolder(identifier, advancement));
+             validate(registries, holder_reference);
+             immutablemap_builder.put(holder_reference.key().identifier(), new AdvancementHolder(holder_reference.key().identifier(), (Advancement) holder_reference.value()));
          });
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
 index ac9d222e8..3a42829ee 100644
@@ -49,6 +50,3 @@ index ac9d222e8..3a42829ee 100644
 +        disabledAdvancements = getList("advancements.disabled", Arrays.asList(new String[]{"minecraft:story/disabled"}));
 +    }
  }
--- 
-2.54.0
-

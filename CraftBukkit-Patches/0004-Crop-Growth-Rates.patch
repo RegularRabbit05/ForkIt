@@ -1,4 +1,4 @@
-From 07d74e4bec4eed7ad2084b4494ffd088c626fda9 Mon Sep 17 00:00:00 2001
+From c4aca2e650c1175d7c7ca590b1a7af7f6fc3acd9 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Mon, 7 Mar 2016 22:14:13 +1100
 Subject: [PATCH] Crop Growth Rates
@@ -6,10 +6,10 @@ Subject: [PATCH] Crop Growth Rates
 Allows configuring the growth rates of crops as a percentage of their normal growth rate.
 
 diff --git a/src/main/java/net/minecraft/world/level/block/BambooSaplingBlock.java b/src/main/java/net/minecraft/world/level/block/BambooSaplingBlock.java
-index 7cc3371b4..e2824750f 100644
+index df2394d2f..458aa6f74 100644
 --- a/src/main/java/net/minecraft/world/level/block/BambooSaplingBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/BambooSaplingBlock.java
-@@ -39,7 +39,7 @@ public class BambooSaplingBlock extends Block implements BonemealableBlock {
+@@ -32,7 +32,7 @@ public class BambooSaplingBlock extends Block implements BonemealableBlock {
  
      @Override
      protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
@@ -19,10 +19,10 @@ index 7cc3371b4..e2824750f 100644
          }
  
 diff --git a/src/main/java/net/minecraft/world/level/block/BambooStalkBlock.java b/src/main/java/net/minecraft/world/level/block/BambooStalkBlock.java
-index 55df11d34..b658c10ee 100644
+index dbaee962b..e24a8cad5 100644
 --- a/src/main/java/net/minecraft/world/level/block/BambooStalkBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/BambooStalkBlock.java
-@@ -124,7 +124,7 @@ public class BambooStalkBlock extends Block implements BonemealableBlock {
+@@ -117,7 +117,7 @@ public class BambooStalkBlock extends Block implements BonemealableBlock {
      @Override
      protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
          if ((Integer) state.getValue(BambooStalkBlock.STAGE) == 0) {
@@ -32,7 +32,7 @@ index 55df11d34..b658c10ee 100644
  
                  if (i < 16) {
 diff --git a/src/main/java/net/minecraft/world/level/block/Block.java b/src/main/java/net/minecraft/world/level/block/Block.java
-index 463264641..1acd7f54c 100644
+index 2a42a94d8..e926314de 100644
 --- a/src/main/java/net/minecraft/world/level/block/Block.java
 +++ b/src/main/java/net/minecraft/world/level/block/Block.java
 @@ -614,6 +614,18 @@ public class Block extends BlockBehaviour implements ItemLike {
@@ -55,10 +55,10 @@ index 463264641..1acd7f54c 100644
  
          public boolean equals(Object o) {
 diff --git a/src/main/java/net/minecraft/world/level/block/CactusBlock.java b/src/main/java/net/minecraft/world/level/block/CactusBlock.java
-index 582102814..e23fd7124 100644
+index 38525e3a5..0ac615605 100644
 --- a/src/main/java/net/minecraft/world/level/block/CactusBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/CactusBlock.java
-@@ -70,6 +70,12 @@ public class CactusBlock extends Block {
+@@ -63,6 +63,12 @@ public class CactusBlock extends Block {
                  }
              }
  
@@ -72,10 +72,10 @@ index 582102814..e23fd7124 100644
                  double d0 = i >= 3 ? 0.25D : 0.1D;
  
 diff --git a/src/main/java/net/minecraft/world/level/block/CocoaBlock.java b/src/main/java/net/minecraft/world/level/block/CocoaBlock.java
-index ba3cdf22a..26b1991e9 100644
+index df1fc3c8e..f33edb3fb 100644
 --- a/src/main/java/net/minecraft/world/level/block/CocoaBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/CocoaBlock.java
-@@ -53,7 +53,7 @@ public class CocoaBlock extends HorizontalDirectionalBlock implements Bonemealab
+@@ -46,7 +46,7 @@ public class CocoaBlock extends HorizontalDirectionalBlock implements Bonemealab
  
      @Override
      protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
@@ -85,10 +85,10 @@ index ba3cdf22a..26b1991e9 100644
  
              if (i < 2) {
 diff --git a/src/main/java/net/minecraft/world/level/block/CropBlock.java b/src/main/java/net/minecraft/world/level/block/CropBlock.java
-index e43eeb876..66eb11eff 100644
+index f63cc9102..8c6308c54 100644
 --- a/src/main/java/net/minecraft/world/level/block/CropBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/CropBlock.java
-@@ -88,7 +88,20 @@ public class CropBlock extends VegetationBlock implements BonemealableBlock {
+@@ -81,7 +81,20 @@ public class CropBlock extends VegetationBlock implements BonemealableBlock {
              if (i < this.getMaxAge()) {
                  float f = getGrowthSpeed(this, level, pos);
  
@@ -111,10 +111,10 @@ index e43eeb876..66eb11eff 100644
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java b/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java
-index 17eaffbe4..d7fcf6374 100644
+index 65f816b65..74b59bde5 100644
 --- a/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/GrowingPlantHeadBlock.java
-@@ -44,7 +44,19 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
+@@ -40,7 +40,19 @@ public abstract class GrowingPlantHeadBlock extends GrowingPlantBlock implements
  
      @Override
      protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
@@ -136,23 +136,23 @@ index 17eaffbe4..d7fcf6374 100644
  
              if (this.canGrowInto(level.getBlockState(blockpos1))) {
 diff --git a/src/main/java/net/minecraft/world/level/block/MushroomBlock.java b/src/main/java/net/minecraft/world/level/block/MushroomBlock.java
-index 950a14677..7c2678566 100644
+index c9e5f7bcc..ea76777ea 100644
 --- a/src/main/java/net/minecraft/world/level/block/MushroomBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/MushroomBlock.java
-@@ -53,7 +53,7 @@ public class MushroomBlock extends VegetationBlock implements BonemealableBlock
+@@ -41,7 +41,7 @@ public class MushroomBlock extends VegetationBlock implements BonemealableBlock
  
      @Override
      protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
 -        if (random.nextInt(25) == 0) {
 +        if (random.nextFloat() < (level.spigotConfig.mushroomModifier / (100.0f * 25))) { // Spigot - SPIGOT-7159: Better modifier resolution
-             int i = 5;
-             int j = 4;
- 
+             if (!this.canSpread(level, pos)) {
+                 return;
+             }
 diff --git a/src/main/java/net/minecraft/world/level/block/NetherWartBlock.java b/src/main/java/net/minecraft/world/level/block/NetherWartBlock.java
-index aa8da7214..c89e5614f 100644
+index 7f82f47c1..5b8884be3 100644
 --- a/src/main/java/net/minecraft/world/level/block/NetherWartBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/NetherWartBlock.java
-@@ -55,7 +55,7 @@ public class NetherWartBlock extends VegetationBlock {
+@@ -48,7 +48,7 @@ public class NetherWartBlock extends VegetationBlock {
      protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
          int i = (Integer) state.getValue(NetherWartBlock.AGE);
  
@@ -162,10 +162,10 @@ index aa8da7214..c89e5614f 100644
              org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockGrowEvent(level, pos, state, 2); // CraftBukkit
          }
 diff --git a/src/main/java/net/minecraft/world/level/block/SaplingBlock.java b/src/main/java/net/minecraft/world/level/block/SaplingBlock.java
-index 1885d4259..2f2a21c83 100644
+index d1dca3d33..9faa37e22 100644
 --- a/src/main/java/net/minecraft/world/level/block/SaplingBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/SaplingBlock.java
-@@ -55,7 +55,7 @@ public class SaplingBlock extends VegetationBlock implements BonemealableBlock {
+@@ -45,7 +45,7 @@ public class SaplingBlock extends VegetationBlock implements BonemealableBlock {
  
      @Override
      protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
@@ -175,10 +175,10 @@ index 1885d4259..2f2a21c83 100644
          }
  
 diff --git a/src/main/java/net/minecraft/world/level/block/StemBlock.java b/src/main/java/net/minecraft/world/level/block/StemBlock.java
-index bbbf4fd09..d9a7ae3ee 100644
+index 10343a24c..3dcac30bd 100644
 --- a/src/main/java/net/minecraft/world/level/block/StemBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/StemBlock.java
-@@ -85,7 +85,7 @@ public class StemBlock extends VegetationBlock implements BonemealableBlock {
+@@ -65,7 +65,7 @@ public class StemBlock extends VegetationBlock implements BonemealableBlock {
          if (level.getRawBrightness(pos, 0) >= 9) {
              float f = CropBlock.getGrowthSpeed(this, level, pos);
  
@@ -188,10 +188,10 @@ index bbbf4fd09..d9a7ae3ee 100644
  
                  if (i < 7) {
 diff --git a/src/main/java/net/minecraft/world/level/block/SugarCaneBlock.java b/src/main/java/net/minecraft/world/level/block/SugarCaneBlock.java
-index 3da9bab36..6df7df2bc 100644
+index 4fd65d6a0..4ee4f2d60 100644
 --- a/src/main/java/net/minecraft/world/level/block/SugarCaneBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/SugarCaneBlock.java
-@@ -60,10 +60,11 @@ public class SugarCaneBlock extends Block {
+@@ -53,10 +53,11 @@ public class SugarCaneBlock extends Block {
              if (i < 3) {
                  int j = (Integer) state.getValue(SugarCaneBlock.AGE);
  
@@ -206,10 +206,10 @@ index 3da9bab36..6df7df2bc 100644
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/level/block/SweetBerryBushBlock.java b/src/main/java/net/minecraft/world/level/block/SweetBerryBushBlock.java
-index f558334ce..dda5cd578 100644
+index d8253a068..f152320df 100644
 --- a/src/main/java/net/minecraft/world/level/block/SweetBerryBushBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/SweetBerryBushBlock.java
-@@ -91,7 +91,7 @@ public class SweetBerryBushBlock extends VegetationBlock implements Bonemealable
+@@ -84,7 +84,7 @@ public class SweetBerryBushBlock extends VegetationBlock implements Bonemealable
      protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
          int i = (Integer) state.getValue(SweetBerryBushBlock.AGE);
  
@@ -219,10 +219,10 @@ index f558334ce..dda5cd578 100644
  
              if (!CraftEventFactory.handleBlockGrowEvent(level, pos, blockstate1, 2)) return; // CraftBukkit
 diff --git a/src/main/java/net/minecraft/world/level/block/VineBlock.java b/src/main/java/net/minecraft/world/level/block/VineBlock.java
-index a482b7676..5bb68eaa4 100644
+index 6b1aab059..59f31d064 100644
 --- a/src/main/java/net/minecraft/world/level/block/VineBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/VineBlock.java
-@@ -163,7 +163,7 @@ public class VineBlock extends Block {
+@@ -158,7 +158,7 @@ public class VineBlock extends Block {
      @Override
      protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
          if ((Boolean) level.getGameRules().get(GameRules.SPREAD_VINES)) {
@@ -295,6 +295,3 @@ index 1cce14866..f42972427 100644
 +        caveVinesModifier = getAndValidateGrowth( "CaveVines" );
 +    }
  }
--- 
-2.54.0
-

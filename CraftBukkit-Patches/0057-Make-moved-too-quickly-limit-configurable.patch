@@ -1,14 +1,14 @@
-From 6ad903e4bc59f2d336cbe92ddba7bfe6b9c35676 Mon Sep 17 00:00:00 2001
+From 1aced1044467e37013ff575740ec0a14491c17ae Mon Sep 17 00:00:00 2001
 From: Jonas Konrad <me@yawk.at>
 Date: Tue, 22 Jul 2014 15:59:01 +0200
 Subject: [PATCH] Make "moved too quickly" limit configurable
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index ff64be11c..82b0715b4 100644
+index 8b9ce1a9f..123a05b43 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -596,7 +596,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+@@ -608,7 +608,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  }
                  speed *= 2f; // TODO: Get the speed of the vehicle instead of the player
  
@@ -17,15 +17,15 @@ index ff64be11c..82b0715b4 100644
                  // CraftBukkit end
                      ServerGamePacketListenerImpl.LOGGER.warn("{} (vehicle of {}) moved too quickly! {},{},{}", new Object[]{entity.getPlainTextName(), this.player.getPlainTextName(), d6, d7, d8});
                      this.send(ClientboundMoveVehiclePacket.fromEntity(entity));
-@@ -1476,7 +1476,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
-                                     if (this.shouldCheckPlayerMovement(flag)) {
-                                         float f2 = flag ? 300.0F : 100.0F;
+@@ -1502,7 +1502,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+                     if (this.shouldCheckPlayerMovement(flag2)) {
+                         float f4 = flag2 ? 300.0F : 100.0F;
  
--                                        if (d10 - d9 > Math.max(f2, Math.pow((double) (10.0F * (float) i * speed), 2))) {
-+                                        if (d10 - d9 > Math.max(f2, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2))) {
-                                         // CraftBukkit end
-                                             ServerGamePacketListenerImpl.LOGGER.warn("{} moved too quickly! {},{},{}", new Object[]{this.player.getPlainTextName(), d6, d7, d8});
-                                             this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
+-                        if (d13 - d12 > Math.max(f4, Math.pow((double) (10.0F * (float) i * speed), 2))) {
++                        if (d13 - d12 > Math.max(f4, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2))) {
+                         // CraftBukkit end
+                             ServerGamePacketListenerImpl.LOGGER.warn("{} moved too quickly! {},{},{}", new Object[]{this.player.getPlainTextName(), d9, d10, d11});
+                             this.teleport(this.player.getX(), this.player.getY(), this.player.getZ(), this.player.getYRot(), this.player.getXRot());
 diff --git a/src/main/java/org/spigotmc/SpigotConfig.java b/src/main/java/org/spigotmc/SpigotConfig.java
 index 37bb28c98..f276966f8 100644
 --- a/src/main/java/org/spigotmc/SpigotConfig.java
@@ -41,6 +41,3 @@ index 37bb28c98..f276966f8 100644
 +        movedTooQuicklyMultiplier = getDouble( "settings.moved-too-quickly-multiplier", 10.0D );
 +    }
  }
--- 
-2.54.0
-

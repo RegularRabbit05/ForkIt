@@ -1,11 +1,11 @@
-From c060d3c909320077ffaf3915a1d27cf58a63a8d6 Mon Sep 17 00:00:00 2001
+From 952720d8d4a00bc71f75732caff165ec7ea974ef Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 2 Jun 2013 10:36:24 +1000
 Subject: [PATCH] POM Changes
 
 
 diff --git a/checkstyle.xml b/checkstyle.xml
-index 1d1e06c8..feb3b07e 100644
+index c6dc8fc9..72f903b7 100644
 --- a/checkstyle.xml
 +++ b/checkstyle.xml
 @@ -55,6 +55,10 @@
@@ -20,7 +20,7 @@ index 1d1e06c8..feb3b07e 100644
          <!-- See https://checkstyle.org/checks/imports/index.html -->
          <module name="AvoidStarImport">
 diff --git a/pom.xml b/pom.xml
-index 02e87864..856d55d2 100644
+index e270a30b..2d8b124f 100644
 --- a/pom.xml
 +++ b/pom.xml
 @@ -3,14 +3,14 @@
@@ -31,7 +31,7 @@ index 02e87864..856d55d2 100644
 -    <artifactId>bukkit</artifactId>
 +    <groupId>org.spigotmc</groupId>
 +    <artifactId>spigot-api</artifactId>
-     <version>26.2-R0.1-SNAPSHOT</version>
+     <version>26.3-R0.1-SNAPSHOT</version>
      <packaging>jar</packaging>
  
 -    <name>Bukkit</name>
@@ -43,7 +43,7 @@ index 02e87864..856d55d2 100644
      <properties>
          <skipTests>true</skipTests>
 @@ -128,6 +128,9 @@
-                 <version>0.5.0</version>
+                 <version>0.5.1</version>
                  <executions>
                      <execution>
 +                        <configuration>
@@ -52,6 +52,3 @@ index 02e87864..856d55d2 100644
                          <phase>initialize</phase>
                          <goals>
                              <goal>describe</goal>
--- 
-2.54.0
-

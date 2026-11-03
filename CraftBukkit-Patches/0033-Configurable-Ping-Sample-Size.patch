@@ -1,4 +1,4 @@
-From 6b865e92cfb36cc7e3e97146a09efd438e039a13 Mon Sep 17 00:00:00 2001
+From e423dec34078414432dcc64ea8f841d9b37859df Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sun, 26 Jan 2014 21:48:34 +1100
 Subject: [PATCH] Configurable Ping Sample Size
@@ -38,6 +38,3 @@ index 418e99b40..cabfecd2a 100644
 +        System.out.println( "Server Ping Player Sample Count: " + playerSample );
 +    }
  }
--- 
-2.54.0
-

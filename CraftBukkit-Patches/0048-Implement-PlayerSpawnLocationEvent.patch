@@ -1,4 +1,4 @@
-From fcae071b8d4621647619433305252f92065572a9 Mon Sep 17 00:00:00 2001
+From 302e59a6a46ad759e8048c66882cd9788095dd09 Mon Sep 17 00:00:00 2001
 From: ninja <xninja@openmailbox.org>
 Date: Tue, 8 Apr 2014 14:05:19 +0200
 Subject: [PATCH] Implement PlayerSpawnLocationEvent.
@@ -39,6 +39,3 @@ index 5575ff12c..01cf12024 100644
                  PrepareSpawnTask.this.server.getPlayerList().placeNewPlayer(connection, serverplayer, cookie);
                  optional.ifPresent((valueinput) -> {
                      serverplayer.loadAndSpawnEnderPearls(valueinput);
--- 
-2.54.0
-

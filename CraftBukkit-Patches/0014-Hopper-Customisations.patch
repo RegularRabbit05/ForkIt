@@ -1,4 +1,4 @@
-From f536567b2ba15595d6c161c39b2785b04cc79d8f Mon Sep 17 00:00:00 2001
+From 585d49b8d1762d9a7f1eac6d71302ebdd96095a7 Mon Sep 17 00:00:00 2001
 From: erocs <github@erocs.org>
 Date: Sun, 8 Sep 2013 12:06:15 -0700
 Subject: [PATCH] Hopper Customisations
@@ -175,6 +175,3 @@ index ab984b210..cec948a05 100644
 +        log( "Hopper Transfer: " + hopperTransfer + " Hopper Check: " + hopperCheck + " Hopper Amount: " + hopperAmount + " Hopper Can Load Chunks: " + hopperCanLoadChunks );
 +    }
  }
--- 
-2.54.0
-

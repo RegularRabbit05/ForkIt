@@ -1,4 +1,4 @@
-From c211adf930252eb5af542fa7e4288aafdca8bb79 Mon Sep 17 00:00:00 2001
+From 84303850db4e68bbaac421cd5b596936d41bd51c Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Sat, 23 Mar 2013 09:46:33 +1100
 Subject: [PATCH] Merge tweaks and configuration
@@ -6,10 +6,10 @@ Subject: [PATCH] Merge tweaks and configuration
 This allows the merging of Experience orbs, as well as the configuration of the merge radius of items. Additionally it refactors the merge algorithm to be a better experience for players.
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 97aee0522..f5c6543af 100644
+index f3b1e27a7..3338034e1 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-@@ -233,7 +233,10 @@ public class ItemEntity extends Entity implements TraceableEntity {
+@@ -234,7 +234,10 @@ public class ItemEntity extends Entity implements TraceableEntity {
  
      private void mergeWithNeighbours() {
          if (this.isMergable()) {
@@ -21,7 +21,7 @@ index 97aee0522..f5c6543af 100644
                  return itementity1 != this && itementity1.isMergable();
              })) {
                  if (itementity.isMergable()) {
-@@ -258,7 +261,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
+@@ -259,7 +262,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
          ItemStack itemstack1 = other.getItem();
  
          if (Objects.equals(this.target, other.target) && areMergable(itemstack, itemstack1)) {
@@ -31,10 +31,10 @@ index 97aee0522..f5c6543af 100644
              } else {
                  merge(other, itemstack1, this, itemstack);
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 874c5c09b..e0d2f18ac 100644
+index b7412261e..dba8f75f1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -693,6 +693,23 @@ public class CraftEventFactory {
+@@ -695,6 +695,23 @@ public class CraftEventFactory {
              return false;
          }
  
@@ -81,6 +81,3 @@ index f42972427..5ff085b9e 100644
 +        log( "Experience Merge Radius: " + expMerge );
 +    }
  }
--- 
-2.54.0
-

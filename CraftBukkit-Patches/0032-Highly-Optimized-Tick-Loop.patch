@@ -1,14 +1,14 @@
-From 4b9328f1dc257eb8f0010b34efa6aeee2350b396 Mon Sep 17 00:00:00 2001
+From 05a9059b3e3bf72d8e96c223ee976924517ddf99 Mon Sep 17 00:00:00 2001
 From: md_5 <git@md-5.net>
 Date: Thu, 26 Jan 2017 21:50:51 +0000
 Subject: [PATCH] Highly Optimized Tick Loop
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 87ca2a9fd..1217462e1 100644
+index 8f6e04e50..292c92b16 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -344,6 +344,12 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -338,6 +338,12 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      public Commands vanillaCommandDispatcher;
      private boolean forceTicks;
      // CraftBukkit end
@@ -21,7 +21,7 @@ index 87ca2a9fd..1217462e1 100644
  
      public static <S extends MinecraftServer> S spin(Function<Thread, S> factory) {
          AtomicReference<S> atomicreference = new AtomicReference();
-@@ -1066,6 +1072,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1048,6 +1054,13 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      }
  
@@ -35,7 +35,7 @@ index 87ca2a9fd..1217462e1 100644
      protected void runServer() {
          try {
              if (!this.initServer()) {
-@@ -1076,6 +1089,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1058,6 +1071,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              this.statusIcon = (ServerStatus.Favicon) this.loadStatusIcon().orElse(null); // CraftBukkit - decompile error
              this.status = this.buildServerStatus();
  
@@ -45,7 +45,7 @@ index 87ca2a9fd..1217462e1 100644
              while (this.running) {
                  long i;
  
-@@ -1096,6 +1112,17 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1078,6 +1094,17 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                          this.lastOverloadWarningNanos = this.nextTickTimeNanos;
                      }
                  }
@@ -128,6 +128,3 @@ index 000000000..f5b6dec1c
 +                + ( ( tps > 20.0 ) ? "*" : "" ) + Math.min( Math.round( tps * 100.0 ) / 100.0, 20.0 );
 +    }
 +}
--- 
-2.54.0
-
